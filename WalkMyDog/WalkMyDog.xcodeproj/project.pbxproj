@@ -1,0 +1,764 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1C25C916B100B56F9F /* AppDelegate.swift */; };
+		08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */; };
+		08BB9C2125C916B100B56F9F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C2025C916B100B56F9F /* LoginViewController.swift */; };
+		08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2225C916B100B56F9F /* Main.storyboard */; };
+		08BB9C2625C916B200B56F9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2525C916B200B56F9F /* Assets.xcassets */; };
+		08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */; };
+		08BB9C3425C916B200B56F9F /* WalkMyDogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C3325C916B200B56F9F /* WalkMyDogTests.swift */; };
+		08BB9C3F25C916B200B56F9F /* WalkMyDogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */; };
+		08BB9C7225C91D6D00B56F9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */; };
+		08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */; };
+		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
+		7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */; };
+		955C34807328BE1002E4D8BC /* Pods_WalkMyDogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08BB9C3025C916B200B56F9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08BB9C1125C916B100B56F9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08BB9C1825C916B100B56F9F;
+			remoteInfo = WalkMyDog;
+		};
+		08BB9C3B25C916B200B56F9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08BB9C1125C916B100B56F9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08BB9C1825C916B100B56F9F;
+			remoteInfo = WalkMyDog;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0293F19AFD3FFF3DC2C50323 /* Pods-WalkMyDogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDogTests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDogTests/Pods-WalkMyDogTests.release.xcconfig"; sourceTree = "<group>"; };
+		08BB9C1925C916B100B56F9F /* WalkMyDog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkMyDog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BB9C1C25C916B100B56F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		08BB9C2025C916B100B56F9F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		08BB9C2325C916B100B56F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		08BB9C2525C916B200B56F9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		08BB9C2825C916B200B56F9F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		08BB9C2A25C916B200B56F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08BB9C2F25C916B200B56F9F /* WalkMyDogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalkMyDogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BB9C3325C916B200B56F9F /* WalkMyDogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkMyDogTests.swift; sourceTree = "<group>"; };
+		08BB9C3525C916B200B56F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08BB9C3A25C916B200B56F9F /* WalkMyDogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalkMyDogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkMyDogUITests.swift; sourceTree = "<group>"; };
+		08BB9C4025C916B200B56F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalkMyDog.entitlements; sourceTree = "<group>"; };
+		08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		26DE5F63269B9D000F48AD5B /* Pods-WalkMyDogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDogTests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDogTests/Pods-WalkMyDogTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; sourceTree = "<group>"; };
+		393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.release.xcconfig"; sourceTree = "<group>"; };
+		5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2FB2480B3856C7A5CFDD554 /* Pods-WalkMyDog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.debug.xcconfig"; sourceTree = "<group>"; };
+		DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDog_WalkMyDogUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		08BB9C1625C916B100B56F9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C2C25C916B200B56F9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				955C34807328BE1002E4D8BC /* Pods_WalkMyDogTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C3725C916B200B56F9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08BB9C1025C916B100B56F9F = {
+			isa = PBXGroup;
+			children = (
+				08BB9C1B25C916B100B56F9F /* WalkMyDog */,
+				08BB9C3225C916B200B56F9F /* WalkMyDogTests */,
+				08BB9C3D25C916B200B56F9F /* WalkMyDogUITests */,
+				08BB9C1A25C916B100B56F9F /* Products */,
+				F6F5CD6FFBA1E32070E7AD8E /* Pods */,
+				78F7F2E6DA38814BB4286B6D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		08BB9C1A25C916B100B56F9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C1925C916B100B56F9F /* WalkMyDog.app */,
+				08BB9C2F25C916B200B56F9F /* WalkMyDogTests.xctest */,
+				08BB9C3A25C916B200B56F9F /* WalkMyDogUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08BB9C1B25C916B100B56F9F /* WalkMyDog */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
+				08BB9C1C25C916B100B56F9F /* AppDelegate.swift */,
+				08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */,
+				08BB9C2025C916B100B56F9F /* LoginViewController.swift */,
+				08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */,
+				08BB9C2225C916B100B56F9F /* Main.storyboard */,
+				08BB9C2525C916B200B56F9F /* Assets.xcassets */,
+				08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */,
+				08BB9C2A25C916B200B56F9F /* Info.plist */,
+				08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */,
+			);
+			path = WalkMyDog;
+			sourceTree = "<group>";
+		};
+		08BB9C3225C916B200B56F9F /* WalkMyDogTests */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C3325C916B200B56F9F /* WalkMyDogTests.swift */,
+				08BB9C3525C916B200B56F9F /* Info.plist */,
+			);
+			path = WalkMyDogTests;
+			sourceTree = "<group>";
+		};
+		08BB9C3D25C916B200B56F9F /* WalkMyDogUITests */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */,
+				08BB9C4025C916B200B56F9F /* Info.plist */,
+			);
+			path = WalkMyDogUITests;
+			sourceTree = "<group>";
+		};
+		78F7F2E6DA38814BB4286B6D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */,
+				DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */,
+				5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F6F5CD6FFBA1E32070E7AD8E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B2FB2480B3856C7A5CFDD554 /* Pods-WalkMyDog.debug.xcconfig */,
+				393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */,
+				7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */,
+				2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */,
+				26DE5F63269B9D000F48AD5B /* Pods-WalkMyDogTests.debug.xcconfig */,
+				0293F19AFD3FFF3DC2C50323 /* Pods-WalkMyDogTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		08BB9C1825C916B100B56F9F /* WalkMyDog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08BB9C4325C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDog" */;
+			buildPhases = (
+				95C20C10C7CE4DEF3DC2E0A1 /* [CP] Check Pods Manifest.lock */,
+				08BB9C1525C916B100B56F9F /* Sources */,
+				08BB9C1625C916B100B56F9F /* Frameworks */,
+				08BB9C1725C916B100B56F9F /* Resources */,
+				CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WalkMyDog;
+			productName = WalkMyDog;
+			productReference = 08BB9C1925C916B100B56F9F /* WalkMyDog.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08BB9C2E25C916B200B56F9F /* WalkMyDogTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08BB9C4625C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDogTests" */;
+			buildPhases = (
+				0659485A3E2112D506319CED /* [CP] Check Pods Manifest.lock */,
+				08BB9C2B25C916B200B56F9F /* Sources */,
+				08BB9C2C25C916B200B56F9F /* Frameworks */,
+				08BB9C2D25C916B200B56F9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08BB9C3125C916B200B56F9F /* PBXTargetDependency */,
+			);
+			name = WalkMyDogTests;
+			productName = WalkMyDogTests;
+			productReference = 08BB9C2F25C916B200B56F9F /* WalkMyDogTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		08BB9C3925C916B200B56F9F /* WalkMyDogUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08BB9C4925C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDogUITests" */;
+			buildPhases = (
+				DDE3BBA4A6E2019A27245BA1 /* [CP] Check Pods Manifest.lock */,
+				08BB9C3625C916B200B56F9F /* Sources */,
+				08BB9C3725C916B200B56F9F /* Frameworks */,
+				08BB9C3825C916B200B56F9F /* Resources */,
+				94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08BB9C3C25C916B200B56F9F /* PBXTargetDependency */,
+			);
+			name = WalkMyDogUITests;
+			productName = WalkMyDogUITests;
+			productReference = 08BB9C3A25C916B200B56F9F /* WalkMyDogUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08BB9C1125C916B100B56F9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					08BB9C1825C916B100B56F9F = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					08BB9C2E25C916B200B56F9F = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 08BB9C1825C916B100B56F9F;
+					};
+					08BB9C3925C916B200B56F9F = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 08BB9C1825C916B100B56F9F;
+					};
+				};
+			};
+			buildConfigurationList = 08BB9C1425C916B100B56F9F /* Build configuration list for PBXProject "WalkMyDog" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 08BB9C1025C916B100B56F9F;
+			productRefGroup = 08BB9C1A25C916B100B56F9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				08BB9C1825C916B100B56F9F /* WalkMyDog */,
+				08BB9C2E25C916B200B56F9F /* WalkMyDogTests */,
+				08BB9C3925C916B200B56F9F /* WalkMyDogUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		08BB9C1725C916B100B56F9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */,
+				08BB9C7225C91D6D00B56F9F /* GoogleService-Info.plist in Resources */,
+				08BB9C2625C916B200B56F9F /* Assets.xcassets in Resources */,
+				08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C2D25C916B200B56F9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C3825C916B200B56F9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0659485A3E2112D506319CED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WalkMyDogTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95C20C10C7CE4DEF3DC2E0A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WalkMyDog-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDE3BBA4A6E2019A27245BA1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WalkMyDog-WalkMyDogUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08BB9C1525C916B100B56F9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */,
+				08BB9C2125C916B100B56F9F /* LoginViewController.swift in Sources */,
+				08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */,
+				08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C2B25C916B200B56F9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BB9C3425C916B200B56F9F /* WalkMyDogTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08BB9C3625C916B200B56F9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08BB9C3F25C916B200B56F9F /* WalkMyDogUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08BB9C3125C916B200B56F9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08BB9C1825C916B100B56F9F /* WalkMyDog */;
+			targetProxy = 08BB9C3025C916B200B56F9F /* PBXContainerItemProxy */;
+		};
+		08BB9C3C25C916B200B56F9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08BB9C1825C916B100B56F9F /* WalkMyDog */;
+			targetProxy = 08BB9C3B25C916B200B56F9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		08BB9C2225C916B100B56F9F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08BB9C2325C916B100B56F9F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08BB9C2825C916B200B56F9F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		08BB9C4125C916B200B56F9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		08BB9C4225C916B200B56F9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		08BB9C4425C916B200B56F9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2FB2480B3856C7A5CFDD554 /* Pods-WalkMyDog.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WalkMyDog/WalkMyDog.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08BB9C4525C916B200B56F9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WalkMyDog/WalkMyDog.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		08BB9C4725C916B200B56F9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26DE5F63269B9D000F48AD5B /* Pods-WalkMyDogTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDogTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WalkMyDog.app/WalkMyDog";
+			};
+			name = Debug;
+		};
+		08BB9C4825C916B200B56F9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0293F19AFD3FFF3DC2C50323 /* Pods-WalkMyDogTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDogTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDogTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WalkMyDog.app/WalkMyDog";
+			};
+			name = Release;
+		};
+		08BB9C4A25C916B200B56F9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDogUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WalkMyDog;
+			};
+			name = Debug;
+		};
+		08BB9C4B25C916B200B56F9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
+				INFOPLIST_FILE = WalkMyDogUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDogUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WalkMyDog;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		08BB9C1425C916B100B56F9F /* Build configuration list for PBXProject "WalkMyDog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BB9C4125C916B200B56F9F /* Debug */,
+				08BB9C4225C916B200B56F9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08BB9C4325C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BB9C4425C916B200B56F9F /* Debug */,
+				08BB9C4525C916B200B56F9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08BB9C4625C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDogTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BB9C4725C916B200B56F9F /* Debug */,
+				08BB9C4825C916B200B56F9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08BB9C4925C916B200B56F9F /* Build configuration list for PBXNativeTarget "WalkMyDogUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08BB9C4A25C916B200B56F9F /* Debug */,
+				08BB9C4B25C916B200B56F9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08BB9C1125C916B100B56F9F /* Project object */;
+}
