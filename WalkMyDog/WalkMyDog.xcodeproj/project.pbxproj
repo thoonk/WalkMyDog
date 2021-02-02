@@ -15,8 +15,8 @@
 		08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */; };
 		08BB9C3425C916B200B56F9F /* WalkMyDogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C3325C916B200B56F9F /* WalkMyDogTests.swift */; };
 		08BB9C3F25C916B200B56F9F /* WalkMyDogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */; };
-		08BB9C7225C91D6D00B56F9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */; };
 		08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */; };
+		08BB9CCA25C93ABB00B56F9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */; };
 		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
 		7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */; };
 		955C34807328BE1002E4D8BC /* Pods_WalkMyDogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */; };
@@ -55,9 +55,9 @@
 		08BB9C3A25C916B200B56F9F /* WalkMyDogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalkMyDogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkMyDogUITests.swift; sourceTree = "<group>"; };
 		08BB9C4025C916B200B56F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalkMyDog.entitlements; sourceTree = "<group>"; };
 		08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		26DE5F63269B9D000F48AD5B /* Pods-WalkMyDogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDogTests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDogTests/Pods-WalkMyDogTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; sourceTree = "<group>"; };
 		393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,15 +122,13 @@
 			isa = PBXGroup;
 			children = (
 				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
+				08BB9C2A25C916B200B56F9F /* Info.plist */,
+				08BB9C2525C916B200B56F9F /* Assets.xcassets */,
 				08BB9C1C25C916B100B56F9F /* AppDelegate.swift */,
 				08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */,
-				08BB9C2025C916B100B56F9F /* LoginViewController.swift */,
-				08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */,
-				08BB9C2225C916B100B56F9F /* Main.storyboard */,
-				08BB9C2525C916B200B56F9F /* Assets.xcassets */,
-				08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */,
-				08BB9C2A25C916B200B56F9F /* Info.plist */,
-				08BB9C7125C91D6D00B56F9F /* GoogleService-Info.plist */,
+				08BB9D2825C9647F00B56F9F /* ViewController */,
+				08BB9D2C25C9649400B56F9F /* View */,
+				08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */,
 			);
 			path = WalkMyDog;
 			sourceTree = "<group>";
@@ -151,6 +149,24 @@
 				08BB9C4025C916B200B56F9F /* Info.plist */,
 			);
 			path = WalkMyDogUITests;
+			sourceTree = "<group>";
+		};
+		08BB9D2825C9647F00B56F9F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C2025C916B100B56F9F /* LoginViewController.swift */,
+				08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		08BB9D2C25C9649400B56F9F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				08BB9C2225C916B100B56F9F /* Main.storyboard */,
+				08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		78F7F2E6DA38814BB4286B6D /* Frameworks */ = {
@@ -188,6 +204,7 @@
 				08BB9C1625C916B100B56F9F /* Frameworks */,
 				08BB9C1725C916B100B56F9F /* Resources */,
 				CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */,
+				3A3C9483D79C66DF90FBAAF8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,6 +243,7 @@
 				08BB9C3725C916B200B56F9F /* Frameworks */,
 				08BB9C3825C916B200B56F9F /* Resources */,
 				94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */,
+				BD6E56B9BD9A28E4F215C0E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -285,7 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */,
-				08BB9C7225C91D6D00B56F9F /* GoogleService-Info.plist in Resources */,
+				08BB9CCA25C93ABB00B56F9F /* GoogleService-Info.plist in Resources */,
 				08BB9C2625C916B200B56F9F /* Assets.xcassets in Resources */,
 				08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */,
 			);
@@ -330,6 +348,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3A3C9483D79C66DF90FBAAF8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -367,6 +402,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD6E56B9BD9A28E4F215C0E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */ = {
