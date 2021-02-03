@@ -10,6 +10,7 @@ import AuthenticationServices
 import CryptoKit
 import Firebase
 import GoogleSignIn
+import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
     
@@ -23,11 +24,12 @@ class LoginViewController: UIViewController {
         
         setupProviderLoginView()
     }
-    
+    /// 페이스북, 구글, 애플 로그인 버튼 세팅 메서드
     func setupProviderLoginView() {
-        let appleLoginBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
-        appleLoginBtn.addTarget(self, action: #selector(handleAuthorizationAppleIDBtnPressed), for: .touchUpInside)
-        loginProviderStackView.addArrangedSubview(appleLoginBtn)
+        let facebookLoginBtn = FBLoginButton()
+        facebookLoginBtn.delegate = self
+        facebookLoginBtn.permissions = ["public_profile", "email"]
+        loginProviderStackView.addArrangedSubview(facebookLoginBtn)
         
         let googleLoginBtn = GIDSignInButton()
         loginProviderStackView.addArrangedSubview(googleLoginBtn)
@@ -35,6 +37,24 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
+        let appleLoginBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
+        appleLoginBtn.addTarget(self, action: #selector(handleAuthorizationAppleIDBtnPressed), for: .touchUpInside)
+        loginProviderStackView.addArrangedSubview(appleLoginBtn)
+    }
+        
+    func signInFirbase(with credential: NSObject) {
+        Auth.auth().signIn(with: credential as! AuthCredential) { (authResult, error) in
+            if let error = error {
+                print("Firebase sign in error: \(error.localizedDescription)")
+                return
+            } else {
+                if let user = Auth.auth().currentUser {
+                    print("Current Firebase user is \(user)")
+                }
+                self.performSegue(withIdentifier: "fromLoginToHome", sender: nil)
+            }
+        }
     }
     
     // MARK: - Authenticate with Firebase for sign in with Apple
@@ -105,6 +125,25 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: - Facebook Login Extension
+extension LoginViewController: LoginButtonDelegate {
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        print("Facebook User logged in")
+        
+        guard let token = result?.token?.tokenString else {
+            print("Facebook: User failed to log in")
+            return
+        }
+        print("Facebook Token: \(token)")
+        let credential = FacebookAuthProvider.credential(withAccessToken: token)
+        signInFirbase(with: credential)
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        print("Facebook User logged out")
+    }
+}
+
 // MARK: - Google Login Extension
 extension LoginViewController: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -116,18 +155,8 @@ extension LoginViewController: GIDSignInDelegate {
         }
         guard let auth = user.authentication else { return }
         let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
-        
-        Auth.auth().signIn(with: googleCredential) { (authResult, error) in
-            if let error = error {
-                print("Firebase sign in error: \(error)")
-                return
-            } else {
-                print("User is signed with Firebase&Google")
-                self.performSegue(withIdentifier: "fromLoginToHome", sender: nil)
-            }
-        }
+        signInFirbase(with: googleCredential)
     }
-    
 }
 
 // MARK: - Apple Login Extension
@@ -148,15 +177,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             }
             
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                    return
-                } else {
-                    self.performSegue(withIdentifier: "fromLoginToHome", sender: nil)
-                }
-            }
+            signInFirbase(with: credential)
         }
     }
     

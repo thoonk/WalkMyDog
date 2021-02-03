@@ -17,11 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
-                                <rect key="frame" x="20" y="600" width="374" height="228"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
+                                <rect key="frame" x="30" y="662" width="354" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Ekh-hL-gr8"/>
+                                </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="산책가개?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Qd-5D-9Ed">
-                                <rect key="frame" x="71" y="329" width="272" height="36"/>
+                                <rect key="frame" x="71" y="329" width="272" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="rnK-WT-gU6"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,13 +36,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1xC-bK-dCf" secondAttribute="trailing" constant="20" id="0I0-VF-5lw"/>
+                            <constraint firstItem="1xC-bK-dCf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="J1c-iB-QwA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3Qd-5D-9Ed" secondAttribute="trailing" constant="71" id="Ueb-ou-gZj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1xC-bK-dCf" secondAttribute="trailing" constant="30" id="X8u-vj-8Pb"/>
                             <constraint firstItem="3Qd-5D-9Ed" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="285" id="ZQE-Zy-S7s"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1xC-bK-dCf" secondAttribute="bottom" constant="34" id="eYo-Wx-QSZ"/>
-                            <constraint firstItem="1xC-bK-dCf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="nJ7-2w-qm7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1xC-bK-dCf" secondAttribute="bottom" constant="50" id="eYo-Wx-QSZ"/>
                             <constraint firstItem="3Qd-5D-9Ed" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="71" id="qQJ-3e-c74"/>
-                            <constraint firstItem="1xC-bK-dCf" firstAttribute="top" secondItem="3Qd-5D-9Ed" secondAttribute="bottom" constant="235" id="wjt-OF-Hb5"/>
                         </constraints>
                     </view>
                     <connections>

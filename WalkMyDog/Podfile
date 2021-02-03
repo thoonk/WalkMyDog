@@ -10,8 +10,9 @@ target 'WalkMyDog' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
   pod 'GoogleSignIn'
+  pod 'FBSDKLoginKit'
   pod 'Alamofire'
-
+  
   target 'WalkMyDogTests' do
     inherit! :search_paths
     # Pods for testing
