@@ -73,7 +73,7 @@
         <!--Home-->
         <scene sceneID="hWG-4L-YIK">
             <objects>
-                <viewController id="jmz-bz-mLb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="jmz-bz-mLb" customClass="HomeViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PSl-Gv-LQD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -106,7 +106,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="578-L8-7ND">
             <objects>
-                <tabBarController id="SH3-ql-EzW" customClass="TabBarViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarVC" id="SH3-ql-EzW" customClass="TabBarViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="2PC-o5-JJF"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Y7x-kU-lKC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
