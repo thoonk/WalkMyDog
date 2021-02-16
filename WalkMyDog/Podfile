@@ -12,6 +12,10 @@ target 'WalkMyDog' do
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
   pod 'Alamofire'
+  pod 'FSCalendar'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxCoreLocation'
   
   target 'WalkMyDogTests' do
     inherit! :search_paths
