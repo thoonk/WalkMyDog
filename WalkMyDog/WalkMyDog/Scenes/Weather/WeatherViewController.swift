@@ -40,7 +40,12 @@ class WeatherViewController: UIViewController {
             .map { !$0 }
             .bind(to: activityIndicatorView.rx.isHidden)
             .disposed(by: bag)
-            
+        
+        output.errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                self?.showAlert("예보 날씨 정보 로딩 실패", msg)
+            }).disposed(by: bag)
+        
         output.locationName
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: bag)
