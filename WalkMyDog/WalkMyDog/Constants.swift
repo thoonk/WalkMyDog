@@ -12,7 +12,8 @@ struct C {
     static let baseUrl = "https://api.openweathermap.org/data/2.5"
     
     struct Cell {
-        static let identifier = "weatherCell"
+        static let weather = "weatherCell"
+        static let puppy = "puppyCell"
     }
     
     struct Segue {

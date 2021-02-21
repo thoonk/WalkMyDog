@@ -51,7 +51,7 @@ class WeatherViewController: UIViewController {
             .disposed(by: bag)
             
         output.fcstData
-            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.identifier, cellType: WeatherTableViewCell.self)) { index, item, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.weather, cellType: WeatherTableViewCell.self)) { index, item, cell in
                 
                 cell.dateLabel.text = item.weekWeather?.dateTime
                 cell.tempLabel.text = "\(item.weekWeather?.maxTempString ?? "-") / \(item.weekWeather?.minTempString ?? "-")"
