@@ -31,6 +31,15 @@ class SettingViewController: UIViewController {
         bag = DisposeBag()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.settingToEdit,
+           let selectedItem = sender as? Puppy,
+           let editPuppyVC = segue.destination as? EditPuppyViewController {
+            let editPuppyViewModel = EditPuppyViewModel(selectedItem)
+            editPuppyVC.viewModel = editPuppyViewModel
+        }
+    }
+    
     func setBinding() {
         let input = PuppiesViewModel.Input()
         let output = viewModel.bind(input: input)
@@ -41,9 +50,19 @@ class SettingViewController: UIViewController {
                 cell.puppyAgeLabel.text = Date().computeAge(with: item.age).description
                 cell.puppyWeightLabel.text = String(item.weight)
                 cell.puppySpeciesLabel.text = item.species
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
+        
+        output.errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                self?.showAlert("반려견 정보 로딩 실패", msg)
+            }).disposed(by: bag)
+        
+        tableView.rx.modelSelected(Puppy.self)
+            .subscribe(onNext: { [weak self] puppy in
+                self?.performSegue(withIdentifier: C.Segue.settingToEdit, sender: puppy)
+            }).disposed(by: bag)
     }
+
 
     /*
     // MARK: - Navigation

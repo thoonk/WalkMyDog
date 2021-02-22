@@ -20,5 +20,11 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: id)
         return dateFormatter.string(from: self)
     }
+    
+    func computeAge(with date: String) -> Int {
+        let year = date[date.startIndex..<date.index(date.startIndex, offsetBy: 4)]
+        let now = Calendar.current.component(.year, from: self)
+        return now - Int(year)!
+    }
 }
 

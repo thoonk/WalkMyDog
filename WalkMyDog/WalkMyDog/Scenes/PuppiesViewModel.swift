@@ -17,12 +17,12 @@ class PuppiesViewModel: ViewModelType {
     struct Input {}
     
     struct Output {
-        let puppyData: Observable<[Puppy]>
+        var puppyData: Observable<[Puppy]>
         let errorMessage: Observable<String>
     }
     
     func bind(input: Input) -> Output {
-        //
+        
         let error = PublishSubject<String>()
 
         _ = FIRStoreManager.shared.fetchAllPuppyInfo()

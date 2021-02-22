@@ -18,5 +18,6 @@ struct C {
     
     struct Segue {
         static let homeToSetting = "fromHomeToSetting"
+        static let settingToEdit = "fromSettingToEdit"
     }
 }
