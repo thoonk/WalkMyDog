@@ -48,12 +48,11 @@ final class FIRStoreManager {
     
     /// 강쥐 정보 등록
     func registerPuppyInfo<T: Encodable>(for encodableObject: T, with ref: FIRStoreRef) {
-        document = db.document(ref.path)
+        collection = db.collection(ref.path)
         do {
             let json = try encodableObject.toJson()
-            document = db.document(ref.path)
-            if document != nil {
-                document!.setData(json) { error in
+            if collection != nil {
+                collection!.addDocument(data: json) { error in
                     if let error = error {
                         print("Error writing docs: \(error)")
                     } else {
@@ -189,6 +188,49 @@ final class FIRStoreManager {
                     print("Error writing docs: \(error)")
                 } else {
                     print("Deleting Succeded")
+                }
+            }
+        }
+    }
+        
+    /// documentID 부여 메서드
+    func incrementID(with ref: FIRStoreRef) -> Observable<Int> {
+        return Observable.create() { emitter in
+            self.getMaxId(with: ref, returning: Puppy.self) { (result) in
+                switch result {
+                case .success(let data):
+                    if data != nil {
+                        emitter.onNext(data!.id+1)
+                    } else {
+                        emitter.onNext(1)
+                    }
+                case .failure(let err):
+                    emitter.onError(err)
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    /// 컬렉션에서 제일 큰 id 가져오는 메서드
+    private func getMaxId<T: Decodable>(with ref: FIRStoreRef, returning newObject: T.Type, completion: @escaping (Result<T?, Error>) -> Void) {
+        
+        collection = db.collection(ref.path)
+        let query = collection?.order(by: "id", descending: true).limit(to: 1)
+        
+        query?.getDocuments { querySnapshot, err in
+            if err != nil {
+                print("Error fetch docs: \(err!.localizedDescription)")
+            } else {
+                do {
+                    for doc in querySnapshot!.documents {
+                        let object = try doc.decode(as: newObject.self)
+                        print(object)
+                        completion(.success(object))
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
                 }
             }
         }

@@ -11,7 +11,9 @@ import RxCocoa
 
 class EditPuppyViewController: UIViewController {
     
-    var viewModel: EditPuppyViewModel?
+    var fetchPuppyViewModel: FetchPuppyViewModel?
+    var createPuppyViewModel = CreatePuppyViewModel()
+    var editPuppyViewModel = EditPuppyViewModel()
     var bag = DisposeBag()
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -20,11 +22,13 @@ class EditPuppyViewController: UIViewController {
     @IBOutlet weak var birthTextField: UITextField!
     @IBOutlet weak var boyButton: RadioButton!
     @IBOutlet weak var girlButton: RadioButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
     
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
         
-        if viewModel == nil {
+        if fetchPuppyViewModel == nil {
             boyButton.isSelected = true
             girlButton.isSelected = false
         }
@@ -35,11 +39,23 @@ class EditPuppyViewController: UIViewController {
 
         boyButton.alternateBtn = [girlButton]
         girlButton.alternateBtn = [boyButton]
+        
+        if fetchPuppyViewModel == nil {
+            deleteButton.isEnabled = false
+        } else {
+            deleteButton.isEnabled = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setBindings()
+        
+        if fetchPuppyViewModel != nil {
+            setFetchViewModelBindings()
+            setEditViewModelBindings()
+        } else {
+            setCreateViewModelBindings()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,9 +63,57 @@ class EditPuppyViewController: UIViewController {
         bag = DisposeBag()
     }
     
-    func setBindings() {
+    func setCreateViewModelBindings() {
         
-        guard let viewModel = viewModel
+        // INPUT
+        nameTextField.rx.text.orEmpty
+            .bind(to: createPuppyViewModel.input.name)
+            .disposed(by: bag)
+        
+        speciesTextField.rx.text.orEmpty
+            .bind(to: createPuppyViewModel.input.species)
+            .disposed(by: bag)
+        
+        birthTextField.rx.text.orEmpty
+            .bind(to: createPuppyViewModel.input.age)
+            .disposed(by: bag)
+        
+        weightTextField.rx.text.orEmpty
+            .bind(to: createPuppyViewModel.input.weight)
+            .disposed(by: bag)
+        
+        boyButton.rx.tap
+            .bind(to: createPuppyViewModel.input.boyBtnTapped)
+            .disposed(by: bag)
+        
+        girlButton.rx.tap
+            .bind(to: createPuppyViewModel.input.girlBtnTapped)
+            .disposed(by: bag)
+        
+        saveButton.rx.tap
+            .bind(to: createPuppyViewModel.input.saveBtnTapped)
+            .disposed(by: bag)
+        
+        // OUTPUT
+        createPuppyViewModel.output.enableAddBtn
+            .map { $0 }
+            .observe(on: MainScheduler.instance)
+            .bind(to: saveButton.rx.isEnabled)
+            .disposed(by: bag)
+        
+        createPuppyViewModel.output.goToSetting
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: goToSetting)
+            .disposed(by: bag)
+    }
+    
+    func setEditViewModelBindings() {
+        
+    }
+    
+    func setFetchViewModelBindings() {
+        
+        guard let viewModel = fetchPuppyViewModel
         else {
             self.showAlert("반려견 정보 로딩 실패", "반려견 정보를 불러올 수 없습니다.")
             return }
@@ -78,5 +142,9 @@ class EditPuppyViewController: UIViewController {
             .map { !$0 }
             .bind(to: girlButton.rx.isSelected)
             .disposed(by: bag)
+    }
+    
+    func goToSetting() {
+        navigationController?.popViewController(animated: true)
     }
 }

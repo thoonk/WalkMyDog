@@ -35,8 +35,8 @@ class SettingViewController: UIViewController {
         if segue.identifier == C.Segue.settingToEdit,
            let selectedItem = sender as? Puppy,
            let editPuppyVC = segue.destination as? EditPuppyViewController {
-            let editPuppyViewModel = EditPuppyViewModel(selectedItem)
-            editPuppyVC.viewModel = editPuppyViewModel
+            let fetchPuppyViewModel = FetchPuppyViewModel(selectedItem)
+            editPuppyVC.fetchPuppyViewModel = fetchPuppyViewModel
         }
     }
     

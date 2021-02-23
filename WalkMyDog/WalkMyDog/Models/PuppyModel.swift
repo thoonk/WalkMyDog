@@ -8,7 +8,7 @@
 import Foundation
 
 struct Puppy: Codable {
-    var id: String
+    var id: Int
     var name: String
     var age: String
     var gender: Bool

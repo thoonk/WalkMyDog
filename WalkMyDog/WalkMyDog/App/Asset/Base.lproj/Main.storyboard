@@ -498,8 +498,10 @@
                     <connections>
                         <outlet property="birthTextField" destination="rme-mg-JRn" id="3z4-D1-fIK"/>
                         <outlet property="boyButton" destination="X5s-CQ-4sk" id="pOs-k5-NDs"/>
+                        <outlet property="deleteButton" destination="v8n-13-M6L" id="Npq-8c-1A7"/>
                         <outlet property="girlButton" destination="3OP-35-9OH" id="fCo-rf-1wj"/>
                         <outlet property="nameTextField" destination="qDg-mk-gP1" id="od8-0u-J1L"/>
+                        <outlet property="saveButton" destination="bYM-jg-tza" id="dZH-Bn-Tba"/>
                         <outlet property="speciesTextField" destination="3rW-ke-FSZ" id="z67-yU-KhO"/>
                         <outlet property="weightTextField" destination="jci-Ba-6CH" id="D5E-NA-0cI"/>
                     </connections>
