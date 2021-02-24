@@ -1,5 +1,5 @@
 //
-//  EditPuppyViewModel.swift
+//  FetchPuppyViewModel.swift
 //  WalkMyDog
 //
 //  Created by 김태훈 on 2021/02/22.
@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class EditPuppyViewModel: ViewModelType {
+class FetchPuppyViewModel: ViewModelType {
     
     var bag: DisposeBag = DisposeBag()
     
@@ -27,7 +27,7 @@ class EditPuppyViewModel: ViewModelType {
     
     let output: Output
     
-    init(_ selectedItem: Puppy) {
+    init(with selectedItem: Puppy) {
         
         let puppyInfo = Observable.just(selectedItem)
         

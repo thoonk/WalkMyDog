@@ -26,7 +26,6 @@ class PuppiesViewModel: ViewModelType {
         let error = PublishSubject<String>()
 
         _ = FIRStoreManager.shared.fetchAllPuppyInfo()
-            .debug()
             .subscribe(onNext: { [weak self] data in
                 self?.puppySubject.onNext(data)
             }, onError: { err in
@@ -34,7 +33,6 @@ class PuppiesViewModel: ViewModelType {
             }).disposed(by: bag)
         
         let puppyData = puppySubject
-    
         
         return Output(puppyData: puppyData, errorMessage: error)
     }

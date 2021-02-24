@@ -65,6 +65,7 @@ final class FIRStoreManager {
         }
     }
     
+    /// 뷰모델로 넘기는 메서드
     func fetchAllPuppyInfo() -> Observable<[Puppy]> {
         return Observable.create() { emitter in
             self.fetchAllPuppyInfo(from: .puppies, returning: Puppy.self) { result in
@@ -80,7 +81,7 @@ final class FIRStoreManager {
     }
     
     /// 모든 강쥐 정보 읽기
-    func fetchAllPuppyInfo<T: Decodable>(from ref: FIRStoreRef, returning encodableObject: T.Type, completion: @escaping (Result<[T], Error>) -> Void) {
+    private func fetchAllPuppyInfo<T: Decodable>(from ref: FIRStoreRef, returning encodableObject: T.Type, completion: @escaping (Result<[T], Error>) -> Void) {
         collection = db.collection(ref.path)
         collection?.getDocuments(completion: { (querySnapshot, error) in
 
@@ -101,45 +102,50 @@ final class FIRStoreManager {
             }
         })
     }
-    
-    /// 하나의 강쥐 정보 읽기
-    func fetchOnePuppyInfo<T: Decodable>(id: String, from ref: FIRStoreRef, returning encodableObject: T.Type, completion: @escaping (T) -> Void) {
         
-        document = db.document(ref.path)
-        document?.getDocument { (snapshot, error) in
-            
-            if error != nil {
-                print("Puppy Docs does not exist: \(error!.localizedDescription)")
-            } else {
-                do {
-                    let object: T = try snapshot!.decode(as: encodableObject.self)
-                    completion(object)
-                } catch {
-                    print(error.localizedDescription)
+    /// 강쥐 정보 수정
+    func updatePuppyInfo<T: Encodable>(for newObject: T, with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
+        collection = db.collection(ref.path)
+        let query = collection?.whereField("id", isEqualTo: docId)
+        
+        do {
+            let json = try newObject.toJson()
+            query?.getDocuments { (querySnapshot, err) in
+                for doc in querySnapshot!.documents {
+                    self.collection?.document(doc.documentID)
+                        .setData(json) { err in
+                            if err != nil {
+                                print("Error updating docs: \(err!.localizedDescription)")
+                                completion(false, err!)
+                            } else {
+                                print("Updating Succeded")
+                                completion(true, nil)
+                            }
+                        }
                 }
             }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
-    /// 강쥐 정보 수정
-    func updatePuppyInfo(for data: [String: Any], with ref: FIRStoreRef) {
-        document = db.document(ref.path)
-        document?.updateData(data) { error in
-            if let error = error {
-                print("Error writing docs: \(error)")
-            } else {
-                print("Updating Succeded")
-            }
-        }
-    }
     /// 강쥐 정보 삭제
-    func deletePuppyInfo(with ref: FIRStoreRef) {
-        document = db.document(ref.path)
-        document?.delete() { error in
-            if let error = error {
-                print("Error writing docs: \(error)")
-            } else {
-                print("Deleting Succeded")
+    func deletePuppyInfo(with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
+        collection = db.collection(ref.path)
+        let query = collection?.whereField("id", isEqualTo: docId)
+        
+        query?.getDocuments { (querySnapshot, err) in
+            for doc in querySnapshot!.documents {
+                self.collection?.document(doc.documentID)
+                    .delete() { err in
+                        if err != nil {
+                            print("Error writing docs: \(err!.localizedDescription)")
+                            completion(false, err!)
+                        } else {
+                            print("Deleting Succeded")
+                            completion(true, nil)
+                        }
+                    }
             }
         }
     }

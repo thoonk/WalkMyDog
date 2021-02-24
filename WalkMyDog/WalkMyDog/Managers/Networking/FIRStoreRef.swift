@@ -11,9 +11,8 @@ import FirebaseAuth
 enum FIRStoreRef {
     case user
     case puppies
-    case puppy(puppyId: String)
-    case records(puppyId: String)
-    case record(puppyId: String, recordId: String)
+    case records(puppyId: Int)
+    case record(puppyId: Int, recordId: Int)
 }
 
 extension FIRStoreRef {
@@ -30,8 +29,6 @@ extension FIRStoreRef {
             return "users/\(uid)"
         case .puppies:
             return "users/\(uid)/puppies"
-        case let .puppy(id):
-            return "users/\(uid)/puppies/\(id)"
         case let .records(puppyId):
             return "users/\(uid)/puppies/\(puppyId)/record"
         case let .record(puppyId, recordId):

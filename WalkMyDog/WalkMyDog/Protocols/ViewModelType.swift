@@ -13,6 +13,4 @@ protocol ViewModelType {
     associatedtype Output
     
     var bag: DisposeBag { get set }
-    
-    func bind(input: Input) -> Output
 }

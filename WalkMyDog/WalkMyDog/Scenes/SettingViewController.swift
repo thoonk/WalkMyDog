@@ -23,6 +23,7 @@ class SettingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("hi")
         setBinding()
     }
     
@@ -35,8 +36,7 @@ class SettingViewController: UIViewController {
         if segue.identifier == C.Segue.settingToEdit,
            let selectedItem = sender as? Puppy,
            let editPuppyVC = segue.destination as? EditPuppyViewController {
-            let fetchPuppyViewModel = FetchPuppyViewModel(selectedItem)
-            editPuppyVC.fetchPuppyViewModel = fetchPuppyViewModel
+            editPuppyVC.puppyInfo = selectedItem
         }
     }
     
