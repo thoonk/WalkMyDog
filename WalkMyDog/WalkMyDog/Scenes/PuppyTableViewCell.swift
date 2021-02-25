@@ -10,9 +10,6 @@ import UIKit
 class PuppyTableViewCell: UITableViewCell {
 
     @IBOutlet weak var puppyNameLabel: UILabel!
-    @IBOutlet weak var puppyAgeLabel: UILabel!
-    @IBOutlet weak var puppySpeciesLabel: UILabel!
-    @IBOutlet weak var puppyWeightLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

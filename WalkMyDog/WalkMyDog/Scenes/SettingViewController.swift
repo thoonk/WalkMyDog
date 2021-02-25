@@ -11,20 +11,20 @@ import RxCocoa
 
 class SettingViewController: UIViewController {
 
-    let viewModel = PuppiesViewModel()
+    var viewModel: PuppiesViewModel?
     var bag = DisposeBag()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("hi")
+        
         setBinding()
+        setTableView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -41,15 +41,12 @@ class SettingViewController: UIViewController {
     }
     
     func setBinding() {
-        let input = PuppiesViewModel.Input()
-        let output = viewModel.bind(input: input)
-        
+        viewModel = PuppiesViewModel()
+        let output = viewModel!.output
+            
         output.puppyData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.puppy, cellType: PuppyTableViewCell.self)) { index, item, cell in
                 cell.puppyNameLabel.text = item.name
-                cell.puppyAgeLabel.text = Date().computeAge(with: item.age).description
-                cell.puppyWeightLabel.text = String(item.weight)
-                cell.puppySpeciesLabel.text = item.species
             }.disposed(by: bag)
         
         output.errorMessage
@@ -62,16 +59,50 @@ class SettingViewController: UIViewController {
                 self?.performSegue(withIdentifier: C.Segue.settingToEdit, sender: puppy)
             }).disposed(by: bag)
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    /// 테이블뷰 설정
+    func setTableView() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: bag)
+        tableView.separatorStyle = .none
     }
-    */
+    
+    /// 강쥐 정보 추가시 뷰 전환 메서드
+    @objc
+    private func goToEdit() {
+        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
+    }
 
+}
+// MARK: - UITableViewDelegate
+extension SettingViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 20, y: 10, width: 400, height: 40))
+        headerView.isUserInteractionEnabled = true
+        
+        let sectionLabel = UILabel(frame: CGRect(x: 20, y: 10, width: 100, height: 25))
+        sectionLabel.text = "반려견"
+        
+        let addPuppyBtn = UIButton(frame: CGRect(x: 300, y: 10, width: 100, height: 25))
+        addPuppyBtn.setTitle("추가", for: .normal)
+        addPuppyBtn.setTitleColor(.magenta, for: .normal)
+        addPuppyBtn.isUserInteractionEnabled = true
+        addPuppyBtn.isEnabled = true
+        addPuppyBtn.tintColor = .blue
+        addPuppyBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
+        
+        let underBar = UIView(frame: CGRect(x: 20, y: 37, width: 350, height: 1))
+        underBar.backgroundColor = .lightGray
+        
+        headerView.addSubview(sectionLabel)
+        headerView.addSubview(addPuppyBtn)
+        headerView.addSubview(underBar)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
 }

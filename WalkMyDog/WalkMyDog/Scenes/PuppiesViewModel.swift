@@ -7,33 +7,33 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class PuppiesViewModel: ViewModelType {
-    
-    var puppySubject = PublishSubject<[Puppy]>()
-    
+
     var bag: DisposeBag = DisposeBag()
+    var input: Input
+    var output: Output
     
     struct Input {}
     
     struct Output {
-        var puppyData: Observable<[Puppy]>
-        let errorMessage: Observable<String>
+        var puppyData: PublishRelay<[Puppy]>
+        let errorMessage: PublishRelay<String>
     }
     
-    func bind(input: Input) -> Output {
-        
-        let error = PublishSubject<String>()
+    init(){
+        let error = PublishRelay<String>()
+        let puppyData = PublishRelay<[Puppy]>()
 
         _ = FIRStoreManager.shared.fetchAllPuppyInfo()
-            .subscribe(onNext: { [weak self] data in
-                self?.puppySubject.onNext(data)
+            .subscribe(onNext: { data in
+                puppyData.accept(data)
             }, onError: { err in
-                error.onNext(err.localizedDescription)
+                error.accept(err.localizedDescription)
             }).disposed(by: bag)
         
-        let puppyData = puppySubject
-        
-        return Output(puppyData: puppyData, errorMessage: error)
+        input = Input()
+        output = Output(puppyData: puppyData, errorMessage: error)
     }
 }
