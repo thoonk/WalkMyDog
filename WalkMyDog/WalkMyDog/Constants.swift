@@ -14,6 +14,7 @@ struct C {
     struct Cell {
         static let weather = "weatherCell"
         static let puppy = "puppyCell"
+        static let profile = "puppyProfileCell"
     }
     
     struct Segue {
@@ -21,3 +22,4 @@ struct C {
         static let settingToEdit = "fromSettingToEdit"
     }
 }
+ 

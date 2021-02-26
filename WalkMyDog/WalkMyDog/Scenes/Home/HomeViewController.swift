@@ -11,7 +11,8 @@ import RxCocoa
 
 class HomeViewController: UIViewController {
     
-    let viewModel = CurrentViewModel()
+    let currnetViewModel = CurrentViewModel()
+    var puppiesViewModel: PuppiesViewModel?
     var bag = DisposeBag()
     
     @IBOutlet weak var weatherView: UIView!
@@ -21,6 +22,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pm10Label: UILabel!
     @IBOutlet weak var pm25Label: UILabel!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
+    @IBOutlet weak var puppyProfileTableView: UITableView!
+    
+    @IBOutlet weak var recordView: UIView!
     
     @IBAction func settingBtnTapped(_ sender: UIButton) {
         self.performSegue(withIdentifier: C.Segue.homeToSetting, sender: nil)
@@ -32,7 +37,8 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setBinding()
+        setCurrentBinding()
+        setPuppyBinding()
         setUI()
     }
     
@@ -42,16 +48,23 @@ class HomeViewController: UIViewController {
     }
     
     func setUI() {
+        puppyProfileTableView.separatorStyle = .none
+        
         weatherView.layer.cornerRadius = 10
         weatherView.layer.borderWidth = 1.0
         weatherView.layer.borderColor = UIColor.black.cgColor
+        
+        recordView.layer.cornerRadius = 10
+        recordView.layer.borderWidth = 1.0
+        recordView.layer.borderColor = UIColor.black.cgColor
     }
-    
-    func setBinding() {
+    /// 현재 날씨 정보 바인딩
+    func setCurrentBinding() {
         let locationManager = LocationManager.shared
         let input = CurrentViewModel.Input(location: locationManager.location, placemark: locationManager.placemark)
-        let output = viewModel.bind(input: input)
+        let output = currnetViewModel.bind(input: input)
         
+        // OUTPUT
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
                 self?.showAlert("현재 날씨 정보 로딩 실패", msg)
@@ -85,5 +98,14 @@ class HomeViewController: UIViewController {
         output.pm25Status
             .bind(to: pm25Label.rx.text)
             .disposed(by: bag)
+    }
+    
+    func setPuppyBinding() {
+        puppiesViewModel = PuppiesViewModel()
+        // OUTPUT
+        puppiesViewModel?.output.puppyData
+            .bind(to: puppyProfileTableView.rx.items(cellIdentifier: C.Cell.profile, cellType: PuppyProfileTableViewCell.self)) { index, item, cell in
+                cell.bindData(with: item)
+            }.disposed(by: bag)
     }
 }
