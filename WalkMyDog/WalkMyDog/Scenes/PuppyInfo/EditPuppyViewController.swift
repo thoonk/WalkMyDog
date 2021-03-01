@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Photos
+import FirebaseStorage
 
 class EditPuppyViewController: UIViewController {
     
@@ -16,7 +18,19 @@ class EditPuppyViewController: UIViewController {
     var fetchPuppyViewModel: FetchPuppyViewModel?
     var editPuppyViewModel: EditPuppyViewModel?
     var bag = DisposeBag()
+        
+    lazy var imagePicker: UIImagePickerController = {
+        let picker: UIImagePickerController = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        return picker
+    }()
     
+    lazy var profileImage: Observable<UIImage?> = profileImageView.rx.observe(UIImage.self, "image")
+    
+    
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
@@ -24,7 +38,12 @@ class EditPuppyViewController: UIViewController {
     @IBOutlet weak var boyButton: RadioButton!
     @IBOutlet weak var girlButton: RadioButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    @objc
+    func tapSelectImage(_ sender: Any){
+        self.present(self.imagePicker, animated: true, completion: nil)
+    }
     
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
@@ -40,20 +59,14 @@ class EditPuppyViewController: UIViewController {
 
         boyButton.alternateBtn = [girlButton]
         girlButton.alternateBtn = [boyButton]
+        
+        let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
+        profileImageView.addGestureRecognizer(tapGestureImageView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if puppyInfo != nil {
-            deleteButton.isEnabled = true
-
-            setFetchViewModelBindings()
-            setEditViewModelBindings()
-        } else {
-            deleteButton.isEnabled = false
-
-            setCreateViewModelBindings()
-        }
+        setUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,9 +74,36 @@ class EditPuppyViewController: UIViewController {
         bag = DisposeBag()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func setUI() {
+        deleteButton.layer.cornerRadius = 10
+        deleteButton.layer.borderWidth = 1.0
+        deleteButton.layer.borderColor = UIColor.black.cgColor
+        deleteButton.layer.masksToBounds = true
+        
+        if puppyInfo != nil {
+            deleteButton.isHidden = false
+
+            setFetchViewModelBindings()
+            setEditViewModelBindings()
+        } else {
+            deleteButton.isHidden = true
+
+            setCreateViewModelBindings()
+        }
+    }
+    
     func setCreateViewModelBindings() {
         
         // INPUT
+        profileImage
+            .subscribe(onNext: { image in
+                self.createPuppyViewModel.input.profileImage.onNext(image!)
+            }).disposed(by: bag)
+        
         nameTextField.rx.text.orEmpty
             .bind(to: createPuppyViewModel.input.name)
             .disposed(by: bag)
@@ -111,6 +151,11 @@ class EditPuppyViewController: UIViewController {
         }
         
         // INPUT
+        profileImage
+            .subscribe(onNext: { image in
+                viewModel.input.profileImage.onNext(image!)
+            }).disposed(by: bag)
+        
         nameTextField.rx.text.orEmpty
             .bind(to: viewModel.input.name)
             .disposed(by: bag)
@@ -159,7 +204,6 @@ class EditPuppyViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind(onNext: goToSetting)
             .disposed(by: bag)
-        
     }
     
     func setFetchViewModelBindings() {
@@ -168,6 +212,11 @@ class EditPuppyViewController: UIViewController {
             return
         }
         // OUTPUT
+        viewModel.output.profileImage
+            .map { UIImage(data: $0)}
+            .bind(to: profileImageView.rx.image)
+            .disposed(by: bag)
+        
         viewModel.output.puppyNameText
             .bind(to: nameTextField.rx.text)
             .disposed(by: bag)
@@ -196,5 +245,22 @@ class EditPuppyViewController: UIViewController {
     
     func goToSetting() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        
+        self.profileImageView.image = image
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
     }
 }

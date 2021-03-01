@@ -15,19 +15,17 @@ class LocationManager {
     
     static let shared = LocationManager()
     
-    private lazy var locationManager: CLLocationManager = {
-        let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        return manager
-    }()
+    private let locationManager = CLLocationManager()
     
-    private (set) var location = ReplaySubject<CLLocation>.createUnbounded()
-    private (set) var placemark = ReplaySubject<CLPlacemark>.createUnbounded()  
+    private (set) var location = ReplaySubject<CLLocation>.create(bufferSize: 3)
+    private (set) var placemark = ReplaySubject<CLPlacemark>.create(bufferSize: 3)
     private (set) var authorizedStatus = PublishSubject<Bool>()
 
     private var bag = DisposeBag()
     
     private init() {
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        
         locationManager.rx
             .didChangeAuthorization
             .subscribe(onNext: { [weak self] _, status in
@@ -36,10 +34,12 @@ class LocationManager {
                     self?.authorizedStatus.onNext(false)
                 case .notDetermined:
                     self?.locationManager.requestWhenInUseAuthorization()
+                    self?.authorizedStatus.onNext(false)
                 case .restricted:
                     self?.authorizedStatus.onNext(false)
                 case .authorizedAlways, .authorizedWhenInUse:
                     self?.locationManager.startUpdatingLocation()
+                    self?.authorizedStatus.onNext(true)
                     self?.authorizedStatus.onCompleted()
                 @unknown default:
                     print("Dev Alert: Unknown case of status in handleAuth\(status)")
@@ -67,7 +67,11 @@ class LocationManager {
             })
             .disposed(by: bag)
         
-        locationManager.requestWhenInUseAuthorization()
+        requestAuthroization()
         locationManager.startUpdatingLocation()
+    }
+
+    func requestAuthroization() {
+        locationManager.requestWhenInUseAuthorization()
     }
 }

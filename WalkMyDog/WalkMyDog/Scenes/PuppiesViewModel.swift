@@ -12,7 +12,6 @@ import RxCocoa
 class PuppiesViewModel: ViewModelType {
 
     var bag: DisposeBag = DisposeBag()
-    var input: Input
     var output: Output
     
     struct Input {}
@@ -33,7 +32,6 @@ class PuppiesViewModel: ViewModelType {
                 error.accept(err.localizedDescription)
             }).disposed(by: bag)
         
-        input = Input()
         output = Output(puppyData: puppyData, errorMessage: error)
     }
 }

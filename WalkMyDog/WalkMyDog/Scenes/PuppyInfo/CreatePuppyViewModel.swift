@@ -17,6 +17,7 @@ class CreatePuppyViewModel: ViewModelType {
     var output = Output()
     
     struct Input {
+        let profileImage = PublishSubject<UIImage>()
         let name = PublishSubject<String>()
         let weight = PublishSubject<String>()
         let age = PublishSubject<String>()
@@ -57,11 +58,14 @@ class CreatePuppyViewModel: ViewModelType {
             }).disposed(by: bag)
         
         
-        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(id, input.name, input.weight, input.age, input.species, gender))
-            .bind { [weak self] (id, name, weight, age, species, gender) in
-                let puppy = Puppy(id: id, name: name, age: age, gender: gender, weight: Double(weight) ?? 0, species: species)
-                FIRStoreManager.shared.registerPuppyInfo(for: puppy, with: .puppies)
-                self?.output.goToSetting.accept(())
+        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.profileImage, id, input.name, input.weight, input.age, input.species, gender))
+            .bind { [weak self] (image, id, name, weight, age, species, gender) in
+                
+                StorageManager.shared.saveImage(with: .puppies, id: id, image: image) { url in
+                    let puppy = Puppy(id: id, name: name, age: age, gender: gender, weight: Double(weight) ?? 0, species: species, imageUrl: url)
+                    FIRStoreManager.shared.registerPuppyInfo(for: puppy, with: .puppies)
+                    self?.output.goToSetting.accept(())
+                }
             }.disposed(by: bag)
     }
 }

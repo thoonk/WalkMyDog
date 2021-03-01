@@ -17,6 +17,7 @@ class EditPuppyViewModel: ViewModelType {
     var output = Output()
     
     struct Input {
+        let profileImage = PublishSubject<UIImage>()
         let name = PublishSubject<String>()
         let weight = PublishSubject<String>()
         let age = PublishSubject<String>()
@@ -52,14 +53,18 @@ class EditPuppyViewModel: ViewModelType {
                 gender.onNext(false)
             }).disposed(by: bag)
         
-        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.name, input.weight, input.age, input.species, gender))
-            .bind { [weak self] (name, weigt, age, species, gender) in
-                let puppy = Puppy(id: documentID, name: name, age: age, gender: gender, weight: Double(weigt) ?? 0, species: species)
-                FIRStoreManager.shared.updatePuppyInfo(for: puppy, with: .puppies, docId: documentID) { (isSuccess, err) in
-                    if isSuccess == true {
-                        self?.output.goToSetting.accept(())
-                    } else {
-                        self?.output.errorMessage.accept(err!.localizedDescription)
+        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.profileImage, input.name, input.weight, input.age, input.species, gender))
+            .bind { [weak self] (image, name, weigt, age, species, gender) in
+                
+                StorageManager.shared.saveImage(with: .puppies, id: documentID, image: image) { url in
+                    let puppy = Puppy(id: documentID, name: name, age: age, gender: gender, weight: Double(weigt) ?? 0, species: species, imageUrl: url)
+                    
+                    FIRStoreManager.shared.updatePuppyInfo(for: puppy, with: .puppies, docId: documentID) { (isSuccess, err) in
+                        if isSuccess == true {
+                            self?.output.goToSetting.accept(())
+                        } else {
+                            self?.output.errorMessage.accept(err!.localizedDescription)
+                        }
                     }
                 }
             }.disposed(by: bag)

@@ -14,6 +14,7 @@ struct Puppy: Codable {
     var gender: Bool
     var weight: Double
     var species: String
+    var imageUrl: String
 }
 
 struct Record: Codable {
