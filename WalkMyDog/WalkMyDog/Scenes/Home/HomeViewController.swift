@@ -11,8 +11,9 @@ import RxCocoa
 
 class HomeViewController: UIViewController {
     
-    let currnetViewModel = CurrentViewModel()
-    var puppiesViewModel: PuppiesViewModel?
+    var currentViewModel: CurrentViewModel?
+    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
+    var createRecordViewModel: CreateRecordViewModel?
     var bag = DisposeBag()
     
     @IBOutlet weak var weatherView: UIView!
@@ -26,6 +27,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var puppyProfileTableView: UITableView!
     
     @IBOutlet weak var recordView: UIView!
+    @IBOutlet weak var addRecordBtn: UIButton!
     
     @IBAction func settingBtnTapped(_ sender: UIButton) {
         self.performSegue(withIdentifier: C.Segue.homeToSetting, sender: nil)
@@ -38,13 +40,22 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setCurrentBinding()
-        setPuppyBinding()
+        setFetchAllPuppyBinding()
+        setRecordBinding()
         setUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bag = DisposeBag()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.homeToRecord,
+           let selectedItem = sender as? Puppy,
+           let recordVC = segue.destination as? RecordViewController {
+            recordVC.puppyInfo = selectedItem
+        }
     }
     
     func setUI() {
@@ -58,11 +69,13 @@ class HomeViewController: UIViewController {
         recordView.layer.borderWidth = 1.0
         recordView.layer.borderColor = UIColor.black.cgColor
     }
+    
+    // MARK: - ViewModel Binding
     /// 현재 날씨 정보 바인딩
     func setCurrentBinding() {
-        let locationManager = LocationManager.shared
-        let input = CurrentViewModel.Input(location: locationManager.location, placemark: locationManager.placemark)
-        let output = currnetViewModel.bind(input: input)
+        
+        currentViewModel = CurrentViewModel()
+        let output = currentViewModel!.output
         
         // OUTPUT
         output.errorMessage
@@ -100,12 +113,31 @@ class HomeViewController: UIViewController {
             .disposed(by: bag)
     }
     
-    func setPuppyBinding() {
-        puppiesViewModel = PuppiesViewModel()
+    func setFetchAllPuppyBinding() {
+        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
+        let output = fetchAllPuppyViewModel!.output
+
         // OUTPUT
-        puppiesViewModel?.output.puppyData
+        output.puppyData
             .bind(to: puppyProfileTableView.rx.items(cellIdentifier: C.Cell.profile, cellType: PuppyProfileTableViewCell.self)) { index, item, cell in
                 cell.bindData(with: item)
             }.disposed(by: bag)
+        
+        puppyProfileTableView.rx.modelSelected(Puppy.self)
+            .subscribe(onNext: { [weak self] puppy in
+                self?.performSegue(withIdentifier: C.Segue.homeToRecord, sender: puppy)
+            }).disposed(by: bag)
+    }
+    
+    func setRecordBinding() {
+        createRecordViewModel = CreateRecordViewModel()
+        guard let viewModel = createRecordViewModel else {
+            return
+        }
+        
+        //INPUT
+        addRecordBtn.rx.tap
+            .bind(to: viewModel.input.addRecordBtnTapped)
+            .disposed(by: bag)
     }
 }
