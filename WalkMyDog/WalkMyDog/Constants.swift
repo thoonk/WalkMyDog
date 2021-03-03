@@ -15,11 +15,15 @@ struct C {
         static let weather = "weatherCell"
         static let puppy = "puppyCell"
         static let profile = "puppyProfileCell"
+        static let record = "recordCell"
     }
     
     struct Segue {
         static let homeToSetting = "fromHomeToSetting"
         static let settingToEdit = "fromSettingToEdit"
+        static let homeToRecord = "fromHomeToRecord"
+        static let recordToEdit =
+            "fromRecordToEdit"
     }
 }
  

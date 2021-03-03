@@ -11,7 +11,7 @@ import RxCocoa
 
 class SettingViewController: UIViewController {
 
-    var viewModel: PuppiesViewModel?
+    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
     var bag = DisposeBag()
     
     @IBOutlet weak var tableView: UITableView!
@@ -23,7 +23,7 @@ class SettingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setBinding()
+        setFetchAllPuppyBinding()
         setTableView()
     }
     
@@ -40,9 +40,9 @@ class SettingViewController: UIViewController {
         }
     }
     
-    func setBinding() {
-        viewModel = PuppiesViewModel()
-        let output = viewModel!.output
+    func setFetchAllPuppyBinding() {
+        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
+        let output = fetchAllPuppyViewModel!.output
             
         output.puppyData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.puppy, cellType: PuppyTableViewCell.self)) { index, item, cell in
@@ -72,8 +72,8 @@ class SettingViewController: UIViewController {
     private func goToEdit() {
         self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
     }
-
 }
+
 // MARK: - UITableViewDelegate
 extension SettingViewController: UITableViewDelegate {
     
@@ -81,20 +81,23 @@ extension SettingViewController: UITableViewDelegate {
         let headerView = UIView(frame: CGRect(x: 20, y: 10, width: 400, height: 40))
         headerView.isUserInteractionEnabled = true
         
-        let sectionLabel = UILabel(frame: CGRect(x: 20, y: 10, width: 100, height: 25))
+        let sectionImageView = UIImageView(frame: CGRect(x: 20, y: 12, width: 20, height: 20))
+        sectionImageView.image = UIImage(named: "dog-24")
+        
+        let sectionLabel = UILabel(frame: CGRect(x: 45, y: 10, width: 100, height: 25))
         sectionLabel.text = "반려견"
         
-        let addPuppyBtn = UIButton(frame: CGRect(x: 300, y: 10, width: 100, height: 25))
-        addPuppyBtn.setTitle("추가", for: .normal)
-        addPuppyBtn.setTitleColor(.magenta, for: .normal)
+        let addPuppyBtn = UIButton(frame: CGRect(x: 320, y: 10, width: 80, height: 25))
+        addPuppyBtn.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         addPuppyBtn.isUserInteractionEnabled = true
         addPuppyBtn.isEnabled = true
-        addPuppyBtn.tintColor = .blue
+        addPuppyBtn.tintColor = .lightGray
         addPuppyBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
         
         let underBar = UIView(frame: CGRect(x: 20, y: 37, width: 350, height: 1))
         underBar.backgroundColor = .lightGray
         
+        headerView.addSubview(sectionImageView)
         headerView.addSubview(sectionLabel)
         headerView.addSubview(addPuppyBtn)
         headerView.addSubview(underBar)
