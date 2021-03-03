@@ -7,17 +7,35 @@
 
 import Foundation
 
-struct Puppy: Codable {
-    var id: Int
+protocol Identifiable {
+    var id: String? { get set }
+}
+
+struct Puppy: Codable, Identifiable {
+    var id: String? = nil
     var name: String
     var age: String
     var gender: Bool
     var weight: Double
     var species: String
-    var imageUrl: String
+//    var imageUrl: String
+    
+    init(name: String, age: String, gender: Bool, weight: Double, species: String) {
+        self.name = name
+        self.age = age
+        self.gender = gender
+        self.weight = weight
+        self.species = species
+//        self.imageUrl = imageUrl
+    }
 }
 
-struct Record: Codable {
-    let timeStamp: Date
+struct Record: Codable, Identifiable {
+    var id: String? = nil
+    let timeStamp: String
 //    let walkInterval: Int
+    
+    init(timeStamp: String) {
+        self.timeStamp = timeStamp
+    }
 }

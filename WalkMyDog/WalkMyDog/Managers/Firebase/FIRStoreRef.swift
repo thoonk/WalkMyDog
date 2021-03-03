@@ -12,8 +12,8 @@ enum FIRStoreRef {
     case uid
     case user
     case puppies
-    case records(puppyId: Int)
-    case record(puppyId: Int, recordId: Int)
+    case records(puppyId: String)
+    case record(puppyId: String, recordId: String)
 }
 
 extension FIRStoreRef {

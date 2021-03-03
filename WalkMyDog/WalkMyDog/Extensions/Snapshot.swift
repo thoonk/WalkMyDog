@@ -8,11 +8,19 @@
 import Foundation
 import FirebaseFirestore
 
+enum SnapshotError: Error {
+    case decodingError
+}
+
 extension DocumentSnapshot {
     
-    func decode<T: Decodable>(as objectType: T.Type) throws -> T {
+    func decode<T: Decodable>(as objectType: T.Type, includingId: Bool = true) throws -> T {
         
-        let documentJson = data()
+        guard var documentJson = data() else { throw SnapshotError.decodingError }
+        if includingId {
+            documentJson["id"] = documentID
+        }
+        
         let documentData = try JSONSerialization.data(withJSONObject: documentJson, options: [])
         let decodedObject = try JSONDecoder().decode(objectType, from: documentData)
         return decodedObject

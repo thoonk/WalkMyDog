@@ -45,10 +45,11 @@ final class FIRStoreManager {
             }
         }
     }
+    
     // MARK: - About PuppyInfo
     /// 강쥐 정보 등록
-    func registerPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef) {
-        createDocument(for: puppy, with: ref)
+    func registerPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+        createDocument(for: puppy, with: ref, completion: completion)
     }
     
     /// 모든 강아지 정보 읽기
@@ -65,66 +66,25 @@ final class FIRStoreManager {
             return Disposables.create()
         }
     }
-        
+    
     /// 강쥐 정보 수정
-    func updatePuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
-        updateDocument(for: puppy, with: ref, docId: docId, completion: completion)
+    func updatePuppyInfo(for puppy: Puppy, completion: @escaping (Bool, Error?) -> Void) {
+        updateDocument(for: puppy, with: .puppies, completion: completion)
     }
     
     /// 강쥐 정보 삭제
-    func deletePuppyInfo(with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
-        deleteDocument(with: ref, docId: docId, completion: completion)
-    }
-    
-    /// Puppy documentID 부여 메서드
-    func incrementPuppyId(with ref: FIRStoreRef) -> Observable<Int> {
-        return Observable.create() { emitter in
-            self.getMaxId(with: ref, returning: Puppy.self) { (result) in
-                switch result {
-                case .success(let data):
-                    if data != nil {
-                        emitter.onNext(data!.id+1)
-                    } else {
-                        emitter.onNext(1)
-                    }
-                case .failure(let err):
-                    emitter.onError(err)
-                }
-            }
-            return Disposables.create()
-        }
+    func deletePuppyInfo(for object: Puppy, completion: @escaping (Bool, Error?) -> Void) {
+        deleteDocument(with: .puppies, deleteObject: object, completion: completion)
     }
     
     // MARK: - About RecordInfo
-    /// 산책 기록 등록
-    func createRecordInfo(for record: Record, with ref: FIRStoreRef, puppyId: Int) {
-        collection = db.collection(ref.path)
-        let query = collection?.whereField("id", isEqualTo: puppyId)
-        query?.getDocuments(completion: { (querySnapshot, error) in
-            if error != nil {
-                print("Puppy Docs does not exist: \(error!.localizedDescription)")
-            } else {
-                for doc in querySnapshot!.documents {
-                    do {
-                        let json = try record.toJson()
-                        self.collection?.document(doc.documentID).collection("record").addDocument(data: json) { error in
-                            if let error = error {
-                                print("Error writing docs: \(error)")
-                            } else {
-                                print("Writing Succeded")
-                            }
-                        }
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-        })
+    func createRecordInfo(for record: Record, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+        createDocument(for: record, with: ref, completion: completion)
     }
-        
+    
     func fetchAllRecordInfo(from ref: FIRStoreRef) -> Observable<[Record]> {
         return Observable.create() { emitter in
-            self.fetchRecordInfo(returning: Record.self, from: ref) { (result) in
+            self.readRecordInfo(returning: Record.self, from: ref) { (result) in
                 switch result {
                 case .success(let data):
                     emitter.onNext(data)
@@ -137,9 +97,10 @@ final class FIRStoreManager {
     }
     
     /// 산책 기록 읽기
-    private func fetchRecordInfo<T: Decodable>(returning encodableObject: T.Type, from ref: FIRStoreRef, completion: @escaping  (Result<[T], Error>) -> Void) {
+    private func readRecordInfo<T: Decodable>(returning encodableObject: T.Type, from ref: FIRStoreRef, completion: @escaping  (Result<[T], Error>) -> Void) {
         collection = db.collection(ref.path)
-        collection!.getDocuments { (querySnapshot, error) in
+        let query = collection?.order(by: "timeStamp", descending: true)
+        query?.getDocuments { (querySnapshot, error) in
             if error != nil {
                 print("Rcord Docs does not exist: \(error!.localizedDescription)")
             } else {
@@ -158,51 +119,25 @@ final class FIRStoreManager {
             }
         }
     }
-
+    
     /// 산책 기록 삭제
-    func deleteRcordInfo(with ref: FIRStoreRef) {
-        document = db.document(ref.path)
-        if document != nil {
-            document!.delete() { error in
-                if let error = error {
-                    print("Error writing docs: \(error)")
-                } else {
-                    print("Deleting Succeded")
-                }
-            }
-        }
+    func deleteRcordInfo(for object: Record, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+       deleteDocument(with: ref, deleteObject: object, completion: completion)
     }
     
-    /// Record documentID 부여 메서드
-    func incrementRecordId(with ref: FIRStoreRef) -> Observable<Int> {
-        return Observable.create() { emitter in
-            self.getMaxId(with: ref, returning: Record.self) { (result) in
-                switch result {
-                case .success(let data):
-                    if data != nil {
-                        emitter.onNext(data!.id+1)
-                    } else {
-                        emitter.onNext(1)
-                    }
-                case .failure(let err):
-                    emitter.onError(err)
-                }
-            }
-            return Disposables.create()
-        }
-    }
-    
-    // MARK: - CRUD
-    private func createDocument<T: Encodable>(for newObject: T, with ref: FIRStoreRef) {
+    // MARK: - CRUD Template
+    private func createDocument<T: Encodable>(for newObject: T, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
         collection = db.collection(ref.path)
         do {
-            let json = try newObject.toJson()
+            let json = try newObject.toJson(excluding: ["id"])
             if collection != nil {
                 collection!.addDocument(data: json) { error in
-                    if let error = error {
-                        print("Error writing docs: \(error)")
+                    if error != nil {
+                        print("Error writing docs: \(error!)")
+                        completion(false, error)
                     } else {
                         print("Writing Succeded")
+                        completion(true, nil)
                     }
                 }
             }
@@ -213,9 +148,9 @@ final class FIRStoreManager {
     
     private func readAllDocument<T: Decodable>(returning type: T.Type, with ref: FIRStoreRef, completion: @escaping (Result<[T], Error>) -> Void) {
         collection = db.collection(ref.path)
-        let query = collection?.order(by: "id", descending: false)
+        let query = collection?.order(by: "age", descending: false)
         query?.getDocuments(completion: { (querySnapshot, error) in
-
+            
             if error != nil {
                 print("Puppy Docs does not exist: \(error!.localizedDescription)")
             } else {
@@ -234,71 +169,46 @@ final class FIRStoreManager {
         })
     }
     
-    private func updateDocument<T: Encodable>(for newObject: T, with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
+    private func updateDocument<T: Encodable & Identifiable>(for newObject: T, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
         collection = db.collection(ref.path)
-        let query = collection?.whereField("id", isEqualTo: docId)
         
         do {
-            let json = try newObject.toJson()
-            query?.getDocuments { (querySnapshot, err) in
-                for doc in querySnapshot!.documents {
-                    self.collection?.document(doc.documentID)
-                        .setData(json) { err in
-                            if err != nil {
-                                print("Error updating docs: \(err!.localizedDescription)")
-                                completion(false, err!)
-                            } else {
-                                print("Updating Succeded")
-                                completion(true, nil)
-                            }
-                        }
+            let json = try newObject.toJson(excluding: ["id"])
+            guard let id = newObject.id else { throw FIRError.encodingError }
+            print(id)
+            
+            collection?.document(id)
+                .setData(json) { err in
+                    if err != nil {
+                        print("Error updating docs: \(err!.localizedDescription)")
+                        completion(false, err!)
+                    } else {
+                        print("Updating Succeded")
+                        completion(true, nil)
+                    }
                 }
-            }
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    private func deleteDocument(with ref: FIRStoreRef, docId: Int, completion: @escaping (Bool, Error?) -> Void) {
+    private func deleteDocument<T: Identifiable>(with ref: FIRStoreRef, deleteObject: T, completion: @escaping (Bool, Error?) -> Void) {
         collection = db.collection(ref.path)
-        let query = collection?.whereField("id", isEqualTo: docId)
+        do {
+        guard let id = deleteObject.id else { throw FIRError.encodingError }
         
-        query?.getDocuments { (querySnapshot, err) in
-            for doc in querySnapshot!.documents {
-                self.collection?.document(doc.documentID)
-                    .delete() { err in
-                        if err != nil {
-                            print("Error writing docs: \(err!.localizedDescription)")
-                            completion(false, err!)
-                        } else {
-                            print("Deleting Succeded")
-                            completion(true, nil)
-                        }
-                    }
-            }
-        }
-    }
-        
-    /// 컬렉션에서 제일 큰 id 가져오는 메서드
-    func getMaxId<T: Decodable>(with ref: FIRStoreRef, returning type: T.Type, completion: @escaping (Result<T?, Error>) -> Void) {
-        
-        collection = db.collection(ref.path)
-        let query = collection?.order(by: "id", descending: true).limit(to: 1)
-        
-        query?.getDocuments { querySnapshot, err in
-            if err != nil {
-                print("Error fetch docs: \(err!.localizedDescription)")
-            } else {
-                do {
-                    for doc in querySnapshot!.documents {
-                        let object = try doc.decode(as: type.self)
-                        completion(.success(object))
-                    }
-                } catch {
-                    print(error.localizedDescription)
-                    completion(.failure(error))
+        collection?.document(id)
+            .delete() { err in
+                if err != nil {
+                    print("Error writing docs: \(err!.localizedDescription)")
+                    completion(false, err!)
+                } else {
+                    print("Deleting Succeded")
+                    completion(true, nil)
                 }
             }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
