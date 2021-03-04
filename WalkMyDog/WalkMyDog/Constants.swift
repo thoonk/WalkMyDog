@@ -16,6 +16,7 @@ struct C {
         static let puppy = "puppyCell"
         static let profile = "puppyProfileCell"
         static let record = "recordCell"
+        static let check = "checkPuppyCell"
     }
     
     struct Segue {
