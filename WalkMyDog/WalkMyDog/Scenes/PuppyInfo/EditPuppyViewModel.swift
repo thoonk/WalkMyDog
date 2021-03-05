@@ -35,7 +35,7 @@ class EditPuppyViewModel: ViewModelType {
     }
     
     init(with selectedItem: Puppy) {
-        let documentID = selectedItem.id
+//        let documentID = selectedItem.id
         let gender = BehaviorSubject<Bool>(value: true)
         
         Observable.combineLatest(input.name, input.weight, input.age, input.species)
@@ -53,25 +53,24 @@ class EditPuppyViewModel: ViewModelType {
                 gender.onNext(false)
             }).disposed(by: bag)
         
-        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.profileImage, input.name, input.weight, input.age, input.species, gender))
-            .bind { [weak self] (image, name, weigt, age, species, gender) in
+        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.name, input.weight, input.age, input.species, gender))
+            .bind { [weak self] (name, weigt, age, species, gender) in
                 
-                StorageManager.shared.saveImage(with: .puppies, id: documentID, image: image) { url in
-                    let puppy = Puppy(id: documentID, name: name, age: age, gender: gender, weight: Double(weigt) ?? 0, species: species, imageUrl: url)
-                    
-                    FIRStoreManager.shared.updatePuppyInfo(for: puppy, with: .puppies, docId: documentID) { (isSuccess, err) in
-                        if isSuccess == true {
-                            self?.output.goToSetting.accept(())
-                        } else {
-                            self?.output.errorMessage.accept(err!.localizedDescription)
-                        }
+                var puppy = Puppy(name: name, age: age, gender: gender, weight: Double(weigt) ?? 0, species: species)
+                puppy.id = selectedItem.id
+                
+                FIRStoreManager.shared.updatePuppyInfo(for: puppy) { (isSuccess, err) in
+                    if isSuccess == true {
+                        self?.output.goToSetting.accept(())
+                    } else {
+                        self?.output.errorMessage.accept(err!.localizedDescription)
                     }
                 }
             }.disposed(by: bag)
         
         input.deleteBtnTapped
             .subscribe(onNext: { [weak self] in 
-                FIRStoreManager.shared.deletePuppyInfo(with: .puppies, docId: documentID) { (isSuccess, err) in
+                FIRStoreManager.shared.deletePuppyInfo(for: selectedItem) { (isSuccess, err) in
                     if isSuccess == true {
                         self?.output.goToSetting.accept(())
                     } else {

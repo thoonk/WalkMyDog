@@ -48,14 +48,14 @@ final class FIRStoreManager {
     
     // MARK: - About PuppyInfo
     /// 강쥐 정보 등록
-    func registerPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+    func createPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
         createDocument(for: puppy, with: ref, completion: completion)
     }
     
-    /// 모든 강아지 정보 읽기
+    /// 모든 강쥐 정보 읽기
     func fetchAllPuppyInfo() -> Observable<[Puppy]> {
         return Observable.create() { emitter in
-            self.readAllDocument(returning: Puppy.self, with: .puppies) { result in
+            self.readAllDocByAge(returning: Puppy.self, with: .puppies) { result in
                 switch result {
                 case .success(let data):
                     emitter.onNext(data)
@@ -78,13 +78,14 @@ final class FIRStoreManager {
     }
     
     // MARK: - About RecordInfo
+    /// 산책 기록 생성
     func createRecordInfo(for record: Record, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
         createDocument(for: record, with: ref, completion: completion)
     }
-    
+    /// 모든 산책 기록 읽기
     func fetchAllRecordInfo(from ref: FIRStoreRef) -> Observable<[Record]> {
         return Observable.create() { emitter in
-            self.readRecordInfo(returning: Record.self, from: ref) { (result) in
+            self.readAllDocByTime(returning: Record.self, from: ref) { (result) in
                 switch result {
                 case .success(let data):
                     emitter.onNext(data)
@@ -95,31 +96,6 @@ final class FIRStoreManager {
             return Disposables.create()
         }
     }
-    
-    /// 산책 기록 읽기
-    private func readRecordInfo<T: Decodable>(returning encodableObject: T.Type, from ref: FIRStoreRef, completion: @escaping  (Result<[T], Error>) -> Void) {
-        collection = db.collection(ref.path)
-        let query = collection?.order(by: "timeStamp", descending: true)
-        query?.getDocuments { (querySnapshot, error) in
-            if error != nil {
-                print("Rcord Docs does not exist: \(error!.localizedDescription)")
-            } else {
-                do {
-                    var objects = [T]()
-                    for doc in querySnapshot!.documents {
-                        let object: T = try doc.decode(as: encodableObject.self)
-                        print(object)
-                        objects.append(object)
-                    }
-                    completion(.success(objects))
-                } catch {
-                    print(error.localizedDescription)
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
-    
     /// 산책 기록 삭제
     func deleteRcordInfo(for object: Record, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
        deleteDocument(with: ref, deleteObject: object, completion: completion)
@@ -146,7 +122,7 @@ final class FIRStoreManager {
         }
     }
     
-    private func readAllDocument<T: Decodable>(returning type: T.Type, with ref: FIRStoreRef, completion: @escaping (Result<[T], Error>) -> Void) {
+    private func readAllDocByAge<T: Decodable>(returning type: T.Type, with ref: FIRStoreRef, completion: @escaping (Result<[T], Error>) -> Void) {
         collection = db.collection(ref.path)
         let query = collection?.order(by: "age", descending: false)
         query?.getDocuments(completion: { (querySnapshot, error) in
@@ -167,6 +143,29 @@ final class FIRStoreManager {
                 }
             }
         })
+    }
+    
+    private func readAllDocByTime<T: Decodable>(returning encodableObject: T.Type, from ref: FIRStoreRef, completion: @escaping  (Result<[T], Error>) -> Void) {
+        collection = db.collection(ref.path)
+        let query = collection?.order(by: "timeStamp", descending: true)
+        query?.getDocuments { (querySnapshot, error) in
+            if error != nil {
+                print("Record Docs does not exist: \(error!.localizedDescription)")
+            } else {
+                do {
+                    var objects = [T]()
+                    for doc in querySnapshot!.documents {
+                        let object: T = try doc.decode(as: encodableObject.self)
+                        print(object)
+                        objects.append(object)
+                    }
+                    completion(.success(objects))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+        }
     }
     
     private func updateDocument<T: Encodable & Identifiable>(for newObject: T, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {

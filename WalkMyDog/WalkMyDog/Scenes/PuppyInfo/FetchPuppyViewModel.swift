@@ -12,12 +12,11 @@ class FetchPuppyViewModel: ViewModelType {
     
     var bag: DisposeBag = DisposeBag()
     
-    struct Input {
-        // 강쥐 정보
-    }
+    struct Input {}
     
     struct Output {
-        // 강쥐 정보 등록
+        // 강쥐 정보
+//        let profileImage: Observable<Data>
         let puppyNameText: Observable<String>
         let puppySpeciesText: Observable<String>
         let puppyWeightText: Observable<String>
@@ -36,7 +35,10 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyWeight = puppyInfo.map { "\($0.weight)" }
         let puppyBirth = puppyInfo.map { $0.age }
         let puppyGender = puppyInfo.map { $0.gender }
+//        let puppyImageUrl = selectedItem.imageUrl
         
+//        let imageData = StorageManager.shared.loadImage(from: puppyImageUrl)
+            
         self.output = Output(puppyNameText: puppyName, puppySpeciesText: puppySpecies, puppyWeightText: puppyWeight, puppyBirthText: puppyBirth, puppyGender: puppyGender)
     }
 }

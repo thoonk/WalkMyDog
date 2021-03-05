@@ -19,6 +19,7 @@ class PuppyProfileTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .none
         puppyProfileView.layer.cornerRadius = 10
         puppyProfileView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         
@@ -34,15 +35,15 @@ class PuppyProfileTableViewCell: UITableViewCell {
     }
     
     func bindData(with data: Puppy) {
-        puppyImageView.image = UIImage(named: "ang")
+//        puppyImageView.image = UIImage(named: "ang")
         puppyNameLabel.text = data.name
         puppySpeciesLabel.text = data.species
         puppyAgeLabel.text = "\(Date().computeAge(with: data.age).description) 살"
         
         if data.gender == true {
-            puppyGenderImageView.image = UIImage(named: "male")
+            puppyGenderImageView.image = UIImage(named: "male-24")
         } else {
-            puppyGenderImageView.image = UIImage(named: "female")
+            puppyGenderImageView.image = UIImage(named: "female-24")
         }
     }
 }

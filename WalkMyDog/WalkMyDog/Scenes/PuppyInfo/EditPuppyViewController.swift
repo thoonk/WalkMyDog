@@ -86,7 +86,7 @@ class EditPuppyViewController: UIViewController {
         
         if puppyInfo != nil {
             deleteButton.isHidden = false
-
+            
             setFetchViewModelBindings()
             setEditViewModelBindings()
         } else {
@@ -99,10 +99,10 @@ class EditPuppyViewController: UIViewController {
     func setCreateViewModelBindings() {
         
         // INPUT
-        profileImage
-            .subscribe(onNext: { image in
-                self.createPuppyViewModel.input.profileImage.onNext(image!)
-            }).disposed(by: bag)
+//        profileImage
+//            .subscribe(onNext: { image in
+//                self.createPuppyViewModel.input.profileImage.onNext(image!)
+//            }).disposed(by: bag)
         
         nameTextField.rx.text.orEmpty
             .bind(to: createPuppyViewModel.input.name)
@@ -151,10 +151,10 @@ class EditPuppyViewController: UIViewController {
         }
         
         // INPUT
-        profileImage
-            .subscribe(onNext: { image in
-                viewModel.input.profileImage.onNext(image!)
-            }).disposed(by: bag)
+//        profileImage
+//            .subscribe(onNext: { image in
+//                viewModel.input.profileImage.onNext(image!)
+//            }).disposed(by: bag)
         
         nameTextField.rx.text.orEmpty
             .bind(to: viewModel.input.name)
@@ -212,10 +212,10 @@ class EditPuppyViewController: UIViewController {
             return
         }
         // OUTPUT
-        viewModel.output.profileImage
-            .map { UIImage(data: $0)}
-            .bind(to: profileImageView.rx.image)
-            .disposed(by: bag)
+//        viewModel.output.profileImage
+//            .map { UIImage(data: $0)}
+//            .bind(to: profileImageView.rx.image)
+//            .disposed(by: bag)
         
         viewModel.output.puppyNameText
             .bind(to: nameTextField.rx.text)
@@ -251,13 +251,17 @@ class EditPuppyViewController: UIViewController {
 extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
         
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
-            return
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        self.profileImageView.image = image
+        
+        if puppyInfo != nil {
+            editPuppyViewModel?.input.profileImage.onNext(image)
+        } else {
+            createPuppyViewModel.input.profileImage.onNext(image)
         }
         
-        self.profileImageView.image = image
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

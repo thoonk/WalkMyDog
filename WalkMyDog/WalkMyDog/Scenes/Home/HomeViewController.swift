@@ -8,12 +8,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PanModal
 
 class HomeViewController: UIViewController {
     
     var currentViewModel: CurrentViewModel?
     var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
-    var createRecordViewModel: CreateRecordViewModel?
     var bag = DisposeBag()
     
     @IBOutlet weak var weatherView: UIView!
@@ -23,9 +23,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pm10Label: UILabel!
     @IBOutlet weak var pm25Label: UILabel!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
     @IBOutlet weak var puppyProfileTableView: UITableView!
-    
     @IBOutlet weak var recordView: UIView!
     @IBOutlet weak var addRecordBtn: UIButton!
     
@@ -33,15 +31,22 @@ class HomeViewController: UIViewController {
         self.performSegue(withIdentifier: C.Segue.homeToSetting, sender: nil)
     }
     
+    @IBAction func addRecordBtnTapped(_ sender: UIButton) {
+        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "CheckPuppyVC") as! CheckPuppyViewController
+        presentPanModal(checkPuppyVC)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tabBarController?.tabBar.items?[0].title = "산책 기록"
+        self.tabBarController?.tabBar.items?[1].title = "날씨 예보"
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setCurrentBinding()
         setFetchAllPuppyBinding()
-        setRecordBinding()
         setUI()
     }
     
@@ -127,17 +132,5 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [weak self] puppy in
                 self?.performSegue(withIdentifier: C.Segue.homeToRecord, sender: puppy)
             }).disposed(by: bag)
-    }
-    
-    func setRecordBinding() {
-        createRecordViewModel = CreateRecordViewModel()
-        guard let viewModel = createRecordViewModel else {
-            return
-        }
-        
-        //INPUT
-        addRecordBtn.rx.tap
-            .bind(to: viewModel.input.addRecordBtnTapped)
-            .disposed(by: bag)
     }
 }

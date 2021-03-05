@@ -12,8 +12,7 @@ enum FIRStoreRef {
     case uid
     case user
     case puppies
-    case records(puppyId: String)
-    case record(puppyId: String, recordId: String)
+    case record(puppyId: String)
 }
 
 extension FIRStoreRef {
@@ -32,10 +31,8 @@ extension FIRStoreRef {
             return "users/\(uid)"
         case .puppies:
             return "users/\(uid)/puppies"
-        case let .records(puppyId):
+        case let .record(puppyId):
             return "users/\(uid)/puppies/\(puppyId)/record"
-        case let .record(puppyId, recordId):
-            return "users/\(uid)/puppies/\(puppyId)/record/\(recordId)"
         }
     }
 }

@@ -13,9 +13,15 @@ import PanModal
 class CheckPuppyViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addRecordButton: UIButton!
+
+    @IBAction func addRecordBtnTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: C.Segue.checkToEdit, sender: checkedPuppies)
+    }
     
-    var viewModel: CheckPuppyViewModel?
+    var viewModel: FetchAllPuppyViewModel?
     var bag = DisposeBag()
+    var checkedPuppies: [Puppy] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,30 +36,33 @@ class CheckPuppyViewController: UIViewController {
         bag = DisposeBag()
     }
     
-    @IBAction func addRecordBtnTapped(_ sender: UIButton) {
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.checkToEdit,
+           let selectedPuppy = sender as? [Puppy],
+           let editRecordVC = segue.destination as? EditRecordViewController {
+            editRecordVC.checkedPuppy = selectedPuppy
+        }
     }
     
     func setBinding() {
-        viewModel = CheckPuppyViewModel()
+        viewModel = FetchAllPuppyViewModel()
         let output = viewModel!.output
 
         // OUTPUT
         output.puppyData
-            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.check, cellType: CheckPuppyTableViewCell.self)) { index, item, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.check, cellType: CheckPuppyTableViewCell.self)) { [weak self] index, item, cell in
                 cell.puppyNameLabel.text = item.name
+                cell.checkWalkedButton.rx.tap.asObservable().subscribe(onNext: {
+                    if cell.checkWalkedButton.isChecked == true {
+                        self?.checkedPuppies.append(item)
+                    } else {
+                        let arrIndex = self?.checkedPuppies.firstIndex { $0.id == item.id }
+                        self?.checkedPuppies.remove(at: arrIndex!)
+                    }
+                }).disposed(by: cell.bag)
             }.disposed(by: bag)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension CheckPuppyViewController: PanModalPresentable {

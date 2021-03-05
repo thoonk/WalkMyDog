@@ -33,9 +33,12 @@ struct Puppy: Codable, Identifiable {
 struct Record: Codable, Identifiable {
     var id: String? = nil
     let timeStamp: String
-//    let walkInterval: Int
+    let walkInterval: String
+    let walkDistance: String
     
-    init(timeStamp: String) {
+    init(timeStamp: String, walkInterval: String, walkDistance: String) {
         self.timeStamp = timeStamp
+        self.walkInterval = walkInterval
+        self.walkDistance = walkDistance
     }
 }

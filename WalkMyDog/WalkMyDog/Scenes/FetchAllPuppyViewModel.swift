@@ -12,26 +12,22 @@ import RxCocoa
 class FetchAllPuppyViewModel: ViewModelType {
 
     var bag: DisposeBag = DisposeBag()
-    var output: Output
+    var output = Output()
     
     struct Input {}
     
     struct Output {
-        var puppyData: PublishRelay<[Puppy]>
-        let errorMessage: PublishRelay<String>
+        var puppyData = PublishRelay<[Puppy]>()
+        let errorMessage = PublishRelay<String>()
     }
     
     init(){
-        let error = PublishRelay<String>()
-        let puppyData = PublishRelay<[Puppy]>()
 
         _ = FIRStoreManager.shared.fetchAllPuppyInfo()
-            .subscribe(onNext: { data in
-                puppyData.accept(data)
-            }, onError: { err in
-                error.accept(err.localizedDescription)
+            .subscribe(onNext: { [weak self] data in
+                self?.output.puppyData.accept(data)
+            }, onError: { [weak self] err in
+                self?.output.errorMessage.accept(err.localizedDescription)
             }).disposed(by: bag)
-        
-        output = Output(puppyData: puppyData, errorMessage: error)
     }
 }

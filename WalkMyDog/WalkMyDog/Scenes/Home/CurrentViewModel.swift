@@ -10,10 +10,9 @@ import RxSwift
 import CoreLocation
 
 class CurrentViewModel: ViewModelType {
-    
-    private var weatherSubject = PublishSubject<WeatherCurrent>()
-    private var pmSubject = PublishSubject<PMModel>()
-    
+        
+    var input: Input
+    var output: Output
     var bag: DisposeBag = DisposeBag()
     
     struct Input {
@@ -33,16 +32,21 @@ class CurrentViewModel: ViewModelType {
         let errorMessage: Observable<String>
     }
     
-    func bind(input: Input) -> Output {
-        
+    init(){
+        let weatherSubject = PublishSubject<WeatherCurrent>()
+        let pmSubject = PublishSubject<PMModel>()
         let error = PublishSubject<String>()
         let isLoading = BehaviorSubject<Bool>(value: false)
+        let locationManager = LocationManager.shared
+        
+        input = Input(location: locationManager.location, placemark: locationManager.placemark)
+        
         input.location
             .take(1)
             .flatMapLatest { (location) -> Observable<WeatherCurrent> in
                 CurrentAPIManger.shared.fetchWeatherData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
-            }.subscribe(onNext: { [weak self] data in
-                self?.weatherSubject.onNext(data)
+            }.subscribe(onNext: { data in
+                weatherSubject.onNext(data)
             }, onError: { err in
                 error.onNext(err.localizedDescription)
             }).disposed(by: bag)
@@ -54,8 +58,8 @@ class CurrentViewModel: ViewModelType {
                 CurrentAPIManger.shared.fetchPMData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }
             .do(onNext: { _ in isLoading.onNext(false) })
-            .subscribe(onNext: { [weak self] data in
-                self?.pmSubject.onNext(data)
+            .subscribe(onNext: { data in
+                pmSubject.onNext(data)
             }, onError: { err in
                 error.onNext(err.localizedDescription)
             }).disposed(by: bag)
@@ -84,13 +88,13 @@ class CurrentViewModel: ViewModelType {
             .map { data in
                 data.pm25Status
             }
-                
-        return Output(isLoading: isLoading,
-                      locationName: locationName,
-                      conditionName: conditionName,
-                      temperature: temperature,
-                      pm10Status: pm10Status,
-                      pm25Status: pm25Status,
-                      errorMessage: error)
+        
+        output = Output(isLoading: isLoading,
+                        locationName: locationName,
+                        conditionName: conditionName,
+                        temperature: temperature,
+                        pm10Status: pm10Status,
+                        pm25Status: pm25Status,
+                        errorMessage: error)
     }
 }

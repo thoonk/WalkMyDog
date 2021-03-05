@@ -34,7 +34,6 @@ class CreatePuppyViewModel: ViewModelType {
     }
     
     init() {
-        let id = PublishSubject<Int>()
         let gender = BehaviorSubject<Bool>(value: true)
         
         Observable.combineLatest(input.name, input.weight, input.age, input.species)
@@ -52,19 +51,17 @@ class CreatePuppyViewModel: ViewModelType {
                 gender.onNext(false)
             }).disposed(by: bag)
         
-        _ = FIRStoreManager.shared.incrementID(with: .puppies)
-            .subscribe(onNext: { num in
-                id.onNext(num)
-            }).disposed(by: bag)
-        
-        
-        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.profileImage, id, input.name, input.weight, input.age, input.species, gender))
-            .bind { [weak self] (image, id, name, weight, age, species, gender) in
+        input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.name, input.weight, input.age, input.species, gender))
+            .debug()
+            .bind { [weak self] (name, weight, age, species, gender) in
                 
-                StorageManager.shared.saveImage(with: .puppies, id: id, image: image) { url in
-                    let puppy = Puppy(id: id, name: name, age: age, gender: gender, weight: Double(weight) ?? 0, species: species, imageUrl: url)
-                    FIRStoreManager.shared.registerPuppyInfo(for: puppy, with: .puppies)
-                    self?.output.goToSetting.accept(())
+                let puppy = Puppy(name: name, age: age, gender: gender, weight: Double(weight) ?? 0, species: species)
+                FIRStoreManager.shared.createPuppyInfo(for: puppy, with: .puppies)  { (isSuccess, err) in
+                    if isSuccess == true {
+                        self?.output.goToSetting.accept(())
+                    } else {
+                        self?.output.errorMessage.accept(err!.localizedDescription)
+                    }
                 }
             }.disposed(by: bag)
     }

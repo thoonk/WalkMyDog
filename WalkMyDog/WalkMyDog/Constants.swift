@@ -23,8 +23,8 @@ struct C {
         static let homeToSetting = "fromHomeToSetting"
         static let settingToEdit = "fromSettingToEdit"
         static let homeToRecord = "fromHomeToRecord"
-        static let recordToEdit =
-            "fromRecordToEdit"
+        static let recordToEdit = "fromRecordToEdit"
+        static let checkToEdit = "fromCheckToEdit"
     }
 }
  

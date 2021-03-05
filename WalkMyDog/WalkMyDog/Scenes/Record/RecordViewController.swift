@@ -63,16 +63,6 @@ class RecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let user1 = User(name: "user1", puppies: [])
-        //        FIRStoreManager.shared.registerUserInfo(with: .users, for: user1)
-        //        FIRStoreManager.shared.fetchUserInfo(from: .users, returning: User.self) { (user) in
-        //            user1 = user
-        //        }
-        
-        //        FIRStoreManager.shared.updateUserInfo(with: .users, for: user1)
-        
-        //        FIRStoreManager.shared.deleteUserInfo(with: .users)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,10 +79,21 @@ class RecordViewController: UIViewController {
         bag = DisposeBag()
     }
     
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.recordToEdit,
+           let selectedItem = sender as? [Puppy],
+           let editRecordVC = segue.destination as? EditRecordViewController {
+            editRecordVC.checkedPuppy = selectedItem
+        }
+    }
+    
     /// 산책 기록 추가시 뷰 전환 메서드
     @objc
     private func goToEdit() {
-        self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: nil)
+        var checkedPuppy = [Puppy]()
+        checkedPuppy.append(puppyInfo!)
+        self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: checkedPuppy)
     }
     
     func setTableView() {
@@ -108,6 +109,7 @@ class RecordViewController: UIViewController {
         recordViewModel = RecordViewModel(with: puppyInfo!)
         guard let viewModel = recordViewModel else { return }
         
+        // INPUT
         let firstLoad = rx.viewWillAppear
             .take(1)
             .map { _ in () }
@@ -120,6 +122,13 @@ class RecordViewController: UIViewController {
             .bind(to: viewModel.input.fetchRecord)
             .disposed(by: bag)
         
+        recordTableView.rx.modelSelected(Record.self)
+            .subscribe(onNext: { record in
+                viewModel.input.recordSubject.onNext(record)
+            }).disposed(by: bag)
+        
+        //OUTPUT
+        
         viewModel.output.recordData
             .bind(to: recordTableView.rx.items(cellIdentifier: C.Cell.record, cellType: RecordTableViewCell.self)) { index, item, cell in
                 cell.bindData(data: item)
@@ -127,11 +136,6 @@ class RecordViewController: UIViewController {
                     .bind(to: viewModel.input.deleteRecordBtnTapped)
                     .disposed(by: cell.bag)
             }.disposed(by: bag)
-        
-        recordTableView.rx.modelSelected(Record.self)
-            .subscribe(onNext: { record in
-                viewModel.input.recordSubject.onNext(record)
-            }).disposed(by: bag)
         
         viewModel.output.errorMessage
             .subscribe(onNext: { [weak self] msg in
