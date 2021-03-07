@@ -8,15 +8,20 @@ target 'WalkMyDog' do
   # Pods for WalkMyDog
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
+
   pod 'GoogleSignIn'
   pod 'FBSDKLoginKit'
   pod 'Alamofire'
   pod 'FSCalendar'
+  pod 'PanModal'
+
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxCoreLocation'
-  
+  pod 'RxViewController'
+
   target 'WalkMyDogTests' do
     inherit! :search_paths
     # Pods for testing

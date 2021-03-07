@@ -27,7 +27,14 @@ extension Date {
         return now - Int(year)!
     }
     
-    func setDateToString() -> String {
+    func setDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        let dateString = dateFormatter.string(from: self)
+        return dateString
+    }
+    
+    func setDateTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE HH:mm"
         let dateString = dateFormatter.string(from: self)

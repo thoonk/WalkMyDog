@@ -13,23 +13,6 @@ import FirebaseStorage
 
 class EditPuppyViewController: UIViewController {
     
-    var puppyInfo: Puppy?
-    var createPuppyViewModel = CreatePuppyViewModel()
-    var fetchPuppyViewModel: FetchPuppyViewModel?
-    var editPuppyViewModel: EditPuppyViewModel?
-    var bag = DisposeBag()
-        
-    lazy var imagePicker: UIImagePickerController = {
-        let picker: UIImagePickerController = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.delegate = self
-        picker.allowsEditing = true
-        return picker
-    }()
-    
-    lazy var profileImage: Observable<UIImage?> = profileImageView.rx.observe(UIImage.self, "image")
-    
-    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
@@ -40,10 +23,50 @@ class EditPuppyViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIButton!
     
+    var puppyInfo: Puppy?
+    var createPuppyViewModel = CreatePuppyViewModel()
+    var fetchPuppyViewModel: FetchPuppyViewModel?
+    var editPuppyViewModel: EditPuppyViewModel?
+    var bag = DisposeBag()
+    
+    private var datePicker: UIDatePicker!
+        
+    lazy var imagePicker: UIImagePickerController = {
+        let picker: UIImagePickerController = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        return picker
+    }()
+    
+    lazy var profileImage: Observable<UIImage?> = profileImageView.rx.observe(UIImage.self, "image")
+
+    
     @objc
     func tapSelectImage(_ sender: Any){
         self.present(self.imagePicker, animated: true, completion: nil)
     }
+    
+    @objc
+    func doneBtnTapped(sender: Any) {
+        self.view.endEditing(true)
+    }
+    
+    @objc
+    func dateChanged(sender: UIDatePicker) {
+        self.birthTextField.text = sender.date.setDate()
+    }
+    
+    @objc
+    func showPicker() {
+        birthTextField.becomeFirstResponder()
+    }
+    
+    @objc
+    func dismissPicker() {
+        birthTextField.resignFirstResponder()
+    }
+
     
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
@@ -93,6 +116,25 @@ class EditPuppyViewController: UIViewController {
             deleteButton.isHidden = true
 
             setCreateViewModelBindings()
+        }
+        
+        self.datePicker = UIDatePicker()
+        
+        let textFieldBar = setKeyboardDoneBtn(for: #selector(doneBtnTapped(sender:)))
+        nameTextField.inputAccessoryView = textFieldBar
+        speciesTextField.inputAccessoryView = textFieldBar
+        weightTextField.inputAccessoryView = textFieldBar
+        
+        if let picker = self.datePicker {
+            picker.sizeToFit()
+            
+            picker.datePickerMode = .date
+            picker.preferredDatePickerStyle = .wheels
+            picker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
+            
+            let datePickerBar = setKeyboardDoneBtn(for: #selector(dismissPicker))
+            birthTextField.inputView = picker
+            birthTextField.inputAccessoryView = datePickerBar
         }
     }
     

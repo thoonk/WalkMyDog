@@ -125,7 +125,7 @@ class EditRecordViewController: UIViewController {
     
     @objc
     func dateChanged(sender: UIDatePicker) {
-        self.datePickerTextField.text = sender.date.setDateToString()
+        self.datePickerTextField.text = sender.date.setDateTime()
     }
     
     @objc
