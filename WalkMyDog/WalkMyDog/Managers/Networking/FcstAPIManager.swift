@@ -148,16 +148,16 @@ class FcstAPIManager {
                     }
                 }
             }
-        
             // 날씨예보 개수만큼 맞추기
-            for _ in 0..<4 {
+            for _ in 0..<3 {
+                pmDay = []
                 for _ in 0..<3 {
-                    let nilPM = PMModel(dateTime: "-", pm10: -0.1234, pm25: -0.1234)
+                    let nilPM = PMModel(dateTime: "-", pm10: -1.234, pm25: -1.234)
                     pmDay.append(nilPM)
                 }
                 pms.append(pmDay)
             }
-
+            
             return pms
         } catch {
             print("PM Fcst JSON Error: \(error.localizedDescription)")

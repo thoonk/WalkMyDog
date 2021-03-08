@@ -53,17 +53,7 @@ class WeatherViewController: UIViewController {
         output.fcstData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.weather, cellType: WeatherTableViewCell.self)) { index, item, cell in
                 
-                cell.dateLabel.text = item.weekWeather?.dateTime
-                cell.tempLabel.text = "\(item.weekWeather?.maxTempString ?? "-") / \(item.weekWeather?.minTempString ?? "-")"
-                cell.weatherImageView.image = UIImage(systemName: item.weekWeather?.conditionName ?? "sum.max")
-                
-                let morningPM: PMModel = item.weekPM![0]
-                let launchPM: PMModel = item.weekPM![1]
-                let dinnerPM: PMModel = item.weekPM![2]
-                
-                cell.morningPMLabel.text = "\(morningPM.pm10Status) / \(morningPM.pm25Status)"
-                cell.launchPMLabel.text = "\(launchPM.pm10Status) / \(launchPM.pm25Status)"
-                cell.dinnerPMLabel.text = "\(dinnerPM.pm10Status) / \(dinnerPM.pm25Status)"
+                cell.bindData(data: item)
                 
             }.disposed(by: bag)
     }
