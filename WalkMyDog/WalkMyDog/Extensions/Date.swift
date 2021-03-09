@@ -13,9 +13,9 @@ extension Date {
         if dateFormat == "day" {
             dateFormatter.dateFormat = "EEEE"
         } else if dateFormat == "normal" {
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+            dateFormatter.dateFormat = "yyyy-M-d HH:mm"
         } else if dateFormat == "short" {
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "yyyy-M-d"
         }
         dateFormatter.timeZone = TimeZone(identifier: id)
         return dateFormatter.string(from: self)
@@ -29,14 +29,21 @@ extension Date {
     
     func setDate() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.dateFormat = "yyyy년 M월 d일"
         let dateString = dateFormatter.string(from: self)
         return dateString
     }
     
     func setDateTime() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 EEEE HH:mm"
+        dateFormatter.dateFormat = "yyyy년 M월 d일 EEEE HH:mm"
+        let dateString = dateFormatter.string(from: self)
+        return dateString
+    }
+    
+    func setDay() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.string(from: self)
         return dateString
     }

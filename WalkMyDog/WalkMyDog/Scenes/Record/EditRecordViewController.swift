@@ -27,10 +27,6 @@ class EditRecordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if checkedPuppy != nil {
-            print("Checked puppy: \(checkedPuppy!)")
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

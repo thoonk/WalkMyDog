@@ -13,17 +13,8 @@ import RxViewController
 
 class RecordViewController: UIViewController {
     
-    var puppyInfo: Puppy?
-    var recordViewModel: RecordViewModel?
-    var bag = DisposeBag()
-    
-    var currentPage: Date?
-    lazy var today: Date = {
-        return Date()
-    }()
-    
     @IBOutlet weak var recordTableView: UITableView!
-    @IBOutlet weak var calendarView: FSCalendar!
+    @IBOutlet weak var walkCalendarView: FSCalendar!
     @IBOutlet weak var headerLabel: UILabel!
     
     @IBAction func prevBtnTapped(_ sender: UIButton) {
@@ -34,44 +25,34 @@ class RecordViewController: UIViewController {
         scrollCurrentPage(isPrev: false)
     }
     
-    func setCalendar() {
-        calendarView.delegate = self
-        calendarView.dataSource = self
-        
-        calendarView.locale = Locale(identifier: "ko_KR")
-        calendarView.headerHeight = 0
-        calendarView.scope = .month
-        
-        headerLabel.adjustsFontSizeToFitWidth = true
-        
-        //        calendarView.appearance.headerMinimumDissolvedAlpha = 0
-        //        calendarView.appearance.headerDateFormat = "yyyy년 M월"
-        //        calendarView.appearance.headerTitleColor = .black
-        //        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20)
-        calendarView.appearance.weekdayTextColor = .systemIndigo
-        calendarView.appearance.todayColor = .cyan
-    }
+    var puppyInfo: Puppy?
+    private var recordViewModel: RecordViewModel?
+    private var bag = DisposeBag()
     
-    func scrollCurrentPage(isPrev: Bool) {
-        let cal = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = isPrev ? -1 : 1
-        
-        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
-    }
+    private var dateInfo: [Date] = []
+    private var currentPage: Date?
+    private lazy var today: Date = {
+        return Date()
+    }()
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ko_KR")
+        df.dateFormat = "yyyy년 M월"
+        return df
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if puppyInfo != nil {
+            setRecordBinding()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        setTableView()
-        if puppyInfo != nil {
-            setRecordBinding()
-        }
+        setUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,7 +77,12 @@ class RecordViewController: UIViewController {
         self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: checkedPuppy)
     }
     
-    func setTableView() {
+    private func setUI() {
+        setTableView()
+        setCalendar()
+    }
+    
+    private func setTableView() {
         recordTableView.rx.setDelegate(self)
             .disposed(by: bag)
         
@@ -104,7 +90,7 @@ class RecordViewController: UIViewController {
         recordTableView.delaysContentTouches = false
     }
     
-    func setRecordBinding() {
+    private func setRecordBinding() {
         
         recordViewModel = RecordViewModel(with: puppyInfo!)
         guard let viewModel = recordViewModel else { return }
@@ -128,7 +114,6 @@ class RecordViewController: UIViewController {
             }).disposed(by: bag)
         
         //OUTPUT
-        
         viewModel.output.recordData
             .bind(to: recordTableView.rx.items(cellIdentifier: C.Cell.record, cellType: RecordTableViewCell.self)) { index, item, cell in
                 cell.bindData(data: item)
@@ -137,6 +122,12 @@ class RecordViewController: UIViewController {
                     .disposed(by: cell.bag)
             }.disposed(by: bag)
         
+        viewModel.output.timeStamp
+            .subscribe(onNext: { [weak self] data in
+                self?.dateInfo = data
+                self?.walkCalendarView.reloadData()
+            }).disposed(by: bag)
+        
         viewModel.output.errorMessage
             .subscribe(onNext: { [weak self] msg in
                 self?.showAlert("산책 기록 로딩 실패", msg)
@@ -144,24 +135,51 @@ class RecordViewController: UIViewController {
     }
 }
 
+// MARK: - FSCalendar
 extension RecordViewController: FSCalendarDataSource, FSCalendarDelegate {
-    // 캘린더 이벤트 등록
-    //    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-    //        if self.events.contains(date) {
-    //            return 1
-    //        } else {
-    //            return 0
-    //        }
-    //    }
-    //
-    //    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-    //        let dateFormatter = DateFormatter()
-    //        dateFormatter.locale = Locale(identifier: "ko_KR")
-    //        dateFormatter.dateFormat = "yyyy년 M월"
-    //        self.headerLabel.text = dateFormatter.string(from: calendar.currentPage)
-    //    }
+    
+    private func setCalendar() {
+        walkCalendarView.delegate = self
+        walkCalendarView.dataSource = self
+        
+        walkCalendarView.locale = Locale(identifier: "ko_KR")
+        walkCalendarView.headerHeight = 0
+        walkCalendarView.scope = .month
+        walkCalendarView.appearance.weekdayTextColor = .lightGray
+        walkCalendarView.appearance.todayColor = .systemIndigo
+        walkCalendarView.placeholderType = .none
+        
+        headerLabel.text = self.dateFormatter.string(from: walkCalendarView.currentPage)
+        headerLabel.adjustsFontSizeToFitWidth = true
+    }
+    
+    private func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        
+        self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.walkCalendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.headerLabel.text = self.dateFormatter.string(from: calendar.currentPage)
+    }
+
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        if self.dateInfo.contains(date) {
+            return UIImage(named: "dog-paw-48")?.resized(to: CGSize(width: 15, height: 15))
+        } else {
+            return nil
+        }
+    }
+    
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        return false
+    }
 }
 
+// MARK: - TableViewDelegate
 extension RecordViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

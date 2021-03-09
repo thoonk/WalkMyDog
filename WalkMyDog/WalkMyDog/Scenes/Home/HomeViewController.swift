@@ -20,8 +20,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var pm10Label: UILabel!
-    @IBOutlet weak var pm25Label: UILabel!
+    @IBOutlet weak var pm10ImageView: UIImageView!
+    @IBOutlet weak var pm25ImageView: UIImageView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var puppyProfileTableView: UITableView!
     @IBOutlet weak var recordView: UIView!
@@ -65,7 +65,7 @@ class HomeViewController: UIViewController {
     
     func setUI() {
         puppyProfileTableView.separatorStyle = .none
-        
+        locationLabel.adjustsFontSizeToFitWidth = true
         weatherView.layer.cornerRadius = 10
         weatherView.layer.borderWidth = 1.0
         weatherView.layer.borderColor = UIColor.black.cgColor
@@ -110,11 +110,14 @@ class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         output.pm10Status
-            .bind(to: pm10Label.rx.text)
+            .map { UIImage(named: $0) }
+            .observe(on: MainScheduler.instance)
+            .bind(to: pm10ImageView.rx.image)
             .disposed(by: bag)
         
         output.pm25Status
-            .bind(to: pm25Label.rx.text)
+            .map { UIImage(named: $0) }
+            .bind(to: pm25ImageView.rx.image)
             .disposed(by: bag)
     }
     
