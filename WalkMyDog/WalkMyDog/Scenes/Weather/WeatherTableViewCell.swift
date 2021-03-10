@@ -19,6 +19,7 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var morningPM25ImageView: UIImageView!
     @IBOutlet weak var launchPM25ImageView: UIImageView!
     @IBOutlet weak var dinnerPM25ImageView: UIImageView!
+    @IBOutlet weak var rcmdImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,13 +27,8 @@ class WeatherTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         pmTitleLabel.text = "미세 / 초미세"
     }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
     
     func bindData(data: FcstModel) {
-                
         dateLabel.text = data.weekWeather?.dateTime
         tempLabel.text = "\(data.weekWeather?.maxTempString ?? "-") / \(data.weekWeather?.minTempString ?? "-")"
         weatherImageView.image = UIImage(systemName: data.weekWeather?.conditionName ?? "sum.max")
@@ -40,14 +36,16 @@ class WeatherTableViewCell: UITableViewCell {
         let morningPM: PMModel = data.weekPM![0]
         let launchPM: PMModel = data.weekPM![1]
         let dinnerPM: PMModel = data.weekPM![2]
+                
+        morningPM10ImageView.image = UIImage(named: morningPM.pm10Image)
+        morningPM25ImageView.image = UIImage(named: morningPM.pm25Image)
         
-        morningPM10ImageView.image = UIImage(named: morningPM.pm10Status)
-        morningPM25ImageView.image = UIImage(named: morningPM.pm25Status)
+        launchPM10ImageView.image = UIImage(named: launchPM.pm10Image)
+        launchPM25ImageView.image = UIImage(named: launchPM.pm25Image)
         
-        launchPM10ImageView.image = UIImage(named: launchPM.pm10Status)
-        launchPM25ImageView.image = UIImage(named: launchPM.pm25Status)
+        dinnerPM10ImageView.image = UIImage(named: dinnerPM.pm10Image)
+        dinnerPM25ImageView.image = UIImage(named: dinnerPM.pm25Image)
         
-        dinnerPM10ImageView.image = UIImage(named: dinnerPM.pm10Status)
-        dinnerPM25ImageView.image = UIImage(named: dinnerPM.pm25Status)
+        rcmdImageView.image = UIImage(named: data.weekPM![1].rcmdImage)
     }
 }

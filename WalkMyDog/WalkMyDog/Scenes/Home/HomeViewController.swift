@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var puppyProfileTableView: UITableView!
     @IBOutlet weak var recordView: UIView!
+    @IBOutlet weak var rcmdLabel: UILabel!
     @IBOutlet weak var addRecordBtn: UIButton!
     
     @IBAction func settingBtnTapped(_ sender: UIButton) {
@@ -109,15 +110,19 @@ class HomeViewController: UIViewController {
             .bind(to: tempLabel.rx.text)
             .disposed(by: bag)
         
-        output.pm10Status
+        output.pm10Image
             .map { UIImage(named: $0) }
             .observe(on: MainScheduler.instance)
             .bind(to: pm10ImageView.rx.image)
             .disposed(by: bag)
         
-        output.pm25Status
+        output.pm25Image
             .map { UIImage(named: $0) }
             .bind(to: pm25ImageView.rx.image)
+            .disposed(by: bag)
+        
+        output.rcmdStatus
+            .bind(to: rcmdLabel.rx.text)
             .disposed(by: bag)
     }
     

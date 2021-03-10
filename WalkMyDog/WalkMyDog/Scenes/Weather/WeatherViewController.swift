@@ -52,9 +52,7 @@ class WeatherViewController: UIViewController {
             
         output.fcstData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.weather, cellType: WeatherTableViewCell.self)) { index, item, cell in
-                
                 cell.bindData(data: item)
-                
             }.disposed(by: bag)
     }
 }

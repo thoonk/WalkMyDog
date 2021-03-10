@@ -26,8 +26,9 @@ class CurrentViewModel: ViewModelType {
         let conditionName: Observable<String>
         let temperature: Observable<String>
         
-        let pm10Status: Observable<String>
-        let pm25Status: Observable<String>
+        let pm10Image: Observable<String>
+        let pm25Image: Observable<String>
+        let rcmdStatus: Observable<String>
         
         let errorMessage: Observable<String>
     }
@@ -79,22 +80,29 @@ class CurrentViewModel: ViewModelType {
                 data.temperatureString
             }
                 
-        let pm10Status = pmSubject
+        let pm10Image = pmSubject
             .map { data in
-                data.pm10Status
+                data.pm10Image
             }
         
-        let pm25Status = pmSubject
+        let pm25Image = pmSubject
             .map { data in
-                data.pm25Status
+                data.pm25Image
             }
+        
+        let rcmdStatus = pmSubject
+            .map { data in
+                data.rcmdStatus
+            }
+        
         
         output = Output(isLoading: isLoading,
                         locationName: locationName,
                         conditionName: conditionName,
                         temperature: temperature,
-                        pm10Status: pm10Status,
-                        pm25Status: pm25Status,
+                        pm10Image: pm10Image,
+                        pm25Image: pm25Image,
+                        rcmdStatus: rcmdStatus,
                         errorMessage: error)
     }
 }
