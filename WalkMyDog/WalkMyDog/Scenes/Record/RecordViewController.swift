@@ -45,14 +45,15 @@ class RecordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if puppyInfo != nil {
-            setRecordBinding()
-        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUI()
+        if puppyInfo != nil {
+            setRecordBinding()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,7 +137,7 @@ class RecordViewController: UIViewController {
 }
 
 // MARK: - FSCalendar
-extension RecordViewController: FSCalendarDataSource, FSCalendarDelegate {
+extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     private func setCalendar() {
         walkCalendarView.delegate = self

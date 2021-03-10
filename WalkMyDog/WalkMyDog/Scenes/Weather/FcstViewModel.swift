@@ -40,7 +40,11 @@ class FcstViewModel: ViewModelType {
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { [weak self] data in
-                self?.fcstSubject.onNext(data)
+                var changedData = data
+                var first = changedData.removeFirst()
+                first.weekWeather?.dateTime = "오늘"
+                changedData.insert(first, at: 0)
+                self?.fcstSubject.onNext(changedData)
             }, onError: { err in
                 error.onNext(err.localizedDescription)
             }).disposed(by: bag)

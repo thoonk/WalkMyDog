@@ -11,14 +11,14 @@ struct WeatherFcst {
     let conditionId: Int
     let minTemp: Double
     let maxTemp: Double
-    let dateTime: String
+    var dateTime: String
     
     var minTempString: String {
-        return String(format: "%.1f", minTemp)
+        return String(format: "%.1f", minTemp) + "°"
     }
     
     var maxTempString: String {
-        return String(format: "%.1f", maxTemp)
+        return String(format: "%.1f", maxTemp) + "°"
     }
     
     var conditionName: String {
@@ -48,7 +48,7 @@ struct WeatherCurrent {
     let temperature: Double
     
     var temperatureString: String {
-        return String(format: "%.1f", temperature)
+        return String(format: "%.1f", temperature) + "°"
     }
     
     var conditionName: String {

@@ -78,23 +78,29 @@ class SettingViewController: UIViewController {
 extension SettingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 20, y: 10, width: 400, height: 40))
+        let headerView = UIView(frame: CGRect(x: 20, y: 0, width: 400, height: 50))
         headerView.isUserInteractionEnabled = true
         
-        let sectionImageView = UIImageView(frame: CGRect(x: 20, y: 12, width: 20, height: 20))
+        let sectionImageView = UIImageView(frame: CGRect(x: 20, y: 15, width: 24, height: 24))
         sectionImageView.image = UIImage(named: "dog-24")
+
+        sectionImageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        sectionImageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
-        let sectionLabel = UILabel(frame: CGRect(x: 45, y: 10, width: 100, height: 25))
+        
+        let sectionLabel = UILabel(frame: CGRect(x: 50, y: 10, width: 100, height: 37))
+        sectionLabel.font = UIFont.systemFont(ofSize: 17.0)
         sectionLabel.text = "반려견"
         
-        let addPuppyBtn = UIButton(frame: CGRect(x: 320, y: 10, width: 80, height: 25))
+        let addPuppyBtn = UIButton(frame: CGRect(x: 320, y: 10, width: 60, height: 37))
+        
         addPuppyBtn.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         addPuppyBtn.isUserInteractionEnabled = true
         addPuppyBtn.isEnabled = true
         addPuppyBtn.tintColor = .lightGray
         addPuppyBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
         
-        let underBar = UIView(frame: CGRect(x: 20, y: 37, width: 350, height: 1))
+        let underBar = UIView(frame: CGRect(x: 20, y: 48, width: 340, height: 1))
         underBar.backgroundColor = .lightGray
         
         headerView.addSubview(sectionImageView)
@@ -106,6 +112,6 @@ extension SettingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 50
     }
 }
