@@ -48,7 +48,7 @@ final class FIRStoreManager {
     
     // MARK: - About PuppyInfo
     /// 강쥐 정보 등록
-    func createPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+    func createPuppyInfo(for puppy: Puppy, with ref: FIRStoreRef, completion: @escaping (Bool, String?, Error?) -> Void) {
         createDocument(for: puppy, with: ref, completion: completion)
     }
     
@@ -79,7 +79,7 @@ final class FIRStoreManager {
     
     // MARK: - About RecordInfo
     /// 산책 기록 생성
-    func createRecordInfo(for record: Record, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+    func createRecordInfo(for record: Record, with ref: FIRStoreRef, completion: @escaping (Bool, String?, Error?) -> Void) {
         createDocument(for: record, with: ref, completion: completion)
     }
     /// 모든 산책 기록 읽기
@@ -102,18 +102,18 @@ final class FIRStoreManager {
     }
     
     // MARK: - CRUD Template
-    private func createDocument<T: Encodable>(for newObject: T, with ref: FIRStoreRef, completion: @escaping (Bool, Error?) -> Void) {
+    private func createDocument<T: Encodable>(for newObject: T, with ref: FIRStoreRef, completion: @escaping (Bool, String?, Error?) -> Void) {
         collection = db.collection(ref.path)
         do {
             let json = try newObject.toJson(excluding: ["id"])
             if collection != nil {
-                collection!.addDocument(data: json) { error in
+                document = collection!.addDocument(data: json) { error in
                     if error != nil {
                         print("Error writing docs: \(error!)")
-                        completion(false, error)
+                        completion(false, nil, error)
                     } else {
-                        print("Writing Succeded")
-                        completion(true, nil)
+                        print("Writing doc Succeded")
+                        completion(true, self.document!.documentID, nil)
                     }
                 }
             }
@@ -156,7 +156,6 @@ final class FIRStoreManager {
                     var objects = [T]()
                     for doc in querySnapshot!.documents {
                         let object: T = try doc.decode(as: encodableObject.self)
-                        print(object)
                         objects.append(object)
                     }
                     completion(.success(objects))
@@ -174,15 +173,14 @@ final class FIRStoreManager {
         do {
             let json = try newObject.toJson(excluding: ["id"])
             guard let id = newObject.id else { throw FIRError.encodingError }
-            print(id)
             
             collection?.document(id)
                 .setData(json) { err in
                     if err != nil {
-                        print("Error updating docs: \(err!.localizedDescription)")
+                        print("Error updating doc: \(err!.localizedDescription)")
                         completion(false, err!)
                     } else {
-                        print("Updating Succeded")
+                        print("Updating doc Succeded")
                         completion(true, nil)
                     }
                 }
@@ -199,10 +197,10 @@ final class FIRStoreManager {
         collection?.document(id)
             .delete() { err in
                 if err != nil {
-                    print("Error writing docs: \(err!.localizedDescription)")
+                    print("Error deleting doc: \(err!.localizedDescription)")
                     completion(false, err!)
                 } else {
-                    print("Deleting Succeded")
+                    print("Deleting doc Succeded")
                     completion(true, nil)
                 }
             }

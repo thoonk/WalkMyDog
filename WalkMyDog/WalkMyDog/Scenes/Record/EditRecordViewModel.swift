@@ -40,7 +40,7 @@ class EditRecordViewModel: ViewModelType {
                 let record = Record(timeStamp: timeStamp, walkInterval: interval, walkDistance: distance)
                 
                 for puppy in selectedPuppy {
-                    FIRStoreManager.shared.createRecordInfo(for: record, with: .record(puppyId: puppy.id!)) { (isSuccess, err) in
+                    FIRStoreManager.shared.createRecordInfo(for: record, with: .record(puppyId: puppy.id!)) { (isSuccess, id, err) in
                         if isSuccess == true {
                             self?.output.goToHome.accept(())
                         } else {
