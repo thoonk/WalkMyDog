@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Photos
-import FirebaseStorage
+import Kingfisher
 
 class EditPuppyViewController: UIViewController {
     
@@ -262,9 +262,14 @@ class EditPuppyViewController: UIViewController {
             return
         }
         // OUTPUT
-        viewModel.output.profileImage
-            .bind(to: profileImageView.rx.image)
-            .disposed(by: bag)
+        viewModel.output.profileImageUrl
+            .subscribe(onNext: { urlString in
+                if urlString != nil {
+                    self.profileImageView.setImage(with: urlString!)
+                } else {
+                    self.profileImageView.image = UIImage(named: "profileImage-100")
+                }
+            }).disposed(by: bag)
         
         viewModel.output.puppyNameText
             .bind(to: nameTextField.rx.text)

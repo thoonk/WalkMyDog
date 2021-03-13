@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PuppyProfileTableViewCell: UITableViewCell {
 
@@ -27,15 +28,14 @@ class PuppyProfileTableViewCell: UITableViewCell {
         puppyImageView.layer.cornerRadius = puppyImageView.frame.height / 2.0
         puppyImageView.layer.masksToBounds = true
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     func bindData(with data: Puppy) {
-//        puppyImageView.image = UIImage(named: "ang")
+        if data.imageUrl != nil {
+            puppyImageView.setImage(with: data.imageUrl!)
+        } else {
+            puppyImageView.image = UIImage(named: "profileImage-100")
+        }
+        
         puppyNameLabel.text = data.name
         puppySpeciesLabel.text = data.species
         puppyAgeLabel.text = "\(Date().computeAge(with: data.age).description) 살"

@@ -16,7 +16,7 @@ class FetchPuppyViewModel: ViewModelType {
     
     struct Output {
         // 강쥐 정보
-        let profileImage: Observable<UIImage>
+        let profileImageUrl: Observable<String?>
         let puppyNameText: Observable<String>
         let puppySpeciesText: Observable<String>
         let puppyWeightText: Observable<String>
@@ -35,16 +35,8 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyWeight = puppyInfo.map { "\($0.weight)" }
         let puppyBirth = puppyInfo.map { $0.age }
         let puppyGender = puppyInfo.map { $0.gender }
-        let puppyImageUrl = selectedItem.imageUrl
+        let puppyImageUrl = puppyInfo.map { $0.imageUrl }
         
-        var profileImage: Observable<UIImage>
-        
-        if selectedItem.imageUrl != nil {
-            profileImage = StorageManager.shared.loadImage(from: puppyImageUrl!)
-        } else {
-            profileImage = Observable.just(UIImage(named: "profileImage-100")!)
-        }
-            
-        self.output = Output(profileImage: profileImage, puppyNameText: puppyName, puppySpeciesText: puppySpecies, puppyWeightText: puppyWeight, puppyBirthText: puppyBirth, puppyGender: puppyGender)
+        self.output = Output(profileImageUrl: puppyImageUrl, puppyNameText: puppyName, puppySpeciesText: puppySpecies, puppyWeightText: puppyWeight, puppyBirthText: puppyBirth, puppyGender: puppyGender)
     }
 }

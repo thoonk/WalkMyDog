@@ -357,6 +357,7 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
+  - Kingfisher (6.2.1)
   - leveldb-library (1.22)
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
@@ -389,6 +390,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FSCalendar
   - GoogleSignIn
+  - Kingfisher (~> 6.0)
   - PanModal
   - RxCocoa
   - RxCoreLocation
@@ -420,6 +422,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - Kingfisher
     - leveldb-library
     - nanopb
     - PanModal
@@ -454,6 +457,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
@@ -464,6 +468,6 @@ SPEC CHECKSUMS:
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
 
-PODFILE CHECKSUM: 4bcb00a0a44a5271475c495481903f9cfb7ba8ff
+PODFILE CHECKSUM: 0c7a6e2e1dc0b8ce2d5d8d29e6234eef08237c00
 
 COCOAPODS: 1.10.1
