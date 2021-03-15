@@ -14,8 +14,14 @@ import RxViewController
 class RecordViewController: UIViewController {
     
     @IBOutlet weak var recordTableView: UITableView!
-    @IBOutlet weak var walkCalendarView: FSCalendar!
+    @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var walkCalendarView: UIView!
+    @IBOutlet weak var sumAvgRecordView: UIView!
+    @IBOutlet weak var sumIntervalLabel: UILabel!
+    @IBOutlet weak var sumDistLabel: UILabel!
+    @IBOutlet weak var avgIntervalLabel: UILabel!
+    @IBOutlet weak var avgDistLabel: UILabel!
     
     @IBAction func prevBtnTapped(_ sender: UIButton) {
         scrollCurrentPage(isPrev: true)
@@ -41,12 +47,6 @@ class RecordViewController: UIViewController {
         df.dateFormat = "yyyy년 M월"
         return df
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -81,6 +81,7 @@ class RecordViewController: UIViewController {
     private func setUI() {
         setTableView()
         setCalendar()
+        sumAvgRecordView.layer.cornerRadius = 10
     }
     
     private func setTableView() {
@@ -89,6 +90,7 @@ class RecordViewController: UIViewController {
         
         recordTableView.separatorStyle = .none
         recordTableView.delaysContentTouches = false
+        recordTableView.layer.cornerRadius = 10
     }
     
     private func setRecordBinding() {
@@ -110,9 +112,19 @@ class RecordViewController: UIViewController {
             .disposed(by: bag)
         
         recordTableView.rx.modelSelected(Record.self)
+            .debug()
             .subscribe(onNext: { record in
                 viewModel.input.recordSubject.onNext(record)
             }).disposed(by: bag)
+
+        // disposed되지 않고 값이 바뀌면 방출되도록 해야 함
+        Observable.of(calendarView.currentPage)
+            .debug()
+//            .subscribe(onNext: { current in
+//                viewModel.input.currentDate.onNext(current)
+//            })
+            .bind(to: viewModel.input.currentDate)
+            .disposed(by: bag)
         
         //OUTPUT
         viewModel.output.recordData
@@ -126,13 +138,29 @@ class RecordViewController: UIViewController {
         viewModel.output.timeStamp
             .subscribe(onNext: { [weak self] data in
                 self?.dateInfo = data
-                self?.walkCalendarView.reloadData()
+                self?.calendarView.reloadData()
             }).disposed(by: bag)
         
         viewModel.output.errorMessage
             .subscribe(onNext: { [weak self] msg in
                 self?.showAlert("산책 기록 로딩 실패", msg)
             }).disposed(by: bag)
+        
+        viewModel.output.sumInterval
+            .bind(to: sumIntervalLabel.rx.text)
+            .disposed(by: bag)
+        
+        viewModel.output.avgInterval
+            .bind(to: avgIntervalLabel.rx.text)
+            .disposed(by: bag)
+        
+        viewModel.output.sumDist
+            .bind(to: sumDistLabel.rx.text)
+            .disposed(by: bag)
+        
+        viewModel.output.avgDist
+            .bind(to: avgDistLabel.rx.text)
+            .disposed(by: bag)
     }
 }
 
@@ -140,17 +168,19 @@ class RecordViewController: UIViewController {
 extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     private func setCalendar() {
-        walkCalendarView.delegate = self
-        walkCalendarView.dataSource = self
+        calendarView.delegate = self
+        calendarView.dataSource = self
         
-        walkCalendarView.locale = Locale(identifier: "ko_KR")
-        walkCalendarView.headerHeight = 0
-        walkCalendarView.scope = .month
-        walkCalendarView.appearance.weekdayTextColor = .lightGray
-        walkCalendarView.appearance.todayColor = .systemIndigo
-        walkCalendarView.placeholderType = .none
+        walkCalendarView.layer.cornerRadius = 10
+        walkCalendarView.layer.masksToBounds = true
+        calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.headerHeight = 0
+        calendarView.scope = .month
+        calendarView.appearance.weekdayTextColor = .lightGray
+        calendarView.appearance.todayColor = .systemIndigo
+        calendarView.placeholderType = .none
         
-        headerLabel.text = self.dateFormatter.string(from: walkCalendarView.currentPage)
+        headerLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
         headerLabel.adjustsFontSizeToFitWidth = true
     }
     
@@ -160,7 +190,7 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
         dateComponents.month = isPrev ? -1 : 1
         
         self.currentPage = cal.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.walkCalendarView.setCurrentPage(self.currentPage!, animated: true)
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
@@ -169,7 +199,7 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
 
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
         if self.dateInfo.contains(date) {
-            return UIImage(named: "dog-paw-48")?.resized(to: CGSize(width: 15, height: 15))
+            return UIImage(named: "dog-paw-48")?.resized(to: CGSize(width: 10, height: 10))
         } else {
             return nil
         }

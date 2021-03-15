@@ -9,16 +9,16 @@ import Foundation
 
 extension Date {
     func toLocalized(with id: String, by dateFormat: String) -> String {
-        let dateFormatter = DateFormatter()
+        let formatter = DateFormatter()
         if dateFormat == "day" {
-            dateFormatter.dateFormat = "EEEE"
+            formatter.dateFormat = "EEEE"
         } else if dateFormat == "normal" {
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+            formatter.dateFormat = "yyyy-MM-dd HH:mm"
         } else if dateFormat == "short" {
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            formatter.dateFormat = "yyyy-MM-dd"
         }
-        dateFormatter.timeZone = TimeZone(identifier: id)
-        return dateFormatter.string(from: self)
+        formatter.timeZone = TimeZone(identifier: id)
+        return formatter.string(from: self)
     }
     
     func computeAge(with date: String) -> Int {
@@ -28,9 +28,9 @@ extension Date {
     }
     
     func setDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 M월 d일"
-        let dateString = dateFormatter.string(from: self)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 M월 d일"
+        let dateString = formatter.string(from: self)
         return dateString
     }
     
@@ -42,10 +42,18 @@ extension Date {
     }
     
     func setDay() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d"
-        let dateString = dateFormatter.string(from: self)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        let dateString = formatter.string(from: self)
         return dateString
+    }
+    
+    func isEqual(to date: Date) -> Bool {
+        let calendar = Calendar.current
+        let component1 = calendar.dateComponents([.year, .month], from: self)
+        let component2 = calendar.dateComponents([.year, .month], from: date)
+        
+        return component1 == component2 ? true : false
     }
 }
 

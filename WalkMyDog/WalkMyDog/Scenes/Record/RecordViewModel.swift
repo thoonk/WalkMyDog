@@ -19,11 +19,16 @@ class RecordViewModel: ViewModelType {
         let deleteRecordBtnTapped = PublishSubject<Void>()
         let recordSubject = PublishSubject<Record>()
         var fetchRecord = PublishSubject<Void>()
+        var currentDate = PublishSubject<Date>()
     }
     
     struct Output {
         let recordData = PublishRelay<[Record]>()
         let timeStamp = PublishRelay<[Date]>()
+        let sumInterval = PublishRelay<String>()
+        let avgInterval = PublishRelay<String>()
+        let sumDist = PublishRelay<String>()
+        let avgDist = PublishRelay<String>()
         let errorMessage = PublishRelay<String>()
     }
     
@@ -50,6 +55,41 @@ class RecordViewModel: ViewModelType {
                 }
                 self?.output.timeStamp.accept(times)
             }).disposed(by: bag)
+        
+        Observable.combineLatest(input.currentDate, output.recordData)
+            .debug()
+            .bind { [weak self] (current, record) in
+                var dist = [Int]()
+                var interval = [Int]()
+
+                for i in record.indices {
+                    if current.isEqual(to: record[i].timeStamp.toDate()) {
+                        dist.append(Int(record[i].walkDistance)!)
+                        interval.append(Int(record[i].walkInterval)!)
+                    }
+                }
+                
+                if dist.count > 0 {
+                    let sumInterval = interval.reduce(0,+)
+                    let sumDist = dist.reduce(0,+)
+                    let avgInterval = sumInterval/interval.count
+                    let avgDist = sumDist/dist.count
+                    
+                    self?.output.sumInterval.accept("\(sumInterval/60) : \(sumInterval%60)")
+                    self?.output.sumDist.accept("\(round(Double(sumDist)/1000*100)/100)km")
+                    self?.output.avgInterval.accept("\(avgInterval/60) : \(avgInterval%60)")
+                    self?.output.avgDist.accept("\(round(Double(avgDist)/1000*100)/100)km")
+                } else {
+                    self?.output.sumInterval.accept("00:00")
+                    self?.output.sumDist.accept("0 km")
+                    self?.output.avgInterval.accept("00:00")
+                    self?.output.avgDist.accept("0 km")
+                }
+            }
+            .disposed(by: bag)
+//            .subscribe(onNext: { [weak self] (current, record) in
+                
+//            }).disposed(by: bag)
         
         input.deleteRecordBtnTapped.withLatestFrom(input.recordSubject)
             .bind { [weak self] record in
