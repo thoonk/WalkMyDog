@@ -8,14 +8,14 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import RxViewController
 
 class WeatherViewController: UIViewController {
-    
-    let viewModel = FcstViewModel()
-    var bag = DisposeBag()
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
+    var viewModel: FcstViewModel?
+    var bag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +23,8 @@ class WeatherViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tableView.rowHeight = 120
+        tableView.refreshControl = UIRefreshControl()
         setBinding()
     }
     
@@ -32,12 +34,27 @@ class WeatherViewController: UIViewController {
     }
     
     func setBinding() {
-        let locationManager = LocationManager.shared
-        let input = FcstViewModel.Input(location: locationManager.location, placemark: locationManager.placemark)
-        let output = viewModel.bind(input: input)
+        viewModel = FcstViewModel()
+        let output = viewModel!.output
         
-        output.isLoading
+        let firstLoad = rx.viewWillAppear
+            .take(1)
+            .map { _ in () }
+        let reload = tableView.refreshControl?.rx
+            .controlEvent(.valueChanged)
+            .map { _ in () } ?? Observable.just(())
+        
+        Observable.merge([firstLoad, reload])
+            .bind(to: viewModel!.input.fetchFcst)
+            .disposed(by: bag)
+        
+        output.loaded
             .map { !$0 }
+            .do(onNext: { [weak self] ended in
+                if ended {
+                    self?.tableView.refreshControl?.endRefreshing()
+                }
+            })
             .bind(to: activityIndicatorView.rx.isHidden)
             .disposed(by: bag)
         

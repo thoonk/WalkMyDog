@@ -10,55 +10,67 @@ import RxSwift
 import CoreLocation
 import RxCocoa
 
-class FcstViewModel: ViewModelType {
-    
-    private var fcstSubject = PublishSubject<[FcstModel]>()
-    
+final class FcstViewModel: ViewModelType {
+        
+    var input: Input
+    var output: Output
     var bag: DisposeBag = DisposeBag()
     
     struct Input {
         let location: ReplaySubject<CLLocation>
         let placemark: ReplaySubject<CLPlacemark>
+        var fetchFcst: AnyObserver<Void>
     }
     
     struct Output {
         let fcstData: Observable<[FcstModel]>
         let locationName: Observable<String>
-        let isLoading: BehaviorSubject<Bool>
+        let loaded: Observable<Bool>
         let errorMessage: Observable<String>
     }
     
-    func bind(input: Input) -> Output {
+    init() {
+        let fetching = PublishSubject<Void>()
         let isLoading = BehaviorSubject<Bool>(value: false)
         let error = PublishSubject<String>()
-                
-        input.location
-            .take(1)
+        let fetchFcst: AnyObserver<Void> = fetching.asObserver()
+        let fcstData = PublishSubject<[FcstModel]>()
+        
+        let locationManager = LocationManager.shared
+        input = Input(location: locationManager.location, placemark: locationManager.placemark, fetchFcst: fetchFcst)
+        
+        fetching.withLatestFrom(input.location)
+            .debug()
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<[FcstModel]> in
                 return FcstAPIManager.shared.fetchFcstData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }
             .do(onNext: { _ in isLoading.onNext(false) })
-            .subscribe(onNext: { [weak self] data in
-                var changedData = data
-                var first = changedData.removeFirst()
-                first.weekWeather?.dateTime = "오늘"
-                changedData.insert(first, at: 0)
-                self?.fcstSubject.onNext(changedData)
+            .subscribe(onNext: { data in
+                if data == nil {
+                    error.onNext("새로고침 부탁드려요!")
+                }
+                fcstData.onNext(data)
+                
+//                var changedData = data
+//                var first = changedData.removeFirst()
+//                first.weekWeather?.dateTime = "오늘"
+//                changedData.insert(first, at: 0)
+//                self?.fcstSubject.onNext(changedData)
             }, onError: { err in
                 error.onNext(err.localizedDescription)
             }).disposed(by: bag)
         
-        let fcstData = fcstSubject
+        let loaded = isLoading.asObserver()
         
         let locationName = input.placemark
             .map { (placemark) in
                 "\(placemark.administrativeArea ?? "-") \(placemark.locality ?? "") \(placemark.subLocality ?? "")"
             }
 
-        return Output(fcstData: fcstData,
+        self.output = Output(fcstData: fcstData,
                       locationName: locationName,
-                      isLoading: isLoading,
+                      loaded: loaded,
                       errorMessage: error)
     }
 }
