@@ -22,6 +22,8 @@ class RecordViewController: UIViewController {
     @IBOutlet weak var sumDistLabel: UILabel!
     @IBOutlet weak var avgIntervalLabel: UILabel!
     @IBOutlet weak var avgDistLabel: UILabel!
+    @IBOutlet weak var prevMonthButton: UIButton!
+    @IBOutlet weak var nextMonthButton: UIButton!
     
     @IBAction func prevBtnTapped(_ sender: UIButton) {
         scrollCurrentPage(isPrev: true)
@@ -116,15 +118,16 @@ class RecordViewController: UIViewController {
             .subscribe(onNext: { record in
                 viewModel.input.recordSubject.onNext(record)
             }).disposed(by: bag)
-
-        // disposed되지 않고 값이 바뀌면 방출되도록 해야 함
-        Observable.of(calendarView.currentPage)
-            .debug()
-//            .subscribe(onNext: { current in
-//                viewModel.input.currentDate.onNext(current)
-//            })
-            .bind(to: viewModel.input.currentDate)
-            .disposed(by: bag)
+ 
+        prevMonthButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                viewModel.input.currentDate.onNext((self?.calendarView.currentPage)!)
+            }).disposed(by: bag)
+        
+        nextMonthButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                viewModel.input.currentDate.onNext((self?.calendarView.currentPage)!)
+            }).disposed(by: bag)
         
         //OUTPUT
         viewModel.output.recordData

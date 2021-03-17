@@ -34,19 +34,22 @@ class RecordViewModel: ViewModelType {
     
     init(with puppyInfo: Puppy) {
         let fetching = PublishSubject<Void>()
+        let isActivating = BehaviorSubject<Bool>(value: false)
         
         input.fetchRecord = fetching.asObserver()
         
         fetching
+            .do(onNext: { _ in isActivating.onNext(true)})
             .flatMap {
                 FIRStoreManager.shared.fetchAllRecordInfo(from: .record(puppyId: puppyInfo.id!))
             }
+            .do(onNext: { _ in isActivating.onNext(false)})
             .subscribe(onNext: { [weak self] data in
                 self?.output.recordData.accept(data)
             }, onError: { [weak self] err in
                 self?.output.errorMessage.accept(err.localizedDescription)
             }).disposed(by: bag)
-        
+                
         output.recordData
             .subscribe(onNext: { [weak self] data in
                 var times = [Date]()
@@ -57,7 +60,6 @@ class RecordViewModel: ViewModelType {
             }).disposed(by: bag)
         
         Observable.combineLatest(input.currentDate, output.recordData)
-            .debug()
             .bind { [weak self] (current, record) in
                 var dist = [Int]()
                 var interval = [Int]()
@@ -85,11 +87,7 @@ class RecordViewModel: ViewModelType {
                     self?.output.avgInterval.accept("00:00")
                     self?.output.avgDist.accept("0 km")
                 }
-            }
-            .disposed(by: bag)
-//            .subscribe(onNext: { [weak self] (current, record) in
-                
-//            }).disposed(by: bag)
+            }.disposed(by: bag)
         
         input.deleteRecordBtnTapped.withLatestFrom(input.recordSubject)
             .bind { [weak self] record in
