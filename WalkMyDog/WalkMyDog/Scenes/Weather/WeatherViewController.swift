@@ -19,13 +19,12 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.refreshControl = UIRefreshControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.rowHeight = 120
-        tableView.refreshControl = UIRefreshControl()
         setBinding()
+        tableView.rowHeight = 120
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,12 +33,13 @@ class WeatherViewController: UIViewController {
     }
     
     func setBinding() {
-        viewModel = FcstViewModel()
+        viewModel = FcstViewModel(with: LocationManager.shared)
         let output = viewModel!.output
         
-        let firstLoad = rx.viewWillAppear
+        let firstLoad = rx.viewDidAppear
             .take(1)
             .map { _ in () }
+        
         let reload = tableView.refreshControl?.rx
             .controlEvent(.valueChanged)
             .map { _ in () } ?? Observable.just(())
@@ -61,7 +61,8 @@ class WeatherViewController: UIViewController {
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
                 self?.showAlert("예보 날씨 정보 로딩 실패", msg)
-            }).disposed(by: bag)
+            })
+            .disposed(by: bag)
         
         output.locationName
             .bind(to: self.navigationItem.rx.title)
@@ -70,6 +71,7 @@ class WeatherViewController: UIViewController {
         output.fcstData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.weather, cellType: WeatherTableViewCell.self)) { index, item, cell in
                 cell.bindData(data: item)
-            }.disposed(by: bag)
+            }
+            .disposed(by: bag)
     }
 }

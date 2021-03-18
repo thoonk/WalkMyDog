@@ -29,39 +29,39 @@ final class FcstViewModel: ViewModelType {
         let errorMessage: Observable<String>
     }
     
-    init() {
+    init(with locationManager: LocationManager) {
         let fetching = PublishSubject<Void>()
-        let isLoading = BehaviorSubject<Bool>(value: false)
-        let error = PublishSubject<String>()
         let fetchFcst: AnyObserver<Void> = fetching.asObserver()
+
+        let isLoading = BehaviorSubject<Bool>(value: false)
+        let loaded = isLoading.asObserver()
+        
+        let error = PublishSubject<String>()
         let fcstData = PublishSubject<[FcstModel]>()
         
-        let locationManager = LocationManager.shared
         input = Input(location: locationManager.location, placemark: locationManager.placemark, fetchFcst: fetchFcst)
         
-        fetching.withLatestFrom(input.location)
+        fetching.withLatestFrom(input.location) // Observable.combineLatest(fetching, input.location)
             .debug()
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<[FcstModel]> in
+                print("\(location.coordinate.latitude), \(location.coordinate.longitude)")
                 return FcstAPIManager.shared.fetchFcstData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
-                if data == nil {
-                    error.onNext("새로고침 부탁드려요!")
+                if data.isEmpty {
+                    error.onNext("새로고침 부탁드립니다!")
+                } else {
+                    var changedData = data
+                    var first = changedData.removeFirst()
+                    first.weekWeather?.dateTime = "오늘"
+                    changedData.insert(first, at: 0)
+                    fcstData.onNext(changedData)
                 }
-                fcstData.onNext(data)
-                
-//                var changedData = data
-//                var first = changedData.removeFirst()
-//                first.weekWeather?.dateTime = "오늘"
-//                changedData.insert(first, at: 0)
-//                self?.fcstSubject.onNext(changedData)
             }, onError: { err in
                 error.onNext(err.localizedDescription)
             }).disposed(by: bag)
-        
-        let loaded = isLoading.asObserver()
         
         let locationName = input.placemark
             .map { (placemark) in

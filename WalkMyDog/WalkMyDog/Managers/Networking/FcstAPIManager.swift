@@ -19,17 +19,14 @@ class FcstAPIManager {
     static let shared = FcstAPIManager()
     private init() {}
     
-    // MARK: - Request Forecast Data
+    // MARK: - combine Weather and PM Data
     func fetchFcstData(lat: String, lon: String) -> Observable<[FcstModel]> {
         return Observable.create() { emitter in
-            
             self.combineWeatherAndFM(lat: lat, lon: lon) { result, err  in
                 if err != nil {
                     emitter.onError(err!)
                 } else{
-                    if result != nil {
-                        emitter.onNext(result!)
-                    }
+                    emitter.onNext(result!)
                 }
             }
             return Disposables.create()
@@ -38,16 +35,12 @@ class FcstAPIManager {
     
     private func combineWeatherAndFM(lat: String, lon: String, completion: @escaping ([FcstModel]?, Error?) -> Void) {
         var fcst = [FcstModel]()
-        var weather: [WeatherFcst] = []
-        var pm: [[PMModel]] = []
-        
         let urlStringForWeather = "\(self.createUrl(URLType.weather))&lat=\(lat)&lon=\(lon)"
         self.requestFcstWeather(with: urlStringForWeather) { result in
             switch result {
             case .success(let data):
-                weather = data
-                for i in 0..<weather.count {
-                    fcst.append(FcstModel(weekWeather: weather[i], weekPM: nil))
+                for i in 0..<data.count {
+                    fcst.append(FcstModel(weekWeather: data[i], weekPM: nil))
                 }
             case .failure(let err):
                 print("RequestError in weather")
@@ -59,9 +52,8 @@ class FcstAPIManager {
         self.requestPMData(with: urlStringForPM) { result in
             switch result {
             case .success(let data):
-                pm = data
-                for i in 0..<weather.count {
-                    fcst[i].weekPM = pm[i]
+                for i in 0..<fcst.count {
+                    fcst[i].weekPM = data[i]
                 }
                 completion(fcst, nil)
             case .failure(let err):
@@ -70,7 +62,7 @@ class FcstAPIManager {
             }
         }
     }
-    
+    // MARK: - Forecast Weather
     private func requestFcstWeather(with url: String, completion: @escaping (Result<[WeatherFcst], Error>) -> Void) {
         AF.request(url).responseJSON { response in
             switch response.result {
@@ -90,7 +82,7 @@ class FcstAPIManager {
             let result = try JSONDecoder().decode(WeatherFcstData.self, from: weatherData)
             var weathers: [WeatherFcst] = []
             
-            for i in 0..<result.daily.count {
+            for i in 0..<result.daily.count-3 {
                 let currentData = result.daily[i]
                 let weekDate: String = Date(timeIntervalSince1970: currentData.dt).toLocalized(with: result.timezone, by: "day")
                 let minTemp = currentData.temp.min
@@ -100,14 +92,13 @@ class FcstAPIManager {
                 let dailyWeather = WeatherFcst(conditionId: weatherId, minTemp: minTemp, maxTemp: maxTemp, dateTime: weekDate)
                 weathers.append(dailyWeather)
             }
-            
             return weathers
         } catch {
             print("Weather Fcst JSON Error: \(error.localizedDescription)")
             return nil
         }
     }
-
+// MARK: - Forecast PM
     private func requestPMData(with url: String, completion: @escaping (Result<[[PMModel]], Error>) -> Void) {
         AF.request(url).responseJSON { response in
             switch response.result {
@@ -128,9 +119,7 @@ class FcstAPIManager {
             var pmDay: [PMModel] = []
             var pms: [[PMModel]] = []
             
-            
             for i in 0..<result.list.count {
-                
                 let dt = Date(timeIntervalSince1970: result.list[i].dt).toLocalized(with: "KST", by: "normal")
                 let time = dt.split(separator: " ")
                 let pm10 = result.list[i].components.pm10
@@ -140,7 +129,7 @@ class FcstAPIManager {
                     pms.append(pmDay)
                     pmDay = []
                 }
-                
+    
                 if dt >= Date().toLocalized(with: "KST", by: "short") {
                     if time[1] == "09:00" || time[1] == "14:00" || time[1] == "19:00" {
                         let pm = PMModel(dateTime: dt, pm10: pm10, pm25: pm25)
@@ -148,16 +137,6 @@ class FcstAPIManager {
                     }
                 }
             }
-            // 날씨예보 개수만큼 맞추기
-            for _ in 0..<3 {
-                pmDay = []
-                for _ in 0..<3 {
-                    let nilPM = PMModel(dateTime: "-", pm10: -1.234, pm25: -1.234)
-                    pmDay.append(nilPM)
-                }
-                pms.append(pmDay)
-            }
-            
             return pms
         } catch {
             print("PM Fcst JSON Error: \(error.localizedDescription)")
@@ -165,6 +144,7 @@ class FcstAPIManager {
         }
     }
     
+    // MARK: - URL
     private func createUrl(_ type: URLType) -> String {
         var urlString = C.baseUrl
         

@@ -11,7 +11,7 @@ import RxSwift
 import RxCoreLocation
 import CoreLocation
 
-class LocationManager {
+final public class LocationManager {
     
     static let shared = LocationManager()
     
@@ -24,7 +24,8 @@ class LocationManager {
     private var bag = DisposeBag()
     
     private init() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         
         locationManager.rx
             .didChangeAuthorization
@@ -38,7 +39,6 @@ class LocationManager {
                 case .restricted:
                     self?.authorizedStatus.onNext(false)
                 case .authorizedAlways, .authorizedWhenInUse:
-                    self?.locationManager.startUpdatingLocation()
                     self?.authorizedStatus.onNext(true)
                     self?.authorizedStatus.onCompleted()
                 @unknown default:
@@ -56,14 +56,10 @@ class LocationManager {
         
         locationManager.rx
             .location
-            .take(1)
             .subscribe(onNext: { [weak self] location in
                 self?.locationManager.stopUpdatingLocation()
                 guard let location = location else { return }
-                print("latitude: \(location.coordinate.latitude)")
-                print("longitude: \(location.coordinate.longitude)")
                 self?.location.onNext(location)
-                self?.location.onCompleted()
             })
             .disposed(by: bag)
         
