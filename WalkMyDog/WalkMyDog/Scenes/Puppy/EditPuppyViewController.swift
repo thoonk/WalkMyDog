@@ -12,10 +12,10 @@ import Photos
 import Kingfisher
 
 class EditPuppyViewController: UIViewController {
-    
+    // MARK: - Interface Builder
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var speciesTextField: UITextField!
+    @IBOutlet weak var speciesTextField: CustomTextField!
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var birthTextField: UITextField!
     @IBOutlet weak var boyButton: RadioButton!
@@ -23,10 +23,12 @@ class EditPuppyViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIButton!
     
+    // MARK: - Properties
     var puppyInfo: Puppy?
     var createPuppyViewModel = CreatePuppyViewModel()
     var fetchPuppyViewModel: FetchPuppyViewModel?
     var editPuppyViewModel: EditPuppyViewModel?
+    var selectedSpecies: String?
     var bag = DisposeBag()
     
     private var datePicker: UIDatePicker!
@@ -40,7 +42,6 @@ class EditPuppyViewController: UIViewController {
     }()
     
     lazy var profileImage: Observable<UIImage?> = profileImageView.rx.observe(UIImage.self, "image")
-
     
     @objc
     func tapSelectImage(_ sender: Any){
@@ -66,8 +67,12 @@ class EditPuppyViewController: UIViewController {
     func dismissPicker() {
         birthTextField.resignFirstResponder()
     }
-
     
+    @objc
+    func selectSpecies() {
+        self.performSegue(withIdentifier: C.Segue.editToSearch, sender: nil)
+    }
+
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
         
@@ -76,7 +81,16 @@ class EditPuppyViewController: UIViewController {
             girlButton.isSelected = false
         }
     }
+    // MARK: - Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.editToSearch,
+           let searchSpeciesVC = segue.destination as? SearchSpeciesViewController {
+            searchSpeciesVC.delegate = self
+        }
+    }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -85,6 +99,7 @@ class EditPuppyViewController: UIViewController {
         
         let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
         profileImageView.addGestureRecognizer(tapGestureImageView)
+        speciesTextField.addTarget(self, action: #selector(selectSpecies), for: .touchDown)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,10 +151,23 @@ class EditPuppyViewController: UIViewController {
             birthTextField.inputView = picker
             birthTextField.inputAccessoryView = datePickerBar
         }
+        
+        if selectedSpecies != nil {
+            print(selectedSpecies!)
+            if selectedSpecies == "직접 입력" {
+                speciesTextField.becomeFirstResponder()
+            } else {
+                speciesTextField.text = selectedSpecies
+            }
+        }
     }
     
+    func goToSetting() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - ViewModel Binding
     func setCreateViewModelBindings() {
-        
         // INPUT
         profileImage
             .subscribe(onNext: { image in
@@ -151,18 +179,22 @@ class EditPuppyViewController: UIViewController {
             }).disposed(by: bag)
         
         nameTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: createPuppyViewModel.input.name)
             .disposed(by: bag)
-        
+
         speciesTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: createPuppyViewModel.input.species)
             .disposed(by: bag)
-        
+                
         birthTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: createPuppyViewModel.input.age)
             .disposed(by: bag)
         
         weightTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: createPuppyViewModel.input.weight)
             .disposed(by: bag)
         
@@ -184,6 +216,12 @@ class EditPuppyViewController: UIViewController {
             .bind(to: saveButton.rx.isEnabled)
             .disposed(by: bag)
         
+        createPuppyViewModel.output.errorMessage
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] msg in
+                self?.showAlert("Firestore 오류", msg)
+            }).disposed(by: bag)
+        
         createPuppyViewModel.output.goToSetting
             .observe(on: MainScheduler.instance)
             .bind(onNext: goToSetting)
@@ -200,25 +238,29 @@ class EditPuppyViewController: UIViewController {
         profileImage
             .subscribe(onNext: { image in
                 if self.profileImageView.image != UIImage(named: "profileImage-100") {
-                    viewModel.input.profileImage.onNext(image!)
+                    viewModel.input.profileImage.onNext(image ?? UIImage(named: "profileImage-100"))
                 } else {
                     viewModel.input.profileImage.onNext(nil)
                 }
             }).disposed(by: bag)
         
         nameTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.name)
             .disposed(by: bag)
         
         speciesTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.species)
             .disposed(by: bag)
         
         birthTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.age)
             .disposed(by: bag)
         
         weightTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.weight)
             .disposed(by: bag)
         
@@ -296,16 +338,12 @@ class EditPuppyViewController: UIViewController {
             .bind(to: girlButton.rx.isSelected)
             .disposed(by: bag)
     }
-    
-    func goToSetting() {
-        navigationController?.popViewController(animated: true)
-    }
 }
 
+// MARK: - ImagePickerController, NavigationController
 extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         self.profileImageView.image = image
         
@@ -320,5 +358,11 @@ extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigation
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         imagePicker.dismiss(animated: true, completion: nil)
+    }
+}
+// MARK: - SelectSpeciesDelegate
+extension EditPuppyViewController: SelectSpeciesDelegate {
+    func didSelectSpecies(with species: String) {
+        self.selectedSpecies = species
     }
 }
