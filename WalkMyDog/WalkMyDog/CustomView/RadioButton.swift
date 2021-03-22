@@ -41,7 +41,7 @@ class RadioButton: UIButton {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                self.layer.borderColor = UIColor.black.cgColor
+                self.layer.borderColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
             } else {
                 self.layer.borderColor = UIColor.lightGray.cgColor
             }

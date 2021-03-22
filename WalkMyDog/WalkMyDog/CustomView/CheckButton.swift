@@ -9,8 +9,8 @@ import UIKit
 
 class CheckButton: UIButton {
     
-    let checkedImage = UIImage(systemName: "checkmark.circle.fill")?.resized(to: CGSize(width: 30, height: 30))
-    let uncheckedImage = UIImage(systemName: "circle")?.resized(to: CGSize(width: 30, height: 30))
+    let checkedImage = UIImage(systemName: "checkmark.circle.fill")?.resized(to: CGSize(width: 25, height: 25))
+    let uncheckedImage = UIImage(systemName: "circle")?.resized(to: CGSize(width: 25, height: 25))
     
     var isChecked: Bool = false {
         didSet {

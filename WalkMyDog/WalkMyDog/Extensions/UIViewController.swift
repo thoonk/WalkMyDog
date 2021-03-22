@@ -8,11 +8,6 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert(_ title: String, _ msg: String) {
-        let alertVC = UIAlertController(title: title, message: msg, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alertVC, animated: true, completion: nil)
-    }
     
     func setKeyboardDoneBtn(for action: Selector) -> UIToolbar {
         let bar = UIToolbar()

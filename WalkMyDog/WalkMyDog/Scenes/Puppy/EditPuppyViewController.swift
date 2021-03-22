@@ -72,6 +72,14 @@ class EditPuppyViewController: UIViewController {
     func selectSpecies() {
         self.performSegue(withIdentifier: C.Segue.editToSearch, sender: nil)
     }
+    
+    @objc
+    func deleteBtnTapped() {
+        let alertVC = AlertManager.shared.showAlert(title: "강아지 정보 삭제", subTitle: "정말로 삭제하시겠습니까?", actionBtnTitle: "삭제", cancelBtnTitle: "취소") { [weak self] in
+            self?.editPuppyViewModel?.input.deleteBtnTapped.onNext(())
+        }
+        present(alertVC, animated: true)
+    }
 
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
@@ -100,6 +108,7 @@ class EditPuppyViewController: UIViewController {
         let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
         profileImageView.addGestureRecognizer(tapGestureImageView)
         speciesTextField.addTarget(self, action: #selector(selectSpecies), for: .touchDown)
+        deleteButton.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -219,7 +228,8 @@ class EditPuppyViewController: UIViewController {
         createPuppyViewModel.output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("Firestore 오류", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         createPuppyViewModel.output.goToSetting
@@ -276,10 +286,6 @@ class EditPuppyViewController: UIViewController {
             .bind(to: viewModel.input.saveBtnTapped)
             .disposed(by: bag)
         
-        deleteButton.rx.tap
-            .bind(to: viewModel.input.deleteBtnTapped)
-            .disposed(by: bag)
-        
         // OUTPUT
         viewModel.output.enableSaveBtn
             .observe(on: MainScheduler.instance)
@@ -289,7 +295,8 @@ class EditPuppyViewController: UIViewController {
         viewModel.output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("Firestore 오류", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         viewModel.output.goToSetting

@@ -9,10 +9,11 @@ import UIKit
 
 class WeatherTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var fcstView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var weatherImageView: UIImageView!
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var pmTitleLabel: UILabel!
+    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var morningPM10ImageView: UIImageView!
     @IBOutlet weak var launchPM10ImageView: UIImageView!
     @IBOutlet weak var dinnerPM10ImageView: UIImageView!
@@ -25,12 +26,13 @@ class WeatherTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         self.selectionStyle = .none
-        pmTitleLabel.text = "미세 / 초미세"
+        fcstView.layer.cornerRadius = 10
     }
     
     func bindData(data: FcstModel) {
         dateLabel.text = data.weekWeather?.dateTime
-        tempLabel.text = "\(data.weekWeather?.maxTempString ?? "-") / \(data.weekWeather?.minTempString ?? "-")"
+        maxTempLabel.text = "\(data.weekWeather?.maxTempString ?? "-")"
+        minTempLabel.text = "\(data.weekWeather?.minTempString ?? "-")"
         weatherImageView.image = UIImage(systemName: data.weekWeather?.conditionName ?? "sum.max")
         
         let morningPM: PMModel = data.weekPM![0]

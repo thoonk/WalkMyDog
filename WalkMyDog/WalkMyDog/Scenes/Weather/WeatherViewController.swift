@@ -24,12 +24,17 @@ class WeatherViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setBinding()
-        tableView.rowHeight = 120
+        setUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bag = DisposeBag()
+    }
+    
+    func setUI() {
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 120
     }
     
     func setBinding() {
@@ -60,7 +65,8 @@ class WeatherViewController: UIViewController {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("예보 날씨 정보 로딩 실패", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "예보 날씨 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             })
             .disposed(by: bag)
         

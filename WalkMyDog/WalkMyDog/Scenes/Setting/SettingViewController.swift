@@ -62,7 +62,8 @@ class SettingViewController: UIViewController {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("반려견 정보 로딩 실패", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         tableView.rx.modelSelected(Puppy.self)

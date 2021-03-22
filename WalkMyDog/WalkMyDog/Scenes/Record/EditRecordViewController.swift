@@ -54,14 +54,17 @@ class EditRecordViewController: UIViewController {
         
         // INPUT
         datePickerTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.timeStamp)
             .disposed(by: bag)
         
         walkIntervalTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.walkedInterval)
             .disposed(by: bag)
         
         walkDistTextField.rx.text.orEmpty
+            .distinctUntilChanged()
             .bind(to: viewModel.input.walkedDistance)
             .disposed(by: bag)
         
@@ -78,7 +81,8 @@ class EditRecordViewController: UIViewController {
         viewModel.output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("Firestore 오류", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         viewModel.output.goToHome
@@ -99,6 +103,7 @@ class EditRecordViewController: UIViewController {
 
             picker.datePickerMode = .dateAndTime
             picker.preferredDatePickerStyle = .wheels
+            picker.maximumDate = Date()
             picker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
             
             let datePickerBar = setKeyboardDoneBtn(for: #selector(dismissPicker))

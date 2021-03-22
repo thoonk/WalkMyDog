@@ -80,6 +80,14 @@ class RecordViewController: UIViewController {
         self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: checkedPuppy)
     }
     
+    @objc
+    private func deleteBtnTapped() {
+        let alertVC = AlertManager.shared.showAlert(title: "산책 기록 삭제", subTitle: "정말로 삭제하시겠습니까?", actionBtnTitle: "삭제", cancelBtnTitle: "취소") { [weak self] in
+            self?.recordViewModel?.input.deleteBtnTapped.onNext(())
+        }
+        present(alertVC, animated: true)
+    }
+    
     private func setUI() {
         setTableView()
         setCalendar()
@@ -96,7 +104,6 @@ class RecordViewController: UIViewController {
     }
     
     private func setRecordBinding() {
-        
         recordViewModel = RecordViewModel(with: puppyInfo!)
         guard let viewModel = recordViewModel else { return }
         
@@ -112,12 +119,6 @@ class RecordViewController: UIViewController {
         Observable.merge([firstLoad, reload])
             .bind(to: viewModel.input.fetchRecord)
             .disposed(by: bag)
-        
-        recordTableView.rx.modelSelected(Record.self)
-            .debug()
-            .subscribe(onNext: { record in
-                viewModel.input.recordSubject.onNext(record)
-            }).disposed(by: bag)
  
         prevMonthButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -131,10 +132,15 @@ class RecordViewController: UIViewController {
         
         //OUTPUT
         viewModel.output.recordData
-            .bind(to: recordTableView.rx.items(cellIdentifier: C.Cell.record, cellType: RecordTableViewCell.self)) { index, item, cell in
+            .debug()
+            .bind(to: recordTableView.rx.items(cellIdentifier: C.Cell.record, cellType: RecordTableViewCell.self)) { [weak self] index, item, cell in
                 cell.bindData(data: item)
+                cell.deleteRecordBtn.addTarget(self, action: #selector(self?.deleteBtnTapped), for: .touchUpInside)
                 cell.deleteRecordBtn.rx.tap
-                    .bind(to: viewModel.input.deleteRecordBtnTapped)
+                    .subscribe(onNext: { _ in
+                        viewModel.input.recordSubject.onNext(item)
+//                        viewModel.input.deleteRecordBtnTapped.onNext(())
+                    })
                     .disposed(by: cell.bag)
             }.disposed(by: bag)
         
@@ -146,7 +152,8 @@ class RecordViewController: UIViewController {
         
         viewModel.output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("산책 기록 로딩 실패", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "산책 기록 로딩 실패", subTitle: msg, actionBtnTitle: "확인", completion: {})
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         viewModel.output.sumInterval

@@ -16,7 +16,7 @@ class RecordViewModel: ViewModelType {
     var output = Output()
     
     struct Input {
-        let deleteRecordBtnTapped = PublishSubject<Void>()
+        let deleteBtnTapped = PublishSubject<Void>()
         let recordSubject = PublishSubject<Record>()
         var fetchRecord = PublishSubject<Void>()
         var currentDate = PublishSubject<Date>()
@@ -35,7 +35,6 @@ class RecordViewModel: ViewModelType {
     init(with puppyInfo: Puppy) {
         let fetching = PublishSubject<Void>()
         let isActivating = BehaviorSubject<Bool>(value: false)
-        
         input.fetchRecord = fetching.asObserver()
         
         fetching
@@ -89,7 +88,7 @@ class RecordViewModel: ViewModelType {
                 }
             }.disposed(by: bag)
         
-        input.deleteRecordBtnTapped.withLatestFrom(input.recordSubject)
+        input.deleteBtnTapped.withLatestFrom(input.recordSubject)
             .bind { [weak self] record in
                 FIRStoreManager.shared.deleteRcordInfo(for: record, with: .record(puppyId: puppyInfo.id!)) { (isSuccess, err) in
                     if isSuccess == true {

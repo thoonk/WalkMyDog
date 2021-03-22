@@ -37,13 +37,6 @@ class HomeViewController: UIViewController {
         presentPanModal(checkPuppyVC)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.tabBarController?.tabBar.items?[0].title = "산책 기록"
-        self.tabBarController?.tabBar.items?[1].title = "날씨 예보"
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setCurrentBinding()
@@ -86,7 +79,8 @@ class HomeViewController: UIViewController {
         // OUTPUT
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                self?.showAlert("현재 날씨 정보 로딩 실패", msg)
+                let alertVC = AlertManager.shared.showAlert(title: "현재 날씨 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
         output.isLoading
