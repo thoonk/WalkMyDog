@@ -10,14 +10,16 @@ import RxSwift
 import RxCocoa
 import Photos
 import Kingfisher
+import Foundation
+import JVFloatLabeledTextField
 
 class EditPuppyViewController: UIViewController {
     // MARK: - Interface Builder
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
     @IBOutlet weak var speciesTextField: CustomTextField!
-    @IBOutlet weak var weightTextField: UITextField!
-    @IBOutlet weak var birthTextField: UITextField!
+    @IBOutlet weak var weightTextField: JVFloatLabeledTextField!
+    @IBOutlet weak var birthTextField: JVFloatLabeledTextField!
     @IBOutlet weak var boyButton: RadioButton!
     @IBOutlet weak var girlButton: RadioButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -80,7 +82,7 @@ class EditPuppyViewController: UIViewController {
         }
         present(alertVC, animated: true)
     }
-
+    
     override func awakeFromNib() {
         self.view.layoutIfNeeded()
         
@@ -90,7 +92,6 @@ class EditPuppyViewController: UIViewController {
         }
     }
     // MARK: - Navigation
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == C.Segue.editToSearch,
            let searchSpeciesVC = segue.destination as? SearchSpeciesViewController {
@@ -131,6 +132,17 @@ class EditPuppyViewController: UIViewController {
         deleteButton.layer.borderColor = UIColor.black.cgColor
         deleteButton.layer.masksToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
+                
+        weightTextField.rightView = setUnitLabel(inTxtField: " kg")
+        weightTextField.rightViewMode = .always
+        weightTextField.placeholder = "체중"
+        nameTextField.placeholder = "이름"
+        speciesTextField.placeholder = "견종"
+        birthTextField.placeholder = "생년월일"
+        nameTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        speciesTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        weightTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        birthTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
         
         if puppyInfo != nil {
             deleteButton.isHidden = false

@@ -19,7 +19,7 @@ class RecordViewModel: ViewModelType {
         let deleteBtnTapped = PublishSubject<Void>()
         let recordSubject = PublishSubject<Record>()
         var fetchRecord = PublishSubject<Void>()
-        var currentDate = PublishSubject<Date>()
+        var currentDate = BehaviorSubject<Date>(value: Date())
     }
     
     struct Output {

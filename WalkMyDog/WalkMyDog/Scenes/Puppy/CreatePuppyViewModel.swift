@@ -28,7 +28,7 @@ class CreatePuppyViewModel: ViewModelType {
     }
     
     struct Output {
-        let enableSaveBtn = PublishRelay<Bool>()
+        let enableSaveBtn = BehaviorRelay<Bool>(value: false)
         let errorMessage = PublishRelay<String>()
         let goToSetting = PublishRelay<Void>()
     }
@@ -52,7 +52,6 @@ class CreatePuppyViewModel: ViewModelType {
             }).disposed(by: bag)
         
         input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.profileImage, input.name, input.weight, input.age, input.species, gender))
-            .debug()
             .bind { [weak self] (image, name, weight, age, species, gender) in
                 
                 var puppy = Puppy(name: name, age: age, gender: gender, weight: Double(weight) ?? 0, species: species)

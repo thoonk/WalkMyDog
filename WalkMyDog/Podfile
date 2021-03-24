@@ -17,6 +17,7 @@ target 'WalkMyDog' do
   pod 'FSCalendar'
   pod 'PanModal'
   pod 'Kingfisher', '~> 6.0'
+  pod 'JVFloatLabeledTextField'
 
   pod 'RxSwift'
   pod 'RxCocoa'

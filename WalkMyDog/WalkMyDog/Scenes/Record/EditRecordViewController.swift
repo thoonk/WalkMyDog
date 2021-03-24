@@ -8,27 +8,26 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import JVFloatLabeledTextField
 
 class EditRecordViewController: UIViewController {
-    
-    @IBOutlet weak var datePickerTextField: UITextField!
-    @IBOutlet weak var walkIntervalTextField: UITextField!
-    @IBOutlet weak var walkDistTextField: UITextField!
-    @IBOutlet weak var addRecordButton: UIButton!
+    // MARK: - Interface Builder
+    @IBOutlet weak var datePickerTextField: JVFloatLabeledTextField!
+    @IBOutlet weak var walkIntervalTextField: JVFloatLabeledTextField!
+    @IBOutlet weak var walkDistTextField: JVFloatLabeledTextField!
+    @IBOutlet weak var saveRecordButton: UIButton!
     
     @IBAction func closeBtnTapped(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Properties
     var checkedPuppy: [Puppy]?
     private var datePicker: UIDatePicker!
     private var editRecordViewModel: EditRecordViewModel?
     private var bag = DisposeBag()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    // MARK: - LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -47,7 +46,7 @@ class EditRecordViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
+    // MARK: - ViewModel Binding
     private func setEditRecordBinding() {
         editRecordViewModel = EditRecordViewModel(with: checkedPuppy!)
         guard let viewModel = editRecordViewModel else { return }
@@ -68,14 +67,22 @@ class EditRecordViewController: UIViewController {
             .bind(to: viewModel.input.walkedDistance)
             .disposed(by: bag)
         
-        addRecordButton.rx.tap
+        saveRecordButton.rx.tap
             .bind(to: viewModel.input.saveBtnTapped)
             .disposed(by: bag)
         
         // OUTPUT
         viewModel.output.enableSaveBtn
+            .debug()
             .observe(on: MainScheduler.instance)
-            .bind(to: addRecordButton.rx.isEnabled)
+            .subscribe(onNext: { [weak self] value in
+                self?.saveRecordButton.rx.isEnabled.onNext(value)
+                if value == false {
+                    self?.saveRecordButton.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+                } else {
+                    self?.saveRecordButton.backgroundColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+                }
+            })
             .disposed(by: bag)
         
         viewModel.output.errorMessage
@@ -110,6 +117,11 @@ class EditRecordViewController: UIViewController {
             datePickerTextField.inputView = picker
             datePickerTextField.inputAccessoryView = datePickerBar
         }
+        walkIntervalTextField.rightView = setUnitLabel(inTxtField: "분")
+        walkIntervalTextField.rightViewMode = .always
+        
+        walkDistTextField.rightView = setUnitLabel(inTxtField: "m")
+        walkDistTextField.rightViewMode = .always
     }
     
     private func goToHome() {

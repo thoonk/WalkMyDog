@@ -24,7 +24,7 @@ class EditRecordViewModel: ViewModelType {
     
     struct Output {
         let goToHome = PublishRelay<Void>()
-        let enableSaveBtn = PublishRelay<Bool>()
+        let enableSaveBtn = BehaviorRelay<Bool>(value: false)
         let errorMessage = PublishRelay<String>()
     }
     

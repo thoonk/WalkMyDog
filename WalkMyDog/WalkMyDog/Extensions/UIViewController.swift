@@ -18,4 +18,10 @@ extension UIViewController {
         bar.sizeToFit()
         return bar
     }
+    
+    func setUnitLabel(inTxtField text: String) -> UILabel {
+        let unitLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        unitLabel.text = text
+        return unitLabel
+    }
 }
