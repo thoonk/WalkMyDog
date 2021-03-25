@@ -13,7 +13,7 @@ import Kingfisher
 import Foundation
 import JVFloatLabeledTextField
 
-class EditPuppyViewController: UIViewController {
+class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Interface Builder
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
@@ -27,12 +27,11 @@ class EditPuppyViewController: UIViewController {
     
     // MARK: - Properties
     var puppyInfo: Puppy?
-    var createPuppyViewModel = CreatePuppyViewModel()
-    var fetchPuppyViewModel: FetchPuppyViewModel?
-    var editPuppyViewModel: EditPuppyViewModel?
-    var selectedSpecies: String?
-    var bag = DisposeBag()
-    
+    private var createPuppyViewModel = CreatePuppyViewModel()
+    private var fetchPuppyViewModel: FetchPuppyViewModel?
+    private var editPuppyViewModel: EditPuppyViewModel?
+    private var selectedSpecies: String?
+    private var bag = DisposeBag()
     private var datePicker: UIDatePicker!
         
     lazy var imagePicker: UIImagePickerController = {
@@ -45,6 +44,52 @@ class EditPuppyViewController: UIViewController {
     
     lazy var profileImage: Observable<UIImage?> = profileImageView.rx.observe(UIImage.self, "image")
     
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == C.Segue.editToSearch,
+           let searchSpeciesVC = segue.destination as? SearchSpeciesViewController {
+            searchSpeciesVC.delegate = self
+        }
+    }
+    
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        boyButton.alternateBtn = [girlButton]
+        girlButton.alternateBtn = [boyButton]
+        
+        let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
+        profileImageView.addGestureRecognizer(tapGestureImageView)
+        speciesTextField.addTarget(self, action: #selector(selectSpecies), for: .touchDown)
+        deleteButton.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bag = DisposeBag()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    override func awakeFromNib() {
+        self.view.layoutIfNeeded()
+        
+        if puppyInfo == nil {
+            boyButton.isSelected = true
+            girlButton.isSelected = false
+        }
+    }
+    
+    // MARK: - Actions
     @objc
     func tapSelectImage(_ sender: Any){
         self.present(self.imagePicker, animated: true, completion: nil)
@@ -83,49 +128,7 @@ class EditPuppyViewController: UIViewController {
         present(alertVC, animated: true)
     }
     
-    override func awakeFromNib() {
-        self.view.layoutIfNeeded()
-        
-        if puppyInfo == nil {
-            boyButton.isSelected = true
-            girlButton.isSelected = false
-        }
-    }
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == C.Segue.editToSearch,
-           let searchSpeciesVC = segue.destination as? SearchSpeciesViewController {
-            searchSpeciesVC.delegate = self
-        }
-    }
-    
-    // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        boyButton.alternateBtn = [girlButton]
-        girlButton.alternateBtn = [boyButton]
-        
-        let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
-        profileImageView.addGestureRecognizer(tapGestureImageView)
-        speciesTextField.addTarget(self, action: #selector(selectSpecies), for: .touchDown)
-        deleteButton.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setUI()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        bag = DisposeBag()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
+    // MARK: - Methods
     func setUI() {
         deleteButton.layer.cornerRadius = 10
         deleteButton.layer.borderWidth = 1.0
@@ -181,6 +184,8 @@ class EditPuppyViewController: UIViewController {
                 speciesTextField.text = selectedSpecies
             }
         }
+        
+        setCustomBackBtn()
     }
     
     func goToSetting() {
@@ -379,6 +384,7 @@ extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigation
         imagePicker.dismiss(animated: true, completion: nil)
     }
 }
+
 // MARK: - SelectSpeciesDelegate
 extension EditPuppyViewController: SelectSpeciesDelegate {
     func didSelectSpecies(with species: String) {

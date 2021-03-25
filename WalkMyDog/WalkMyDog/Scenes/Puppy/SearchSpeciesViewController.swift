@@ -35,13 +35,9 @@ class SearchSpeciesViewController: UIViewController {
         setUI()
     }
     
+    // MARK: - Methods
     func setUI() {
-        let backImg = UIImage(systemName: "chevron.backward")?.resized(to: CGSize(width: 20, height: 20))
-        navigationController?.navigationBar.backIndicatorImage = backImg
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImg
-        
-        navigationItem.leftItemsSupplementBackButton = true
-        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        setCustomBackBtn()
     }
     
     func filterSpecies(from inputText: String) {
@@ -51,6 +47,7 @@ class SearchSpeciesViewController: UIViewController {
         }
     }
 }
+
 // MARK: - SearchResultsUpdating
 extension SearchSpeciesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -69,10 +66,8 @@ extension SearchSpeciesViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let items = searchController.isActive ? searchResults[indexPath.row] : C.PuppyInfo.species[indexPath.row]
-        
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.species, for: indexPath)
         cell.textLabel?.text = items
-        
         return cell
     }
     

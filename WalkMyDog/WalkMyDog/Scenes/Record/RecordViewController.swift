@@ -11,8 +11,8 @@ import RxSwift
 import RxCocoa
 import RxViewController
 
-class RecordViewController: UIViewController {
-    
+class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
+    // MARK: - Interface Builder
     @IBOutlet weak var recordTableView: UITableView!
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var headerLabel: UILabel!
@@ -25,14 +25,7 @@ class RecordViewController: UIViewController {
     @IBOutlet weak var prevMonthButton: UIButton!
     @IBOutlet weak var nextMonthButton: UIButton!
     
-    @IBAction func prevBtnTapped(_ sender: UIButton) {
-        scrollCurrentPage(isPrev: true)
-    }
-    
-    @IBAction func nextBtnTapped(_ sender: UIButton) {
-        scrollCurrentPage(isPrev: false)
-    }
-    
+    // MARK: - Properties
     var puppyInfo: Puppy?
     private var recordViewModel: RecordViewModel?
     private var bag = DisposeBag()
@@ -49,6 +42,12 @@ class RecordViewController: UIViewController {
         df.dateFormat = "yyyy년 M월"
         return df
     }()
+    
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -72,6 +71,14 @@ class RecordViewController: UIViewController {
         }
     }
     
+    // MARK: - Actions
+    @IBAction func prevBtnTapped(_ sender: UIButton) {
+        scrollCurrentPage(isPrev: true)
+    }
+    
+    @IBAction func nextBtnTapped(_ sender: UIButton) {
+        scrollCurrentPage(isPrev: false)
+    }
     /// 산책 기록 추가시 뷰 전환 메서드
     @objc
     private func goToEdit() {
@@ -88,9 +95,11 @@ class RecordViewController: UIViewController {
         present(alertVC, animated: true)
     }
     
+    // MARK: - Methods
     private func setUI() {
         setTableView()
         setCalendar()
+        setCustomBackBtn()
         sumAvgRecordView.layer.cornerRadius = 10
     }
     
@@ -103,6 +112,7 @@ class RecordViewController: UIViewController {
         recordTableView.layer.cornerRadius = 10
     }
     
+    // MARK: - ViewModel Binding
     private func setRecordBinding() {
         recordViewModel = RecordViewModel(with: puppyInfo!)
         guard let viewModel = recordViewModel else { return }
@@ -139,7 +149,6 @@ class RecordViewController: UIViewController {
                 cell.deleteRecordBtn.rx.tap
                     .subscribe(onNext: { _ in
                         viewModel.input.recordSubject.onNext(item)
-//                        viewModel.input.deleteRecordBtnTapped.onNext(())
                     })
                     .disposed(by: cell.bag)
             }.disposed(by: bag)

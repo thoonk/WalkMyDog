@@ -9,15 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
+    // MARK: - Interface Builder
+    @IBOutlet weak var tableView: UITableView!
 
+    // MARK: - Properties
     var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
     var bag = DisposeBag()
     
-    @IBOutlet weak var tableView: UITableView!
-    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,6 +35,7 @@ class SettingViewController: UIViewController {
         bag = DisposeBag()
     }
     
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == C.Segue.settingToEdit,
            let selectedItem = sender as? Puppy,
@@ -40,15 +44,10 @@ class SettingViewController: UIViewController {
         }
     }
     
+    // MARK: - Methods
     func setUI() {
         setTableView()
-        
-        let backImg = UIImage(systemName: "chevron.backward")?.resized(to: CGSize(width: 20, height: 20))
-        navigationController?.navigationBar.backIndicatorImage = backImg
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImg
-        
-        navigationItem.leftItemsSupplementBackButton = true
-        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        setCustomBackBtn()
     }
     
     func setFetchAllPuppyBinding() {
