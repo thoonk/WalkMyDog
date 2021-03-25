@@ -146,16 +146,15 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         speciesTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
         weightTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
         birthTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
-        
+
         if puppyInfo != nil {
             deleteButton.isHidden = false
             setFetchViewModelBindings()
-            setEditViewModelBindings()
         } else {
             deleteButton.isHidden = true
-            setCreateViewModelBindings()
         }
-        
+        setEditViewModelBindings()
+
         self.datePicker = UIDatePicker()
         
         let textFieldBar = setKeyboardDoneBtn(for: #selector(doneBtnTapped(sender:)))
@@ -193,70 +192,8 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - ViewModel Binding
-    func setCreateViewModelBindings() {
-        // INPUT
-        profileImage
-            .subscribe(onNext: { image in
-                if self.profileImageView.image != UIImage(named: "profileImage-100") {
-                    self.createPuppyViewModel.input.profileImage.onNext(image!)
-                } else {
-                    self.createPuppyViewModel.input.profileImage.onNext(nil)
-                }
-            }).disposed(by: bag)
-        
-        nameTextField.rx.text.orEmpty
-            .distinctUntilChanged()
-            .bind(to: createPuppyViewModel.input.name)
-            .disposed(by: bag)
-
-        speciesTextField.rx.text.orEmpty
-            .distinctUntilChanged()
-            .bind(to: createPuppyViewModel.input.species)
-            .disposed(by: bag)
-                
-        birthTextField.rx.text.orEmpty
-            .distinctUntilChanged()
-            .bind(to: createPuppyViewModel.input.age)
-            .disposed(by: bag)
-        
-        weightTextField.rx.text.orEmpty
-            .distinctUntilChanged()
-            .bind(to: createPuppyViewModel.input.weight)
-            .disposed(by: bag)
-        
-        boyButton.rx.tap
-            .bind(to: createPuppyViewModel.input.boyBtnTapped)
-            .disposed(by: bag)
-        
-        girlButton.rx.tap
-            .bind(to: createPuppyViewModel.input.girlBtnTapped)
-            .disposed(by: bag)
-        
-        saveButton.rx.tap
-            .bind(to: createPuppyViewModel.input.saveBtnTapped)
-            .disposed(by: bag)
-        
-        // OUTPUT
-        createPuppyViewModel.output.enableSaveBtn
-            .observe(on: MainScheduler.instance)
-            .bind(to: saveButton.rx.isEnabled)
-            .disposed(by: bag)
-        
-        createPuppyViewModel.output.errorMessage
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
-                self?.present(alertVC, animated: true)
-            }).disposed(by: bag)
-        
-        createPuppyViewModel.output.goToSetting
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: goToSetting)
-            .disposed(by: bag)
-    }
-    
     func setEditViewModelBindings() {
-        editPuppyViewModel = EditPuppyViewModel(with: puppyInfo!)
+        editPuppyViewModel = EditPuppyViewModel(with: puppyInfo)
         guard let viewModel = editPuppyViewModel else {
             return
         }
