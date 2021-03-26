@@ -27,6 +27,8 @@ target 'WalkMyDog' do
   target 'WalkMyDogTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxBlocking'
+    pod 'RxTest'
   end
 
   target 'WalkMyDogUITests' do
