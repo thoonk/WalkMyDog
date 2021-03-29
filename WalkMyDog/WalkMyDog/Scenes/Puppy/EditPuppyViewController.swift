@@ -27,7 +27,6 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     var puppyInfo: Puppy?
-    private var createPuppyViewModel = CreatePuppyViewModel()
     private var fetchPuppyViewModel: FetchPuppyViewModel?
     private var editPuppyViewModel: EditPuppyViewModel?
     private var selectedSpecies: String?
@@ -135,6 +134,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         deleteButton.layer.borderColor = UIColor.black.cgColor
         deleteButton.layer.masksToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
+        profileImageView.image = UIImage(named: "profileImage-100")
                 
         weightTextField.rightView = setUnitLabel(inTxtField: " kg")
         weightTextField.rightViewMode = .always
@@ -200,6 +200,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // INPUT
         profileImage
+            .debug()
             .subscribe(onNext: { image in
                 if self.profileImageView.image != UIImage(named: "profileImage-100") {
                     viewModel.input.profileImage.onNext(image ?? UIImage(named: "profileImage-100"))
@@ -307,12 +308,7 @@ extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigation
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         self.profileImageView.image = image
-        
-        if puppyInfo != nil {
-            editPuppyViewModel?.input.profileImage.onNext(image)
-        } else {
-            createPuppyViewModel.input.profileImage.onNext(image)
-        }
+        editPuppyViewModel?.input.profileImage.onNext(image)
         
         picker.dismiss(animated: true, completion: nil)
     }
