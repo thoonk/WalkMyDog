@@ -82,6 +82,7 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     /// 산책 기록 추가시 뷰 전환 메서드
     @objc
     private func goToEdit() {
+        print("GOTOEDIT🙌")
         var checkedPuppy = [Puppy]()
         checkedPuppy.append(puppyInfo!)
         self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: checkedPuppy)
@@ -233,26 +234,32 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
 extension RecordViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 20, y: 0, width: 350, height: 50))
+        let headerView = UIView()
         headerView.isUserInteractionEnabled = true
+        headerView.translatesAutoresizingMaskIntoConstraints = false
         
-        let sectionLabel = UILabel(frame: CGRect(x: 20, y: 10, width: 100, height: 35))
+        let sectionLabel = UILabel()
+        sectionLabel.font = UIFont(name: "NanumGothic", size: 15)
         sectionLabel.text = "산책 내역"
+        headerView.addSubview(sectionLabel)
         
-        let addRecordBtn = UIButton(frame: CGRect(x: 280, y: 10, width: 80, height: 35))
-
+        sectionLabel.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 20, bottom: 0, right: 0), size: .init(width: 100, height: 30 ))
+        
+        let addRecordBtn = UIButton()
         addRecordBtn.setImage(UIImage(systemName: "plus"), for: .normal)
         addRecordBtn.isUserInteractionEnabled = true
         addRecordBtn.isEnabled = true
         addRecordBtn.tintColor = .lightGray
         addRecordBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
-        
-        let underBar = UIView(frame: CGRect(x: 20, y: 47, width: 320, height: 1))
-        underBar.backgroundColor = .lightGray
-        
-        headerView.addSubview(sectionLabel)
         headerView.addSubview(addRecordBtn)
+        
+        addRecordBtn.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 50), size: .init(width: 50, height: 30))
+        
+        let underBar = UIView()
+        underBar.backgroundColor = .lightGray
         headerView.addSubview(underBar)
+        
+        underBar.setAnchor(top: sectionLabel.safeAreaLayoutGuide.bottomAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: headerView.safeAreaLayoutGuide.bottomAnchor, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 20, bottom: 8, right: 0), size: .init(width: view.frame.size.width-20, height: 1))
         
         return headerView
     }

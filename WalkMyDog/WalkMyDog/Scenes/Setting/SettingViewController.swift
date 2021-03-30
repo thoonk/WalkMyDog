@@ -12,7 +12,8 @@ import RxCocoa
 class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Interface Builder
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
     // MARK: - Properties
     var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
     var bag = DisposeBag()
@@ -26,7 +27,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setFetchAllPuppyBinding()
+        setFetchAllPuppyBindingg()
         setUI()
     }
     
@@ -50,10 +51,24 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         setCustomBackBtn()
     }
     
-    func setFetchAllPuppyBinding() {
+    func setFetchAllPuppyBindingg() {
         fetchAllPuppyViewModel = FetchAllPuppyViewModel()
+        let input = fetchAllPuppyViewModel!.input
         let output = fetchAllPuppyViewModel!.output
-            
+        
+        // INPUT
+        rx.viewDidAppear
+            .take(1)
+            .map { _ in () }
+            .bind(to: input.fetchData)
+            .disposed(by: bag)
+        
+        // OUTPUT
+        output.isLoading
+            .map { !$0 }
+            .bind(to: activityIndicatorView.rx.isHidden)
+            .disposed(by: bag)
+        
         output.puppyData
             .bind(to: tableView.rx.items(cellIdentifier: C.Cell.puppy, cellType: PuppyTableViewCell.self)) { index, item, cell in
                 cell.puppyNameLabel.text = item.name
@@ -61,8 +76,10 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
-                self?.present(alertVC, animated: true)
+                let alertVC = AlertManager.shared.showAlert(title: "모든 반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true, completion: {
+                    input.fetchData.onNext(())
+                })
             }).disposed(by: bag)
         
         tableView.rx.modelSelected(Puppy.self)
@@ -98,22 +115,14 @@ extension SettingViewController: UITableViewDelegate {
         sectionImageView.image = UIImage(named: "dog-24")
         headerView.addSubview(sectionImageView)
 
-        sectionImageView.translatesAutoresizingMaskIntoConstraints = false
-        sectionImageView.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
-        sectionImageView.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-        sectionImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        sectionImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        sectionImageView.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: 20, bottom: 0, right: 0), size: .init(width: 25, height: 25))
         
         let sectionLabel = UILabel() // (frame: CGRect(x: 50, y: 10, width: 100, height: 37))
-        sectionLabel.font = UIFont.systemFont(ofSize: 17.0)
+        sectionLabel.font = UIFont(name: "NanumGothic", size: 15)
         sectionLabel.text = "반려견"
         headerView.addSubview(sectionLabel)
         
-        sectionLabel.translatesAutoresizingMaskIntoConstraints = false
-        sectionLabel.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        sectionLabel.leadingAnchor.constraint(equalTo: sectionImageView.trailingAnchor, constant: 15).isActive = true
-        sectionLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        sectionLabel.heightAnchor.constraint(equalToConstant: 37).isActive = true
+        sectionLabel.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: sectionImageView.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 15, bottom: 0, right: 0), size: .init(width: 100, height: 37))
 
         let addPuppyBtn = UIButton() // (frame: CGRect(x: 320, y: 10, width: 60, height: 37))
         addPuppyBtn.setImage(UIImage(systemName: "plus.circle"), for: .normal)
@@ -123,23 +132,13 @@ extension SettingViewController: UITableViewDelegate {
         addPuppyBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
         headerView.addSubview(addPuppyBtn)
         
-        addPuppyBtn.translatesAutoresizingMaskIntoConstraints = false
-        addPuppyBtn.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        addPuppyBtn.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -50).isActive = true
-        addPuppyBtn.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        addPuppyBtn.heightAnchor.constraint(equalToConstant: 37).isActive = true
+        addPuppyBtn.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 10), size: .init(width: 50, height: 37))
 
-        let underBar = UIView() // (frame: CGRect(x: 20, y: 48, width: 340, height: 1))
+        let underBar = UIView()
         underBar.backgroundColor = .lightGray
         headerView.addSubview(underBar)
         
-        underBar.translatesAutoresizingMaskIntoConstraints = false
-        underBar.bottomAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.bottomAnchor, constant: 5).isActive = true
-        underBar.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 1).isActive = true
-        underBar.leadingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-        underBar.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        underBar.widthAnchor.constraint(equalToConstant: 408).isActive = true
-        underBar.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        underBar.setAnchor(top: sectionLabel.bottomAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: headerView.safeAreaLayoutGuide.bottomAnchor, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 20, bottom: 5, right: 0), size: .init(width: view.frame.size.width-20, height: 1))
 
         return headerView
     }

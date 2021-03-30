@@ -4,19 +4,22 @@
 //
 //  Created by 김태훈 on 2021/02/16.
 //
-
+import Foundation
 import UIKit
 import RxCocoa
 import RxSwift
 import RxViewController
 
 class WeatherViewController: UIViewController {
+    // MARK: - Interface Builder
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
+    // MARK: - Properties
     var viewModel: FcstViewModel?
     var bag = DisposeBag()
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.refreshControl = UIRefreshControl()
@@ -32,11 +35,16 @@ class WeatherViewController: UIViewController {
         bag = DisposeBag()
     }
     
+    // MARK: - Method
     func setUI() {
         tableView.separatorStyle = .none
         tableView.rowHeight = 120
+        
+        let customFont = UIFont(name: "NanumGothic", size: 17)
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: customFont! ]
     }
     
+    // MARK: - ViewModel Binding
     func setBinding() {
         viewModel = FcstViewModel(with: LocationManager.shared)
         let output = viewModel!.output
