@@ -11,11 +11,7 @@ import RxCocoa
 import PanModal
 
 class HomeViewController: UIViewController {
-    
-    var currentViewModel: CurrentViewModel?
-    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
-    var bag = DisposeBag()
-    
+    // MARK: - InterfaceBuilder
     @IBOutlet weak var weatherView: UIView!
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
@@ -28,15 +24,12 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var rcmdLabel: UILabel!
     @IBOutlet weak var addRecordBtn: UIButton!
     
-    @IBAction func settingBtnTapped(_ sender: UIButton) {
-        self.performSegue(withIdentifier: C.Segue.homeToSetting, sender: nil)
-    }
+    // MARK: - Properties
+    var currentViewModel: CurrentViewModel?
+    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
+    var bag = DisposeBag()
     
-    @IBAction func addRecordBtnTapped(_ sender: UIButton) {
-        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "CheckPuppyVC") as! CheckPuppyViewController
-        presentPanModal(checkPuppyVC)
-    }
-    
+    // MARK: - LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setCurrentBinding()
@@ -57,16 +50,26 @@ class HomeViewController: UIViewController {
         }
     }
     
+    // MARK: - Actions
+    @IBAction func settingBtnTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: C.Segue.homeToSetting, sender: nil)
+    }
+    
+    @IBAction func addRecordBtnTapped(_ sender: UIButton) {
+        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "CheckPuppyVC") as! CheckPuppyViewController
+        presentPanModal(checkPuppyVC)
+    }
+    
+    // MARK: - Methods
     func setUI() {
         puppyProfileTableView.separatorStyle = .none
         locationLabel.adjustsFontSizeToFitWidth = true
-        weatherView.layer.cornerRadius = 10
-        weatherView.layer.borderWidth = 1.0
-        weatherView.layer.borderColor = UIColor.black.cgColor
+        weatherView.setShadowLayer()
+        recordView.setShadowLayer()
         
-        recordView.layer.cornerRadius = 10
-        recordView.layer.borderWidth = 1.0
-        recordView.layer.borderColor = UIColor.black.cgColor
+        let addBtnImage = UIImage(named: "plus-50")?.withRenderingMode(.alwaysTemplate)
+        addRecordBtn.setImage(addBtnImage, for: .normal)
+        addRecordBtn.tintColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
     }
     
     // MARK: - ViewModel Binding
@@ -122,7 +125,15 @@ class HomeViewController: UIViewController {
     
     func setFetchAllPuppyBinding() {
         fetchAllPuppyViewModel = FetchAllPuppyViewModel()
+        let input = fetchAllPuppyViewModel!.input
         let output = fetchAllPuppyViewModel!.output
+        
+        // INPUT
+        rx.viewDidAppear
+            .take(1)
+            .map { _ in () }
+            .bind(to: input.fetchData)
+            .disposed(by: bag)
 
         // OUTPUT
         output.puppyData
@@ -134,5 +145,14 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [weak self] puppy in
                 self?.performSegue(withIdentifier: C.Segue.homeToRecord, sender: puppy)
             }).disposed(by: bag)
+        
+        output.errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                let alertVC = AlertManager.shared.showAlert(title: "모든 반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                self?.present(alertVC, animated: true, completion: {
+                    input.fetchData.onNext(())
+                })
+            })
+            .disposed(by: bag)
     }
 }

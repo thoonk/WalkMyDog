@@ -12,22 +12,41 @@ import RxCocoa
 class FetchAllPuppyViewModel: ViewModelType {
 
     var bag: DisposeBag = DisposeBag()
-    var output = Output()
+    var input: Input
+    var output: Output
     
-    struct Input {}
+    struct Input {
+        var fetchData: AnyObserver<Void>
+    }
     
     struct Output {
-        var puppyData = PublishRelay<[Puppy]>()
-        let errorMessage = PublishRelay<String>()
+        let isLoading: BehaviorSubject<Bool>
+        var puppyData: PublishRelay<[Puppy]>
+        var errorMessage: PublishRelay<String>
     }
     
     init(){
+        let fetching = PublishSubject<Void>()
+        let fetchData: AnyObserver<Void> = fetching.asObserver()
+        let isLoading = BehaviorSubject<Bool>(value: false)
+        let puppyData = PublishRelay<[Puppy]>()
+        let error = PublishRelay<String>()
+        
+        input = Input(fetchData: fetchData)
 
-        _ = FIRStoreManager.shared.fetchAllPuppyInfo()
-            .subscribe(onNext: { [weak self] data in
-                self?.output.puppyData.accept(data)
-            }, onError: { [weak self] err in
-                self?.output.errorMessage.accept(err.localizedDescription)
-            }).disposed(by: bag)
+        fetching
+            .do(onNext: { _ in isLoading.onNext(true) })
+            .flatMapLatest { _ in
+                FIRStoreManager.shared.fetchAllPuppyInfo()
+            }
+            .do(onNext: { _ in isLoading.onNext(false) })
+            .subscribe(onNext: { data in
+                puppyData.accept(data)
+            }, onError: { err in
+                error.accept(err.localizedDescription)
+            })
+            .disposed(by: bag)
+        
+        output = Output(isLoading: isLoading, puppyData: puppyData, errorMessage: error)
     }
 }
