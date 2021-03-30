@@ -90,37 +90,37 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Actions
     @objc
-    func tapSelectImage(_ sender: Any){
+    private func tapSelectImage(_ sender: Any){
         self.present(self.imagePicker, animated: true, completion: nil)
     }
     
     @objc
-    func doneBtnTapped(sender: Any) {
+    private func doneBtnTapped(sender: Any) {
         self.view.endEditing(true)
     }
     
     @objc
-    func dateChanged(sender: UIDatePicker) {
+    private func dateChanged(sender: UIDatePicker) {
         self.birthTextField.text = sender.date.setDate()
     }
     
     @objc
-    func showPicker() {
+    private func showPicker() {
         birthTextField.becomeFirstResponder()
     }
     
     @objc
-    func dismissPicker() {
+    private func dismissPicker() {
         birthTextField.resignFirstResponder()
     }
     
     @objc
-    func selectSpecies() {
+    private func selectSpecies() {
         self.performSegue(withIdentifier: C.Segue.editToSearch, sender: nil)
     }
     
     @objc
-    func deleteBtnTapped() {
+    private func deleteBtnTapped() {
         let alertVC = AlertManager.shared.showAlert(title: "강아지 정보 삭제", subTitle: "정말로 삭제하시겠습니까?", actionBtnTitle: "삭제", cancelBtnTitle: "취소") { [weak self] in
             self?.editPuppyViewModel?.input.deleteBtnTapped.onNext(())
         }
@@ -128,11 +128,11 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Methods
-    func setUI() {
-        deleteButton.layer.cornerRadius = 10
-        deleteButton.layer.borderWidth = 1.0
-        deleteButton.layer.borderColor = UIColor.black.cgColor
+    private func setUI() {
+        deleteButton.layer.cornerRadius = 12
         deleteButton.layer.masksToBounds = true
+        deleteButton.backgroundColor = .systemGray5
+        
         profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
         profileImageView.image = UIImage(named: "profileImage-100")
                 
@@ -185,9 +185,14 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         setCustomBackBtn()
+        
+        let customFont = UIFont(name: "NanumGothic", size: 17)
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: customFont! ]
+        
+        saveButton.setTitleTextAttributes([NSAttributedString.Key.font: customFont!], for: .normal)
     }
     
-    func goToSetting() {
+    private func goToSetting() {
         navigationController?.popViewController(animated: true)
     }
     

@@ -68,6 +68,7 @@ extension SearchSpeciesViewController: UITableViewDataSource, UITableViewDelegat
         let items = searchController.isActive ? searchResults[indexPath.row] : C.PuppyInfo.species[indexPath.row]
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.species, for: indexPath)
         cell.textLabel?.text = items
+        cell.textLabel?.font = UIFont(name: "NanumGothic", size: 15)
         return cell
     }
     

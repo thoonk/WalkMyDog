@@ -9,8 +9,8 @@ import Foundation
 
 enum RCMDCriteria: Int {
     case none = -1
-    case happy = 0
-    case cool = 1
+    case love = 0
+    case happy = 1
     case bad = 2
     case worst = 3
 }
@@ -23,9 +23,9 @@ struct PMModel {
     var pm10Status: RCMDCriteria {
         switch pm10 {
         case 0...30.99:
-            return RCMDCriteria.happy
+            return RCMDCriteria.love
         case 31...50.99:
-            return RCMDCriteria.cool
+            return RCMDCriteria.happy
         case 51...100.99:
             return RCMDCriteria.bad
         case 101...:
@@ -38,9 +38,9 @@ struct PMModel {
     var pm25Status: RCMDCriteria {
         switch pm25 {
         case 0...15.99:
-            return RCMDCriteria.happy
+            return RCMDCriteria.love
         case 16...25.99:
-            return RCMDCriteria.cool
+            return RCMDCriteria.happy
         case 26...50.99:
             return RCMDCriteria.bad
         case 51...:
@@ -62,10 +62,10 @@ struct PMModel {
     
     var rcmdStatus: String {
         switch pmStatus {
-        case RCMDCriteria.happy, RCMDCriteria.cool:
+        case RCMDCriteria.love, RCMDCriteria.happy:
             return "산책을 나가기 좋은 날씨에요!!"
         case RCMDCriteria.bad:
-            return "오늘의 산책은 쉬어가는게 좋을거 같아요"
+            return "산책을 웬만하면 나가지 마세요:("
         case RCMDCriteria.worst:
             return "이불 밖은 위험해요!!"
         default:
@@ -75,42 +75,42 @@ struct PMModel {
     
     var rcmdImage: String {
         switch pmStatus {
-        case RCMDCriteria.happy, RCMDCriteria.cool:
+        case RCMDCriteria.love, RCMDCriteria.happy:
             return "dog-park-96"
         case RCMDCriteria.bad, RCMDCriteria.worst:
             return "dog-home-100"
         default:
-            return "puzzled-50"
+            return "puzzled-96"
         }
     }
     
     var pm10Image: String {
         switch pm10 {
         case 0...30.99:
-            return "happy-48"
+            return "love-48"
         case 31...50.99:
-            return "cool-48"
+            return "happy-48"
         case 51...100.99:
             return "sad-48"
         case 101...:
             return "angry-48"
         default:
-            return "puzzled-50"
+            return "puzzled-48"
         }
     }
     
     var pm25Image: String {
         switch pm25 {
         case 0...15.99:
-            return "happy-48"
+            return "love-48"
         case 16...25.99:
-            return "cool-48"
+            return "happy-48"
         case 26...50.99:
             return "sad-48"
         case 51...:
             return "angry-48"
         default:
-            return "puzzled-50"
+            return "puzzled-48"
         }
     }
 }
