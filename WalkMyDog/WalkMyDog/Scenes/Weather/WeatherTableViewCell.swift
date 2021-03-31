@@ -21,6 +21,9 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var launchPM25ImageView: UIImageView!
     @IBOutlet weak var dinnerPM25ImageView: UIImageView!
     @IBOutlet weak var rcmdImageView: UIImageView!
+    @IBOutlet weak var morningRcmdImageView: UIImageView!
+    @IBOutlet weak var launchRcmdImageView: UIImageView!
+    @IBOutlet weak var dinnerRcmdImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,6 +51,14 @@ class WeatherTableViewCell: UITableViewCell {
         dinnerPM10ImageView.image = UIImage(named: dinnerPM.pm10Image)
         dinnerPM25ImageView.image = UIImage(named: dinnerPM.pm25Image)
         
-        rcmdImageView.image = UIImage(named: data.weekPM![1].rcmdImage)
+        if data.weekWeather?.conditionId ?? 0 <= 531 {
+            morningRcmdImageView.image = nil
+            launchRcmdImageView.image = nil
+            dinnerRcmdImageView.image = nil
+        } else {
+            morningRcmdImageView.image = UIImage(named: morningPM.rcmdImage)
+            launchRcmdImageView.image = UIImage(named: launchPM.rcmdImage)
+            dinnerRcmdImageView.image = UIImage(named: dinnerPM.rcmdImage)
+        }
     }
 }

@@ -5,8 +5,6 @@
 //  Created by 김태훈 on 2021/02/16.
 //
 
-import Foundation
-
 enum RCMDCriteria: Int {
     case none = -1
     case love = 0
@@ -65,25 +63,25 @@ struct PMModel {
         case RCMDCriteria.love, RCMDCriteria.happy:
             return "산책을 나가기 좋은 날씨에요!!"
         case RCMDCriteria.bad:
-            return "산책을 웬만하면 나가지 마세요:("
+            return "오늘은 웬만하면 나가지 마세요:("
         case RCMDCriteria.worst:
             return "이불 밖은 위험해요!!"
         default:
             return "산책 추천이 비활성되어 있습니다."
         }
     }
-    
+        
     var rcmdImage: String {
         switch pmStatus {
         case RCMDCriteria.love, RCMDCriteria.happy:
-            return "dog-park-96"
+            return "check-mark-48"
         case RCMDCriteria.bad, RCMDCriteria.worst:
-            return "dog-home-100"
+            return ""
         default:
-            return "puzzled-96"
+            return ""
         }
     }
-    
+
     var pm10Image: String {
         switch pm10 {
         case 0...30.99:
