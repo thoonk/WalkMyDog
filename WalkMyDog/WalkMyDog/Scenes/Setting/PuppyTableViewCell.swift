@@ -16,4 +16,8 @@ class PuppyTableViewCell: UITableViewCell {
         
         self.selectionStyle = .none
     }
+    
+    func bindData(with data: Puppy) {
+        puppyNameLabel.text = data.name
+    }
 }

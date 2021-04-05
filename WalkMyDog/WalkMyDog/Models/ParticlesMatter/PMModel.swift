@@ -4,6 +4,7 @@
 //
 //  Created by 김태훈 on 2021/02/16.
 //
+import Foundation
 
 enum RCMDCriteria: Int {
     case none = -1
@@ -72,10 +73,17 @@ struct PMModel {
     }
         
     var rcmdImage: String {
+        let rcmdCriteria = UserDefaults.standard.value(forKey: "pmRcmdCriteria") as! String
         switch pmStatus {
         case RCMDCriteria.love, RCMDCriteria.happy:
             return "check-mark-48"
-        case RCMDCriteria.bad, RCMDCriteria.worst:
+        case RCMDCriteria.bad:
+            if rcmdCriteria == "나쁨" {
+                return "check-mark-48"
+            } else {
+                return ""
+            }
+        case RCMDCriteria.worst:
             return ""
         default:
             return ""

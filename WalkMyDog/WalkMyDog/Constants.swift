@@ -18,6 +18,11 @@ struct C {
         static let record = "recordCell"
         static let check = "checkPuppyCell"
         static let species = "speciesCell"
+        static let setting = "settingCell"
+        static let about = "aboutCell"
+        static let puppyHeader = "puppyHeaderCell"
+        static let settingHeader = "settingHeaderCell"
+        static let recordHeader = "recordHeaderCell"
     }
     
     struct Segue {

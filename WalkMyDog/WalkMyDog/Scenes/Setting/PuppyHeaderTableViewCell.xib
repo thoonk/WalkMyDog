@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumGothic.ttf">
+            <string>NanumGothic</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="puppyHeaderCell" id="KGk-i7-Jjw" customClass="PuppyHeaderTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dog-bone" translatesAutoresizingMaskIntoConstraints="NO" id="4JF-er-uo2">
+                        <rect key="frame" x="20" y="9.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="4dV-Td-UVQ"/>
+                            <constraint firstAttribute="width" constant="25" id="fCH-yp-r5A"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOK-BH-Vvj">
+                        <rect key="frame" x="285" y="9.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="1Db-R8-s4W"/>
+                            <constraint firstAttribute="height" constant="25" id="jcO-hq-oLI"/>
+                        </constraints>
+                        <color key="tintColor" name="customTintColor"/>
+                        <state key="normal" image="plus" catalog="system"/>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0J-Bx-Zk0">
+                        <rect key="frame" x="20" y="38" width="300" height="1"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Efk-vw-bud"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3Q-bL-bsY">
+                        <rect key="frame" x="55" y="12" width="42" height="20"/>
+                        <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="hOK-BH-Vvj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="w3Q-bL-bsY" secondAttribute="trailing" constant="10" id="3JW-VM-a8l"/>
+                    <constraint firstItem="4JF-er-uo2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="9kl-xa-G1Z"/>
+                    <constraint firstItem="4JF-er-uo2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="LUY-ue-bIt"/>
+                    <constraint firstAttribute="trailing" secondItem="c0J-Bx-Zk0" secondAttribute="trailing" id="Xk1-5f-0Qr"/>
+                    <constraint firstAttribute="bottom" secondItem="c0J-Bx-Zk0" secondAttribute="bottom" constant="5" id="d9J-QV-S8h"/>
+                    <constraint firstItem="hOK-BH-Vvj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dia-D3-vOo"/>
+                    <constraint firstItem="w3Q-bL-bsY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="gYf-pl-f5M"/>
+                    <constraint firstItem="c0J-Bx-Zk0" firstAttribute="top" secondItem="4JF-er-uo2" secondAttribute="bottom" constant="3.5" id="hJg-4c-P0e"/>
+                    <constraint firstItem="w3Q-bL-bsY" firstAttribute="leading" secondItem="4JF-er-uo2" secondAttribute="trailing" constant="10" id="lcf-0L-I3F"/>
+                    <constraint firstItem="c0J-Bx-Zk0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pYE-uh-pO7"/>
+                    <constraint firstAttribute="trailing" secondItem="hOK-BH-Vvj" secondAttribute="trailing" constant="10" id="pul-dc-2OI"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="createButton" destination="hOK-BH-Vvj" id="bsG-ps-VcT"/>
+                <outlet property="titleLabel" destination="w3Q-bL-bsY" id="nUc-Ab-Dtu"/>
+            </connections>
+            <point key="canvasLocation" x="133" y="84"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="dog-bone" width="26" height="26"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <namedColor name="customTintColor">
+            <color red="0.011764705882352941" green="0.40000000000000002" blue="0.20784313725490194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

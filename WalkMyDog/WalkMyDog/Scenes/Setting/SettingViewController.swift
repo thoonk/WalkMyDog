@@ -1,5 +1,5 @@
 //
-//  SettingViewController.swift
+//  SettingPuppyViewController.swift
 //  WalkMyDog
 //
 //  Created by 김태훈 on 2021/02/08.
@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Interface Builder
@@ -15,8 +16,21 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Properties
-    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
-    var bag = DisposeBag()
+    private var settingViewModel: SettingViewModel?
+    private var bag = DisposeBag()
+    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(configureCell: {
+        (dataSource, tableView, indexPath, item) in
+        switch item {
+        case .PuppyItem(let puppy):
+            let cell: PuppyTableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.puppy, for: indexPath) as! PuppyTableViewCell
+            cell.bindData(with: puppy)
+            return cell
+        case .SettingItem(let title, let subTitle):
+            let cell: SettingTableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.setting, for: indexPath) as! SettingTableViewCell
+            cell.bindData(title: title, subTitle: subTitle)
+            return cell
+        }
+    })
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -27,7 +41,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setFetchAllPuppyBindingg()
+        setSettingViewModelBinding()
         setUI()
     }
     
@@ -45,16 +59,22 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: - Actions
+    @objc
+    private func goToEdit() {
+        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
+    }
+    
     // MARK: - Methods
-    func setUI() {
+    private func setUI() {
         setTableView()
         setCustomBackBtn()
     }
     
-    func setFetchAllPuppyBindingg() {
-        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
-        let input = fetchAllPuppyViewModel!.input
-        let output = fetchAllPuppyViewModel!.output
+    private func setSettingViewModelBinding() {
+        settingViewModel = SettingViewModel()
+        let input = settingViewModel!.input
+        let output = settingViewModel!.output
         
         // INPUT
         rx.viewDidAppear
@@ -68,11 +88,10 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
             .map { !$0 }
             .bind(to: activityIndicatorView.rx.isHidden)
             .disposed(by: bag)
-        
-        output.puppyData
-            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.puppy, cellType: PuppyTableViewCell.self)) { index, item, cell in
-                cell.puppyNameLabel.text = item.name
-            }.disposed(by: bag)
+
+        output.cellData
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
@@ -82,65 +101,79 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
                 })
             }).disposed(by: bag)
         
-        tableView.rx.modelSelected(Puppy.self)
-            .subscribe(onNext: { [weak self] puppy in
-                self?.performSegue(withIdentifier: C.Segue.settingToEdit, sender: puppy)
-            }).disposed(by: bag)
+        Observable
+            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(SectionItem.self))
+            .bind { [weak self] indexPath, item in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
+                switch item {
+                case .PuppyItem(let puppy):
+                    self?.performSegue(withIdentifier: C.Segue.settingToEdit, sender: puppy)
+                case .SettingItem(_, _):
+                    self?.setRecommandCriteria()
+                }
+            }
+            .disposed(by: bag)
     }
     
     /// 테이블뷰 설정
-    func setTableView() {
+    private func setTableView() {
         tableView.rx.setDelegate(self)
             .disposed(by: bag)
         tableView.separatorStyle = .none
         tableView.rowHeight = 50
+        tableView.register(UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: C.Cell.puppyHeader)
+        tableView.register(UINib(nibName: "SettingHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: C.Cell.settingHeader)
     }
     
-    /// 강쥐 정보 추가시 뷰 전환 메서드
-    @objc
-    private func goToEdit() {
-        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
+    private func setRecommandCriteria(){
+        let titleFont = [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 20)]
+        let titleAttrString = NSMutableAttributedString(string: "산책 추천도 설정", attributes: titleFont as [NSAttributedString.Key : Any])
+        let msgFont = [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)]
+        let msgAttrString = NSMutableAttributedString(string: "미세먼지를 추천 받을 기준을 선택해주세요!", attributes: msgFont as [NSAttributedString.Key : Any])
+        
+        let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        actionSheet.setValue(titleAttrString, forKey: "attributedTitle")
+        actionSheet.setValue(msgAttrString, forKey: "attributedMessage")
+        
+        let indexPathForSetting = NSIndexPath(row: 0, section: 0) as IndexPath
+        let goodAction = UIAlertAction(title: "좋음", style: .default) { [weak self] _ in
+            UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
+            self?.tableView.reloadRows(at: [indexPathForSetting], with: .fade)
+        }
+        actionSheet.addAction(goodAction)
+        
+        let badAction = UIAlertAction(title: "나쁨", style: .default) { [weak self] _ in
+            UserDefaults.standard.setValue("나쁨", forKey: "pmRcmdCriteria")
+            self?.tableView.reloadRows(at: [indexPathForSetting], with: .fade)
+        }
+        actionSheet.addAction(badAction)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
 // MARK: - UITableViewDelegate
 extension SettingViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()//(frame: CGRect(x: 20, y: 0, width: 400, height: 50))
-        headerView.isUserInteractionEnabled = true
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let sectionImageView = UIImageView()//(frame: CGRect(x: 20, y: 15, width: 24, height: 24))
-        sectionImageView.image = UIImage(named: "dog-24")
-        headerView.addSubview(sectionImageView)
-
-        sectionImageView.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 15, left: 20, bottom: 0, right: 0), size: .init(width: 25, height: 25))
-        
-        let sectionLabel = UILabel() // (frame: CGRect(x: 50, y: 10, width: 100, height: 37))
-        sectionLabel.font = UIFont(name: "NanumGothic", size: 15)
-        sectionLabel.text = "반려견"
-        headerView.addSubview(sectionLabel)
-        
-        sectionLabel.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: sectionImageView.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 15, bottom: 0, right: 0), size: .init(width: 100, height: 37))
-
-        let addPuppyBtn = UIButton() // (frame: CGRect(x: 320, y: 10, width: 60, height: 37))
-        addPuppyBtn.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-        addPuppyBtn.isUserInteractionEnabled = true
-        addPuppyBtn.isEnabled = true
-        addPuppyBtn.tintColor = .lightGray
-        addPuppyBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
-        headerView.addSubview(addPuppyBtn)
-        
-        addPuppyBtn.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 10), size: .init(width: 50, height: 37))
-
-        let underBar = UIView()
-        underBar.backgroundColor = .lightGray
-        headerView.addSubview(underBar)
-        
-        underBar.setAnchor(top: sectionLabel.bottomAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: headerView.safeAreaLayoutGuide.bottomAnchor, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 20, bottom: 5, right: 0), size: .init(width: view.frame.size.width-20, height: 1))
-
-        return headerView
+        // Setting Section Header View
+        if section == 0 {
+            let settingHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.settingHeader) as! SettingHeaderTableViewCell
+            settingHeaderCell.bindData(with: "설정")
+            return settingHeaderCell
+        }
+        // Puppy Section Header View
+        else if section == 1 {
+            let puppyHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.puppyHeader) as! PuppyHeaderTableViewCell
+            puppyHeaderCell.titleLabel.text = "반려견"
+            puppyHeaderCell.createButton.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
+            return puppyHeaderCell
+        }
+        else {
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -56,9 +56,23 @@ class WeatherTableViewCell: UITableViewCell {
             launchRcmdImageView.image = nil
             dinnerRcmdImageView.image = nil
         } else {
-            morningRcmdImageView.image = UIImage(named: morningPM.rcmdImage)
-            launchRcmdImageView.image = UIImage(named: launchPM.rcmdImage)
-            dinnerRcmdImageView.image = UIImage(named: dinnerPM.rcmdImage)
+            if morningPM.rcmdImage == "" {
+                morningRcmdImageView.image = nil
+            } else {
+                morningRcmdImageView.image = UIImage(named: morningPM.rcmdImage)
+            }
+            
+            if launchPM.rcmdImage == "" {
+                launchRcmdImageView.image = nil
+            } else {
+                launchRcmdImageView.image = UIImage(named: launchPM.rcmdImage)
+            }
+            
+            if dinnerPM.rcmdImage == "" {
+                dinnerRcmdImageView.image = nil
+            } else {
+                dinnerRcmdImageView.image = UIImage(named: dinnerPM.rcmdImage)
+            }
         }
     }
 }
