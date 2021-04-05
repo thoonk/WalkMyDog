@@ -14,19 +14,62 @@ import GoogleSignIn
 import FBSDKLoginKit
 
 class LoginViewController: UIViewController {
-    
-    // Unhashed nonce.
-    fileprivate var currentNonce: String?
-
+    // MARK: - Interface Builder
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var loginProviderStackView: UIStackView!
     
+    // MARK: - Properties
+    // Unhashed nonce.
+    fileprivate var currentNonce: String?
+    private var slides: [SlideView] {
+        let slide1: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        slide1.imageView.image = UIImage(named: "img1.jpeg")
+        slide1.textLabel.text = "이미지1"
+        
+        let slide2: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        slide2.imageView.image = UIImage(named: "img2.jpeg")
+        slide2.textLabel.text = "이미지2"
+
+        
+        let slide3: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        slide3.imageView.image = UIImage(named: "img3.jpg")
+        slide3.textLabel.text = "이미지3"
+        
+        return [slide1, slide2, slide3]
+    }
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.delegate = self
+        view.bringSubviewToFront(loginProviderStackView)
+        view.bringSubviewToFront(pageControl)
+        setupOnboarding(slides: slides)
         setupProviderLoginView()
     }
+    
+    // MARK: - Methods
+    private func setupOnboarding(slides: [SlideView]) {
+        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2)
+        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: view.frame.height/2)
+        scrollView.isPagingEnabled = true
+                
+        for i in 0 ..< slides.count {
+            slides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height/2)
+            scrollView.addSubview(slides[i])
+        }
+        
+        pageControl.numberOfPages = slides.count
+        pageControl.currentPage = 0
+        pageControl.currentPageIndicatorTintColor = UIColor(named: "customTintColor")
+        pageControl.pageIndicatorTintColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        pageControl.isUserInteractionEnabled = false
+    }
+    
     /// 페이스북, 구글, 애플 로그인 버튼 세팅 메서드
-    func setupProviderLoginView() {
+    private func setupProviderLoginView() {
         let facebookLoginBtn = FBLoginButton()
         facebookLoginBtn.delegate = self
         facebookLoginBtn.permissions = ["public_profile", "email"]
@@ -44,7 +87,7 @@ class LoginViewController: UIViewController {
         loginProviderStackView.addArrangedSubview(appleLoginBtn)
     }
         
-    func signInFirbase(with credential: NSObject) {
+    private func signInFirbase(with credential: NSObject) {
         Auth.auth().signIn(with: credential as! AuthCredential) { (authResult, error) in
             if let error = error {
                 print("Firebase sign in error: \(error.localizedDescription)")
@@ -61,7 +104,7 @@ class LoginViewController: UIViewController {
     // MARK: - Authenticate with Firebase for sign in with Apple
     /// 인증을 처리할 메서드
     @objc
-    func handleAuthorizationAppleIDBtnPressed() {
+    private func handleAuthorizationAppleIDBtnPressed() {
         let request = createAppleIDRequest()
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
@@ -69,7 +112,7 @@ class LoginViewController: UIViewController {
         authorizationController.performRequests()
     }
     
-    func createAppleIDRequest() -> ASAuthorizationAppleIDRequest {
+    private func createAppleIDRequest() -> ASAuthorizationAppleIDRequest {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -194,3 +237,10 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
     }
 }
 
+// MARK: - UIScrollViewDelegate
+extension LoginViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
+        pageControl.currentPage = Int(pageIndex)
+    }
+}
