@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
         
         let addBtnImage = UIImage(named: "plus-50")?.withRenderingMode(.alwaysTemplate)
         addRecordBtn.setImage(addBtnImage, for: .normal)
-        addRecordBtn.tintColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        addRecordBtn.tintColor = UIColor(named: "customTintColor")
     }
     
     // MARK: - ViewModel Binding

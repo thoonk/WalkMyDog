@@ -29,7 +29,7 @@ extension UIViewController {
     func setCustomBackBtn() {
         let backImg = UIImage(systemName: "chevron.backward")?.resized(to: CGSize(width: 20, height: 20))
         let leftItem = UIBarButtonItem(image: backImg, style: .plain, target: self, action: #selector(goBack))
-        leftItem.tintColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        leftItem.tintColor = UIColor(named: "customTintColor")
         self.navigationItem.leftBarButtonItem = leftItem        
     }
     

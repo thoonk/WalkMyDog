@@ -21,9 +21,7 @@ class PuppyProfileTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         self.selectionStyle = .none
-        puppyProfileView.layer.cornerRadius = 10
-        puppyProfileView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        
+        puppyProfileView.layer.cornerRadius = 12
         puppyImageView.layoutIfNeeded()
         puppyImageView.layer.cornerRadius = puppyImageView.frame.height / 2.0
         puppyImageView.layer.masksToBounds = true

@@ -137,7 +137,7 @@ class EditRecordViewController: UIViewController {
                 if value == false {
                     self?.saveRecordButton.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
                 } else {
-                    self?.saveRecordButton.backgroundColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+                    self?.saveRecordButton.backgroundColor = UIColor(named: "customTintColor")
                 }
             })
             .disposed(by: bag)

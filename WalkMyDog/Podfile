@@ -23,12 +23,14 @@ target 'WalkMyDog' do
   pod 'RxCocoa'
   pod 'RxCoreLocation'
   pod 'RxViewController'
+  pod 'RxDataSources'
 
   target 'WalkMyDogTests' do
     inherit! :search_paths
     # Pods for testing
     pod 'RxBlocking'
     pod 'RxTest'
+    pod 'Nimble'
   end
 
   target 'WalkMyDogUITests' do

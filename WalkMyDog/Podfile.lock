@@ -224,6 +224,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
+  - Differentiator (5.0.0)
   - FBSDKCoreKit (9.0.0):
     - FBSDKCoreKit/Basics (= 9.0.0)
     - FBSDKCoreKit/Core (= 9.0.0)
@@ -365,6 +366,7 @@ PODS:
     - nanopb/encode (= 2.30907.0)
   - nanopb/decode (2.30907.0)
   - nanopb/encode (2.30907.0)
+  - Nimble (9.0.0)
   - PanModal (1.2.7)
   - PromisesObjC (1.2.12)
   - RxBlocking (6.0.0):
@@ -375,6 +377,10 @@ PODS:
   - RxCoreLocation (1.5.1):
     - RxCoreLocation/Core (= 1.5.1)
   - RxCoreLocation/Core (1.5.1):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
   - RxRelay (6.0.0):
@@ -397,10 +403,12 @@ DEPENDENCIES:
   - GoogleSignIn
   - JVFloatLabeledTextField
   - Kingfisher (~> 6.0)
+  - Nimble
   - PanModal
   - RxBlocking
   - RxCocoa
   - RxCoreLocation
+  - RxDataSources
   - RxSwift
   - RxTest
   - RxViewController
@@ -411,6 +419,7 @@ SPEC REPOS:
     - Alamofire
     - AppAuth
     - BoringSSL-GRPC
+    - Differentiator
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -434,11 +443,13 @@ SPEC REPOS:
     - Kingfisher
     - leveldb-library
     - nanopb
+    - Nimble
     - PanModal
     - PromisesObjC
     - RxBlocking
     - RxCocoa
     - RxCoreLocation
+    - RxDataSources
     - RxRelay
     - RxSwift
     - RxTest
@@ -449,6 +460,7 @@ SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FBSDKCoreKit: ac6cc500b8e104bb9a4dd20b1527b5d199123c2e
   FBSDKLoginKit: e9b6542fdee322333502ab497f628b011dce7d78
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
@@ -472,16 +484,18 @@ SPEC CHECKSUMS:
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
+  Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RxBlocking: c025b8c6fe08c5b18c039b5b11d41ec413f8a59e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
   RxCoreLocation: a78f4cbf32a4c6c47ecccbe22d41ff93b7e8c099
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxTest: ddef4052e63cb116f5b73510488c3113c37c62e5
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
 
-PODFILE CHECKSUM: 9a853821d6e67928f7e20fdfd9508ce5ee316099
+PODFILE CHECKSUM: 26c2f164c4896efdbba5cd2eebf16899d428c928
 
 COCOAPODS: 1.10.1

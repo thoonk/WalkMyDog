@@ -7,7 +7,7 @@
 
 import UIKit
 import FBSDKCoreKit
-import Firebase
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -29,12 +29,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         var initialVC = UIViewController()
+//        initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
+//        if let user = Auth.auth().currentUser {
+//            print("You're sign in as \(user.uid)")
+//        }
         if let user = Auth.auth().currentUser {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
             initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
         } else {
             initialVC = storyBoard.instantiateViewController(identifier: "LoginVC")
         }
+        
+        if (UserDefaults.standard.value(forKey: "pmRcmdCriteria") as? String) == nil {
+            UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
+        }
+        
         self.window?.rootViewController = initialVC
         self.window?.makeKeyAndVisible()
         

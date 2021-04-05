@@ -107,7 +107,7 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     private func setTableView() {
         recordTableView.rx.setDelegate(self)
             .disposed(by: bag)
-        
+        recordTableView.register(UINib(nibName: "RecordHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: C.Cell.recordHeader)
         recordTableView.separatorStyle = .none
         recordTableView.delaysContentTouches = false
         recordTableView.layer.cornerRadius = 10
@@ -197,7 +197,7 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
         calendarView.headerHeight = 0
         calendarView.scope = .month
         calendarView.appearance.weekdayTextColor = .lightGray
-        calendarView.appearance.todayColor = .systemIndigo
+        calendarView.appearance.todayColor = UIColor(named: "customTintColor")
         calendarView.placeholderType = .none
         
         headerLabel.text = self.dateFormatter.string(from: calendarView.currentPage)
@@ -234,34 +234,10 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
 extension RecordViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.isUserInteractionEnabled = true
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let sectionLabel = UILabel()
-        sectionLabel.font = UIFont(name: "NanumGothic", size: 15)
-        sectionLabel.text = "산책 내역"
-        headerView.addSubview(sectionLabel)
-        
-        sectionLabel.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 10, left: 20, bottom: 0, right: 0), size: .init(width: 100, height: 30 ))
-        
-        let addRecordBtn = UIButton()
-        addRecordBtn.setImage(UIImage(systemName: "plus"), for: .normal)
-        addRecordBtn.isUserInteractionEnabled = true
-        addRecordBtn.isEnabled = true
-        addRecordBtn.tintColor = .lightGray
-        addRecordBtn.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
-        headerView.addSubview(addRecordBtn)
-        
-        addRecordBtn.setAnchor(top: headerView.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 0, right: 50), size: .init(width: 50, height: 30))
-        
-        let underBar = UIView()
-        underBar.backgroundColor = .lightGray
-        headerView.addSubview(underBar)
-        
-        underBar.setAnchor(top: sectionLabel.safeAreaLayoutGuide.bottomAnchor, leading: headerView.safeAreaLayoutGuide.leadingAnchor, bottom: headerView.safeAreaLayoutGuide.bottomAnchor, trailing: headerView.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 20, bottom: 8, right: 0), size: .init(width: view.frame.size.width-20, height: 1))
-        
-        return headerView
+        let recordHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.recordHeader) as! RecordHeaderTableViewCell
+        recordHeaderCell.titleLabel.text = "산책기록"
+        recordHeaderCell.createButton.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
+        return recordHeaderCell
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

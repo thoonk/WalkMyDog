@@ -134,7 +134,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         deleteButton.backgroundColor = .systemGray5
         
         profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
-        profileImageView.image = UIImage(named: "profileImage-100")
+        profileImageView.image = UIImage(named: "profileImage-150")
                 
         weightTextField.rightView = setUnitLabel(inTxtField: " kg")
         weightTextField.rightViewMode = .always
@@ -142,10 +142,10 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         nameTextField.placeholder = "이름"
         speciesTextField.placeholder = "견종"
         birthTextField.placeholder = "생년월일"
-        nameTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
-        speciesTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
-        weightTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
-        birthTextField.floatingLabelActiveTextColor = #colorLiteral(red: 0.4196078431, green: 0.4, blue: 1, alpha: 1)
+        nameTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        speciesTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        weightTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        birthTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
 
         if puppyInfo != nil {
             deleteButton.isHidden = false
@@ -207,8 +207,8 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         profileImage
             .debug()
             .subscribe(onNext: { image in
-                if self.profileImageView.image != UIImage(named: "profileImage-100") {
-                    viewModel.input.profileImage.onNext(image ?? UIImage(named: "profileImage-100"))
+                if self.profileImageView.image != UIImage(named: "profileImage-150") {
+                    viewModel.input.profileImage.onNext(image ?? UIImage(named: "profileImage-150"))
                 } else {
                     viewModel.input.profileImage.onNext(nil)
                 }
@@ -276,7 +276,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
                 if urlString != nil {
                     self.profileImageView.setImage(with: urlString!)
                 } else {
-                    self.profileImageView.image = UIImage(named: "profileImage-100")
+                    self.profileImageView.image = UIImage(named: "profileImage-150")
                 }
             }).disposed(by: bag)
         

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,7 +37,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.41960784309999999" green="0.40000000000000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="customTintColor"/>
                                         <constraints>
                                             <constraint firstItem="cQJ-N8-q4F" firstAttribute="top" secondItem="iHi-e6-Wxm" secondAttribute="topMargin" id="Cwr-wp-6TW"/>
                                             <constraint firstItem="cQJ-N8-q4F" firstAttribute="leading" secondItem="iHi-e6-Wxm" secondAttribute="leadingMargin" id="Ma7-pr-kdE"/>
@@ -60,7 +61,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dYt-5i-u3h">
                                                 <rect key="frame" x="131" y="0.0" width="133" height="40"/>
                                                 <state key="normal" title="확인">
-                                                    <color key="titleColor" red="0.41960784309999999" green="0.40000000000000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="titleColor" name="customTintColor"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="actionBtnTapped:" destination="1RN-rj-DY7" eventType="touchUpInside" id="ppM-0c-TA3"/>
@@ -120,6 +121,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="customTintColor">
+            <color red="0.012000000104308128" green="0.40000000596046448" blue="0.20800000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="placeholderTextColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
