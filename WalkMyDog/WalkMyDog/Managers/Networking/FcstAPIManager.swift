@@ -137,6 +137,15 @@ class FcstAPIManager {
                     }
                 }
             }
+            
+            if pms.count == 4 {
+                for _ in 0..<3 {
+                    let pm = PMModel(dateTime: "-", pm10: -0.1234, pm25: -0.1234)
+                    pmDay.append(pm)
+                }
+                pms.append(pmDay)
+            }
+            
             return pms
         } catch {
             print("PM Fcst JSON Error: \(error.localizedDescription)")
