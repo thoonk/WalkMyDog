@@ -442,7 +442,7 @@
         <!--Edit Record View Controller-->
         <scene sceneID="PK7-Ny-hMz">
             <objects>
-                <viewController id="XRi-r4-00H" customClass="EditRecordViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditRecordVC" id="XRi-r4-00H" customClass="EditRecordViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="N36-Ne-U6J">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -558,11 +558,13 @@
                         <outlet property="saveRecordButton" destination="fXu-ra-qZA" id="nIz-si-Xug"/>
                         <outlet property="walkDistTextField" destination="bp9-K7-d7H" id="PWG-QF-FaQ"/>
                         <outlet property="walkIntervalTextField" destination="OYM-re-kl4" id="FBK-LB-iPv"/>
+                        <segue destination="NaK-PV-X70" kind="unwind" identifier="unwindToHome" unwindAction="unwindToHome:" id="kgU-Df-f8n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50a-3n-tjC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="NaK-PV-X70" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5640" y="581.51658767772506"/>
+            <point key="canvasLocation" x="5640" y="582"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="hWG-4L-YIK">

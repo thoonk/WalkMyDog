@@ -85,7 +85,6 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     /// 산책 기록 추가시 뷰 전환 메서드
     @objc
     private func goToEdit() {
-        print("GOTOEDIT🙌")
         var checkedPuppy = [Puppy]()
         checkedPuppy.append(puppyInfo!)
         self.performSegue(withIdentifier: C.Segue.recordToEdit, sender: checkedPuppy)

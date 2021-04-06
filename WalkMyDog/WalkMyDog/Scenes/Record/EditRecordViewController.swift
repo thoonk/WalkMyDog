@@ -47,6 +47,10 @@ class EditRecordViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func goToHome() {
+        performSegue(withIdentifier: C.Segue.unwindToHome, sender: self)
+    }
+    
     @objc
     func doneBtnTapped(sender: Any) {
         self.view.endEditing(true)
@@ -94,19 +98,6 @@ class EditRecordViewController: UIViewController {
         walkDistTextField.rightViewMode = .always
         
         saveRecordButton.titleLabel?.font = UIFont(name: "NanumGothic", size: 20)
-    }
-    
-    private func goToHome() {
-//        let tabBarVC = self.storyboard?.instantiateViewController(identifier: "TabBarVC") as! TabBarViewController
-//        let navigationController = UINavigationController(rootViewController: tabBarVC)
-//        navigationController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-//        self.present(navigationController, animated: true, completion: nil)
-        
-        
-        let navigationController = self.presentingViewController as? UINavigationController
-        self.dismiss(animated: false) {
-            navigationController?.popViewController(animated: true)
-        }
     }
     
     // MARK: - ViewModel Binding

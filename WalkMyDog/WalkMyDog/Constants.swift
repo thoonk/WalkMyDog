@@ -32,6 +32,7 @@ struct C {
         static let recordToEdit = "fromRecordToEdit"
         static let checkToEdit = "fromCheckToEdit"
         static let editToSearch = "fromEditToSearch"
+        static let unwindToHome = "unwindToHome"
     }
     
     struct PuppyInfo {

@@ -37,11 +37,11 @@ class EditRecordViewModel: ViewModelType {
         
         input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.timeStamp, input.walkedInterval, input.walkedDistance))
             .bind { [weak self] (timeStamp, interval, distance) in
-                
+
                 for puppy in selectedPuppies {
                     let calories = self?.computeCalories(weight: puppy.weight, interval: Int(interval)!)
                     let record = Record(timeStamp: timeStamp, walkInterval: interval, walkDistance: distance, walkCalories: calories!)
-                    
+
                     FIRStoreManager.shared.createRecordInfo(for: record, with: .record(puppyId: puppy.id!)) { (isSuccess, id, err) in
                         if isSuccess == true {
                             self?.output.goToHome.accept(())
@@ -50,7 +50,9 @@ class EditRecordViewModel: ViewModelType {
                         }
                     }
                 }
-            }.disposed(by: bag)
+            
+            }
+            .disposed(by: bag)
     }
     
     private func computeCalories(weight: Double, interval: Int) -> Double {

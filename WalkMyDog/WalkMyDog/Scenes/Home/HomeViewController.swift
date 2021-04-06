@@ -60,6 +60,8 @@ class HomeViewController: UIViewController {
         presentPanModal(checkPuppyVC)
     }
     
+    @IBAction func unwindToHome(_ sender: UIStoryboardSegue) {}
+    
     // MARK: - Methods
     func setUI() {
         puppyProfileTableView.separatorStyle = .none
