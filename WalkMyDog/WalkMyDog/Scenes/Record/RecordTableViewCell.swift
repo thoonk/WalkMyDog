@@ -30,6 +30,6 @@ class RecordTableViewCell: UITableViewCell {
     func bindData(data: Record) {
         self.timeStampLabel.text = data.timeStamp
         self.detailLabel.text =
-            "\(data.walkInterval)분, \(data.walkDistance)m"
+            "\(data.walkInterval)분, \(data.walkDistance)m, \(data.walkCalories)kcal"
     }
 }

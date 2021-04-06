@@ -35,7 +35,6 @@ class EditRecordViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         bag = DisposeBag()
     }
     
@@ -98,10 +97,16 @@ class EditRecordViewController: UIViewController {
     }
     
     private func goToHome() {
-        let tabBarVC = self.storyboard?.instantiateViewController(identifier: "TabBarVC") as! TabBarViewController
-        let navigationController = UINavigationController(rootViewController: tabBarVC)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        self.present(navigationController, animated: true, completion: nil)
+//        let tabBarVC = self.storyboard?.instantiateViewController(identifier: "TabBarVC") as! TabBarViewController
+//        let navigationController = UINavigationController(rootViewController: tabBarVC)
+//        navigationController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+//        self.present(navigationController, animated: true, completion: nil)
+        
+        
+        let navigationController = self.presentingViewController as? UINavigationController
+        self.dismiss(animated: false) {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     // MARK: - ViewModel Binding

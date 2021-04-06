@@ -12,17 +12,15 @@ import RxCoreLocation
 import CoreLocation
 
 final public class LocationManager {
-    
+    // MARK: - Properties
     static let shared = LocationManager()
-    
     private let locationManager = CLLocationManager()
-    
     private (set) var location = ReplaySubject<CLLocation>.create(bufferSize: 3)
     private (set) var placemark = ReplaySubject<CLPlacemark>.create(bufferSize: 3)
     private (set) var authorizedStatus = PublishSubject<Bool>()
-
     private var bag = DisposeBag()
     
+    // MARK: - Initializer
     private init() {
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -67,6 +65,7 @@ final public class LocationManager {
         locationManager.startUpdatingLocation()
     }
 
+    // MARK: - Methods
     func requestAuthroization() {
         locationManager.requestWhenInUseAuthorization()
     }

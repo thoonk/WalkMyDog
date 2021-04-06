@@ -20,8 +20,10 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var sumAvgRecordView: UIView!
     @IBOutlet weak var sumIntervalLabel: UILabel!
     @IBOutlet weak var sumDistLabel: UILabel!
+    @IBOutlet weak var sumCalorie: UILabel!
     @IBOutlet weak var avgIntervalLabel: UILabel!
     @IBOutlet weak var avgDistLabel: UILabel!
+    @IBOutlet weak var avgCalorie: UILabel!
     @IBOutlet weak var prevMonthButton: UIButton!
     @IBOutlet weak var nextMonthButton: UIButton!
     
@@ -47,6 +49,7 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        print("🙌 RootVC: \(navigationController?.viewControllers.first)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +184,14 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
         viewModel.output.avgDist
             .bind(to: avgDistLabel.rx.text)
             .disposed(by: bag)
+        
+        viewModel.output.sumCalorie
+            .bind(to: sumCalorie.rx.text)
+            .disposed(by: bag)
+        
+        viewModel.output.avgCalorie
+            .bind(to: avgCalorie.rx.text)
+            .disposed(by: bag)
     }
 }
 
@@ -235,7 +246,7 @@ extension RecordViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let recordHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.recordHeader) as! RecordHeaderTableViewCell
-        recordHeaderCell.titleLabel.text = "산책기록"
+        recordHeaderCell.titleLabel.text = "산책 기록"
         recordHeaderCell.createButton.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
         return recordHeaderCell
     }

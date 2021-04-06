@@ -11,10 +11,13 @@ import Alamofire
 import RxSwift
 
 class StorageManager {
-    
+    // MARK: - Properties
     static let shared = StorageManager()
     private let storage = Storage.storage().reference()
     
+    private init() {}
+    
+    // MARK: - Methods
     func saveImage(with ref: FIRStoreRef, id: String, image: UIImage, completion: @escaping (String) -> Void) {
         
         guard let imageData = image.pngData() else { return }

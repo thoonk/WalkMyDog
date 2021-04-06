@@ -19,7 +19,7 @@ class CurrentAPIManger {
     static let shared = CurrentAPIManger()
     private init() {}
     
-    // MARK: - Request Current Data
+    // MARK: - Request Current Weather
     func fetchWeatherData(lat: String, lon: String) -> Observable<WeatherCurrent> {
         return Observable.create() { emitter in
             let urlString = "\(self.createUrl(URLType.weather))&lat=\(lat)&lon=\(lon)"
@@ -61,7 +61,7 @@ class CurrentAPIManger {
         }
     }
     
-    // PM
+    // MARK: - Request PM Weather
     func fetchPMData(lat: String, lon: String) -> Observable<PMModel> {
         return Observable.create() { emitter in
             let urlString = "\(self.createUrl(URLType.pm))&lat=\(lat)&lon=\(lon)"
@@ -99,13 +99,13 @@ class CurrentAPIManger {
             let pm = PMModel(dateTime: pmDate, pm10: result.list[0].components.pm10, pm25: result.list[0].components.pm25)
 
             return pm
-            
         } catch {
             print("Current PM JSON Error: \(error.localizedDescription)")
             return nil
         }
     }
     
+    // MARK: - URL
     private func createUrl(_ type: URLType) -> String {
         var urlString = C.baseUrl
         

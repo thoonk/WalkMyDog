@@ -43,7 +43,7 @@ class CurrentViewModel: ViewModelType {
         input = Input(location: locationManager.location, placemark: locationManager.placemark)
         
         input.location
-            .take(1)
+            .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<WeatherCurrent> in
                 CurrentAPIManger.shared.fetchWeatherData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }.subscribe(onNext: { data in
@@ -53,8 +53,6 @@ class CurrentViewModel: ViewModelType {
             }).disposed(by: bag)
         
         input.location
-            .take(1)
-            .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<PMModel> in
                 CurrentAPIManger.shared.fetchPMData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }
@@ -94,7 +92,6 @@ class CurrentViewModel: ViewModelType {
             .map { data in
                 data.rcmdStatus
             }
-        
         
         output = Output(isLoading: isLoading,
                         locationName: locationName,

@@ -9,10 +9,9 @@ import Foundation
 import FirebaseFirestore
 import RxSwift
 
-final class FIRStoreManager {
-    
+class FIRStoreManager {
+    // MARK: - Properties
     static let shared = FIRStoreManager()
-    
     private var db = Firestore.firestore()
     private var collection: CollectionReference?
     private var document: DocumentReference?

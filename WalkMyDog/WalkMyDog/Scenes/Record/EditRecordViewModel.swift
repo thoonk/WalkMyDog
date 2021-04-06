@@ -28,7 +28,7 @@ class EditRecordViewModel: ViewModelType {
         let errorMessage = PublishRelay<String>()
     }
     
-    init(with selectedPuppy: [Puppy]) {
+    init(with selectedPuppies: [Puppy]) {
         
         Observable.combineLatest(input.timeStamp, input.walkedInterval, input.walkedDistance)
             .map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty }
@@ -37,9 +37,11 @@ class EditRecordViewModel: ViewModelType {
         
         input.saveBtnTapped.withLatestFrom(Observable.combineLatest(input.timeStamp, input.walkedInterval, input.walkedDistance))
             .bind { [weak self] (timeStamp, interval, distance) in
-                let record = Record(timeStamp: timeStamp, walkInterval: interval, walkDistance: distance)
                 
-                for puppy in selectedPuppy {
+                for puppy in selectedPuppies {
+                    let calories = self?.computeCalories(weight: puppy.weight, interval: Int(interval)!)
+                    let record = Record(timeStamp: timeStamp, walkInterval: interval, walkDistance: distance, walkCalories: calories!)
+                    
                     FIRStoreManager.shared.createRecordInfo(for: record, with: .record(puppyId: puppy.id!)) { (isSuccess, id, err) in
                         if isSuccess == true {
                             self?.output.goToHome.accept(())
@@ -49,6 +51,11 @@ class EditRecordViewModel: ViewModelType {
                     }
                 }
             }.disposed(by: bag)
+    }
+    
+    private func computeCalories(weight: Double, interval: Int) -> Double {
+        let calories = ((2.7 * (3.5 * weight * Double(interval))) / 1000) * 5
+        return round(calories * 100) / 100
     }
 }
 

@@ -9,11 +9,12 @@ import Foundation
 import RxSwift
 
 class AlertManager {
-    
+    // MARK: - Properties
     static let shared = AlertManager()
     
     private init() {}
     
+    // MARK: - Methods
     func showAlert(title: String, subTitle: String, actionBtnTitle: String, cancelBtnTitle: String? = nil, completion: (() -> Void)? = nil) -> AlertViewController {
         let stotyboard = UIStoryboard(name: "AlertStoryboard", bundle: .main)
         let alertVC = stotyboard.instantiateViewController(identifier: "AlertVC") as! AlertViewController

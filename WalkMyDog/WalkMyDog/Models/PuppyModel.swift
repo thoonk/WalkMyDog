@@ -34,10 +34,12 @@ struct Record: Codable, Identifiable {
     let timeStamp: String
     let walkInterval: String
     let walkDistance: String
+    let walkCalories: Double
     
-    init(timeStamp: String, walkInterval: String, walkDistance: String) {
+    init(timeStamp: String, walkInterval: String, walkDistance: String, walkCalories: Double) {
         self.timeStamp = timeStamp
         self.walkInterval = walkInterval
         self.walkDistance = walkDistance
+        self.walkCalories = walkCalories
     }
 }
