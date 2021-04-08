@@ -6,79 +6,85 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SearchSpeciesViewController: UIViewController {
     // MARK: - Interface Builder
     @IBOutlet weak var speciesTableView: UITableView!
     
     // MARK: - Properties
-    var searchResults = [String]()
     let searchController = UISearchController(searchResultsController: nil)
+    let searchSpeciesViewModel = SearchSpeciesViewModel()
+    var bag = DisposeBag()
     weak var delegate: SelectSpeciesDelegate?
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchController.searchResultsUpdater = self
-        speciesTableView.dataSource = self
-        speciesTableView.delegate = self
+        setUpSearchController()
+        setCustomBackBtn()
+        setSearchSpeciesViewModel()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bag = DisposeBag()
+    }
+    
+    // MARK: - ViewModel Binding
+    private func setSearchSpeciesViewModel() {
+        let input = searchSpeciesViewModel.input
+        let output = searchSpeciesViewModel.output
         
+        // INPUT
+        searchController.searchBar.rx.text
+            .bind { [weak self] text in
+                if self?.searchController.isActive == true {
+                    input.searchingText.onNext(text!)
+                } else {
+                    input.searchingText.onNext("")
+                }
+            }
+            .disposed(by: bag)
+        
+        // OUTPUT
+        output.searchResult
+            .bind(to: speciesTableView.rx.items) { (tv, index, item) -> UITableViewCell in
+                guard let cell = tv.dequeueReusableCell(withIdentifier: C.Cell.species) else { return UITableViewCell() }
+                cell.textLabel?.text = item
+                cell.textLabel?.font = UIFont(name: "NanumGothic", size: 15)
+                return cell
+            }
+            .disposed(by: bag)
+        
+        Observable
+            .zip(speciesTableView.rx.itemSelected,
+                 speciesTableView.rx.modelSelected(String.self))
+            .bind { [weak self] indexPath, item in
+                self?.speciesTableView.deselectRow(at: indexPath, animated: true)
+                
+                self?.delegate?.didSelectSpecies(with: item)
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: bag)
+    }
+    
+    // MARK: - Methods
+    private func setUpSearchController() {
         self.definesPresentationContext = true
         navigationItem.titleView = searchController.searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setUI()
-    }
-    
-    // MARK: - Methods
-    func setUI() {
-        setCustomBackBtn()
-    }
-    
-    func filterSpecies(from inputText: String) {
-        searchResults = C.PuppyInfo.species.filter {
-            let match = $0.range(of: inputText, options: .caseInsensitive)
-            return match != nil
-        }
-    }
-}
-
-// MARK: - SearchResultsUpdating
-extension SearchSpeciesViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            filterSpecies(from: searchText)
-            speciesTableView.reloadData()
-        }
-    }
-}
-
-// MARK: - TableView
-extension SearchSpeciesViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchController.isActive ? searchResults.count : C.PuppyInfo.species.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let items = searchController.isActive ? searchResults[indexPath.row] : C.PuppyInfo.species[indexPath.row]
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.species, for: indexPath)
-        cell.textLabel?.text = items
-        cell.textLabel?.font = UIFont(name: "NanumGothic", size: 15)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selected = searchController.isActive ? searchResults[indexPath.row] : C.PuppyInfo.species[indexPath.row]
-        delegate?.didSelectSpecies(with: selected)
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "견종"
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(named: "customTintColor")!,
+            .font: UIFont(name: "NanumGothic", size: 17)!
+        ]
+        
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
+        
+        searchController.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "견종을 입력해주세요!", attributes: [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)!])
     }
 }
