@@ -48,16 +48,14 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        print("🙌 RootVC: \(navigationController?.viewControllers.first)")
+        if puppyInfo != nil {
+            setRecordBinding()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUI()
-        if puppyInfo != nil {
-            setRecordBinding()
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,6 +101,7 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
         setTableView()
         setCalendar()
         setCustomBackBtn()
+        setNavigationBar()
         sumAvgRecordView.layer.cornerRadius = 10
     }
     
@@ -113,6 +112,11 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
         recordTableView.separatorStyle = .none
         recordTableView.delaysContentTouches = false
         recordTableView.layer.cornerRadius = 10
+    }
+    
+    private func setNavigationBar() {        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)!]
+        self.navigationItem.title = puppyInfo?.name ?? ""
     }
     
     // MARK: - ViewModel Binding
@@ -142,6 +146,7 @@ class RecordViewController: UIViewController, UIGestureRecognizerDelegate {
             .subscribe(onNext: { [weak self] _ in
                 viewModel.input.currentDate.onNext((self?.calendarView.currentPage)!)
             }).disposed(by: bag)
+        
         
         //OUTPUT
         viewModel.output.recordData
@@ -225,6 +230,7 @@ extension RecordViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         self.headerLabel.text = self.dateFormatter.string(from: calendar.currentPage)
+        recordViewModel!.input.currentDate.onNext(calendar.currentPage)
     }
 
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
@@ -251,6 +257,6 @@ extension RecordViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        50
+        44
     }
 }
