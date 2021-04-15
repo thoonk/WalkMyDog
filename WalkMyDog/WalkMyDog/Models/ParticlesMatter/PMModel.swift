@@ -62,11 +62,11 @@ struct PMModel {
     var rcmdStatus: String {
         switch pmStatus {
         case RCMDCriteria.love, RCMDCriteria.happy:
-            return "산책을 나가기 좋은 날씨에요!!"
+            return "산책을 나가기 좋은 날씨에요😆"
         case RCMDCriteria.bad:
-            return "오늘은 웬만하면 나가지 마세요:("
+            return "오늘은 웬만하면 나가지 마세요😔"
         case RCMDCriteria.worst:
-            return "이불 밖은 위험해요!!"
+            return "이불 밖은 위험해요😴"
         default:
             return "산책 추천이 비활성되어 있습니다."
         }

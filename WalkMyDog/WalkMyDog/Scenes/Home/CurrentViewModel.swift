@@ -88,9 +88,13 @@ class CurrentViewModel: ViewModelType {
                 data.pm25Image
             }
         
-        let rcmdStatus = pmSubject
-            .map { data in
-                data.rcmdStatus
+        let rcmdStatus: Observable<String> = Observable.combineLatest(pmSubject, weatherSubject)
+            .map { (pm, weather) in
+                if weather.conditionId <= 531 {
+                    return "비가 내려요..🌧"
+                } else {
+                    return pm.rcmdStatus
+                }
             }
         
         output = Output(isLoading: isLoading,

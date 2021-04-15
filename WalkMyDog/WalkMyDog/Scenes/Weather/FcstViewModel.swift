@@ -41,12 +41,10 @@ final class FcstViewModel: ViewModelType {
         
         input = Input(location: locationManager.location, placemark: locationManager.placemark, fetchFcst: fetchFcst)
         
-        fetching.withLatestFrom(input.location) // Observable.combineLatest(fetching, input.location)
-            .debug()
+        fetching.withLatestFrom(input.location)
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<[FcstModel]> in
-                print("\(location.coordinate.latitude), \(location.coordinate.longitude)")
-                return FcstAPIManager.shared.fetchFcstData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
+                FcstAPIManager.shared.fetchFcstData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
