@@ -23,38 +23,48 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sem-v4-cII">
-                        <rect key="frame" x="55" y="12" width="30" height="20"/>
-                        <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wrench" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Mtq-KT-WzQ">
-                        <rect key="frame" x="20" y="8" width="25" height="28"/>
-                        <color key="tintColor" systemColor="labelColor"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="na0-8H-7Po">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sem-v4-cII">
+                                <rect key="frame" x="55" y="12" width="30" height="20"/>
+                                <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wrench-48" translatesAutoresizingMaskIntoConstraints="NO" id="Mtq-KT-WzQ">
+                                <rect key="frame" x="20" y="9.5" width="25" height="25"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="Ohm-JW-ka3"/>
+                                    <constraint firstAttribute="height" constant="25" id="oIw-vn-2bG"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAM-WL-dGf" userLabel="bar">
+                                <rect key="frame" x="20" y="38" width="300" height="1"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="CfF-MJ-b6A"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="Ohm-JW-ka3"/>
-                            <constraint firstAttribute="height" constant="25" id="oIw-vn-2bG"/>
-                        </constraints>
-                    </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAM-WL-dGf">
-                        <rect key="frame" x="20" y="38" width="300" height="1"/>
-                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="CfF-MJ-b6A"/>
+                            <constraint firstItem="Sem-v4-cII" firstAttribute="leading" secondItem="Mtq-KT-WzQ" secondAttribute="trailing" constant="10" id="RdC-UY-4ph"/>
+                            <constraint firstAttribute="trailing" secondItem="sAM-WL-dGf" secondAttribute="trailing" id="SdJ-FU-QMZ"/>
+                            <constraint firstItem="Mtq-KT-WzQ" firstAttribute="leading" secondItem="na0-8H-7Po" secondAttribute="leading" constant="20" id="Xjm-FL-fJY"/>
+                            <constraint firstItem="sAM-WL-dGf" firstAttribute="leading" secondItem="na0-8H-7Po" secondAttribute="leading" constant="20" id="btt-UH-Gt6"/>
+                            <constraint firstItem="Sem-v4-cII" firstAttribute="centerY" secondItem="na0-8H-7Po" secondAttribute="centerY" id="oML-5l-Ysd"/>
+                            <constraint firstItem="Mtq-KT-WzQ" firstAttribute="centerY" secondItem="na0-8H-7Po" secondAttribute="centerY" id="rHr-3R-cQD"/>
+                            <constraint firstAttribute="bottom" secondItem="sAM-WL-dGf" secondAttribute="bottom" constant="5" id="xw5-PE-Flp"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Sem-v4-cII" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3Gd-nb-n6Q"/>
-                    <constraint firstItem="Sem-v4-cII" firstAttribute="leading" secondItem="Mtq-KT-WzQ" secondAttribute="trailing" constant="10" id="7FF-So-nC2"/>
-                    <constraint firstItem="sAM-WL-dGf" firstAttribute="top" secondItem="Mtq-KT-WzQ" secondAttribute="bottom" constant="3.5" id="DzL-Jh-lG1"/>
-                    <constraint firstAttribute="bottom" secondItem="sAM-WL-dGf" secondAttribute="bottom" constant="5" id="IFF-O9-EGp"/>
-                    <constraint firstAttribute="trailing" secondItem="sAM-WL-dGf" secondAttribute="trailing" id="aKm-hI-GeD"/>
-                    <constraint firstItem="sAM-WL-dGf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pkC-lf-Ke5"/>
-                    <constraint firstItem="Mtq-KT-WzQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sxa-K4-MmG"/>
-                    <constraint firstItem="Mtq-KT-WzQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="tmM-kY-Ndy"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Sem-v4-cII" secondAttribute="trailing" constant="10" id="yjn-3H-mMv"/>
+                    <constraint firstItem="na0-8H-7Po" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Ehd-9V-qKs"/>
+                    <constraint firstAttribute="trailing" secondItem="na0-8H-7Po" secondAttribute="trailing" id="Qgw-KG-dVc"/>
+                    <constraint firstAttribute="bottom" secondItem="na0-8H-7Po" secondAttribute="bottom" id="VX8-Hd-7fi"/>
+                    <constraint firstItem="na0-8H-7Po" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fsH-mR-lUF"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -65,9 +75,12 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="wrench" catalog="system" width="128" height="128"/>
+        <image name="wrench-48" width="48" height="48"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

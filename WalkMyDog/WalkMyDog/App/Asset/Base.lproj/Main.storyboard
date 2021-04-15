@@ -28,21 +28,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
-                                <rect key="frame" x="30" y="512.33333333333337" width="330" height="180"/>
+                                <rect key="frame" x="30" y="492.33333333333326" width="330" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="Ekh-hL-gr8"/>
                                 </constraints>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXg-2h-8no">
-                                <rect key="frame" x="0.0" y="44" width="390" height="380"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="360"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="380" id="gAy-gI-Yxv"/>
+                                    <constraint firstAttribute="height" constant="360" id="gAy-gI-Yxv"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="hg6-sc-YvQ"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="xnA-HZ-jdb"/>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="vwX-K5-crr">
-                                <rect key="frame" x="134.33333333333334" y="425" width="121.33333333333334" height="27.333333333333314"/>
+                                <rect key="frame" x="134.33333333333334" y="405" width="121.33333333333334" height="27.333333333333314"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
