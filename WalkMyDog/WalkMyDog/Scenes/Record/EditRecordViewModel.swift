@@ -56,7 +56,7 @@ class EditRecordViewModel: ViewModelType {
     }
     
     private func computeCalories(weight: Double, interval: Int) -> Double {
-        let calories = ((2.7 * (3.5 * weight * Double(interval))) / 1000) * 5
+        let calories = ((2.0 * (3.5 * weight * Double(interval))) / 1000) * 5
         return round(calories * 100) / 100
     }
 }
