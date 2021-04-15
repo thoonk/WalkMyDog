@@ -24,17 +24,17 @@ class LoginViewController: UIViewController {
     fileprivate var currentNonce: String?
     private var slides: [SlideView] {
         let slide1: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
-        slide1.imageView.image = UIImage(named: "img1.jpeg")
-        slide1.textLabel.text = "이미지1"
+        slide1.imageView.image = UIImage(named: "slideImage1.jpeg")
+        slide1.textLabel.text = "설정에서 반려견을 등록하고 \n반려견 프로필을 눌러보세요😄"
         
         let slide2: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
-        slide2.imageView.image = UIImage(named: "img2.jpeg")
-        slide2.textLabel.text = "이미지2"
+        slide2.imageView.image = UIImage(named: "slideImage2.jpeg")
+        slide2.textLabel.text = "산책 기록의 합계와 평균을 확인하고 \n산책 기록을 관리하세요🐶"
 
         
         let slide3: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
-        slide3.imageView.image = UIImage(named: "img3.jpg")
-        slide3.textLabel.text = "이미지3"
+        slide3.imageView.image = UIImage(named: "slideImage3.jpg")
+        slide3.textLabel.text = "날씨와 미세먼지를 확인하고 체크 표시를 \n통해 산책할 날을 추천받으세요🤗"
         
         return [slide1, slide2, slide3]
     }
@@ -55,6 +55,7 @@ class LoginViewController: UIViewController {
         scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2)
         scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: view.frame.height/2)
         scrollView.isPagingEnabled = true
+        scrollView.contentSize.height = 1.0
                 
         for i in 0 ..< slides.count {
             slides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height/2)
@@ -85,6 +86,8 @@ class LoginViewController: UIViewController {
         let appleLoginBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
         appleLoginBtn.addTarget(self, action: #selector(handleAuthorizationAppleIDBtnPressed), for: .touchUpInside)
         loginProviderStackView.addArrangedSubview(appleLoginBtn)
+        
+        loginProviderStackView.spacing = 10
     }
         
     private func signInFirbase(with credential: NSObject) {

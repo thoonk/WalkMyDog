@@ -81,10 +81,10 @@ class RecordViewModel: ViewModelType {
                     let avgCalorie = sumCalorie/Double(calorie.count)
                     
                     self?.output.sumInterval.accept("\(sumInterval/60) : \(sumInterval%60)")
-                    self?.output.sumDist.accept("\(round(Double(sumDist)/1000*100)/100)km")
+                    self?.output.sumDist.accept("\(round(Double(sumDist)/1000*100)/100) km")
                     self?.output.sumCalorie.accept("\(round(sumCalorie * 100) / 100) kcal")
                     self?.output.avgInterval.accept("\(avgInterval/60) : \(avgInterval%60)")
-                    self?.output.avgDist.accept("\(round(Double(avgDist)/1000*100)/100)km")
+                    self?.output.avgDist.accept("\(round(Double(avgDist)/1000*100)/100) km")
                     self?.output.avgCalorie.accept("\(round(avgCalorie * 100) / 100) kcal")
                 } else {
                     self?.output.sumInterval.accept("00:00")

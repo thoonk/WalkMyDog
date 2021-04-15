@@ -27,35 +27,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
-                                <rect key="frame" x="30" y="590" width="330" height="150"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
+                                <rect key="frame" x="30" y="512.33333333333337" width="330" height="180"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="Ekh-hL-gr8"/>
+                                    <constraint firstAttribute="height" constant="180" id="Ekh-hL-gr8"/>
                                 </constraints>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXg-2h-8no">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="500"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="380"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="500" id="gAy-gI-Yxv"/>
+                                    <constraint firstAttribute="height" constant="380" id="gAy-gI-Yxv"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="hg6-sc-YvQ"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="xnA-HZ-jdb"/>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="vwX-K5-crr">
-                                <rect key="frame" x="134.33333333333334" y="505" width="121.33333333333334" height="39"/>
+                                <rect key="frame" x="134.33333333333334" y="425" width="121.33333333333334" height="27.333333333333314"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vwX-K5-crr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="20D-7r-Cgr"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1xC-bK-dCf" secondAttribute="bottom" constant="70" id="3Tl-ke-M7B"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1xC-bK-dCf" secondAttribute="trailing" constant="30" id="OLe-ME-mkM"/>
                             <constraint firstItem="iXg-2h-8no" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VJN-qV-RbZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iXg-2h-8no" secondAttribute="trailing" id="WIh-qU-THN"/>
-                            <constraint firstItem="vwX-K5-crr" firstAttribute="top" secondItem="iXg-2h-8no" secondAttribute="bottom" constant="5" id="k8N-DY-eox"/>
-                            <constraint firstItem="1xC-bK-dCf" firstAttribute="top" secondItem="vwX-K5-crr" secondAttribute="bottom" constant="46" id="m62-TP-1I5"/>
-                            <constraint firstItem="iXg-2h-8no" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="qOU-1F-d6p"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1xC-bK-dCf" secondAttribute="bottom" constant="50" id="dgt-aY-KYo"/>
+                            <constraint firstItem="vwX-K5-crr" firstAttribute="top" secondItem="iXg-2h-8no" secondAttribute="bottom" constant="1" id="k8N-DY-eox"/>
+                            <constraint firstItem="1xC-bK-dCf" firstAttribute="top" secondItem="vwX-K5-crr" secondAttribute="bottom" constant="60" id="m62-TP-1I5"/>
+                            <constraint firstItem="iXg-2h-8no" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qOU-1F-d6p"/>
                             <constraint firstItem="1xC-bK-dCf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="tWo-ol-0Fz"/>
                         </constraints>
                     </view>
@@ -1454,6 +1454,9 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="3rW-ke-FSZ">
+            <size key="intrinsicContentSize" width="29.666666666666668" height="21.666666666666668"/>
+        </designable>
         <designable name="OYM-re-kl4">
             <size key="intrinsicContentSize" width="67.333333333333329" height="38"/>
         </designable>
