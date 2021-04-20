@@ -29,10 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         var initialVC = UIViewController()
-//        initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
-//        if let user = Auth.auth().currentUser {
-//            print("You're sign in as \(user.uid)")
-//        }
+//        initialVC = storyBoard.instantiateViewController(identifier: "LoginVC")
+        
         if let user = Auth.auth().currentUser {
             print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
             initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
@@ -44,8 +42,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
         }
         
-        self.window?.rootViewController = initialVC
+        self.window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
         self.window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.window?.rootViewController = initialVC
+        }
         
         guard let _ = (scene as? UIWindowScene) else { return }
     }
