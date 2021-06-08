@@ -23,18 +23,30 @@ class LoginViewController: UIViewController {
     // Unhashed nonce.
     fileprivate var currentNonce: String?
     private var slides: [SlideView] {
-        let slide1: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        let slide1: SlideView = Bundle.main.loadNibNamed(
+            "SlideView",
+            owner: self,
+            options: nil
+        )?.first as! SlideView
         slide1.imageView.image = UIImage(named: "slideImage1.jpeg")
-        slide1.textLabel.text = "설정에서 반려견을 등록하고 \n반려견 프로필을 눌러보세요😄"
+        slide1.textLabel.text = C.Slide.text1
         
-        let slide2: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        let slide2: SlideView = Bundle.main.loadNibNamed(
+            "SlideView",
+            owner: self,
+            options: nil
+        )?.first as! SlideView
         slide2.imageView.image = UIImage(named: "slideImage2.jpeg")
-        slide2.textLabel.text = "산책 기록의 합계와 평균을 확인하고 \n산책 기록을 관리하세요🐶"
+        slide2.textLabel.text = C.Slide.text2
 
         
-        let slide3: SlideView = Bundle.main.loadNibNamed("SlideView", owner: self, options: nil)?.first as! SlideView
+        let slide3: SlideView = Bundle.main.loadNibNamed(
+            "SlideView",
+            owner: self,
+            options: nil
+        )?.first as! SlideView
         slide3.imageView.image = UIImage(named: "slideImage3.jpg")
-        slide3.textLabel.text = "날씨와 미세먼지를 확인하고 체크 표시를 \n통해 산책할 날을 추천받으세요🤗"
+        slide3.textLabel.text = C.Slide.text3
         
         return [slide1, slide2, slide3]
     }
@@ -52,13 +64,26 @@ class LoginViewController: UIViewController {
     
     // MARK: - Methods
     private func setupOnboarding(slides: [SlideView]) {
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2)
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: view.frame.height/2)
+        scrollView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width,
+            height: view.frame.height/2
+        )
+        scrollView.contentSize = CGSize(
+            width: view.frame.width * CGFloat(slides.count),
+            height: view.frame.height/2
+        )
         scrollView.isPagingEnabled = true
         scrollView.contentSize.height = 1.0
                 
         for i in 0 ..< slides.count {
-            slides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height/2)
+            slides[i].frame = CGRect(
+                x: view.frame.width * CGFloat(i),
+                y: 0,
+                width: view.frame.width,
+                height: view.frame.height/2
+            )
             scrollView.addSubview(slides[i])
         }
         
@@ -83,15 +108,23 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance()?.delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
-        let appleLoginBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
-        appleLoginBtn.addTarget(self, action: #selector(handleAuthorizationAppleIDBtnPressed), for: .touchUpInside)
+        let appleLoginBtn = ASAuthorizationAppleIDButton(
+            authorizationButtonType: .signIn,
+            authorizationButtonStyle: .black
+        )
+        appleLoginBtn.addTarget(
+            self,
+            action: #selector(handleAuthorizationAppleIDBtnPressed),
+            for: .touchUpInside
+        )
         loginProviderStackView.addArrangedSubview(appleLoginBtn)
-        
         loginProviderStackView.spacing = 10
     }
         
     private func signInFirbase(with credential: NSObject) {
-        Auth.auth().signIn(with: credential as! AuthCredential) { (authResult, error) in
+        Auth.auth().signIn(
+            with: credential as! AuthCredential
+        ) { authResult, error in
             if let error = error {
                 print("Firebase sign in error: \(error.localizedDescription)")
                 return
@@ -109,7 +142,9 @@ class LoginViewController: UIViewController {
     @objc
     private func handleAuthorizationAppleIDBtnPressed() {
         let request = createAppleIDRequest()
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        let authorizationController = ASAuthorizationController(
+            authorizationRequests: [request]
+        )
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
@@ -174,7 +209,11 @@ class LoginViewController: UIViewController {
 
 // MARK: - Facebook Login Extension
 extension LoginViewController: LoginButtonDelegate {
-    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+    func loginButton(
+        _ loginButton: FBLoginButton,
+        didCompleteWith result: LoginManagerLoginResult?,
+        error: Error?
+    ) {
         print("Facebook User logged in")
         
         guard let token = result?.token?.tokenString else {
@@ -193,7 +232,11 @@ extension LoginViewController: LoginButtonDelegate {
 
 // MARK: - Google Login Extension
 extension LoginViewController: GIDSignInDelegate {
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    func sign(
+        _ signIn: GIDSignIn!,
+        didSignInFor user: GIDGoogleUser!,
+        withError error: Error!
+    ) {
         if let error = error {
             print("sigIn error: \(error.localizedDescription)")
             return
@@ -201,41 +244,60 @@ extension LoginViewController: GIDSignInDelegate {
             print("user email: \(user.profile.email ?? "no email")")
         }
         guard let auth = user.authentication else { return }
-        let googleCredential = GoogleAuthProvider.credential(withIDToken: auth.idToken, accessToken: auth.accessToken)
+        let googleCredential = GoogleAuthProvider.credential(
+            withIDToken: auth.idToken,
+            accessToken: auth.accessToken
+        )
         signInFirbase(with: googleCredential)
     }
 }
 
 // MARK: - Apple Login Extension
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
         
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+        if let appleIDCredential = authorization
+            .credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
-                fatalError("Invalid state: A lgoin callback was received, but no login request was sent")
+                fatalError("Invalid state: A login callback was received, but no login request was sent")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
                 print("Unable to fetch identity token")
                 return
             }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            guard let idTokenString = String(
+                    data: appleIDToken,
+                    encoding: .utf8
+            ) else {
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
             
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+            let credential = OAuthProvider.credential(
+                withProviderID: "apple.com",
+                idToken: idTokenString,
+                rawNonce: nonce
+            )
             signInFirbase(with: credential)
         }
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithError error: Error
+    ) {
         // 에러 처리
         print("Sign in with Apple errored: \(error)")
     }
 }
 
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+    func presentationAnchor(
+        for controller: ASAuthorizationController
+    ) -> ASPresentationAnchor {
         return self.view.window!
     }
 }
