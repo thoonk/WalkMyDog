@@ -51,8 +51,12 @@ class SearchSpeciesViewController: UIViewController {
         
         // OUTPUT
         output.searchResult
-            .bind(to: speciesTableView.rx.items) { (tv, index, item) -> UITableViewCell in
-                guard let cell = tv.dequeueReusableCell(withIdentifier: C.Cell.species) else { return UITableViewCell() }
+            .bind(
+                to: speciesTableView.rx.items
+            ) { tv, index, item -> UITableViewCell in
+                guard let cell = tv.dequeueReusableCell(
+                        withIdentifier: C.Cell.species
+                ) else { return UITableViewCell() }
                 cell.textLabel?.text = item
                 cell.textLabel?.font = UIFont(name: "NanumGothic", size: 15)
                 return cell
@@ -83,8 +87,20 @@ class SearchSpeciesViewController: UIViewController {
             .font: UIFont(name: "NanumGothic", size: 17)!
         ]
         
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
+        UIBarButtonItem
+            .appearance(whenContainedInInstancesOf: [UISearchBar.self])
+            .setTitleTextAttributes(attributes, for: .normal)
         
-        searchController.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "견종을 입력해주세요!", attributes: [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)!])
+        searchController
+            .searchBar
+            .searchTextField
+            .attributedPlaceholder = NSAttributedString(
+                string: "견종을 입력해주세요!",
+                attributes: [
+                    NSAttributedString.Key.font: UIFont(
+                        name: "NanumGothic",
+                        size: 17
+                    )!
+                ])
     }
 }

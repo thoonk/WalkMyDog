@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecordHeaderTableViewCell: UITableViewCell {
+final class RecordHeaderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var createButton: UIButton!

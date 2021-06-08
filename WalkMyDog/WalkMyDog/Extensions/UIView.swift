@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIView {
+    /// 커스텀 뷰 설정하는 함수
     func setShadowLayer() {
         self.layer.cornerRadius = 12
         self.clipsToBounds = true
@@ -18,12 +19,14 @@ extension UIView {
         self.layer.shadowColor = UIColor.black.cgColor
     }
     
+    /// AutoLayout 설정하는 함수
     func setAnchor(top: NSLayoutYAxisAnchor?,
                    leading: NSLayoutXAxisAnchor?,
                    bottom: NSLayoutYAxisAnchor?,
                    trailing: NSLayoutXAxisAnchor?,
                    padding: UIEdgeInsets = .zero,
-                   size: CGSize = .zero) {
+                   size: CGSize = .zero
+    ) {
         
         translatesAutoresizingMaskIntoConstraints = false
         

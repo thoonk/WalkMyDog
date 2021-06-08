@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import RxViewController
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     // MARK: - Interface Builder
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -41,7 +41,9 @@ class WeatherViewController: UIViewController {
         tableView.rowHeight = 120
         
         let customFont = UIFont(name: "NanumGothic", size: 17)
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: customFont! ]
+        navigationController?
+            .navigationBar
+            .titleTextAttributes = [ NSAttributedString.Key.font: customFont! ]
     }
     
     // MARK: - ViewModel Binding
@@ -73,7 +75,10 @@ class WeatherViewController: UIViewController {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "예보 날씨 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "예보 날씨 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인")
                 self?.present(alertVC, animated: true)
             })
             .disposed(by: bag)
@@ -83,7 +88,10 @@ class WeatherViewController: UIViewController {
             .disposed(by: bag)
             
         output.fcstData
-            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.weather, cellType: WeatherTableViewCell.self)) { index, item, cell in
+            .bind(to: tableView.rx.items(
+                    cellIdentifier: C.Cell.weather,
+                    cellType: WeatherTableViewCell.self
+            )) { index, item, cell in
                 cell.bindData(data: item)
             }
             .disposed(by: bag)

@@ -9,7 +9,7 @@ import UIKit
 import JVFloatLabeledTextField
 
 /// 코드로 변경된 값을 Observe하기 위한 텍스트 필드
-class CustomTextField: JVFloatLabeledTextField {
+final class CustomTextField: JVFloatLabeledTextField {
     override var text: String? {
         didSet {
             sendActions(for: .valueChanged)

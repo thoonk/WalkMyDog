@@ -11,6 +11,7 @@ protocol Identifiable {
     var id: String? { get set }
 }
 
+/// 반려견의 정보 모델
 struct Puppy: Codable, Identifiable {
     var id: String? = nil
     var name: String
@@ -20,7 +21,13 @@ struct Puppy: Codable, Identifiable {
     var species: String
     var imageUrl: String?
     
-    init(name: String, age: String, gender: Bool, weight: Double, species: String) {
+    init(
+        name: String,
+        age: String,
+        gender: Bool,
+        weight: Double,
+        species: String
+    ) {
         self.name = name
         self.age = age
         self.gender = gender
@@ -29,6 +36,7 @@ struct Puppy: Codable, Identifiable {
     }
 }
 
+/// 반려견의 산책 기록 모델
 struct Record: Codable, Identifiable {
     var id: String? = nil
     let timeStamp: String
@@ -36,7 +44,12 @@ struct Record: Codable, Identifiable {
     let walkDistance: String
     let walkCalories: Double
     
-    init(timeStamp: String, walkInterval: String, walkDistance: String, walkCalories: Double) {
+    init(
+        timeStamp: String,
+        walkInterval: String,
+        walkDistance: String,
+        walkCalories: Double
+    ) {
         self.timeStamp = timeStamp
         self.walkInterval = walkInterval
         self.walkDistance = walkDistance

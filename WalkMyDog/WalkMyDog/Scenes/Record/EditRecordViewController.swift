@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import JVFloatLabeledTextField
 
-class EditRecordViewController: UIViewController {
+final class EditRecordViewController: UIViewController {
     // MARK: - Interface Builder
     @IBOutlet weak var datePickerTextField: JVFloatLabeledTextField!
     @IBOutlet weak var walkIntervalTextField: JVFloatLabeledTextField!
@@ -85,7 +85,11 @@ class EditRecordViewController: UIViewController {
             picker.datePickerMode = .dateAndTime
             picker.preferredDatePickerStyle = .wheels
             picker.maximumDate = Date()
-            picker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
+            picker.addTarget(
+                self,
+                action: #selector(dateChanged(sender:)),
+                for: .valueChanged
+            )
             
             let datePickerBar = setKeyboardDoneBtn(for: #selector(dismissPicker))
             datePickerTextField.inputView = picker
@@ -141,7 +145,11 @@ class EditRecordViewController: UIViewController {
         viewModel.output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "Firestore 오류",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         

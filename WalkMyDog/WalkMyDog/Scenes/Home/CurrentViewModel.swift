@@ -9,8 +9,8 @@ import Foundation
 import RxSwift
 import CoreLocation
 
-class CurrentViewModel: ViewModelType {
-        
+final class CurrentViewModel: ViewModelType {
+    
     var input: Input
     var output: Output
     var bag: DisposeBag = DisposeBag()
@@ -40,12 +40,18 @@ class CurrentViewModel: ViewModelType {
         let isLoading = BehaviorSubject<Bool>(value: false)
         let locationManager = LocationManager.shared
         
-        input = Input(location: locationManager.location, placemark: locationManager.placemark)
+        input = Input(
+            location: locationManager.location,
+            placemark: locationManager.placemark
+        )
         
         input.location
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<WeatherCurrent> in
-                CurrentAPIManger.shared.fetchWeatherData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
+                CurrentAPIManger.shared.fetchWeatherData(
+                    lat: "\(location.coordinate.latitude)",
+                    lon: "\(location.coordinate.longitude)"
+                )
             }.subscribe(onNext: { data in
                 weatherSubject.onNext(data)
             }, onError: { err in
@@ -54,7 +60,10 @@ class CurrentViewModel: ViewModelType {
         
         input.location
             .flatMapLatest { (location) -> Observable<PMModel> in
-                CurrentAPIManger.shared.fetchPMData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
+                CurrentAPIManger.shared.fetchPMData(
+                    lat: "\(location.coordinate.latitude)",
+                    lon: "\(location.coordinate.longitude)"
+                )
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
@@ -77,7 +86,7 @@ class CurrentViewModel: ViewModelType {
             .map { data in
                 data.temperatureString
             }
-                
+        
         let pm10Image = pmSubject
             .map { data in
                 data.pm10Image
@@ -88,7 +97,8 @@ class CurrentViewModel: ViewModelType {
                 data.pm25Image
             }
         
-        let rcmdStatus: Observable<String> = Observable.combineLatest(pmSubject, weatherSubject)
+        let rcmdStatus: Observable<String> = Observable
+            .combineLatest(pmSubject, weatherSubject)
             .map { (pm, weather) in
                 if weather.conditionId <= 531 {
                     return "비가 내려요..🌧"
@@ -97,13 +107,15 @@ class CurrentViewModel: ViewModelType {
                 }
             }
         
-        output = Output(isLoading: isLoading,
-                        locationName: locationName,
-                        conditionName: conditionName,
-                        temperature: temperature,
-                        pm10Image: pm10Image,
-                        pm25Image: pm25Image,
-                        rcmdStatus: rcmdStatus,
-                        errorMessage: error)
+        output = Output(
+            isLoading: isLoading,
+            locationName: locationName,
+            conditionName: conditionName,
+            temperature: temperature,
+            pm10Image: pm10Image,
+            pm25Image: pm25Image,
+            rcmdStatus: rcmdStatus,
+            errorMessage: error
+        )
     }
 }

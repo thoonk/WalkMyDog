@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol SelectSpeciesDelegate: class {
+/// 반려견의 종 선택 후 선택한 객체를 전달하기 위한 프로토콜
+protocol SelectSpeciesDelegate: AnyObject {
     func didSelectSpecies(with: String)
 }

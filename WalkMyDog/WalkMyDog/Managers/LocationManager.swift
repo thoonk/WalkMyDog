@@ -11,6 +11,7 @@ import RxSwift
 import RxCoreLocation
 import CoreLocation
 
+/// 현재 위치를 관리하는 클래스
 final public class LocationManager {
     // MARK: - Properties
     static let shared = LocationManager()

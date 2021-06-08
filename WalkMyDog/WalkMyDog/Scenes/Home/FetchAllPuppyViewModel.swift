@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class FetchAllPuppyViewModel: ViewModelType {
+final class FetchAllPuppyViewModel: ViewModelType {
 
     var bag: DisposeBag = DisposeBag()
     var input: Input
@@ -47,6 +47,10 @@ class FetchAllPuppyViewModel: ViewModelType {
             })
             .disposed(by: bag)
         
-        output = Output(isLoading: isLoading, puppyData: puppyData, errorMessage: error)
+        output = Output(
+            isLoading: isLoading,
+            puppyData: puppyData,
+            errorMessage: error
+        )
     }
 }

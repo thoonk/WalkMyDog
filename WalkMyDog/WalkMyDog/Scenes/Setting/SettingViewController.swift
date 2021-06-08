@@ -18,15 +18,26 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Properties
     private var settingViewModel: SettingViewModel?
     private var bag = DisposeBag()
-    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(configureCell: {
-        (dataSource, tableView, indexPath, item) in
+    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(
+        configureCell: {(
+            dataSource,
+            tableView,
+            indexPath,
+            item
+        ) in
         switch item {
         case .PuppyItem(let puppy):
-            let cell: PuppyTableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.puppy, for: indexPath) as! PuppyTableViewCell
+            let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: C.Cell.puppy,
+                for: indexPath
+            ) as! PuppyTableViewCell
             cell.bindData(with: puppy)
             return cell
         case .SettingItem(let title, let subTitle):
-            let cell: SettingTableViewCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.setting, for: indexPath) as! SettingTableViewCell
+            let cell: SettingTableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: C.Cell.setting,
+                for: indexPath
+            ) as! SettingTableViewCell
             cell.bindData(title: title, subTitle: subTitle)
             return cell
         }
@@ -95,19 +106,29 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "모든 반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "모든 반려견 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true, completion: {
                     input.fetchData.onNext(())
                 })
             }).disposed(by: bag)
         
         Observable
-            .zip(tableView.rx.itemSelected, tableView.rx.modelSelected(SectionItem.self))
+            .zip(
+                tableView.rx.itemSelected,
+                tableView.rx.modelSelected(SectionItem.self)
+            )
             .bind { [weak self] indexPath, item in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
                 switch item {
                 case .PuppyItem(let puppy):
-                    self?.performSegue(withIdentifier: C.Segue.settingToEdit, sender: puppy)
+                    self?.performSegue(
+                        withIdentifier: C.Segue.settingToEdit,
+                        sender: puppy
+                    )
                 case .SettingItem(_, _):
                     self?.setRecommandCriteria()
                 }
@@ -121,28 +142,54 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
             .disposed(by: bag)
         tableView.separatorStyle = .none
         tableView.rowHeight = 50
-        tableView.register(UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: C.Cell.puppyHeader)
-        tableView.register(UINib(nibName: "SettingHeaderTableViewCell", bundle: nil), forCellReuseIdentifier: C.Cell.settingHeader)
+        tableView.register(
+            UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil),
+            forCellReuseIdentifier: C.Cell.puppyHeader
+        )
+        tableView.register(
+            UINib(nibName: "SettingHeaderTableViewCell", bundle: nil),
+            forCellReuseIdentifier: C.Cell.settingHeader
+        )
     }
     
     private func setRecommandCriteria(){
-        let titleFont = [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 20)]
-        let titleAttrString = NSMutableAttributedString(string: "산책 추천도 설정", attributes: titleFont as [NSAttributedString.Key : Any])
-        let msgFont = [NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)]
-        let msgAttrString = NSMutableAttributedString(string: "미세먼지를 추천 받을 기준을 선택해주세요!", attributes: msgFont as [NSAttributedString.Key : Any])
+        let titleFont = [
+            NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 20)
+        ]
+        let titleAttrString = NSMutableAttributedString(
+            string: "산책 추천도 설정",
+            attributes: titleFont as [NSAttributedString.Key : Any]
+        )
+        let msgFont = [
+            NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 17)
+        ]
+        let msgAttrString = NSMutableAttributedString(
+            string: "미세먼지를 추천 받을 기준을 선택해주세요!",
+            attributes: msgFont as [NSAttributedString.Key : Any]
+        )
         
-        let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(
+            title: "",
+            message: "",
+            preferredStyle: .actionSheet
+        )
         actionSheet.setValue(titleAttrString, forKey: "attributedTitle")
         actionSheet.setValue(msgAttrString, forKey: "attributedMessage")
         
         let indexPathForSetting = NSIndexPath(row: 0, section: 0) as IndexPath
-        let goodAction = UIAlertAction(title: "좋음", style: .default) { [weak self] _ in
+        let goodAction = UIAlertAction(
+            title: "좋음",
+            style: .default
+        ) { [weak self] _ in
             UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
             self?.tableView.reloadRows(at: [indexPathForSetting], with: .fade)
         }
         actionSheet.addAction(goodAction)
         
-        let badAction = UIAlertAction(title: "나쁨", style: .default) { [weak self] _ in
+        let badAction = UIAlertAction(
+            title: "나쁨",
+            style: .default
+        ) { [weak self] _ in
             UserDefaults.standard.setValue("나쁨", forKey: "pmRcmdCriteria")
             self?.tableView.reloadRows(at: [indexPathForSetting], with: .fade)
         }
@@ -157,18 +204,29 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
 
 // MARK: - UITableViewDelegate
 extension SettingViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
         // Setting Section Header View
         if section == 0 {
-            let settingHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.settingHeader) as! SettingHeaderTableViewCell
+            let settingHeaderCell = tableView.dequeueReusableCell(
+                withIdentifier: C.Cell.settingHeader
+            ) as! SettingHeaderTableViewCell
             settingHeaderCell.bindData(with: "설정")
             return settingHeaderCell
         }
         // Puppy Section Header View
         else if section == 1 {
-            let puppyHeaderCell = tableView.dequeueReusableCell(withIdentifier: C.Cell.puppyHeader) as! PuppyHeaderTableViewCell
+            let puppyHeaderCell = tableView.dequeueReusableCell(
+                withIdentifier: C.Cell.puppyHeader
+            ) as! PuppyHeaderTableViewCell
             puppyHeaderCell.titleLabel.text = "반려견"
-            puppyHeaderCell.createButton.addTarget(self, action: #selector(goToEdit), for: .touchUpInside)
+            puppyHeaderCell.createButton.addTarget(
+                self,
+                action: #selector(goToEdit),
+                for: .touchUpInside
+            )
             return puppyHeaderCell
         }
         else {
@@ -176,7 +234,10 @@ extension SettingViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+    ) -> CGFloat {
         return 50
     }
 }

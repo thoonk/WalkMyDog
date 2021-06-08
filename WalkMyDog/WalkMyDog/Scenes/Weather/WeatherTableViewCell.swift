@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherTableViewCell: UITableViewCell {
+final class WeatherTableViewCell: UITableViewCell {
 
     @IBOutlet weak var fcstView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -36,7 +36,9 @@ class WeatherTableViewCell: UITableViewCell {
         dateLabel.text = data.weekWeather?.dateTime
         maxTempLabel.text = "\(data.weekWeather?.maxTempString ?? "-")"
         minTempLabel.text = "\(data.weekWeather?.minTempString ?? "-")"
-        weatherImageView.image = UIImage(systemName: data.weekWeather?.conditionName ?? "sum.max")
+        weatherImageView.image = UIImage(
+            systemName: data.weekWeather?.conditionName ?? "sum.max"
+        )
         
         let morningPM: PMModel = data.weekPM![0]
         let launchPM: PMModel = data.weekPM![1]

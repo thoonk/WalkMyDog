@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class PuppyProfileTableViewCell: UITableViewCell {
+final class PuppyProfileTableViewCell: UITableViewCell {
 
     @IBOutlet weak var puppyProfileView: UIView!
     @IBOutlet weak var puppyImageView: UIImageView!
@@ -29,7 +29,7 @@ class PuppyProfileTableViewCell: UITableViewCell {
     
     func bindData(with data: Puppy) {
         if data.imageUrl != nil {
-            puppyImageView.setImage(with: data.imageUrl!)
+            puppyImageView.setImageCache(with: data.imageUrl!)
         } else {
             puppyImageView.image = UIImage(named: "profileImage-100")
         }

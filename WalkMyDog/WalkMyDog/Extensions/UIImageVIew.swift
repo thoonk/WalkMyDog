@@ -10,9 +10,11 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-    func setImage(with urlString: String) {
+    /// 앱 메모리에 image cache 저장하는 함수
+    func setImageCache(with urlString: String) {
         let imageCache = ImageCache.default
         let image = imageCache.retrieveImageInMemoryCache(forKey: urlString)
+        
         if image != nil {
             self.image = image
         } else {

@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import PanModal
 
-class CheckPuppyViewController: UIViewController {
+final class CheckPuppyViewController: UIViewController {
     // MARK: - Interface Builder
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var selectButton: UIButton!
@@ -18,10 +18,17 @@ class CheckPuppyViewController: UIViewController {
     
     @IBAction func selectBtnTapped(_ sender: UIButton) {
         if checkedPuppies.isEmpty {
-            let alertVC = AlertManager.shared.showAlert(title: "알림", subTitle: "반려견을 한 마리 이상 선택해주세요!", actionBtnTitle: "확인")
+            let alertVC = AlertManager.shared.showAlert(
+                title: "알림",
+                subTitle: "반려견을 한 마리 이상 선택해주세요!",
+                actionBtnTitle: "확인"
+            )
             self.present(alertVC, animated: true)
         } else {
-            self.performSegue(withIdentifier: C.Segue.checkToEdit, sender: checkedPuppies)
+            self.performSegue(
+                withIdentifier: C.Segue.checkToEdit,
+                sender: checkedPuppies
+            )
         }
     }
     // MARK: - Properties
@@ -75,14 +82,18 @@ class CheckPuppyViewController: UIViewController {
             .disposed(by: bag)
             
         output.puppyData
-            .bind(to: tableView.rx.items(cellIdentifier: C.Cell.check, cellType: CheckPuppyTableViewCell.self)) { [weak self] index, item, cell in
+            .bind(to: tableView.rx.items(
+                    cellIdentifier: C.Cell.check,
+                    cellType: CheckPuppyTableViewCell.self
+            )) { [weak self] index, item, cell in
                 cell.puppyNameLabel.text = item.name
                 cell.checkWalkedButton.rx.tap.asObservable()
                     .subscribe(onNext: {
                         if cell.checkWalkedButton.isChecked == true {
                             self?.checkedPuppies.append(item)
                         } else {
-                            let arrIndex = self?.checkedPuppies.firstIndex { $0.id == item.id }
+                            let arrIndex = self?.checkedPuppies
+                                .firstIndex { $0.id == item.id }
                             self?.checkedPuppies.remove(at: arrIndex!)
                         }
                     }).disposed(by: cell.bag)
@@ -90,7 +101,11 @@ class CheckPuppyViewController: UIViewController {
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "모든 반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "모든 반려견 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true, completion: {
                     input.fetchData.onNext(())
                 })

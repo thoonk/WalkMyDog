@@ -15,7 +15,7 @@ class FetchPuppyViewModel: ViewModelType {
     struct Input {}
     
     struct Output {
-        // 강쥐 정보
+        // 반려견 정보
         let profileImageUrl: Observable<String?>
         let puppyNameText: Observable<String>
         let puppySpeciesText: Observable<String>
@@ -27,7 +27,6 @@ class FetchPuppyViewModel: ViewModelType {
     let output: Output
     
     init(with selectedItem: Puppy) {
-        
         let puppyInfo = Observable.just(selectedItem)
         
         let puppyName = puppyInfo.map { $0.name }
@@ -37,6 +36,13 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyGender = puppyInfo.map { $0.gender }
         let puppyImageUrl = puppyInfo.map { $0.imageUrl }
         
-        self.output = Output(profileImageUrl: puppyImageUrl, puppyNameText: puppyName, puppySpeciesText: puppySpecies, puppyWeightText: puppyWeight, puppyBirthText: puppyBirth, puppyGender: puppyGender)
+        self.output = Output(
+            profileImageUrl: puppyImageUrl,
+            puppyNameText: puppyName,
+            puppySpeciesText: puppySpecies,
+            puppyWeightText: puppyWeight,
+            puppyBirthText: puppyBirth,
+            puppyGender: puppyGender
+        )
     }
 }

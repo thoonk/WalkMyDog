@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class RecordTableViewCell: UITableViewCell {
+final class RecordTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!

@@ -7,7 +7,8 @@
 
 import UIKit
 
-class RadioButton: UIButton {
+/// 라디오 버튼 구현 클래스
+final class RadioButton: UIButton {
     
     var alternateBtn: Array<RadioButton>?
     

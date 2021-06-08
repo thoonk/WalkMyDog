@@ -10,7 +10,8 @@ import FirebaseStorage
 import Alamofire
 import RxSwift
 
-class StorageManager {
+/// Firebase Storage 관리 클래스
+final class StorageManager {
     // MARK: - Properties
     static let shared = StorageManager()
     private let storage = Storage.storage().reference()
@@ -18,12 +19,17 @@ class StorageManager {
     private init() {}
     
     // MARK: - Methods
-    func saveImage(with ref: FIRStoreRef, id: String, image: UIImage, completion: @escaping (String) -> Void) {
+    /// 반려견의 프로필 사진 저장하는 함수
+    func saveImage(
+        with ref: FIRStoreRef,
+        id: String,
+        image: UIImage,
+        completion: @escaping (String) -> Void) {
         
         guard let imageData = image.pngData() else { return }
         let ref = storage.child("\(ref.uid)/\(id)")
         
-        ref.putData(imageData, metadata: nil) { (_, error) in
+        ref.putData(imageData, metadata: nil) { _, error in
             if error != nil {
                 print("Failed to upload: \(error!.localizedDescription)")
                 return
@@ -38,6 +44,7 @@ class StorageManager {
         }
     }
     
+    /// 반려견의 포로필 이미지 로드하는 함수
     func loadImage(from url: String) -> Observable<UIImage> {
         return Observable.create() { emitter in
             self.requestImage(from: url) { result in
@@ -52,6 +59,7 @@ class StorageManager {
         }
     }
     
+    /// alamofire를 사용해서 이미지 요청하는 함수
     func requestImage(from url: String, completion: @escaping (Result<Data, Error>) -> Void) {
         AF.request(url).response { response in
             switch response.result {
@@ -63,7 +71,11 @@ class StorageManager {
         }
     }
     
-    func deleteImage(with ref: FIRStoreRef, id: String, completion: @escaping (Bool, Error?) -> Void) {
+    /// 서버에 저장되어 있는 이미지 삭제 요청하는 함수
+    func deleteImage(
+        with ref: FIRStoreRef,
+        id: String,
+        completion: @escaping (Bool, Error?) -> Void) {
         let ref = storage.child("\(ref.uid)/\(id)")
         ref.delete { (err) in
             if err != nil {

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// WeatherFcstData를 파싱한 모델
 struct WeatherFcst {
     let conditionId: Int
     let minTemp: Double
@@ -43,6 +44,7 @@ struct WeatherFcst {
     }
 }
 
+/// WeatherCurrentData를 파싱한 모델
 struct WeatherCurrent {
     let conditionId: Int
     let temperature: Double

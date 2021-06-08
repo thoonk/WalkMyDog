@@ -13,8 +13,8 @@ enum SnapshotError: Error {
 }
 
 extension DocumentSnapshot {
-    
-    func decode<T: Decodable>(as objectType: T.Type, includingId: Bool = true) throws -> T {
+    /// FireStore에서 받은 데이터를 원하는 타입으로 디코딩하는 함수
+    public func decode<T: Decodable>(as objectType: T.Type, includingId: Bool = true) throws -> T {
         
         guard var documentJson = data() else { throw SnapshotError.decodingError }
         if includingId {

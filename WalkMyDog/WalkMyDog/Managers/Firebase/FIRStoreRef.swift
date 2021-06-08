@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 
+/// FireStore 참조
 enum FIRStoreRef {
     case uid
     case user

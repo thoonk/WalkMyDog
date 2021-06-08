@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import RxSwift
 
-class CurrentAPIManger {
+final class CurrentAPIManger {
     
     private enum URLType {
         case weather
@@ -20,6 +20,7 @@ class CurrentAPIManger {
     private init() {}
     
     // MARK: - Request Current Weather
+    /// FcstModel을 Observable타입으로 만들어 반환하는 함수
     func fetchWeatherData(lat: String, lon: String) -> Observable<WeatherCurrent> {
         return Observable.create() { emitter in
             let urlString = "\(self.createUrl(URLType.weather))&lat=\(lat)&lon=\(lon)"
@@ -35,7 +36,10 @@ class CurrentAPIManger {
         }
     }
     
-    private func requestWeatherData(with url: String, completion: @escaping (Result<WeatherCurrent, Error>) -> Void) {
+    /// alamofire를 사용해서 날씨 API를 호출하여 JSON 타입의 데이터를 얻는 함수
+    private func requestWeatherData(
+        with url: String,
+        completion: @escaping (Result<WeatherCurrent, Error>) -> Void) {
         AF.request(url).responseJSON { response in
             switch response.result {
             case.success(let data):
@@ -48,11 +52,16 @@ class CurrentAPIManger {
         }
     }
     
+    /// JSON 타입의 데이터를 WeatherCurrent 모델로 디코딩 및 가공하는 함수
     private func parseWeatherJSON(_ data: Any) -> WeatherCurrent? {
         do {
-            let weatherData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+            let weatherData = try JSONSerialization
+                .data(withJSONObject: data, options: .prettyPrinted)
             let result = try JSONDecoder().decode(WeatherCurrentData.self, from: weatherData)
-            let weather = WeatherCurrent(conditionId: result.weather[0].id, temperature: result.main.temp)
+            let weather = WeatherCurrent(
+                conditionId: result.weather[0].id,
+                temperature: result.main.temp
+            )
             return weather
             
         } catch {
@@ -62,6 +71,7 @@ class CurrentAPIManger {
     }
     
     // MARK: - Request PM Weather
+    /// PMModel을 Observable타입으로 만들어 반환하는 함수
     func fetchPMData(lat: String, lon: String) -> Observable<PMModel> {
         return Observable.create() { emitter in
             let urlString = "\(self.createUrl(URLType.pm))&lat=\(lat)&lon=\(lon)"
@@ -77,7 +87,10 @@ class CurrentAPIManger {
         }
     }
     
-    private func requestPMData(with url: String, completion: @escaping (Result<PMModel, Error>) -> Void) {
+    /// alamofire를 사용해서 미세먼지 API를 호출하여 JSON 타입의 데이터를 얻는 함수
+    private func requestPMData(
+        with url: String,
+        completion: @escaping (Result<PMModel, Error>) -> Void) {
         AF.request(url).responseJSON { response in
             switch response.result {
             case .success(let data):
@@ -90,14 +103,19 @@ class CurrentAPIManger {
         }
     }
     
+    /// JSON 타입의 데이터를 PMData 모델로 디코딩 및 가공하는 함수
     private func parsePMJSON(_ data: Any) -> PMModel? {
         do {
             let pmData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             let result = try JSONDecoder().decode(PMData.self, from: pmData)
 
-            let pmDate = Date(timeIntervalSince1970: result.list[0].dt).toLocalized(with: "KST", by: "day")
-            let pm = PMModel(dateTime: pmDate, pm10: result.list[0].components.pm10, pm25: result.list[0].components.pm25)
-
+            let pmDate = Date(timeIntervalSince1970: result.list[0].dt)
+                .toLocalized(with: "KST", by: "day")
+            let pm = PMModel(
+                dateTime: pmDate,
+                pm10: result.list[0].components.pm10,
+                pm25: result.list[0].components.pm25
+            )
             return pm
         } catch {
             print("Current PM JSON Error: \(error.localizedDescription)")
@@ -106,6 +124,7 @@ class CurrentAPIManger {
     }
     
     // MARK: - URL
+    /// URLType에 맞춰 baseUrl을 해당 URL로 만들어주는 함수
     private func createUrl(_ type: URLType) -> String {
         var urlString = C.baseUrl
         

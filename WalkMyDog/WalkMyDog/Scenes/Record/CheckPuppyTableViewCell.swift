@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class CheckPuppyTableViewCell: UITableViewCell {
+final class CheckPuppyTableViewCell: UITableViewCell {
 
     @IBOutlet weak var puppyNameLabel: UILabel!
     @IBOutlet weak var checkWalkedButton: CheckButton!

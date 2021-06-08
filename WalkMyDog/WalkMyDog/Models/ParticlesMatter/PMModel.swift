@@ -6,6 +6,7 @@
 //
 import Foundation
 
+/// 미세먼지 추천 기준
 enum RCMDCriteria: Int {
     case none = -1
     case love = 0
@@ -14,6 +15,7 @@ enum RCMDCriteria: Int {
     case worst = 3
 }
 
+/// PMData를 파싱한 모델
 struct PMModel {
     let dateTime: String
     let pm10: Double
@@ -73,7 +75,9 @@ struct PMModel {
     }
         
     var rcmdImage: String {
-        let rcmdCriteria = UserDefaults.standard.value(forKey: "pmRcmdCriteria") as! String
+        let rcmdCriteria = UserDefaults.standard.value(
+            forKey: "pmRcmdCriteria"
+        ) as! String
         switch pmStatus {
         case RCMDCriteria.love, RCMDCriteria.happy:
             return "check-mark-48"

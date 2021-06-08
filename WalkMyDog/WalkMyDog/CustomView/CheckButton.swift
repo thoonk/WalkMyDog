@@ -7,10 +7,15 @@
 
 import UIKit
 
-class CheckButton: UIButton {
+/// 체크 버튼 구현 클래스
+final class CheckButton: UIButton {
     
-    let checkedImage = UIImage(systemName: "checkmark.circle.fill")?.resized(to: CGSize(width: 25, height: 25)).withTintColor(UIColor(named: "customTintColor")!)
-    let uncheckedImage = UIImage(systemName: "circle")?.resized(to: CGSize(width: 25, height: 25)).withTintColor(UIColor(named: "customTintColor")!)
+    let checkedImage = UIImage(systemName: "checkmark.circle.fill")?
+        .resized(to: CGSize(width: 25, height: 25))
+        .withTintColor(UIColor(named: "customTintColor")!)
+    let uncheckedImage = UIImage(systemName: "circle")?
+        .resized(to: CGSize(width: 25, height: 25))
+        .withTintColor(UIColor(named: "customTintColor")!)
     
     
     var isChecked: Bool = false {
@@ -25,7 +30,11 @@ class CheckButton: UIButton {
     
     override func awakeFromNib() {
         self.isChecked = false
-        self.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        self.addTarget(
+            self,
+            action: #selector(buttonTapped(sender:)),
+            for: .touchUpInside
+        )
     }
     
     @objc

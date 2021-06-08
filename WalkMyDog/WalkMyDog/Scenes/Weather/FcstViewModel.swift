@@ -39,12 +39,19 @@ final class FcstViewModel: ViewModelType {
         let error = PublishSubject<String>()
         let fcstData = PublishSubject<[FcstModel]>()
         
-        input = Input(location: locationManager.location, placemark: locationManager.placemark, fetchFcst: fetchFcst)
+        input = Input(
+            location: locationManager.location,
+            placemark: locationManager.placemark,
+            fetchFcst: fetchFcst
+        )
         
         fetching.withLatestFrom(input.location)
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { (location) -> Observable<[FcstModel]> in
-                FcstAPIManager.shared.fetchFcstData(lat: "\(location.coordinate.latitude)", lon: "\(location.coordinate.longitude)")
+                FcstAPIManager.shared.fetchFcstData(
+                    lat: "\(location.coordinate.latitude)",
+                    lon: "\(location.coordinate.longitude)"
+                )
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in

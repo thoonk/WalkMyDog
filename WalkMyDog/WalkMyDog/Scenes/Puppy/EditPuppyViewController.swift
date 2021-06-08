@@ -58,10 +58,21 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         boyButton.alternateBtn = [girlButton]
         girlButton.alternateBtn = [boyButton]
         
-        let tapGestureImageView = UITapGestureRecognizer(target: self, action: #selector(tapSelectImage))
+        let tapGestureImageView = UITapGestureRecognizer(
+            target: self,
+            action: #selector(tapSelectImage)
+        )
         profileImageView.addGestureRecognizer(tapGestureImageView)
-        speciesTextField.addTarget(self, action: #selector(selectSpecies), for: .touchDown)
-        deleteButton.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+        speciesTextField.addTarget(
+            self,
+            action: #selector(selectSpecies),
+            for: .touchDown
+        )
+        deleteButton.addTarget(
+            self,
+            action: #selector(deleteBtnTapped),
+            for: .touchUpInside
+        )
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
@@ -121,7 +132,12 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc
     private func deleteBtnTapped() {
-        let alertVC = AlertManager.shared.showAlert(title: "강아지 정보 삭제", subTitle: "정말로 삭제하시겠습니까?", actionBtnTitle: "삭제", cancelBtnTitle: "취소") { [weak self] in
+        let alertVC = AlertManager.shared.showAlert(
+            title: "강아지 정보 삭제",
+            subTitle: "정말로 삭제하시겠습니까?",
+            actionBtnTitle: "삭제",
+            cancelBtnTitle: "취소"
+        ) { [weak self] in
             self?.editPuppyViewModel?.input.deleteBtnTapped.onNext(())
         }
         present(alertVC, animated: true)
@@ -168,7 +184,11 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
             picker.datePickerMode = .date
             picker.preferredDatePickerStyle = .wheels
             picker.maximumDate = Date()
-            picker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
+            picker.addTarget(
+                self,
+                action: #selector(dateChanged(sender:)),
+                for: .valueChanged
+            )
             
             let datePickerBar = setKeyboardDoneBtn(for: #selector(dismissPicker))
             birthTextField.inputView = picker
@@ -187,9 +207,14 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         setCustomBackBtn()
         
         let customFont = UIFont(name: "NanumGothic", size: 17)
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: customFont! ]
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: customFont!
+        ]
         
-        saveButton.setTitleTextAttributes([NSAttributedString.Key.font: customFont!], for: .normal)
+        saveButton.setTitleTextAttributes(
+            [NSAttributedString.Key.font: customFont!],
+            for: .normal
+        )
     }
     
     private func goToSetting() {
@@ -208,9 +233,15 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
             .debug()
             .subscribe(onNext: { image in
                 if self.profileImageView.image != UIImage(named: "profileImage-150") {
-                    viewModel.input.profileImage.onNext(image ?? UIImage(named: "profileImage-150"))
+                    viewModel
+                        .input
+                        .profileImage
+                        .onNext(image ?? UIImage(named: "profileImage-150"))
                 } else {
-                    viewModel.input.profileImage.onNext(nil)
+                    viewModel
+                        .input
+                        .profileImage
+                        .onNext(nil)
                 }
             }).disposed(by: bag)
         
@@ -255,7 +286,11 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         viewModel.output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "Firestore 오류", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "Firestore 오류",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
@@ -274,7 +309,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         viewModel.output.profileImageUrl
             .subscribe(onNext: { urlString in
                 if urlString != nil {
-                    self.profileImageView.setImage(with: urlString!)
+                    self.profileImageView.setImageCache(with: urlString!)
                 } else {
                     self.profileImageView.image = UIImage(named: "profileImage-150")
                 }
@@ -310,8 +345,12 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
 // MARK: - ImagePickerController, NavigationController
 extension EditPuppyViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
+        guard let image = info[UIImagePickerController.InfoKey.editedImage]
+                as? UIImage else { return }
         self.profileImageView.image = image
         editPuppyViewModel?.input.profileImage.onNext(image)
         

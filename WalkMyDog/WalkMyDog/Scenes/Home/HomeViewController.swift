@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import PanModal
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     // MARK: - InterfaceBuilder
     @IBOutlet weak var weatherView: UIView!
     @IBOutlet weak var weatherImageView: UIImageView!
@@ -56,7 +56,9 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func addRecordBtnTapped(_ sender: UIButton) {
-        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "CheckPuppyVC") as! CheckPuppyViewController
+        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(identifier: "CheckPuppyVC")
+            as! CheckPuppyViewController
         presentPanModal(checkPuppyVC)
     }
     
@@ -69,7 +71,8 @@ class HomeViewController: UIViewController {
         weatherView.setShadowLayer()
         recordView.setShadowLayer()
         
-        let addBtnImage = UIImage(named: "plus-50")?.withRenderingMode(.alwaysTemplate)
+        let addBtnImage = UIImage(named: "plus-50")?
+            .withRenderingMode(.alwaysTemplate)
         addRecordBtn.setImage(addBtnImage, for: .normal)
         addRecordBtn.tintColor = UIColor(named: "customTintColor")
     }
@@ -84,7 +87,11 @@ class HomeViewController: UIViewController {
         // OUTPUT
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "현재 날씨 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "현재 날씨 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
@@ -139,18 +146,28 @@ class HomeViewController: UIViewController {
 
         // OUTPUT
         output.puppyData
-            .bind(to: puppyProfileTableView.rx.items(cellIdentifier: C.Cell.profile, cellType: PuppyProfileTableViewCell.self)) { index, item, cell in
+            .bind(to: puppyProfileTableView.rx.items(
+                    cellIdentifier: C.Cell.profile,
+                    cellType: PuppyProfileTableViewCell.self
+            )) { index, item, cell in
                 cell.bindData(with: item)
             }.disposed(by: bag)
         
         puppyProfileTableView.rx.modelSelected(Puppy.self)
             .subscribe(onNext: { [weak self] puppy in
-                self?.performSegue(withIdentifier: C.Segue.homeToRecord, sender: puppy)
+                self?.performSegue(
+                    withIdentifier: C.Segue.homeToRecord,
+                    sender: puppy
+                )
             }).disposed(by: bag)
         
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
-                let alertVC = AlertManager.shared.showAlert(title: "모든 반려견 정보 로딩 실패", subTitle: msg, actionBtnTitle: "확인")
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "모든 반려견 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
                 self?.present(alertVC, animated: true, completion: {
                     input.fetchData.onNext(())
                 })
