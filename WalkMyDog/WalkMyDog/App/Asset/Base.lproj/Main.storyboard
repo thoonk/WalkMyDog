@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SH3-ql-EzW">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1xC-bK-dCf">
-                                <rect key="frame" x="30" y="492.33333333333326" width="330" height="180"/>
+                                <rect key="frame" x="30" y="490" width="330" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="Ekh-hL-gr8"/>
                                 </constraints>
@@ -42,7 +42,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="xnA-HZ-jdb"/>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="vwX-K5-crr">
-                                <rect key="frame" x="134.33333333333334" y="405" width="121.33333333333334" height="27.333333333333314"/>
+                                <rect key="frame" x="117.66666666666667" y="405" width="154.66666666666663" height="25"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -68,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="535.38461538461536" y="150"/>
+            <point key="canvasLocation" x="465" y="-19"/>
         </scene>
         <!--Check Puppy View Controller-->
         <scene sceneID="K0K-Sa-IEX">
@@ -79,11 +79,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Fz-f6-pYO">
-                                <rect key="frame" x="0.0" y="93.666666666666686" width="390" height="680.33333333333326"/>
+                                <rect key="frame" x="0.0" y="93.333333333333314" width="390" height="680.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="checkPuppyCell" rowHeight="70" id="oLG-9h-xuX" customClass="CheckPuppyTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="390" height="70"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oLG-9h-xuX" id="eOg-dU-DMZ">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="70"/>
@@ -93,7 +93,7 @@
                                                     <rect key="frame" x="30" y="20" width="330" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVt-JR-bqi">
-                                                            <rect key="frame" x="0.0" y="5" width="41.666666666666664" height="20"/>
+                                                            <rect key="frame" x="0.0" y="5.3333333333333321" width="41.333333333333336" height="19.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -137,7 +137,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="산책한 반려견을 선택해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meb-Ps-a6l">
-                                <rect key="frame" x="20" y="59" width="205.33333333333334" height="20"/>
+                                <rect key="frame" x="19.999999999999986" y="58.999999999999993" width="224.66666666666663" height="19.666666666666664"/>
                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -190,20 +190,20 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recordCell" rowHeight="70" id="8WV-gN-uBf" customClass="RecordTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="350" height="70"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8WV-gN-uBf" id="KR1-EZ-qY5">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21년 3월 2일 화요일 16시 23분" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXu-UV-iCq">
-                                                    <rect key="frame" x="20" y="11.000000000000002" width="191.66666666666666" height="17.666666666666671"/>
+                                                    <rect key="frame" x="20" y="10.999999999999998" width="206.66666666666666" height="17.333333333333329"/>
                                                     <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="세부사항" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsZ-Wi-Ayy">
-                                                    <rect key="frame" x="20" y="35.666666666666664" width="52" height="23.333333333333336"/>
+                                                    <rect key="frame" x="19.999999999999996" y="35.333333333333336" width="56.666666666666657" height="23.666666666666664"/>
                                                     <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -265,7 +265,7 @@
                                                                 </connections>
                                                             </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021년 2월" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3t-c0-lga">
-                                                                <rect key="frame" x="124.33333333333334" y="0.0" width="81.666666666666657" height="50"/>
+                                                                <rect key="frame" x="121" y="0.0" width="88.333333333333314" height="50"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -318,34 +318,34 @@
                                 <rect key="frame" x="20" y="370" width="350" height="73"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="weG-s9-NE0">
-                                        <rect key="frame" x="20" y="5" width="310" height="63"/>
+                                        <rect key="frame" x="20" y="5.6666666666666856" width="310" height="62"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0Zc-nw-PxP" userLabel="Sum Stack View">
-                                                <rect key="frame" x="0.0" y="0.0" width="155" height="63"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="155" height="62"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="합계" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3q-ak-hB7">
-                                                        <rect key="frame" x="0.0" y="0.0" width="33" height="17.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="17.333333333333332"/>
                                                         <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Urg-hT-ycD">
-                                                        <rect key="frame" x="43" y="0.0" width="112" height="63"/>
+                                                        <rect key="frame" x="44" y="0.0" width="111" height="62"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCo-xz-XYf">
-                                                                <rect key="frame" x="0.0" y="0.0" width="112" height="17.666666666666668"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="111" height="17.333333333333332"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12.12km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xzi-0Q-BnG">
-                                                                <rect key="frame" x="0.0" y="22.666666666666686" width="112" height="17.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="22.333333333333314" width="111" height="17.333333333333329"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1003.25 kcal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybV-X2-nCh">
-                                                                <rect key="frame" x="0.0" y="45.333333333333314" width="112" height="17.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="44.666666666666629" width="111" height="17.333333333333329"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -355,31 +355,31 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5EF-yY-ssx" userLabel="Avg Stack View">
-                                                <rect key="frame" x="155" y="0.0" width="155" height="63"/>
+                                                <rect key="frame" x="155" y="0.0" width="155" height="62"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="평균" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSp-dR-MAe">
-                                                        <rect key="frame" x="0.0" y="0.0" width="33" height="17.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="34" height="17.333333333333332"/>
                                                         <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6jO-7z-Oh3">
-                                                        <rect key="frame" x="43" y="0.0" width="112" height="63"/>
+                                                        <rect key="frame" x="44" y="0.0" width="111" height="62"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7I-BG-Ncu">
-                                                                <rect key="frame" x="0.0" y="0.0" width="112" height="17.666666666666668"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="111" height="17.333333333333332"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12.12km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wH1-4G-jYa">
-                                                                <rect key="frame" x="0.0" y="22.666666666666686" width="112" height="17.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="22.333333333333314" width="111" height="17.333333333333329"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1003.35 kcal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfK-rw-2YY">
-                                                                <rect key="frame" x="0.0" y="45.333333333333314" width="112" height="17.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="44.666666666666629" width="111" height="17.333333333333329"/>
                                                                 <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -448,7 +448,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gO1-oa-k1I">
-                                <rect key="frame" x="53" y="226" width="280" height="1"/>
+                                <rect key="frame" x="53" y="225.66666666666666" width="280" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Fxh-M8-fZ2"/>
@@ -456,7 +456,7 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="산책한 날짜" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="UeJ-Nl-M3f" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="53" y="180" width="280" height="38"/>
+                                <rect key="frame" x="53" y="180" width="280" height="37.666666666666657"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="cW2-UT-e0U"/>
                                 </constraints>
@@ -464,7 +464,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMV-aC-Nyr">
-                                <rect key="frame" x="53" y="293" width="100" height="1"/>
+                                <rect key="frame" x="53" y="292.33333333333331" width="100" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="X8m-AC-UOy"/>
@@ -472,7 +472,7 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="산책 시간" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="OYM-re-kl4" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="53" y="247" width="100" height="38"/>
+                                <rect key="frame" x="53" y="246.66666666666666" width="100" height="37.666666666666657"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="mFc-WU-NaP"/>
                                 </constraints>
@@ -480,7 +480,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="산책 거리" textAlignment="justified" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="bp9-K7-d7H" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="233" y="247" width="100" height="38"/>
+                                <rect key="frame" x="233" y="246.66666666666666" width="100" height="37.666666666666657"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="niU-ru-wl2"/>
                                 </constraints>
@@ -488,7 +488,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="산책을 기록해주세요!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnO-My-uDt">
-                                <rect key="frame" x="57.000000000000014" y="70" width="180.33333333333337" height="30"/>
+                                <rect key="frame" x="56.999999999999986" y="70" width="201.66666666666663" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hjh-PS-Jy7"/>
                                 </constraints>
@@ -520,7 +520,7 @@
                                 </state>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jYT-nO-ChM">
-                                <rect key="frame" x="233" y="293" width="100" height="1"/>
+                                <rect key="frame" x="233" y="292.33333333333331" width="100" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="DnT-BM-mnb"/>
@@ -579,7 +579,7 @@
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="puppyProfileCell" rowHeight="80" id="iS8-3f-Fvb" customClass="PuppyProfileTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="350" height="80"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="350" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iS8-3f-Fvb" id="Vsh-BZ-DG1">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="80"/>
@@ -866,7 +866,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingCell" id="e49-Ql-TeE" customClass="SettingTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="390" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e49-Ql-TeE" id="5J6-Kw-m3P">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -899,10 +899,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="puppyCell" rowHeight="50" id="mAA-eu-9bR" customClass="PuppyTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="71.666667938232422" width="390" height="50"/>
+                                        <rect key="frame" x="0.0" y="88.333333969116211" width="390" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mAA-eu-9bR" id="Kky-rE-EYM">
-                                            <rect key="frame" x="0.0" y="0.0" width="358.66666666666669" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="360.33333333333331" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="반려견 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RiB-Dz-0IA">
@@ -922,7 +922,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HBg-qr-3iU">
-                                        <rect key="frame" x="0.0" y="121.66666793823242" width="390" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="138.33333396911621" width="390" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HBg-qr-3iU" id="sYg-Za-zub">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -966,7 +966,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="l6g-cO-oJP">
-                                <rect key="frame" x="95" y="483" width="200" height="100"/>
+                                <rect key="frame" x="95" y="482" width="200" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X5s-CQ-4sk" customClass="RadioButton" customModule="WalkMyDog" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="92.666666666666671" height="100"/>
@@ -983,7 +983,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eOz-aO-D4l">
-                                <rect key="frame" x="45" y="336.66666666666669" width="300" height="1"/>
+                                <rect key="frame" x="45" y="336.33333333333331" width="300" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="dzu-ae-nTm"/>
@@ -991,7 +991,7 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="이름" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qDg-mk-gP1" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="45" y="293" width="300" height="35.666666666666686"/>
+                                <rect key="frame" x="45" y="293" width="300" height="35.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Dlt-IG-ti2"/>
                                 </constraints>
@@ -1004,7 +1004,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="견종" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3rW-ke-FSZ" customClass="CustomTextField" customModule="WalkMyDog" customModuleProvider="target">
-                                <rect key="frame" x="45" y="352.66666666666669" width="300" height="21.666666666666686"/>
+                                <rect key="frame" x="45" y="352.33333333333331" width="300" height="21.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="VBG-HO-kwQ"/>
                                 </constraints>
@@ -1015,7 +1015,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="체중" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jci-Ba-6CH" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="45" y="398.33333333333331" width="100" height="35.666666666666686"/>
+                                <rect key="frame" x="45" y="397.66666666666669" width="100" height="35.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="DQ7-Nz-Jq4"/>
                                 </constraints>
@@ -1023,7 +1023,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="생년월일" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rme-mg-JRn" customClass="JVFloatLabeledTextField">
-                                <rect key="frame" x="195" y="398.33333333333331" width="150" height="35.666666666666686"/>
+                                <rect key="frame" x="195" y="397.66666666666669" width="150" height="35.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="n5x-Dg-Cel"/>
                                 </constraints>
@@ -1031,7 +1031,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="efb-20-h4O">
-                                <rect key="frame" x="45" y="382.33333333333331" width="300" height="1"/>
+                                <rect key="frame" x="45" y="381.66666666666669" width="300" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="2tw-Qg-Fp0"/>
@@ -1039,7 +1039,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFf-Et-R4S" userLabel="weight bar">
-                                <rect key="frame" x="45" y="442" width="100" height="1"/>
+                                <rect key="frame" x="45" y="441" width="100" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Aav-3h-muD"/>
@@ -1047,7 +1047,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LYO-Vo-Lkz">
-                                <rect key="frame" x="120" y="633" width="150" height="50"/>
+                                <rect key="frame" x="120" y="632" width="150" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="B19-mw-xqv"/>
                                     <constraint firstAttribute="width" constant="150" id="Wl7-Ph-QVc"/>
@@ -1065,7 +1065,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TtD-Hj-dwP">
-                                <rect key="frame" x="195" y="442" width="150" height="1"/>
+                                <rect key="frame" x="195" y="441" width="150" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="RlF-ko-iCg"/>
@@ -1132,7 +1132,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="speciesCell" textLabel="w4a-3J-OdP" style="IBUITableViewCellStyleDefault" id="avx-hi-DIf">
-                                <rect key="frame" x="0.0" y="55.333332061767578" width="390" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="49" width="390" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="avx-hi-DIf" id="4lG-n8-c7j">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -1173,7 +1173,7 @@
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="weatherCell" rowHeight="120" id="RFH-uC-MdH" customClass="WeatherTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="390" height="120"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RFH-uC-MdH" id="rPg-dA-Xzi">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="120"/>
@@ -1454,26 +1454,23 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="3rW-ke-FSZ">
-            <size key="intrinsicContentSize" width="29.666666666666668" height="21.666666666666668"/>
-        </designable>
         <designable name="OYM-re-kl4">
-            <size key="intrinsicContentSize" width="67.333333333333329" height="38"/>
+            <size key="intrinsicContentSize" width="73" height="37.666666666666671"/>
         </designable>
         <designable name="UeJ-Nl-M3f">
-            <size key="intrinsicContentSize" width="83" height="38"/>
+            <size key="intrinsicContentSize" width="89.666666666666671" height="37.666666666666671"/>
         </designable>
         <designable name="bp9-K7-d7H">
-            <size key="intrinsicContentSize" width="67.333333333333329" height="38"/>
+            <size key="intrinsicContentSize" width="73" height="37.666666666666671"/>
         </designable>
         <designable name="jci-Ba-6CH">
-            <size key="intrinsicContentSize" width="29.666666666666668" height="35.666666666666671"/>
+            <size key="intrinsicContentSize" width="32" height="35.333333333333329"/>
         </designable>
         <designable name="qDg-mk-gP1">
-            <size key="intrinsicContentSize" width="29.666666666666668" height="35.666666666666671"/>
+            <size key="intrinsicContentSize" width="32" height="35.333333333333329"/>
         </designable>
         <designable name="rme-mg-JRn">
-            <size key="intrinsicContentSize" width="59" height="35.666666666666671"/>
+            <size key="intrinsicContentSize" width="64" height="35.333333333333329"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
@@ -1486,7 +1483,7 @@
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="clock.arrow.circlepath" catalog="system" width="128" height="110"/>
-        <image name="cloud.sun" catalog="system" width="128" height="93"/>
+        <image name="cloud.sun" catalog="system" width="128" height="95"/>
         <image name="female-50" width="50" height="50"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="happy-48" width="48" height="48"/>

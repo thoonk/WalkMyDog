@@ -33,20 +33,41 @@ final class FetchAllPuppyViewModel: ViewModelType {
         let error = PublishRelay<String>()
         
         input = Input(fetchData: fetchData)
+        
+        
 
+//        fetching
+//            .do(onNext: { _ in isLoading.onNext(true) })
+//            .flatMapLatest { _ in
+////                FIRStoreManager.shared.fetchAllPuppyInfo()
+//            }
+//            .do(onNext: { _ in isLoading.onNext(false) })
+//            .subscribe(onNext: { data in
+//                puppyData.accept(data)
+//            }, onError: { err in
+//                error.accept(err.localizedDescription)
+//            })
+//            .disposed(by: bag)
+        
+        // 임시 데이터
         fetching
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { _ in
-                FIRStoreManager.shared.fetchAllPuppyInfo()
+                return Observable.create() { emitter in
+                    emitter.onNext([
+                        Puppy(name: "앙꼬", age: "2016년 12월 11일", gender: false, weight: 10.5, species: "퍼그")
+                    ])
+                    
+                    return Disposables.create()
+                }
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
                 puppyData.accept(data)
-            }, onError: { err in
-                error.accept(err.localizedDescription)
             })
             .disposed(by: bag)
-        
+                
+                
         output = Output(
             isLoading: isLoading,
             puppyData: puppyData,

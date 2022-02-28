@@ -39,25 +39,25 @@ final class RecordViewModel: ViewModelType {
         let isActivating = BehaviorSubject<Bool>(value: false)
         input.fetchRecord = fetching.asObserver()
         
-        fetching
-            .do(onNext: { _ in isActivating.onNext(true)})
-            .flatMap {
-                FIRStoreManager
-                    .shared
-                    .fetchAllRecordInfo(from: .record(puppyId: puppyInfo.id!))
-            }
-            .do(onNext: { _ in isActivating.onNext(false)})
-            .subscribe(onNext: { [weak self] data in
-                self?.output.recordData.accept(data)
-                var times = [Date]()
-                for record in data {
-                    times.append(record.timeStamp.toDate())
-                }
-                self?.output.timeStamp.accept(times)
-            }, onError: { [weak self] err in
-                self?.output.errorMessage.accept(err.localizedDescription)
-            })
-            .disposed(by: bag)
+//        fetching
+//            .do(onNext: { _ in isActivating.onNext(true)})
+//            .flatMap {
+//                FIRStoreManager
+//                    .shared
+//                    .fetchAllRecordInfo(from: .record(puppyId: puppyInfo.id!))
+//            }
+//            .do(onNext: { _ in isActivating.onNext(false)})
+//            .subscribe(onNext: { [weak self] data in
+//                self?.output.recordData.accept(data)
+//                var times = [Date]()
+//                for record in data {
+//                    times.append(record.timeStamp.toDate())
+//                }
+//                self?.output.timeStamp.accept(times)
+//            }, onError: { [weak self] err in
+//                self?.output.errorMessage.accept(err.localizedDescription)
+//            })
+//            .disposed(by: bag)
         
         /*
          현재 달에 해당하는 산책 기록을 필터링하여
@@ -116,20 +116,20 @@ final class RecordViewModel: ViewModelType {
             }
             .disposed(by: bag)
         
-        input.deleteBtnTapped.withLatestFrom(input.recordSubject)
-            .bind { [weak self] record in
-                FIRStoreManager.shared.deleteRcordInfo(
-                    for: record,
-                    with: .record(puppyId: puppyInfo.id!)
-                ) { isSuccess, err in
-                    if isSuccess == true {
-                        self?.input.fetchRecord.onNext(())
-                    } else {
-                        self?.output.errorMessage.accept(err!.localizedDescription)
-                    }
-                }
-            }
-            .disposed(by: bag)
+//        input.deleteBtnTapped.withLatestFrom(input.recordSubject)
+//            .bind { [weak self] record in
+//                FIRStoreManager.shared.deleteRcordInfo(
+//                    for: record,
+//                    with: .record(puppyId: puppyInfo.id!)
+//                ) { isSuccess, err in
+//                    if isSuccess == true {
+//                        self?.input.fetchRecord.onNext(())
+//                    } else {
+//                        self?.output.errorMessage.accept(err!.localizedDescription)
+//                    }
+//                }
+//            }
+//            .disposed(by: bag)
     }
 }
 

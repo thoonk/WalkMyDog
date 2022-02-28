@@ -25,10 +25,13 @@ final class CheckPuppyViewController: UIViewController {
             )
             self.present(alertVC, animated: true)
         } else {
-            self.performSegue(
-                withIdentifier: C.Segue.checkToEdit,
-                sender: checkedPuppies
-            )
+//            self.performSegue(
+//                withIdentifier: C.Segue.checkToEdit,
+//                sender: checkedPuppies
+//            )
+            let walkViewController = WalkViewController(checkedPuppies)
+            walkViewController.modalPresentationStyle = .fullScreen
+            self.present(walkViewController, animated: true)
         }
     }
     // MARK: - Properties

@@ -48,31 +48,31 @@ class SettingViewModel: ViewModelType {
         
         var sectionData = [SettingSectionModel]()
         
-        fetching
-            .debug()
-            .do(onNext: { _ in isLoading.onNext(true) })
-            .flatMapLatest { _ in
-                FIRStoreManager.shared.fetchAllPuppyInfo()
-            }
-            .do(onNext: { _ in isLoading.onNext(false) })
-            .subscribe(onNext: { data in
-                let settingItem: [SectionItem] = [
-                    .SettingItem(title: "산책 추천도", subTitle: "좋음")
-                ]
-                sectionData.append(.SettingSection(title: "설정", items: settingItem))
-                
-                var puppyItem = [SectionItem]()
-                data.forEach {
-                    puppyItem.append(.PuppyItem(puppy: $0))
-                }
-                sectionData.append(.PuppySection(title: "반려견", items: puppyItem))
-                
-                print(sectionData)
-                cellData.accept(sectionData)
-            }, onError: { err in
-                error.accept(err.localizedDescription)
-            })
-            .disposed(by: bag)
+//        fetching
+//            .debug()
+//            .do(onNext: { _ in isLoading.onNext(true) })
+//            .flatMapLatest { _ in
+//                FIRStoreManager.shared.fetchAllPuppyInfo()
+//            }
+//            .do(onNext: { _ in isLoading.onNext(false) })
+//            .subscribe(onNext: { data in
+//                let settingItem: [SectionItem] = [
+//                    .SettingItem(title: "산책 추천도", subTitle: "좋음")
+//                ]
+//                sectionData.append(.SettingSection(title: "설정", items: settingItem))
+//
+//                var puppyItem = [SectionItem]()
+//                data.forEach {
+//                    puppyItem.append(.PuppyItem(puppy: $0))
+//                }
+//                sectionData.append(.PuppySection(title: "반려견", items: puppyItem))
+//
+//                print(sectionData)
+//                cellData.accept(sectionData)
+//            }, onError: { err in
+//                error.accept(err.localizedDescription)
+//            })
+//            .disposed(by: bag)
         
         output = Output(
             isLoading: isLoading,

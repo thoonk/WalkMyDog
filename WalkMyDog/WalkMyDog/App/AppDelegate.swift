@@ -6,32 +6,21 @@
 //
 
 import UIKit
-import Firebase
-import FirebaseFirestore
-import GoogleSignIn
-import FBSDKCoreKit
+import GoogleMaps
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        FirebaseApp.configure()
-        let db = Firestore.firestore()
-        print(db)
-        // Facebook Configure
-        ApplicationDelegate.shared.application(
-            application,
-            didFinishLaunchingWithOptions: launchOptions
-        )
        
+        GMSServices.provideAPIKey("AIzaSyCoo-2aXf-jaUA5UYFMoG9D0yT32wTza54")
         
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance().handle(url)
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        
+//    }
 
     // MARK: UISceneSession Lifecycle
 

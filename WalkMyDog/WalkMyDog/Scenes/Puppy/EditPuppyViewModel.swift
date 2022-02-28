@@ -60,136 +60,136 @@ class EditPuppyViewModel: ViewModelType {
             })
             .disposed(by: bag)
         
-        input.saveBtnTapped
-            .withLatestFrom(Observable.combineLatest(
-                                input.profileImage,
-                                input.name,
-                                input.weight,
-                                input.age,
-                                input.species,
-                                gender
-            ))
-            .bind { [weak self] (
-                image,
-                name,
-                weight,
-                age,
-                species,
-                gender
-            ) in
-                var puppy = Puppy(
-                    name: name,
-                    age: age,
-                    gender: gender,
-                    weight: Double(weight) ?? 0,
-                    species: species
-                )
-                // 반려견 정보 생성
-                if selectedItem == nil {
-                    FIRStoreManager.shared.createPuppyInfo(
-                        for: puppy,
-                        with: .puppies
-                    )  { isSuccess, id, err in
-                        if isSuccess == true {
-                            if image != nil {
-                                puppy.id = id
-                                StorageManager.shared.saveImage(
-                                    with: .uid,
-                                    id: id!,
-                                    image: image!
-                                ) { imageURL in
-                                    puppy.imageUrl = imageURL
-                                    FIRStoreManager
-                                        .shared
-                                        .updatePuppyInfo(for: puppy) { isSuccess, err in
-                                        if isSuccess == true {
-                                            self?.output.goToSetting.accept(())
-                                        } else {
-                                            self?.output.errorMessage.accept(err!.localizedDescription)
-                                        }
-                                    }
-                                }
-                            } else {
-                                self?.output.goToSetting.accept(())
-                            }
-                        } else {
-                            self?.output.errorMessage.accept(err!.localizedDescription)
-                        }
-                    }
-                }
-                // 반려견 정보 수정
-                else {
-                    puppy.id = selectedItem!.id
-                    // 프로필 이미지를 바꾼 경우
-                    if image != nil {
-                        StorageManager.shared.saveImage(
-                            with: .uid,
-                            id: puppy.id!,
-                            image: image!) { imageURL in
-                            puppy.imageUrl = imageURL
-                            FIRStoreManager
-                                .shared
-                                .updatePuppyInfo(for: puppy) { isSuccess, err in
-                                if isSuccess == true {
-                                    self?.output
-                                        .goToSetting
-                                        .accept(())
-                                } else {
-                                    self?.output
-                                        .errorMessage
-                                        .accept(err!.localizedDescription)
-                                }
-                            }
-                        }
-                    }
-                    // 프로필 이미지가 기본 이미지일 때
-                    else {
-                        FIRStoreManager
-                            .shared
-                            .updatePuppyInfo(for: puppy) { isSuccess, err in
-                            if isSuccess == true {
-                                self?.output
-                                    .goToSetting
-                                    .accept(())
-                            } else {
-                                self?.output
-                                    .errorMessage
-                                    .accept(err!.localizedDescription)
-                            }
-                        }
-                    }
-                }
-            }
-            .disposed(by: bag)
+//        input.saveBtnTapped
+//            .withLatestFrom(Observable.combineLatest(
+//                                input.profileImage,
+//                                input.name,
+//                                input.weight,
+//                                input.age,
+//                                input.species,
+//                                gender
+//            ))
+//            .bind { [weak self] (
+//                image,
+//                name,
+//                weight,
+//                age,
+//                species,
+//                gender
+//            ) in
+//                var puppy = Puppy(
+//                    name: name,
+//                    age: age,
+//                    gender: gender,
+//                    weight: Double(weight) ?? 0,
+//                    species: species
+//                )
+//                // 반려견 정보 생성
+//                if selectedItem == nil {
+//                    FIRStoreManager.shared.createPuppyInfo(
+//                        for: puppy,
+//                        with: .puppies
+//                    )  { isSuccess, id, err in
+//                        if isSuccess == true {
+//                            if image != nil {
+//                                puppy.id = id
+//                                StorageManager.shared.saveImage(
+//                                    with: .uid,
+//                                    id: id!,
+//                                    image: image!
+//                                ) { imageURL in
+//                                    puppy.imageUrl = imageURL
+//                                    FIRStoreManager
+//                                        .shared
+//                                        .updatePuppyInfo(for: puppy) { isSuccess, err in
+//                                        if isSuccess == true {
+//                                            self?.output.goToSetting.accept(())
+//                                        } else {
+//                                            self?.output.errorMessage.accept(err!.localizedDescription)
+//                                        }
+//                                    }
+//                                }
+//                            } else {
+//                                self?.output.goToSetting.accept(())
+//                            }
+//                        } else {
+//                            self?.output.errorMessage.accept(err!.localizedDescription)
+//                        }
+//                    }
+//                }
+//                // 반려견 정보 수정
+//                else {
+//                    puppy.id = selectedItem!.id
+//                    // 프로필 이미지를 바꾼 경우
+//                    if image != nil {
+//                        StorageManager.shared.saveImage(
+//                            with: .uid,
+//                            id: puppy.id!,
+//                            image: image!) { imageURL in
+//                            puppy.imageUrl = imageURL
+//                            FIRStoreManager
+//                                .shared
+//                                .updatePuppyInfo(for: puppy) { isSuccess, err in
+//                                if isSuccess == true {
+//                                    self?.output
+//                                        .goToSetting
+//                                        .accept(())
+//                                } else {
+//                                    self?.output
+//                                        .errorMessage
+//                                        .accept(err!.localizedDescription)
+//                                }
+//                            }
+//                        }
+//                    }
+//                    // 프로필 이미지가 기본 이미지일 때
+//                    else {
+//                        FIRStoreManager
+//                            .shared
+//                            .updatePuppyInfo(for: puppy) { isSuccess, err in
+//                            if isSuccess == true {
+//                                self?.output
+//                                    .goToSetting
+//                                    .accept(())
+//                            } else {
+//                                self?.output
+//                                    .errorMessage
+//                                    .accept(err!.localizedDescription)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            .disposed(by: bag)
         
-        input.deleteBtnTapped
-            .withLatestFrom(input.profileImage)
-            .bind { [weak self] image in
-                FIRStoreManager
-                    .shared
-                    .deletePuppyInfo(for: selectedItem!) { isSuccess, err in
-                    if isSuccess == true {
-                        if image != nil {
-                            StorageManager
-                                .shared
-                                .deleteImage(
-                                    with: .uid,
-                                    id: selectedItem!.id!
-                                ) { isSuccess, err in
-                                if isSuccess == true {
-                                    self?.output.goToSetting.accept(())
-                                } else {
-                                    self?.output.errorMessage.accept(err!.localizedDescription)
-                                }
-                            }
-                        } else {
-                            self?.output.goToSetting.accept(())
-                        }
-                    } else {
-                        self?.output.errorMessage.accept(err!.localizedDescription)
-                    }
-                }
-            }
-            .disposed(by: bag)
+//        input.deleteBtnTapped
+//            .withLatestFrom(input.profileImage)
+//            .bind { [weak self] image in
+//                FIRStoreManager
+//                    .shared
+//                    .deletePuppyInfo(for: selectedItem!) { isSuccess, err in
+//                    if isSuccess == true {
+//                        if image != nil {
+//                            StorageManager
+//                                .shared
+//                                .deleteImage(
+//                                    with: .uid,
+//                                    id: selectedItem!.id!
+//                                ) { isSuccess, err in
+//                                if isSuccess == true {
+//                                    self?.output.goToSetting.accept(())
+//                                } else {
+//                                    self?.output.errorMessage.accept(err!.localizedDescription)
+//                                }
+//                            }
+//                        } else {
+//                            self?.output.goToSetting.accept(())
+//                        }
+//                    } else {
+//                        self?.output.errorMessage.accept(err!.localizedDescription)
+//                    }
+//                }
+//            }
+//            .disposed(by: bag)
     }
 }

@@ -57,16 +57,16 @@ final class EditRecordViewModel: ViewModelType {
                         walkCalories: calories!
                     )
 
-                    FIRStoreManager.shared.createRecordInfo(
-                        for: record,
-                        with: .record(puppyId: puppy.id!)
-                    ) { isSuccess, id, err in
-                        if isSuccess == true {
-                            self?.output.goToHome.accept(())
-                        } else {
-                            self?.output.errorMessage.accept(err!.localizedDescription)
-                        }
-                    }
+//                    FIRStoreManager.shared.createRecordInfo(
+//                        for: record,
+//                        with: .record(puppyId: puppy.id!)
+//                    ) { isSuccess, id, err in
+//                        if isSuccess == true {
+//                            self?.output.goToHome.accept(())
+//                        } else {
+//                            self?.output.errorMessage.accept(err!.localizedDescription)
+//                        }
+//                    }
                 }
             }
             .disposed(by: bag)

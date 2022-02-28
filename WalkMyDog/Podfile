@@ -6,18 +6,20 @@ target 'WalkMyDog' do
   use_frameworks!
 
   # Pods for WalkMyDog
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
-  pod 'Firebase/Storage'
+  #pod 'Firebase/Auth'
+  #pod 'Firebase/Firestore'
+  #pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
-
-  pod 'GoogleSignIn'
-  pod 'FBSDKLoginKit'
+  pod 'GoogleMaps', '6.0.1'
+  
+  #pod 'GoogleSignIn'
+  #pod 'FBSDKLoginKit'
   pod 'Alamofire'
   pod 'FSCalendar'
   pod 'PanModal'
   pod 'Kingfisher', '~> 6.0'
   pod 'JVFloatLabeledTextField'
+  pod 'SnapKit'
 
   pod 'RxSwift'
   pod 'RxCocoa'
