@@ -12,6 +12,7 @@
 		08167A9525ECC7A100C45E2D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08167A9425ECC7A100C45E2D /* StorageManager.swift */; };
 		08167AC325EE562800C45E2D /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08167AC225EE562800C45E2D /* RecordTableViewCell.swift */; };
 		08167AC825EE58C100C45E2D /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08167AC725EE58C100C45E2D /* RecordViewModel.swift */; };
+		081E4AE627CCBB7900ADF7DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 081E4AE527CCBB7900ADF7DE /* GoogleService-Info.plist */; };
 		0823AEC5261EEAD100670CA1 /* SearchSpeciesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0823AEC4261EEAD100670CA1 /* SearchSpeciesViewModel.swift */; };
 		08248C112612F5B8007E02DF /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08248C102612F5B8007E02DF /* NanumGothic.ttf */; };
 		08248C162612F5BF007E02DF /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08248C152612F5BF007E02DF /* NanumGothicBold.ttf */; };
@@ -59,7 +60,6 @@
 		08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2725C916B200B56F9F /* LaunchScreen.storyboard */; };
 		08BB9C3F25C916B200B56F9F /* WalkMyDogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C3E25C916B200B56F9F /* WalkMyDogUITests.swift */; };
 		08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */; };
-		08BB9CCA25C93ABB00B56F9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */; };
 		08D7E7DD2615AE660051DE1D /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D7E7DC2615AE660051DE1D /* SettingTableViewCell.swift */; };
 		08E5C4F525DBB537000896D2 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5C4F425DBB537000896D2 /* WeatherData.swift */; };
 		08E5C4F625DBB537000896D2 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5C4F425DBB537000896D2 /* WeatherData.swift */; };
@@ -117,6 +117,7 @@
 		08167A9425ECC7A100C45E2D /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		08167AC225EE562800C45E2D /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		08167AC725EE58C100C45E2D /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
+		081E4AE527CCBB7900ADF7DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0823AEC4261EEAD100670CA1 /* SearchSpeciesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpeciesViewModel.swift; sourceTree = "<group>"; };
 		08248C102612F5B8007E02DF /* NanumGothic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothic.ttf; sourceTree = "<group>"; };
 		08248C152612F5BF007E02DF /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
@@ -170,10 +171,7 @@
 		08BB9C4025C916B200B56F9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalkMyDog.entitlements; sourceTree = "<group>"; };
 		08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		08D7E7DC2615AE660051DE1D /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		08DB1CA025E76288001E0F3E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
-		08DB1CA125E762B6001E0F3E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		08E5C4F425DBB537000896D2 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		08E5C4FD25DBB545000896D2 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		08E5C50425DBB5A9000896D2 /* PMData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMData.swift; sourceTree = "<group>"; };
@@ -305,9 +303,9 @@
 		08BB9C1B25C916B100B56F9F /* WalkMyDog */ = {
 			isa = PBXGroup;
 			children = (
+				081E4AE527CCBB7900ADF7DE /* GoogleService-Info.plist */,
 				08E5C4EC25DBB34C000896D2 /* App */,
 				08BB9C2A25C916B200B56F9F /* Info.plist */,
-				08BB9CC925C93ABB00B56F9F /* GoogleService-Info.plist */,
 				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
 				08E5C57325DBB7C3000896D2 /* Extensions */,
 				08E5C55E25DBB76E000896D2 /* Protocols */,
@@ -545,7 +543,6 @@
 				08BB9C1625C916B100B56F9F /* Frameworks */,
 				08BB9C1725C916B100B56F9F /* Resources */,
 				CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */,
-				3A3C9483D79C66DF90FBAAF8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -585,7 +582,6 @@
 				08BB9C3725C916B200B56F9F /* Frameworks */,
 				08BB9C3825C916B200B56F9F /* Resources */,
 				94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */,
-				BD6E56B9BD9A28E4F215C0E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -626,7 +622,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ko,
 			);
 			mainGroup = 08BB9C1025C916B100B56F9F;
 			productRefGroup = 08BB9C1A25C916B100B56F9F /* Products */;
@@ -649,11 +644,11 @@
 				08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */,
 				089EAAB42608B18A000AA141 /* AlertStoryboard.storyboard in Resources */,
 				086657F32619FB6600A9B5E6 /* SlideView.xib in Resources */,
-				08BB9CCA25C93ABB00B56F9F /* GoogleService-Info.plist in Resources */,
 				08248C162612F5BF007E02DF /* NanumGothicBold.ttf in Resources */,
 				08BB9C2625C916B200B56F9F /* Assets.xcassets in Resources */,
 				08665831261AE79F00A9B5E6 /* RecordHeaderTableViewCell.xib in Resources */,
 				08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */,
+				081E4AE627CCBB7900ADF7DE /* GoogleService-Info.plist in Resources */,
 				087554CA2618B47800746F40 /* PuppyHeaderTableViewCell.xib in Resources */,
 				087554D12618BC7700746F40 /* SettingHeaderTableViewCell.xib in Resources */,
 			);
@@ -698,23 +693,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3A3C9483D79C66DF90FBAAF8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -752,23 +730,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD6E56B9BD9A28E4F215C0E4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */ = {
@@ -941,7 +902,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				08BB9C2325C916B100B56F9F /* Base */,
-				08DB1CA025E76288001E0F3E /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -950,7 +910,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				08BB9C2825C916B200B56F9F /* Base */,
-				08DB1CA125E762B6001E0F3E /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1093,7 +1052,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1114,7 +1073,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.thoonk.WalkMyDog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

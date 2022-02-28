@@ -10,8 +10,10 @@ import AuthenticationServices
 import CryptoKit
 import Firebase
 import FirebaseAuth
-import GoogleSignIn
+//import GoogleSignIn
+import GoogleUtilities
 import FBSDKLoginKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     // MARK: - Interface Builder
@@ -102,11 +104,12 @@ class LoginViewController: UIViewController {
         loginProviderStackView.addArrangedSubview(facebookLoginBtn)
         
         let googleLoginBtn = GIDSignInButton()
+        
         loginProviderStackView.addArrangedSubview(googleLoginBtn)
         
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance()?.delegate = self
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+//        GIDSignIn.sharedInstance.presentingViewController = self
+//        GIDSignIn.sharedInstance.delegate = self
+//        GIDSignIn.sharedInstance.clientID =
         
         let appleLoginBtn = ASAuthorizationAppleIDButton(
             authorizationButtonType: .signIn,
@@ -205,6 +208,15 @@ class LoginViewController: UIViewController {
 
       return hashString
     }
+    
+    @objc
+    func googleBtnTapped() {
+        guard let clientId = FirebaseApp.app()?.options.clientID else { return }
+        let signInConfig = GIDConfiguration.init(clientID: clientId)
+        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
+            guard error == nil else { return }
+        }
+    }
 }
 
 // MARK: - Facebook Login Extension
@@ -231,26 +243,26 @@ extension LoginViewController: LoginButtonDelegate {
 }
 
 // MARK: - Google Login Extension
-extension LoginViewController: GIDSignInDelegate {
-    func sign(
-        _ signIn: GIDSignIn!,
-        didSignInFor user: GIDGoogleUser!,
-        withError error: Error!
-    ) {
-        if let error = error {
-            print("sigIn error: \(error.localizedDescription)")
-            return
-        } else {
-            print("user email: \(user.profile.email ?? "no email")")
-        }
-        guard let auth = user.authentication else { return }
-        let googleCredential = GoogleAuthProvider.credential(
-            withIDToken: auth.idToken,
-            accessToken: auth.accessToken
-        )
-        signInFirbase(with: googleCredential)
-    }
-}
+//extension LoginViewController: GIDSignInDelegate {
+//    func sign(
+//        _ signIn: GIDSignIn!,
+//        didSignInFor user: GIDGoogleUser!,
+//        withError error: Error!
+//    ) {
+//        if let error = error {
+//            print("sigIn error: \(error.localizedDescription)")
+//            return
+//        } else {
+//            print("user email: \(user.profile.email ?? "no email")")
+//        }
+//        guard let auth = user.authentication else { return }
+//        let googleCredential = GoogleAuthProvider.credential(
+//            withIDToken: auth.idToken,
+//            accessToken: auth.accessToken
+//        )
+//        signInFirbase(with: googleCredential)
+//    }
+//}
 
 // MARK: - Apple Login Extension
 extension LoginViewController: ASAuthorizationControllerDelegate {
