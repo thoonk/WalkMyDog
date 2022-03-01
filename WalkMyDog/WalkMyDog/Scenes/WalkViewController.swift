@@ -14,12 +14,21 @@ import SnapKit
 final class WalkViewController: UIViewController {
     // MARK: - Properties
     let selectedPuppies: [Puppy]
+    let currentLocation: CLLocation
+    
     var walkViewModel: WalkViewModel?
     var bag = DisposeBag()
     
     // MARK: - UI Components
     lazy var mapView: GMSMapView = {
-        let view = GMSMapView(frame: .zero)
+        let view = GMSMapView(
+            frame: .zero,
+            camera: GMSCameraPosition(
+                latitude: currentLocation.coordinate.latitude,
+                longitude: currentLocation.coordinate.longitude,
+                zoom: 17.0
+            )
+        )
         
         return view
     }()
@@ -40,8 +49,12 @@ final class WalkViewController: UIViewController {
         return button
     }()
     
-    required init(_ selectedPuppies: [Puppy]) {
+    required init(
+        selectedPuppies: [Puppy],
+        location: CLLocation
+    ) {
         self.selectedPuppies = selectedPuppies
+        self.currentLocation = location
         
         super.init(nibName: nil, bundle: nil)
         
@@ -55,10 +68,6 @@ final class WalkViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let camera = GMSCameraPosition.camera(withLatitude: 37.51444, longitude: 126.75915, zoom: 15.0)
-//        let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
-//        self.view.addSubview(mapView)
         
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: 37.51444, longitude: 126.75915)
@@ -120,7 +129,7 @@ private extension WalkViewController {
                 GMSCameraPosition.camera(
                     withLatitude: $0.coordinate.latitude,
                     longitude: $0.coordinate.longitude,
-                    zoom: 15.0
+                    zoom: 17.0
                 )
             }
             .bind(to: mapView.rx.camera)

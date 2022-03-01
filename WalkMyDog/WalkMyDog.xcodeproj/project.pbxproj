@@ -22,6 +22,7 @@
 		08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08286677260485160084F2FF /* SearchSpeciesViewController.swift */; };
 		082866812604D3060084F2FF /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082866802604D3060084F2FF /* CustomTextField.swift */; };
 		082866862604E6860084F2FF /* SelectSpeciesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082866852604E6860084F2FF /* SelectSpeciesDelegate.swift */; };
+		0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */; };
 		08465C1625E4FD3300371D20 /* EditPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08465C1525E4FD3300371D20 /* EditPuppyViewModel.swift */; };
 		084CEC7B25E3C73700EFA0DE /* EditPuppyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084CEC7A25E3C73700EFA0DE /* EditPuppyViewController.swift */; };
 		084CEC8025E3C92E00EFA0DE /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */; };
@@ -123,6 +124,7 @@
 		08286677260485160084F2FF /* SearchSpeciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpeciesViewController.swift; sourceTree = "<group>"; };
 		082866802604D3060084F2FF /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		082866852604E6860084F2FF /* SelectSpeciesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSpeciesDelegate.swift; sourceTree = "<group>"; };
+		0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPuppyViewModel.swift; sourceTree = "<group>"; };
 		08465C1525E4FD3300371D20 /* EditPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewModel.swift; sourceTree = "<group>"; };
 		084CEC7A25E3C73700EFA0DE /* EditPuppyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewController.swift; sourceTree = "<group>"; };
 		084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				08A9876A25F1037100F60DB6 /* CheckPuppyViewController.swift */,
+				0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */,
 				08A9877225F1052F00F60DB6 /* CheckPuppyTableViewCell.swift */,
 				081536F025EF4C7C000D13D3 /* EditRecordViewModel.swift */,
 				08F911C625F1EEF30043438D /* EditRecordViewController.swift */,
@@ -848,6 +851,7 @@
 				081E4AEA27CCE52000ADF7DE /* WalkViewModel.swift in Sources */,
 				08E5C51525DBB5E6000896D2 /* FcstModel.swift in Sources */,
 				08167AC825EE58C100C45E2D /* RecordViewModel.swift in Sources */,
+				0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */,
 				0871388E25CD62D00089EA42 /* PuppyModel.swift in Sources */,
 				08A9877325F1052F00F60DB6 /* CheckPuppyTableViewCell.swift in Sources */,
 				08E5C57525DBB7D1000896D2 /* Date.swift in Sources */,

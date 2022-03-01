@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import PanModal
+import CoreLocation
 
 final class CheckPuppyViewController: UIViewController {
     // MARK: - Interface Builder
@@ -29,15 +30,16 @@ final class CheckPuppyViewController: UIViewController {
 //                withIdentifier: C.Segue.checkToEdit,
 //                sender: checkedPuppies
 //            )
-            let walkViewController = WalkViewController(checkedPuppies)
+            let walkViewController = WalkViewController(selectedPuppies: checkedPuppies, location: currentLocation)
             walkViewController.modalPresentationStyle = .fullScreen
             self.present(walkViewController, animated: true)
         }
     }
     // MARK: - Properties
-    var viewModel: FetchAllPuppyViewModel?
+    var viewModel: CheckPuppyViewModel?
     var bag = DisposeBag()
     var checkedPuppies: [Puppy] = []
+    var currentLocation = CLLocation()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -67,7 +69,7 @@ final class CheckPuppyViewController: UIViewController {
     }
     // MARK: - ViewModel Binding
     func setBinding() {
-        viewModel = FetchAllPuppyViewModel()
+        viewModel = CheckPuppyViewModel()
         let input = viewModel!.input
         let output = viewModel!.output
         
@@ -113,12 +115,17 @@ final class CheckPuppyViewController: UIViewController {
                     input.fetchData.onNext(())
                 })
             }).disposed(by: bag)
+        
+        output.location
+            .subscribe(onNext: { [weak self] loc in
+                self?.currentLocation = loc
+            })
+            .disposed(by: bag)
     }
 }
 
 // MARK: - PanModalPresentable
 extension CheckPuppyViewController: PanModalPresentable {
-    
     var panScrollable: UIScrollView? {
         return nil
     }
