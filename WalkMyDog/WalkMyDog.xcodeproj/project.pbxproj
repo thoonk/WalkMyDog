@@ -43,6 +43,7 @@
 		087554D02618BC7700746F40 /* SettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087554CE2618BC7700746F40 /* SettingHeaderTableViewCell.swift */; };
 		087554D12618BC7700746F40 /* SettingHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087554CF2618BC7700746F40 /* SettingHeaderTableViewCell.xib */; };
 		088AFE8D2611F6F200579278 /* EditPuppyViewModelUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088AFE8C2611F6F200579278 /* EditPuppyViewModelUpdateTests.swift */; };
+		0890C8E627D4E9AC00A4F04B /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0890C8E527D4E9AC00A4F04B /* UIButton+.swift */; };
 		0893704625E8BD0300C83D35 /* PuppyProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0893704525E8BD0300C83D35 /* PuppyProfileTableViewCell.swift */; };
 		0896849025D109E1005C56F7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0896848F25D109E1005C56F7 /* SettingViewController.swift */; };
 		089EAA7A2608B07F000AA141 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089EAA792608B07F000AA141 /* AlertManager.swift */; };
@@ -82,6 +83,8 @@
 		08E5C61725DC0D75000896D2 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5C61625DC0D75000896D2 /* UIViewController.swift */; };
 		08EAB1D02616EBE700B15D72 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EAB1CF2616EBE700B15D72 /* SettingViewModel.swift */; };
 		08ED928B2610B37300F20255 /* VoidRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08ED928A2610B37300F20255 /* VoidRecord.swift */; };
+		08EFBA2927D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */; };
+		08EFBA2B27D4D1A500D96AB9 /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */; };
 		08F6DA5C260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */; };
 		08F911C225F1E7FB0043438D /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C125F1E7FB0043438D /* CheckButton.swift */; };
 		08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C625F1EEF30043438D /* EditRecordViewController.swift */; };
@@ -145,6 +148,7 @@
 		087554CE2618BC7700746F40 /* SettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		087554CF2618BC7700746F40 /* SettingHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		088AFE8C2611F6F200579278 /* EditPuppyViewModelUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewModelUpdateTests.swift; sourceTree = "<group>"; };
+		0890C8E527D4E9AC00A4F04B /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		0893704525E8BD0300C83D35 /* PuppyProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyProfileTableViewCell.swift; sourceTree = "<group>"; };
 		0896848F25D109E1005C56F7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		089EAA792608B07F000AA141 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 		08EAB1CF2616EBE700B15D72 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		08ED928A2610B37300F20255 /* VoidRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoidRecord.swift; sourceTree = "<group>"; };
 		08EF2AB625DE2D96005F44B5 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
+		08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMKMapViewDelegateProxy.swift; sourceTree = "<group>"; };
+		08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
 		08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewModelCreateTests.swift; sourceTree = "<group>"; };
 		08F911C125F1E7FB0043438D /* CheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckButton.swift; sourceTree = "<group>"; };
 		08F911C625F1EEF30043438D /* EditRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecordViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +270,17 @@
 				08248C152612F5BF007E02DF /* NanumGothicBold.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		0893C33027D0F59A0061632D /* Walk */ = {
+			isa = PBXGroup;
+			children = (
+				081E4AE727CCC5EB00ADF7DE /* WalkViewController.swift */,
+				081E4AE927CCE52000ADF7DE /* WalkViewModel.swift */,
+				08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */,
+				08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */,
+			);
+			path = Walk;
 			sourceTree = "<group>";
 		};
 		0896849425D10AEB005C56F7 /* Models */ = {
@@ -439,6 +456,7 @@
 				085DFC6525F7889E002F7819 /* UIImage.swift */,
 				080D020F25FCDAAC0092633D /* UIImageVIew.swift */,
 				087396E926131E5900622DAC /* UIView.swift */,
+				0890C8E527D4E9AC00A4F04B /* UIButton+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -448,8 +466,7 @@
 			children = (
 				08BB9C9F25C9348F00B56F9F /* TabBarViewController.swift */,
 				089EAABB2608B61D000AA141 /* AlertViewController.swift */,
-				081E4AE727CCC5EB00ADF7DE /* WalkViewController.swift */,
-				081E4AE927CCE52000ADF7DE /* WalkViewModel.swift */,
+				0893C33027D0F59A0061632D /* Walk */,
 				080D021425FCFCE00092633D /* Setting */,
 				08F6C15125E6418E004DD3F6 /* Puppy */,
 				08E5C60225DBC26F000896D2 /* Login */,
@@ -850,10 +867,12 @@
 				08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */,
 				081E4AEA27CCE52000ADF7DE /* WalkViewModel.swift in Sources */,
 				08E5C51525DBB5E6000896D2 /* FcstModel.swift in Sources */,
+				0890C8E627D4E9AC00A4F04B /* UIButton+.swift in Sources */,
 				08167AC825EE58C100C45E2D /* RecordViewModel.swift in Sources */,
 				0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */,
 				0871388E25CD62D00089EA42 /* PuppyModel.swift in Sources */,
 				08A9877325F1052F00F60DB6 /* CheckPuppyTableViewCell.swift in Sources */,
+				08EFBA2B27D4D1A500D96AB9 /* MKMapView+Rx.swift in Sources */,
 				08E5C57525DBB7D1000896D2 /* Date.swift in Sources */,
 				081536F125EF4C7C000D13D3 /* EditRecordViewModel.swift in Sources */,
 				087554C92618B47800746F40 /* PuppyHeaderTableViewCell.swift in Sources */,
@@ -885,6 +904,7 @@
 				082866862604E6860084F2FF /* SelectSpeciesDelegate.swift in Sources */,
 				08E5C50525DBB5A9000896D2 /* PMData.swift in Sources */,
 				086657F82619FBF500A9B5E6 /* SlideView.swift in Sources */,
+				08EFBA2927D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift in Sources */,
 				08E5C55525DBB73B000896D2 /* CurrentAPIManager.swift in Sources */,
 				08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */,
 				08E5C51F25DBB635000896D2 /* LocationManager.swift in Sources */,
