@@ -30,7 +30,7 @@ final class CheckPuppyViewController: UIViewController {
 //                withIdentifier: C.Segue.checkToEdit,
 //                sender: checkedPuppies
 //            )
-            let walkViewController = WalkViewController(selectedPuppies: checkedPuppies, location: currentLocation)
+            let walkViewController = WalkViewController(selectedPuppies: checkedPuppies, location: currentLocation.coordinate)
             walkViewController.modalPresentationStyle = .fullScreen
             self.present(walkViewController, animated: true)
         }
