@@ -23,10 +23,12 @@ final class WalkViewModel: ViewModelType {
         let pausePlayButtonTapped = PublishSubject<(Void)>()
         let stopButtonTapped = PublishSubject<(Void)>()
         let cameraButtonTapped = PublishSubject<(Void)>()
+        let fecesButtonTapped = PublishSubject<(Void)>()
     }
     
     struct Output {
         let location = PublishRelay<CLLocationCoordinate2D>()
+        let annotationLocation = PublishRelay<CLLocationCoordinate2D>()
     }
     
     init() {
@@ -43,6 +45,11 @@ final class WalkViewModel: ViewModelType {
             })
             .disposed(by: bag)
         
-        
+        input.fecesButtonTapped
+            .withLatestFrom(input.location)
+            .subscribe(onNext: { [weak self] loc in
+                self?.output.annotationLocation.accept(loc.coordinate)
+            })
+            .disposed(by: bag)
     }
 }

@@ -48,6 +48,14 @@ final class WalkViewController: UIViewController {
         return button
     }()
     
+    lazy var fecesButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(systemName: "star.circle"), for: .normal)
+        button.tintColor = UIColor(named: "customTintColor")
+
+        return button
+    }()
+    
     lazy var pausePlayButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(systemName: "pause", size: 30)
@@ -76,7 +84,7 @@ final class WalkViewController: UIViewController {
        let label = UILabel()
         label.text = "0.0"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 15.0, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
         label.sizeToFit()
         
         return label
@@ -86,7 +94,7 @@ final class WalkViewController: UIViewController {
        let label = UILabel()
         label.text = "00:00"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 15.0, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
         label.sizeToFit()
         
         return label
@@ -136,34 +144,36 @@ private extension WalkViewController {
         
         let bottomMaskView = UIView()
         bottomMaskView.backgroundColor = .white
-        [
-            pausePlayButton,
-            stopButton,
-            cameraButton
-        ].forEach { bottomMaskView.addSubview($0) }
         
-        stopButton.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-            $0.width.height.equalTo(30)
+        let labelStackView = UIStackView(arrangedSubviews: [distanceLabel, timeLabel])
+        labelStackView.alignment = .fill
+        labelStackView.distribution = .fillEqually
+        labelStackView.spacing = 25.0
+                
+        let buttonStackView = UIStackView(arrangedSubviews: [pausePlayButton, stopButton, cameraButton])
+        buttonStackView.alignment = .fill
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = 15.0
+        
+        [labelStackView, buttonStackView]
+            .forEach { bottomMaskView.addSubview($0) }
+        
+        labelStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(40)
+            $0.centerX.equalToSuperview()
         }
         
-        pausePlayButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalTo(stopButton.snp.leading).offset(-50)
-            $0.width.height.equalTo(30)
-        }
-        
-        cameraButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(stopButton.snp.trailing).offset(50)
-            $0.width.height.equalTo(30)
+        buttonStackView.snp.makeConstraints {
+            $0.top.equalTo(labelStackView).offset(20)
+            $0.leading.trailing.bottom.equalToSuperview().inset(20)
         }
         
         [
             topMaskView,
             mapView,
             bottomMaskView,
-            myLocationButton
+            myLocationButton,
+            fecesButton
         ]
             .forEach {
                 view.addSubview($0)
@@ -188,9 +198,15 @@ private extension WalkViewController {
         }
         
         myLocationButton.snp.makeConstraints {
-            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-10)
+            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-20)
             $0.leading.equalToSuperview().inset(15)
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(50)
+        }
+        
+        fecesButton.snp.makeConstraints {
+            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-20)
+            $0.trailing.equalToSuperview().inset(15)
+            $0.width.height.equalTo(50)
         }
     }
     
@@ -203,15 +219,23 @@ private extension WalkViewController {
             .bind(to: input.myLocationButtonTapped)
             .disposed(by: bag)
         
+        fecesButton.rx.tap
+            .bind(to: input.fecesButtonTapped)
+            .disposed(by: bag)
+        
         mapView.rx
             .setDelegate(self)
             .disposed(by: bag)
         
         output.location
             .subscribe(onNext: { [weak self] loc in
-                guard let self = self else { return }
-                
-                self.mapView.centerToLocation(loc)
+                self?.mapView.centerToLocation(loc)
+            })
+            .disposed(by: bag)
+        
+        output.annotationLocation
+            .subscribe(onNext: { [weak self] loc in
+                self?.setupFecesView(with: loc)
             })
             .disposed(by: bag)
     }
@@ -219,6 +243,13 @@ private extension WalkViewController {
     @objc
     func closeBtnTapped() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func setupFecesView(with coordinate: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "Here I am"
+        self.mapView.addAnnotation(annotation)
     }
 }
 
