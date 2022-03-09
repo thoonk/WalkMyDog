@@ -12,12 +12,17 @@ import SnapKit
 import MapKit
 
 final class WalkViewController: UIViewController {
+    enum AnnotationType {
+        case feces
+        case pee
+    }
     // MARK: - Properties
     let selectedPuppies: [Puppy]
     let currentLocation: CLLocationCoordinate2D
     
     var walkViewModel: WalkViewModel?
     var bag = DisposeBag()
+    var isWalking: Bool = false
     
     // MARK: - UI Components
     lazy var mapView: MKMapView = {
@@ -27,7 +32,6 @@ final class WalkViewController: UIViewController {
         map.showsUserLocation = true
         map.setUserTrackingMode(.follow, animated: true)
         map.isZoomEnabled = true
-        map.centerToLocation(self.currentLocation)
 
         return map
     }()
@@ -228,6 +232,7 @@ private extension WalkViewController {
             .disposed(by: bag)
         
         output.location
+            .debug()
             .subscribe(onNext: { [weak self] loc in
                 self?.mapView.centerToLocation(loc)
             })
@@ -235,7 +240,13 @@ private extension WalkViewController {
         
         output.annotationLocation
             .subscribe(onNext: { [weak self] loc in
-                self?.setupFecesView(with: loc)
+                self?.setupAnnotation(with: loc, type: .feces)
+            })
+            .disposed(by: bag)
+        
+        output.path
+            .subscribe(onNext: { [weak self] path in
+                self?.drawPathLine(with: path)
             })
             .disposed(by: bag)
     }
@@ -245,11 +256,22 @@ private extension WalkViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func setupFecesView(with coordinate: CLLocationCoordinate2D) {
+    func setupAnnotation(with coordinate: CLLocationCoordinate2D, type: AnnotationType) {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
-        annotation.title = "Here I am"
+        switch type {
+        case .feces:
+            annotation.title = "Feces"
+        case .pee:
+            annotation.title = "Pee"
+        }
+        
         self.mapView.addAnnotation(annotation)
+    }
+    
+    func drawPathLine(with path: [CLLocationCoordinate2D]) {
+        let lineDraw = MKPolyline(coordinates: path, count: path.count)
+        self.mapView.addOverlay(lineDraw)
     }
 }
 
@@ -268,5 +290,14 @@ extension MKMapView {
 }
 
 extension WalkViewController: MKMapViewDelegate {
-    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let testlineRenderer = MKPolylineRenderer(polyline: polyline)
+            testlineRenderer.strokeColor = .blue
+            testlineRenderer.lineWidth = 2.0
+            return testlineRenderer
+        } else {
+            return MKPolylineRenderer()
+        }
+    }
 }

@@ -16,8 +16,10 @@ final public class LocationManager {
     // MARK: - Properties
     static let shared = LocationManager()
     private let locationManager = CLLocationManager()
-    private (set) var location = ReplaySubject<CLLocation>.create(bufferSize: 3)
+    private (set) var location = ReplaySubject<CLLocation?>.create(bufferSize: 3)
+//    private (set) var location = PublishSubject<CLLocation?>()
     private (set) var placemark = ReplaySubject<CLPlacemark>.create(bufferSize: 3)
+    
     private (set) var authorizedStatus = PublishSubject<Bool>()
     private var bag = DisposeBag()
     
@@ -53,13 +55,22 @@ final public class LocationManager {
             })
             .disposed(by: bag)
         
+//        locationManager.rx
+//            .location
+//            .debug("Location")
+//            .bind(onNext: self.location.onNext(_:))
+//            .subscribe(onNext: { [weak self] location in
+//                self?.locationManager.stopUpdatingLocation()
+//                guard let location = location else { return }
+//                self?.location.onNext(location)
+//            })
+//            .disposed(by: bag)
+        
         locationManager.rx
-            .location
-            .subscribe(onNext: { [weak self] location in
-                self?.locationManager.stopUpdatingLocation()
-                guard let location = location else { return }
-                self?.location.onNext(location)
-            })
+            .didUpdateLocations
+            .debug("didUpdateLocations")
+            .compactMap(\.locations.last?)
+            .bind(onNext: self.location.onNext(_:))
             .disposed(by: bag)
         
         requestAuthroization()

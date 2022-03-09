@@ -16,7 +16,7 @@ final class CurrentViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()
     
     struct Input {
-        let location: ReplaySubject<CLLocation>
+        let location: ReplaySubject<CLLocation?>
         let placemark: ReplaySubject<CLPlacemark>
     }
     
@@ -47,6 +47,7 @@ final class CurrentViewModel: ViewModelType {
         
         input.location
             .do(onNext: { _ in isLoading.onNext(true) })
+            .compactMap { $0 }
             .flatMapLatest { (location) -> Observable<WeatherCurrent> in
                 CurrentAPIManger.shared.fetchWeatherData(
                     lat: "\(location.coordinate.latitude)",
@@ -59,6 +60,7 @@ final class CurrentViewModel: ViewModelType {
             }).disposed(by: bag)
         
         input.location
+            .compactMap { $0 }
             .flatMapLatest { (location) -> Observable<PMModel> in
                 CurrentAPIManger.shared.fetchPMData(
                     lat: "\(location.coordinate.latitude)",

@@ -17,8 +17,10 @@ final class WalkViewModel: ViewModelType {
     var input: Input
     var output = Output()
     
+    private var previousLocation = CLLocationCoordinate2D()
+    
     struct Input {
-        let location: ReplaySubject<CLLocation>
+        let location: ReplaySubject<CLLocation?>
         let myLocationButtonTapped = PublishSubject<(Void)>()
         let pausePlayButtonTapped = PublishSubject<(Void)>()
         let stopButtonTapped = PublishSubject<(Void)>()
@@ -28,6 +30,7 @@ final class WalkViewModel: ViewModelType {
     
     struct Output {
         let location = PublishRelay<CLLocationCoordinate2D>()
+        let path = PublishRelay<[CLLocationCoordinate2D]>()
         let annotationLocation = PublishRelay<CLLocationCoordinate2D>()
     }
     
@@ -38,8 +41,23 @@ final class WalkViewModel: ViewModelType {
             location: locationManager.location
         )
         
+        input.location
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] loc in
+                self?.output.location.accept(loc.coordinate)
+                
+                if let previous = self?.previousLocation {
+                    self?.output.path.accept([previous, loc.coordinate])
+                }
+                
+                self?.previousLocation = loc.coordinate
+            })
+            .disposed(by: bag)
+        
         input.myLocationButtonTapped
             .withLatestFrom(input.location)
+            .debug()
+            .compactMap { $0 }
             .subscribe(onNext: { [weak self] loc in
                 self?.output.location.accept(loc.coordinate)
             })
@@ -47,9 +65,11 @@ final class WalkViewModel: ViewModelType {
         
         input.fecesButtonTapped
             .withLatestFrom(input.location)
+            .compactMap { $0 }
             .subscribe(onNext: { [weak self] loc in
                 self?.output.annotationLocation.accept(loc.coordinate)
             })
             .disposed(by: bag)
+        
     }
 }

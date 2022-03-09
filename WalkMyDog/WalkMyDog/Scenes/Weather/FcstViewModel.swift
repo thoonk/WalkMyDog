@@ -17,7 +17,7 @@ final class FcstViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()
     
     struct Input {
-        let location: ReplaySubject<CLLocation>
+        let location: ReplaySubject<CLLocation?>
         let placemark: ReplaySubject<CLPlacemark>
         var fetchFcst: AnyObserver<Void>
     }
@@ -47,6 +47,7 @@ final class FcstViewModel: ViewModelType {
         
         fetching.withLatestFrom(input.location)
             .do(onNext: { _ in isLoading.onNext(true) })
+            .compactMap { $0 }
             .flatMapLatest { (location) -> Observable<[FcstModel]> in
                 FcstAPIManager.shared.fetchFcstData(
                     lat: "\(location.coordinate.latitude)",
