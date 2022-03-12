@@ -68,7 +68,6 @@ final public class LocationManager {
         
         locationManager.rx
             .didUpdateLocations
-            .debug("didUpdateLocations")
             .compactMap(\.locations.last?)
             .bind(onNext: self.location.onNext(_:))
             .disposed(by: bag)

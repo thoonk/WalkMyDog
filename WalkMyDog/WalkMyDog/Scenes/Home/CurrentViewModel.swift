@@ -45,34 +45,34 @@ final class CurrentViewModel: ViewModelType {
             placemark: locationManager.placemark
         )
         
-        input.location
-            .do(onNext: { _ in isLoading.onNext(true) })
-            .compactMap { $0 }
-            .flatMapLatest { (location) -> Observable<WeatherCurrent> in
-                CurrentAPIManger.shared.fetchWeatherData(
-                    lat: "\(location.coordinate.latitude)",
-                    lon: "\(location.coordinate.longitude)"
-                )
-            }.subscribe(onNext: { data in
-                weatherSubject.onNext(data)
-            }, onError: { err in
-                error.onNext(err.localizedDescription)
-            }).disposed(by: bag)
+//        input.location
+//            .do(onNext: { _ in isLoading.onNext(true) })
+//            .compactMap { $0 }
+//            .flatMapLatest { (location) -> Observable<WeatherCurrent> in
+//                CurrentAPIManger.shared.fetchWeatherData(
+//                    lat: "\(location.coordinate.latitude)",
+//                    lon: "\(location.coordinate.longitude)"
+//                )
+//            }.subscribe(onNext: { data in
+//                weatherSubject.onNext(data)
+//            }, onError: { err in
+//                error.onNext(err.localizedDescription)
+//            }).disposed(by: bag)
         
-        input.location
-            .compactMap { $0 }
-            .flatMapLatest { (location) -> Observable<PMModel> in
-                CurrentAPIManger.shared.fetchPMData(
-                    lat: "\(location.coordinate.latitude)",
-                    lon: "\(location.coordinate.longitude)"
-                )
-            }
-            .do(onNext: { _ in isLoading.onNext(false) })
-            .subscribe(onNext: { data in
-                pmSubject.onNext(data)
-            }, onError: { err in
-                error.onNext(err.localizedDescription)
-            }).disposed(by: bag)
+//        input.location
+//            .compactMap { $0 }
+//            .flatMapLatest { (location) -> Observable<PMModel> in
+//                CurrentAPIManger.shared.fetchPMData(
+//                    lat: "\(location.coordinate.latitude)",
+//                    lon: "\(location.coordinate.longitude)"
+//                )
+//            }
+//            .do(onNext: { _ in isLoading.onNext(false) })
+//            .subscribe(onNext: { data in
+//                pmSubject.onNext(data)
+//            }, onError: { err in
+//                error.onNext(err.localizedDescription)
+//            }).disposed(by: bag)
         
         let locationName = input.placemark
             .map { (placemark) in

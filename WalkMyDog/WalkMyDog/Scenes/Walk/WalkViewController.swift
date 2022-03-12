@@ -11,11 +11,17 @@ import RxCocoa
 import SnapKit
 import MapKit
 
+enum ButtonState {
+    case play
+    case pause
+}
+
 final class WalkViewController: UIViewController {
     enum AnnotationType {
         case feces
         case pee
     }
+    
     // MARK: - Properties
     let selectedPuppies: [Puppy]
     let currentLocation: CLLocationCoordinate2D
@@ -219,6 +225,18 @@ private extension WalkViewController {
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
+        pausePlayButton.rx.tap
+            .scan(ButtonState.pause) { lastState, _ in
+                switch lastState {
+                case .play:
+                    return .pause
+                case .pause:
+                    return .play
+                }
+            }
+            .bind(to: input.pausePlayButtonTapped)
+            .disposed(by: bag)
+        
         myLocationButton.rx.tap
             .bind(to: input.myLocationButtonTapped)
             .disposed(by: bag)
@@ -231,8 +249,18 @@ private extension WalkViewController {
             .setDelegate(self)
             .disposed(by: bag)
         
+        input.pausePlayButtonTapped
+            .subscribe(onNext: { [weak self] state in
+                switch state {
+                case .pause:
+                    self?.pausePlayButton.setImage(systemName: "play", size: 30)
+                case .play:
+                    self?.pausePlayButton.setImage(systemName: "pause", size: 30)
+                }
+            })
+            .disposed(by: bag)
+        
         output.location
-            .debug()
             .subscribe(onNext: { [weak self] loc in
                 self?.mapView.centerToLocation(loc)
             })
@@ -247,6 +275,12 @@ private extension WalkViewController {
         output.path
             .subscribe(onNext: { [weak self] path in
                 self?.drawPathLine(with: path)
+            })
+            .disposed(by: bag)
+        
+        output.distanceRelay
+            .subscribe(onNext: { [weak self] distance in
+                self?.distanceLabel.text = String(format: "%.1f (km)", distance / 1000)
             })
             .disposed(by: bag)
     }
@@ -292,10 +326,11 @@ extension MKMapView {
 extension WalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            let testlineRenderer = MKPolylineRenderer(polyline: polyline)
-            testlineRenderer.strokeColor = .blue
-            testlineRenderer.lineWidth = 2.0
-            return testlineRenderer
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = .systemBlue
+            renderer.lineWidth = 5.0
+            renderer.alpha = 0.5
+            return renderer
         } else {
             return MKPolylineRenderer()
         }
