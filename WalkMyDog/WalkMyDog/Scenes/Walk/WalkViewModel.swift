@@ -37,6 +37,7 @@ final class WalkViewModel: ViewModelType {
         let path = PublishRelay<[CLLocationCoordinate2D]>()
         let annotationLocation = PublishRelay<CLLocationCoordinate2D>()
         let distanceRelay = BehaviorRelay<Double>(value: 0.0)
+        
     }
     
     init(viewController: WalkViewController, timerService: TimerService = TimerService()) {
@@ -49,7 +50,6 @@ final class WalkViewModel: ViewModelType {
         
         Observable
             .combineLatest(input.location, input.pausePlayButtonTapped)
-            .debug()
             .bind { [weak self] loc, state in
                 if let loc = loc,
                    loc.coordinate.isDefaultCoordinate == false

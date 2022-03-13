@@ -41,6 +41,8 @@
 		0873F26527DE08B600F27D3C /* CLLocationCoordinate2D+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */; };
 		0873F26727DE093300F27D3C /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26627DE093300F27D3C /* TimerService.swift */; };
 		0873F26A27DE13A800F27D3C /* MKMapView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26927DE13A800F27D3C /* MKMapView+.swift */; };
+		0873F26D27DE191D00F27D3C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26C27DE191D00F27D3C /* ImagePicker.swift */; };
+		0873F26F27DE1AA500F27D3C /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26E27DE1AA500F27D3C /* UIViewController+.swift */; };
 		087554C92618B47800746F40 /* PuppyHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087554C72618B47800746F40 /* PuppyHeaderTableViewCell.swift */; };
 		087554CA2618B47800746F40 /* PuppyHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 087554C82618B47800746F40 /* PuppyHeaderTableViewCell.xib */; };
 		087554D02618BC7700746F40 /* SettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087554CE2618BC7700746F40 /* SettingHeaderTableViewCell.swift */; };
@@ -149,6 +151,8 @@
 		0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+.swift"; sourceTree = "<group>"; };
 		0873F26627DE093300F27D3C /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		0873F26927DE13A800F27D3C /* MKMapView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+.swift"; sourceTree = "<group>"; };
+		0873F26C27DE191D00F27D3C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		0873F26E27DE1AA500F27D3C /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		087554C72618B47800746F40 /* PuppyHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		087554C82618B47800746F40 /* PuppyHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PuppyHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		087554CE2618BC7700746F40 /* SettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -286,6 +290,15 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		0873F26B27DE191400F27D3C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				08E5C57325DBB7C3000896D2 /* Extensions */,
+				0873F26C27DE191D00F27D3C /* ImagePicker.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		0893C33027D0F59A0061632D /* Walk */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,7 +349,7 @@
 				08E5C4EC25DBB34C000896D2 /* App */,
 				08BB9C2A25C916B200B56F9F /* Info.plist */,
 				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
-				08E5C57325DBB7C3000896D2 /* Extensions */,
+				0873F26B27DE191400F27D3C /* Helper */,
 				08E5C55E25DBB76E000896D2 /* Protocols */,
 				08E5C51D25DBB621000896D2 /* Managers */,
 				08E5C60025DBC21E000896D2 /* Scenes */,
@@ -474,6 +487,7 @@
 				0890C8E527D4E9AC00A4F04B /* UIButton+.swift */,
 				0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */,
 				0873F26927DE13A800F27D3C /* MKMapView+.swift */,
+				0873F26E27DE1AA500F27D3C /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -887,6 +901,7 @@
 				08E5C51525DBB5E6000896D2 /* FcstModel.swift in Sources */,
 				0890C8E627D4E9AC00A4F04B /* UIButton+.swift in Sources */,
 				08167AC825EE58C100C45E2D /* RecordViewModel.swift in Sources */,
+				0873F26F27DE1AA500F27D3C /* UIViewController+.swift in Sources */,
 				0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */,
 				0871388E25CD62D00089EA42 /* PuppyModel.swift in Sources */,
 				08A9877325F1052F00F60DB6 /* CheckPuppyTableViewCell.swift in Sources */,
@@ -910,6 +925,7 @@
 				0825A1AC266F831800BB8A64 /* RecordViewController.swift in Sources */,
 				0873F26727DE093300F27D3C /* TimerService.swift in Sources */,
 				0873F26A27DE13A800F27D3C /* MKMapView+.swift in Sources */,
+				0873F26D27DE191D00F27D3C /* ImagePicker.swift in Sources */,
 				08E5C58225DBB9BF000896D2 /* FcstViewModel.swift in Sources */,
 				08E5C56F25DBB799000896D2 /* ViewModelType.swift in Sources */,
 				0896849025D109E1005C56F7 /* SettingViewController.swift in Sources */,

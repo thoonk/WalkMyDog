@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import MapKit
+import Photos
 
 enum ButtonState {
     case play
@@ -82,8 +83,14 @@ final class WalkViewController: UIViewController {
         let button = UIButton()
         button.setImage(systemName: "camera.fill", size: 30)
         button.tintColor = UIColor(named: "customTintColor")
+        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
         
         return button
+    }()
+    
+    lazy var cameraPicker: ImagePicker = {
+        let imagePicker = ImagePicker(presentationController: self, delegate: self)
+        return imagePicker
     }()
     
     lazy var distanceLabel: UILabel = {
@@ -121,9 +128,14 @@ final class WalkViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        /*
+         이슈: UIImagePickerController Present and Dismiss 후 버튼 Tap 이벤트 바인드 끊김
+         
+         */
+        bindButtonRxTap()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -219,25 +231,7 @@ private extension WalkViewController {
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
-        pausePlayButton.rx.tap
-            .scan(ButtonState.pause) { lastState, _ in
-                switch lastState {
-                case .play:
-                    return .pause
-                case .pause:
-                    return .play
-                }
-            }
-            .bind(to: input.pausePlayButtonTapped)
-            .disposed(by: bag)
-        
-        myLocationButton.rx.tap
-            .bind(to: input.myLocationButtonTapped)
-            .disposed(by: bag)
-        
-        fecesButton.rx.tap
-            .bind(to: input.fecesButtonTapped)
-            .disposed(by: bag)
+        self.bindButtonRxTap()
         
         mapView.rx
             .setDelegate(self)
@@ -274,8 +268,32 @@ private extension WalkViewController {
         
         output.distanceRelay
             .subscribe(onNext: { [weak self] distance in
-                self?.distanceLabel.text = String(format: "%.1f (km)", distance / 1000)
+                self?.distanceLabel.text = String(format: "%.1f (km)", distance * 0.001)
             })
+            .disposed(by: bag)
+    }
+    
+    func bindButtonRxTap() {
+        guard let viewModel = self.walkViewModel else { return }
+        
+        pausePlayButton.rx.tap
+            .scan(ButtonState.pause) { lastState, _ in
+                switch lastState {
+                case .play:
+                    return .pause
+                case .pause:
+                    return .play
+                }
+            }
+            .bind(to: viewModel.input.pausePlayButtonTapped)
+            .disposed(by: bag)
+        
+        myLocationButton.rx.tap
+            .bind(to: viewModel.input.myLocationButtonTapped)
+            .disposed(by: bag)
+        
+        fecesButton.rx.tap
+            .bind(to: viewModel.input.fecesButtonTapped)
             .disposed(by: bag)
     }
     
@@ -317,6 +335,20 @@ private extension WalkViewController {
         let lineDraw = MKPolyline(coordinates: path, count: path.count)
         self.mapView.addOverlay(lineDraw)
     }
+    
+    @objc
+    func didTapCameraButton() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            guard let self = self else { return }
+            DispatchQueue.main.async { [weak self] in
+                if granted == true {
+                    self?.cameraPicker.present(pickerType: .camera)
+                } else {
+                    self?.setupReqAuthView()
+                }
+            }
+        }
+    }
 }
 
 extension WalkViewController: MKMapViewDelegate {
@@ -337,11 +369,29 @@ extension WalkViewController: TimerServiceDelegate {
     func timerTick(_ currentTi: Double) {
         self.timeLabel.text = format(seconds: currentTi)
     }
-    
-    func format(seconds: TimeInterval) -> String {
-        let min = Int(seconds / 60)
-        let sec = Int(seconds.truncatingRemainder(dividingBy: 60))
+}
+
+extension WalkViewController: ImagePickerDelegate {
+    func didSelect(image: UIImage?) {
+        guard let image = image else { return }
         
-        return String(format: "%02d:%02d", min, sec)
+        // 로컬 저장
+        UIImageWriteToSavedPhotosAlbum(
+            image,
+            self,
+            #selector(self.image),
+            nil
+        )
+    }
+    
+    @objc
+    private func image(
+        _ image: UIImage,
+        didFinishSavingWithError err: Error?,
+        contextInfo: UnsafeRawPointer
+    ) {
+        if err != nil {
+            self.setupAlertView(with: "기기 이미지 저장 오류가 발생했습니다.")
+        }
     }
 }

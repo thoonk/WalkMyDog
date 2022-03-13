@@ -74,6 +74,8 @@
 	<string>현재 위치를 기반으로 날씨 정보를 얻기 위해서 위치 정보를 필요합니다. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>강아지 프로필 사진을 등록하기 위해서 사진 접근 권한이 필요합니다.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>산책 중 강아지의 사진을 찍기 위해 카메라 접근 권한이 필요합니다.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
