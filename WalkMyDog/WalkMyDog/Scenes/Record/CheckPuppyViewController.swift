@@ -30,7 +30,7 @@ final class CheckPuppyViewController: UIViewController {
 //                withIdentifier: C.Segue.checkToEdit,
 //                sender: checkedPuppies
 //            )
-            let walkViewController = WalkViewController(selectedPuppies: checkedPuppies, location: currentLocation.coordinate)
+            let walkViewController = WalkViewController(selectedPuppies: checkedPuppies)
             walkViewController.modalPresentationStyle = .fullScreen
             self.present(walkViewController, animated: true)
         }
@@ -39,7 +39,6 @@ final class CheckPuppyViewController: UIViewController {
     var viewModel: CheckPuppyViewModel?
     var bag = DisposeBag()
     var checkedPuppies: [Puppy] = []
-    var currentLocation = CLLocation()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -115,12 +114,6 @@ final class CheckPuppyViewController: UIViewController {
                     input.fetchData.onNext(())
                 })
             }).disposed(by: bag)
-        
-        output.location
-            .subscribe(onNext: { [weak self] loc in
-                self?.currentLocation = loc
-            })
-            .disposed(by: bag)
     }
 }
 

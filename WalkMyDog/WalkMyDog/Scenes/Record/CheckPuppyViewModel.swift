@@ -17,7 +17,6 @@ final class CheckPuppyViewModel: ViewModelType {
     
     struct Input {
         var fetchData: AnyObserver<Void>
-//        let location: PublishSubject<CLLocation?>
         let checkedPuppies = PublishSubject<[Puppy]>()
     }
     
@@ -35,12 +34,10 @@ final class CheckPuppyViewModel: ViewModelType {
         let puppyData = PublishRelay<[Puppy]>()
         let error = PublishRelay<String>()
 
-//        let locationManager = LocationManager.shared
         let location = PublishRelay<CLLocation>()
         
         input = Input(
             fetchData: fetchData
-//            location: locationManager.location
         )
         
         fetching
@@ -59,14 +56,7 @@ final class CheckPuppyViewModel: ViewModelType {
                 puppyData.accept(data)
             })
             .disposed(by: bag)
-                
-//        input.location
-//            .compactMap { $0 }
-//            .subscribe(onNext: { loc in
-//                location.accept(loc)
-//            })
-//            .disposed(by: bag)
-                
+
         output = Output(
             isLoading: isLoading,
             puppyData: puppyData,

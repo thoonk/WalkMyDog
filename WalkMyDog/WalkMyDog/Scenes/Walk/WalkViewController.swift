@@ -24,11 +24,8 @@ final class WalkViewController: UIViewController {
     
     // MARK: - Properties
     let selectedPuppies: [Puppy]
-    let currentLocation: CLLocationCoordinate2D
-    
     var walkViewModel: WalkViewModel?
     var bag = DisposeBag()
-    var isWalking: Bool = false
     
     // MARK: - UI Components
     lazy var mapView: MKMapView = {
@@ -54,7 +51,6 @@ final class WalkViewController: UIViewController {
        let button = UIButton()
         button.setImage(UIImage(systemName: "location"), for: .normal)
         button.tintColor = UIColor(named: "customTintColor")
-
         return button
     }()
     
@@ -111,11 +107,9 @@ final class WalkViewController: UIViewController {
     }()
     
     required init(
-        selectedPuppies: [Puppy],
-        location: CLLocationCoordinate2D
+        selectedPuppies: [Puppy]
     ) {
         self.selectedPuppies = selectedPuppies
-        self.currentLocation = location
         
         super.init(nibName: nil, bundle: nil)
         
@@ -221,7 +215,7 @@ private extension WalkViewController {
     }
     
     func setupBinding() {
-        self.walkViewModel = WalkViewModel()
+        self.walkViewModel = WalkViewModel(viewController: self)
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
@@ -268,7 +262,7 @@ private extension WalkViewController {
         
         output.annotationLocation
             .subscribe(onNext: { [weak self] loc in
-                self?.setupAnnotation(with: loc, type: .feces)
+                self?.setupAnnotationActionSheet(with: loc)
             })
             .disposed(by: bag)
         
@@ -290,6 +284,22 @@ private extension WalkViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func setupAnnotationActionSheet(with coordinate: CLLocationCoordinate2D) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let fecesAction = UIAlertAction(title: "대변", style: .default) { [weak self] _ in
+            self?.setupAnnotation(with: coordinate, type: .feces)
+        }
+        let peeAction = UIAlertAction(title: "소변", style: .default) { [weak self] _ in
+            self?.setupAnnotation(with: coordinate, type: .pee)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        [fecesAction, peeAction, cancelAction]
+            .forEach { actionSheet.addAction($0) }
+        
+        self.present(actionSheet, animated: true)
+    }
+    
     func setupAnnotation(with coordinate: CLLocationCoordinate2D, type: AnnotationType) {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
@@ -309,20 +319,6 @@ private extension WalkViewController {
     }
 }
 
-extension MKMapView {
-    func centerToLocation(
-        _ location: CLLocationCoordinate2D,
-        regionRadius: CLLocationDistance = 500
-    ) {
-        let region = MKCoordinateRegion(
-            center: location,
-            latitudinalMeters: regionRadius,
-            longitudinalMeters: regionRadius
-        )
-        setRegion(region, animated: true)
-    }
-}
-
 extension WalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
@@ -334,5 +330,18 @@ extension WalkViewController: MKMapViewDelegate {
         } else {
             return MKPolylineRenderer()
         }
+    }
+}
+
+extension WalkViewController: TimerServiceDelegate {
+    func timerTick(_ currentTi: Double) {
+        self.timeLabel.text = format(seconds: currentTi)
+    }
+    
+    func format(seconds: TimeInterval) -> String {
+        let min = Int(seconds / 60)
+        let sec = Int(seconds.truncatingRemainder(dividingBy: 60))
+        
+        return String(format: "%02d:%02d", min, sec)
     }
 }
