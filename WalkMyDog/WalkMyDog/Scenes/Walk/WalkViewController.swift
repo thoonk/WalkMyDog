@@ -35,7 +35,8 @@ final class WalkViewController: UIViewController {
         map.mapType = .standard
         map.showsUserLocation = true
         map.setUserTrackingMode(.follow, animated: true)
-        map.isZoomEnabled = true
+//        map.isZoomEnabled = true
+        map.isUserInteractionEnabled = false
 
         return map
     }()
@@ -128,19 +129,20 @@ final class WalkViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//
+//        bag = DisposeBag()
+//    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        /*
-         이슈: UIImagePickerController Present and Dismiss 후 버튼 Tap 이벤트 바인드 끊김
-         
-         */
-        bindButtonRxTap()
+        walkViewModel?.timerService.pauseTimer()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+    deinit {
+        print("Deinit WalkViewController")
         bag = DisposeBag()
     }
 }
@@ -231,7 +233,29 @@ private extension WalkViewController {
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
-        self.bindButtonRxTap()
+        pausePlayButton.rx.tap
+            .scan(ButtonState.pause) { lastState, _ in
+                switch lastState {
+                case .play:
+                    return .pause
+                case .pause:
+                    return .play
+                }
+            }
+            .bind(to: input.pausePlayButtonTapped)
+            .disposed(by: bag)
+        
+        stopButton.rx.tap
+            .bind(to: input.stopButtonTapped)
+            .disposed(by: bag)
+        
+        myLocationButton.rx.tap
+            .bind(to: input.myLocationButtonTapped)
+            .disposed(by: bag)
+        
+        fecesButton.rx.tap
+            .bind(to: input.fecesButtonTapped)
+            .disposed(by: bag)
         
         mapView.rx
             .setDelegate(self)
@@ -267,33 +291,17 @@ private extension WalkViewController {
             .disposed(by: bag)
         
         output.distanceRelay
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] distance in
                 self?.distanceLabel.text = String(format: "%.1f (km)", distance * 0.001)
             })
             .disposed(by: bag)
-    }
-    
-    func bindButtonRxTap() {
-        guard let viewModel = self.walkViewModel else { return }
         
-        pausePlayButton.rx.tap
-            .scan(ButtonState.pause) { lastState, _ in
-                switch lastState {
-                case .play:
-                    return .pause
-                case .pause:
-                    return .play
-                }
-            }
-            .bind(to: viewModel.input.pausePlayButtonTapped)
-            .disposed(by: bag)
-        
-        myLocationButton.rx.tap
-            .bind(to: viewModel.input.myLocationButtonTapped)
-            .disposed(by: bag)
-        
-        fecesButton.rx.tap
-            .bind(to: viewModel.input.fecesButtonTapped)
+        output.dismissRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            })
             .disposed(by: bag)
     }
     

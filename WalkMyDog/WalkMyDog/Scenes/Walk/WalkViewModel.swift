@@ -37,7 +37,7 @@ final class WalkViewModel: ViewModelType {
         let path = PublishRelay<[CLLocationCoordinate2D]>()
         let annotationLocation = PublishRelay<CLLocationCoordinate2D>()
         let distanceRelay = BehaviorRelay<Double>(value: 0.0)
-        
+        let dismissRelay = PublishRelay<Void>()
     }
     
     init(viewController: WalkViewController, timerService: TimerService = TimerService()) {
@@ -101,6 +101,7 @@ final class WalkViewModel: ViewModelType {
         input.stopButtonTapped
             .bind { [weak self] in
                 self?.timerService.pauseTimer()
+                self?.output.dismissRelay.accept(())
             }
             .disposed(by: bag)
     }
