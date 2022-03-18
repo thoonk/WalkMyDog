@@ -35,54 +35,48 @@ final class WalkViewController: UIViewController {
         map.mapType = .standard
         map.showsUserLocation = true
         map.setUserTrackingMode(.follow, animated: true)
-//        map.isZoomEnabled = true
-        map.isUserInteractionEnabled = false
+        map.isZoomEnabled = true
+//        map.isUserInteractionEnabled = false
 
         return map
     }()
     
     lazy var closeButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: "back"), for: .normal)
         button.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
-        
         return button
     }()
     
     lazy var myLocationButton: UIButton = {
-       let button = UIButton()
-        button.setImage(UIImage(systemName: "location"), for: .normal)
-        button.tintColor = UIColor(named: "customTintColor")
+        let button = UIButton()
+        button.setImage(UIImage(named: "myLocation-26"), for: .normal)
         return button
     }()
     
     lazy var fecesButton: UIButton = {
-       let button = UIButton()
-        button.setImage(UIImage(systemName: "star.circle"), for: .normal)
-        button.tintColor = UIColor(named: "customTintColor")
-
+        let button = UIButton()
+        button.setImage(UIImage(named: "feces-32"), for: .normal)
         return button
     }()
     
     lazy var pausePlayButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(systemName: "pause", size: 30)
+        button.setImage(UIImage(named: "pause-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = UIColor(named: "customTintColor")
-        
         return button
     }()
     
     lazy var stopButton: UIButton = {
         let button = UIButton()
-        button.setImage(systemName: "stop.fill", size: 30)
+        button.setImage(UIImage(named: "stop-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = UIColor(named: "customTintColor")
-        
         return button
     }()
     
     lazy var cameraButton: UIButton = {
         let button = UIButton()
-        button.setImage(systemName: "camera.fill", size: 30)
+        button.setImage(UIImage(named: "camera-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = UIColor(named: "customTintColor")
         button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
         
@@ -96,7 +90,8 @@ final class WalkViewController: UIViewController {
     
     lazy var distanceLabel: UILabel = {
        let label = UILabel()
-        label.text = "0.0"
+        label.textAlignment = .right
+        label.text = "0.0 km"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
         label.sizeToFit()
@@ -109,6 +104,16 @@ final class WalkViewController: UIViewController {
         label.text = "00:00"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 25.0, weight: .bold)
+        label.sizeToFit()
+        
+        return label
+    }()
+    
+    lazy var statusLabel: UILabel = {
+       let label = UILabel()
+        label.text = "산책중이에요!"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20.0, weight: .bold)
         label.sizeToFit()
         
         return label
@@ -151,19 +156,20 @@ final class WalkViewController: UIViewController {
 private extension WalkViewController {
     func setupLayout() {
         let topMaskView = UIView()
+        topMaskView.roundCorners([.bottomLeft, .bottomRight], radius: 25.0)
         topMaskView.backgroundColor = .white
         
-        topMaskView.addSubview(closeButton)
-        closeButton.snp.makeConstraints {
+        topMaskView.addSubview(statusLabel)
+        statusLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(20)
-            $0.width.height.equalTo(25)
+            $0.leading.equalToSuperview().inset(15.0)
         }
         
         let bottomMaskView = UIView()
         bottomMaskView.backgroundColor = .white
+        bottomMaskView.roundCorners(.allCorners, radius: 25.0)
         
-        let labelStackView = UIStackView(arrangedSubviews: [distanceLabel, timeLabel])
+        let labelStackView = UIStackView(arrangedSubviews: [timeLabel, distanceLabel])
         labelStackView.alignment = .fill
         labelStackView.distribution = .fillEqually
         labelStackView.spacing = 25.0
@@ -177,13 +183,15 @@ private extension WalkViewController {
             .forEach { bottomMaskView.addSubview($0) }
         
         labelStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
-            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(10.0)
+            $0.leading.trailing.equalToSuperview().inset(30.0)
+            $0.height.equalToSuperview().multipliedBy(0.3)
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(labelStackView).offset(20)
-            $0.leading.trailing.bottom.equalToSuperview().inset(20)
+            $0.top.equalTo(labelStackView.snp.bottom).offset(10.0)
+            $0.leading.trailing.equalToSuperview().inset(10.0)
+            $0.bottom.equalToSuperview().inset(20.0)
         }
         
         [
@@ -200,32 +208,34 @@ private extension WalkViewController {
         topMaskView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(50)
+            $0.height.equalTo(100.0)
         }
         
         mapView.snp.makeConstraints {
-            $0.top.equalTo(topMaskView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
         bottomMaskView.snp.makeConstraints {
-            $0.top.equalTo(mapView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.3)
+            $0.leading.trailing.equalToSuperview().inset(20.0)
+            $0.bottom.equalToSuperview().inset(60.0)
+            $0.height.equalToSuperview().multipliedBy(0.2)
         }
         
         myLocationButton.snp.makeConstraints {
-            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-20)
-            $0.leading.equalToSuperview().inset(15)
-            $0.width.height.equalTo(50)
+            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-15.0)
+            $0.leading.equalToSuperview().inset(15.0)
+            $0.width.height.equalTo(50.0)
         }
         
         fecesButton.snp.makeConstraints {
-            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-20)
-            $0.trailing.equalToSuperview().inset(15)
-            $0.width.height.equalTo(50)
+            $0.bottom.equalTo(bottomMaskView.snp.top).offset(-15.0)
+            $0.trailing.equalToSuperview().inset(15.0)
+            $0.width.height.equalTo(50.0)
         }
+        
+        view.bringSubviewToFront(topMaskView)
+        view.bringSubviewToFront(bottomMaskView)
     }
     
     func setupBinding() {
@@ -265,9 +275,9 @@ private extension WalkViewController {
             .subscribe(onNext: { [weak self] state in
                 switch state {
                 case .pause:
-                    self?.pausePlayButton.setImage(systemName: "play", size: 30)
+                    self?.pausePlayButton.setImage(UIImage(named: "play-30"), for: .normal)
                 case .play:
-                    self?.pausePlayButton.setImage(systemName: "pause", size: 30)
+                    self?.pausePlayButton.setImage(UIImage(named: "pause-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
                 }
             })
             .disposed(by: bag)
@@ -293,7 +303,7 @@ private extension WalkViewController {
         output.distanceRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] distance in
-                self?.distanceLabel.text = String(format: "%.1f (km)", distance * 0.001)
+                self?.distanceLabel.text = String(format: "%.1f km", distance * 0.001)
             })
             .disposed(by: bag)
         

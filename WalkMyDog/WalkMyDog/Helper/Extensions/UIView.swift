@@ -19,6 +19,20 @@ extension UIView {
         self.layer.shadowColor = UIColor.black.cgColor
     }
     
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+        if #available(iOS 11.0, *) {
+            clipsToBounds = true
+            layer.cornerRadius = radius
+            layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)
+        } else {
+            let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners,
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            layer.mask = mask
+        }
+    }
+    
     /// AutoLayout 설정하는 함수
     func setAnchor(top: NSLayoutYAxisAnchor?,
                    leading: NSLayoutXAxisAnchor?,
