@@ -56,10 +56,9 @@ final class HomeViewController: UIViewController {
     }
     
     @IBAction func addRecordBtnTapped(_ sender: UIButton) {
-        let checkPuppyVC = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(identifier: "CheckPuppyVC")
-            as! CheckPuppyViewController
-        presentPanModal(checkPuppyVC)
+        let selectPuppyVC = SelectPuppyViewController()
+//        selectPuppyVC.modalPresentationStyle = .fullScreen
+//        self.present(selectPuppyVC, animated: true)
     }
     
     @IBAction func unwindToHome(_ sender: UIStoryboardSegue) {}

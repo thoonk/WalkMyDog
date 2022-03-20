@@ -22,7 +22,7 @@
 		08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08286677260485160084F2FF /* SearchSpeciesViewController.swift */; };
 		082866812604D3060084F2FF /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082866802604D3060084F2FF /* CustomTextField.swift */; };
 		082866862604E6860084F2FF /* SelectSpeciesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082866852604E6860084F2FF /* SelectSpeciesDelegate.swift */; };
-		0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */; };
+		0833CD8E27CE49C100767442 /* SelectPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0833CD8D27CE49C100767442 /* SelectPuppyViewModel.swift */; };
 		08465C1625E4FD3300371D20 /* EditPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08465C1525E4FD3300371D20 /* EditPuppyViewModel.swift */; };
 		084CEC7B25E3C73700EFA0DE /* EditPuppyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084CEC7A25E3C73700EFA0DE /* EditPuppyViewController.swift */; };
 		084CEC8025E3C92E00EFA0DE /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */; };
@@ -55,8 +55,8 @@
 		089EAAB42608B18A000AA141 /* AlertStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 089EAAB32608B189000AA141 /* AlertStoryboard.storyboard */; };
 		089EAABC2608B61D000AA141 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089EAABB2608B61D000AA141 /* AlertViewController.swift */; };
 		08A0789C25DD463B00991E40 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A0789B25DD463B00991E40 /* Encodable.swift */; };
-		08A9876B25F1037100F60DB6 /* CheckPuppyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9876A25F1037100F60DB6 /* CheckPuppyViewController.swift */; };
-		08A9877325F1052F00F60DB6 /* CheckPuppyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9877225F1052F00F60DB6 /* CheckPuppyTableViewCell.swift */; };
+		08A9876B25F1037100F60DB6 /* SelectPuppyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9876A25F1037100F60DB6 /* SelectPuppyViewController.swift */; };
+		08A9877325F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9877225F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift */; };
 		08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1C25C916B100B56F9F /* AppDelegate.swift */; };
 		08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */; };
 		08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2225C916B100B56F9F /* Main.storyboard */; };
@@ -132,7 +132,7 @@
 		08286677260485160084F2FF /* SearchSpeciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpeciesViewController.swift; sourceTree = "<group>"; };
 		082866802604D3060084F2FF /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		082866852604E6860084F2FF /* SelectSpeciesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSpeciesDelegate.swift; sourceTree = "<group>"; };
-		0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPuppyViewModel.swift; sourceTree = "<group>"; };
+		0833CD8D27CE49C100767442 /* SelectPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPuppyViewModel.swift; sourceTree = "<group>"; };
 		08465C1525E4FD3300371D20 /* EditPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewModel.swift; sourceTree = "<group>"; };
 		084CEC7A25E3C73700EFA0DE /* EditPuppyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewController.swift; sourceTree = "<group>"; };
 		084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
@@ -167,8 +167,8 @@
 		08A0787125DD2BC600991E40 /* FIRStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRStoreManager.swift; sourceTree = "<group>"; };
 		08A0788D25DD3AE300991E40 /* FIRStoreRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRStoreRef.swift; sourceTree = "<group>"; };
 		08A0789B25DD463B00991E40 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
-		08A9876A25F1037100F60DB6 /* CheckPuppyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPuppyViewController.swift; sourceTree = "<group>"; };
-		08A9877225F1052F00F60DB6 /* CheckPuppyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPuppyTableViewCell.swift; sourceTree = "<group>"; };
+		08A9876A25F1037100F60DB6 /* SelectPuppyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPuppyViewController.swift; sourceTree = "<group>"; };
+		08A9877225F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPuppyCollectionViewCell.swift; sourceTree = "<group>"; };
 		08BB9C1925C916B100B56F9F /* WalkMyDog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkMyDog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BB9C1C25C916B100B56F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -511,9 +511,9 @@
 		08E5C60125DBC259000896D2 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				08A9876A25F1037100F60DB6 /* CheckPuppyViewController.swift */,
-				0833CD8D27CE49C100767442 /* CheckPuppyViewModel.swift */,
-				08A9877225F1052F00F60DB6 /* CheckPuppyTableViewCell.swift */,
+				08A9876A25F1037100F60DB6 /* SelectPuppyViewController.swift */,
+				0833CD8D27CE49C100767442 /* SelectPuppyViewModel.swift */,
+				08A9877225F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift */,
 				081536F025EF4C7C000D13D3 /* EditRecordViewModel.swift */,
 				08F911C625F1EEF30043438D /* EditRecordViewController.swift */,
 				08167AC725EE58C100C45E2D /* RecordViewModel.swift */,
@@ -902,9 +902,9 @@
 				0890C8E627D4E9AC00A4F04B /* UIButton+.swift in Sources */,
 				08167AC825EE58C100C45E2D /* RecordViewModel.swift in Sources */,
 				0873F26F27DE1AA500F27D3C /* UIViewController+.swift in Sources */,
-				0833CD8E27CE49C100767442 /* CheckPuppyViewModel.swift in Sources */,
+				0833CD8E27CE49C100767442 /* SelectPuppyViewModel.swift in Sources */,
 				0871388E25CD62D00089EA42 /* PuppyModel.swift in Sources */,
-				08A9877325F1052F00F60DB6 /* CheckPuppyTableViewCell.swift in Sources */,
+				08A9877325F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift in Sources */,
 				08EFBA2B27D4D1A500D96AB9 /* MKMapView+Rx.swift in Sources */,
 				08E5C57525DBB7D1000896D2 /* Date.swift in Sources */,
 				081536F125EF4C7C000D13D3 /* EditRecordViewModel.swift in Sources */,
@@ -933,7 +933,7 @@
 				084CEC9F25E3DAD000EFA0DE /* FetchPuppyViewModel.swift in Sources */,
 				080D021025FCDAAC0092633D /* UIImageVIew.swift in Sources */,
 				08E5C4F525DBB537000896D2 /* WeatherData.swift in Sources */,
-				08A9876B25F1037100F60DB6 /* CheckPuppyViewController.swift in Sources */,
+				08A9876B25F1037100F60DB6 /* SelectPuppyViewController.swift in Sources */,
 				089EAA7A2608B07F000AA141 /* AlertManager.swift in Sources */,
 				08264A8525E2424E002073E6 /* FetchAllPuppyViewModel.swift in Sources */,
 				08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */,

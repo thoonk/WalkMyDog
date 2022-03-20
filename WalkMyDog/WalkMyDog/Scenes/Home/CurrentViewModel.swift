@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import CoreLocation
+import RxRelay
 
 final class CurrentViewModel: ViewModelType {
     
@@ -21,6 +22,7 @@ final class CurrentViewModel: ViewModelType {
     }
     
     struct Output {
+        let location = PublishRelay<CLLocationCoordinate2D>()
         let isLoading: BehaviorSubject<Bool>
         let locationName: Observable<String>
         let conditionName: Observable<String>
@@ -119,5 +121,14 @@ final class CurrentViewModel: ViewModelType {
             rcmdStatus: rcmdStatus,
             errorMessage: error
         )
+        
+        input.location
+            .bind { [weak self] loc in
+                if let loc = loc,
+                   loc.coordinate.isDefaultCoordinate == false {
+                self?.output.location.accept(loc.coordinate)
+                }
+            }
+            .disposed(by: bag)
     }
 }

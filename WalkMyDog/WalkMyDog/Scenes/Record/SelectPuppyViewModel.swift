@@ -1,5 +1,5 @@
 //
-//  CheckPuppyViewModel.swift
+//  SelectPuppyViewModel.swift
 //  WalkMyDog
 //
 //  Created by thoonk on 2022/03/01.
@@ -9,7 +9,7 @@ import RxSwift
 import RxRelay
 import CoreLocation
 
-final class CheckPuppyViewModel: ViewModelType {
+final class SelectPuppyViewModel: ViewModelType {
     var bag = DisposeBag()
     
     var input: Input
@@ -18,6 +18,7 @@ final class CheckPuppyViewModel: ViewModelType {
     struct Input {
         var fetchData: AnyObserver<Void>
         let checkedPuppies = PublishSubject<[Puppy]>()
+        let startButtonTapped = PublishSubject<Void>()
     }
     
     struct Output {
