@@ -70,110 +70,6 @@
             </objects>
             <point key="canvasLocation" x="465" y="-19"/>
         </scene>
-        <!--Check Puppy View Controller-->
-        <scene sceneID="K0K-Sa-IEX">
-            <objects>
-                <viewController storyboardIdentifier="CheckPuppyVC" id="gJ6-il-RVd" customClass="CheckPuppyViewController" customModule="WalkMyDog" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="giJ-LN-VPL">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Fz-f6-pYO">
-                                <rect key="frame" x="0.0" y="93.333333333333314" width="390" height="680.66666666666674"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="checkPuppyCell" rowHeight="70" id="oLG-9h-xuX" customClass="CheckPuppyTableViewCell" customModule="WalkMyDog" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oLG-9h-xuX" id="eOg-dU-DMZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yUP-qL-zaB">
-                                                    <rect key="frame" x="30" y="20" width="330" height="30"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVt-JR-bqi">
-                                                            <rect key="frame" x="0.0" y="5.3333333333333321" width="41.333333333333336" height="19.666666666666668"/>
-                                                            <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n9n-aF-UOl" customClass="CheckButton" customModule="WalkMyDog" customModuleProvider="target">
-                                                            <rect key="frame" x="310.33333333333331" y="0.0" width="19.666666666666686" height="30"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="30" id="6nH-xA-pd4"/>
-                                                            </constraints>
-                                                            <color key="tintColor" red="0.70980392160000005" green="0.85882352939999995" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" image="circle" catalog="system"/>
-                                                        </button>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="yUP-qL-zaB" secondAttribute="trailing" constant="30" id="7ED-7R-BUS"/>
-                                                <constraint firstItem="yUP-qL-zaB" firstAttribute="centerY" secondItem="eOg-dU-DMZ" secondAttribute="centerY" id="Ars-wM-ZS4"/>
-                                                <constraint firstItem="yUP-qL-zaB" firstAttribute="leading" secondItem="eOg-dU-DMZ" secondAttribute="leading" constant="30" id="GjR-fP-1Sx"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="checkWalkedButton" destination="n9n-aF-UOl" id="iu2-pg-6NO"/>
-                                            <outlet property="puppyNameLabel" destination="fVt-JR-bqi" id="1c3-hO-EyZ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POQ-Do-cYS">
-                                <rect key="frame" x="0.0" y="774" width="390" height="70"/>
-                                <color key="backgroundColor" name="customTintColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="jv2-ZK-g2w"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="선택 완료">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="selectBtnTapped:" destination="gJ6-il-RVd" eventType="touchUpInside" id="Mli-7m-9NQ"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="산책한 반려견을 선택해주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meb-Ps-a6l">
-                                <rect key="frame" x="19.999999999999986" y="58.999999999999993" width="224.66666666666663" height="19.666666666666664"/>
-                                <fontDescription key="fontDescription" name="NanumGothic" family="NanumGothic" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="fu5-ek-eV0">
-                                <rect key="frame" x="176.66666666666666" y="403.66666666666669" width="37" height="37"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="QQ0-2s-2vY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="QQ0-2s-2vY" firstAttribute="trailing" secondItem="1Fz-f6-pYO" secondAttribute="trailing" id="28j-oA-sCc"/>
-                            <constraint firstItem="POQ-Do-cYS" firstAttribute="bottom" secondItem="giJ-LN-VPL" secondAttribute="bottom" id="9ZR-0c-vt3"/>
-                            <constraint firstItem="meb-Ps-a6l" firstAttribute="top" secondItem="QQ0-2s-2vY" secondAttribute="top" constant="15" id="RTy-JM-YRB"/>
-                            <constraint firstItem="fu5-ek-eV0" firstAttribute="centerX" secondItem="giJ-LN-VPL" secondAttribute="centerX" id="SnH-ki-oNv"/>
-                            <constraint firstItem="meb-Ps-a6l" firstAttribute="leading" secondItem="QQ0-2s-2vY" secondAttribute="leading" constant="20" id="TFq-jY-thd"/>
-                            <constraint firstItem="fu5-ek-eV0" firstAttribute="centerY" secondItem="giJ-LN-VPL" secondAttribute="centerY" id="XtV-tx-sOQ"/>
-                            <constraint firstItem="POQ-Do-cYS" firstAttribute="top" secondItem="1Fz-f6-pYO" secondAttribute="bottom" id="aMv-bE-GOH"/>
-                            <constraint firstItem="1Fz-f6-pYO" firstAttribute="leading" secondItem="QQ0-2s-2vY" secondAttribute="leading" id="dAz-Gb-3UQ"/>
-                            <constraint firstItem="QQ0-2s-2vY" firstAttribute="trailing" secondItem="POQ-Do-cYS" secondAttribute="trailing" id="iQ4-pw-iCd"/>
-                            <constraint firstItem="POQ-Do-cYS" firstAttribute="leading" secondItem="QQ0-2s-2vY" secondAttribute="leading" id="m2I-zC-Nvi"/>
-                            <constraint firstItem="1Fz-f6-pYO" firstAttribute="top" secondItem="meb-Ps-a6l" secondAttribute="bottom" constant="14.5" id="z2a-v6-Z1W"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="WXl-H3-7HJ"/>
-                    <connections>
-                        <outlet property="activityIndicatorView" destination="fu5-ek-eV0" id="z6s-dc-LOf"/>
-                        <outlet property="selectButton" destination="POQ-Do-cYS" id="gMp-Sp-qad"/>
-                        <outlet property="tableView" destination="1Fz-f6-pYO" id="PVQ-8W-l8J"/>
-                        <segue destination="XRi-r4-00H" kind="show" identifier="fromCheckToEdit" id="aky-AY-ujE"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RGp-sI-6Px" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3626" y="884"/>
-        </scene>
         <!--Record View Controller-->
         <scene sceneID="qiW-Mh-Tsg">
             <objects>
@@ -1473,15 +1369,11 @@
             <size key="intrinsicContentSize" width="64" height="35.333333333333329"/>
         </designable>
     </designables>
-    <inferredMetricsTieBreakers>
-        <segue reference="pyP-4x-sHK"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="angry-48" width="48" height="48"/>
         <image name="check-mark-48" width="48" height="48"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <image name="circle" catalog="system" width="128" height="121"/>
         <image name="clock.arrow.circlepath" catalog="system" width="128" height="110"/>
         <image name="cloud.sun" catalog="system" width="128" height="95"/>
         <image name="female-50" width="50" height="50"/>

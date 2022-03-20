@@ -381,6 +381,25 @@ extension WalkViewController: MKMapViewDelegate {
             return MKPolylineRenderer()
         }
     }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            let annotationId = "AnnotationIdentifier"
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId)
+            
+            if annotationView == nil {
+                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+                annotationView?.canShowCallout = true
+            } else {
+                annotationView?.annotation = annotation
+            }
+            
+            annotationView?.image = UIImage(named: "currentLocation")
+            return annotationView
+        } else {
+            return nil
+        }
+    }
 }
 
 extension WalkViewController: TimerServiceDelegate {
