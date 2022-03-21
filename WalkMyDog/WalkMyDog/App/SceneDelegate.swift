@@ -15,10 +15,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
 //        initialVC = storyBoard.instantiateViewController(identifier: "LoginVC")
         
-        let initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
+//        let initialVC = storyBoard.instantiateViewController(identifier: "TabBarVC")
         
 //        if let user = Auth.auth().currentUser {
 //            print("You're sign in as \(user.uid), email: \(user.email ?? "no email")")
@@ -27,18 +27,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            initialVC = storyBoard.instantiateViewController(identifier: "LoginVC")
 //        }
         
-        if (UserDefaults.standard.value(forKey: "pmRcmdCriteria") as? String) == nil {
-            UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
-        }
+//        if (UserDefaults.standard.value(forKey: "pmRcmdCriteria") as? String) == nil {
+//            UserDefaults.standard.setValue("좋음", forKey: "pmRcmdCriteria")
+//        }
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(windowScene: windowScene)
+        window?.backgroundColor = .white
+        
+        let rootViewController = TabBarViewController()
         
         self.window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
         self.window?.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            self.window?.rootViewController = initialVC
+            self.window?.rootViewController = rootViewController
         }
-        
-        guard let _ = (scene as? UIWindowScene) else { return }
     }
 }
 

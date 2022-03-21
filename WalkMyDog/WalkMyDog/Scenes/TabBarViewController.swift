@@ -8,20 +8,55 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTabBar()
+//        setupAttributes()
+    }
+    
+    func setupTabBar() {
+        let mainViewController = UINavigationController(rootViewController: MainViewController())
+        
+        setViewControllers(
+            [
+                mainViewController
+            ],
+            animated: false
+        )
+        
+        let main = UITabBarItem(title: "홈", image: nil, tag: 0)
+        let walk = UITabBarItem(title: "산책", image: nil, tag: 1)
+        let checkList = UITabBarItem(title: "체크리스트", image: nil, tag: 2)
+        
+        mainViewController.tabBarItem = main
+    }
+    
+    func setupAttributes() {
         self.selectedIndex = 0
         let customFont = UIFont(name: "NanumGothic", size: 13)
-        self.tabBar.items?[0].title = "산책 기록"
-        self.tabBar.items?[1].title = "날씨 예보"
+        self.tabBar.items?[0].title = "홈"
+        self.tabBar.items?[1].title = "산책"
+        self.tabBar.items?[2].title = "체크리스트"
         
         self.tabBar.items?[0].setTitleTextAttributes(
             [NSAttributedString.Key.font: customFont!],
             for: .normal
         )
         self.tabBar.items?[1].setTitleTextAttributes(
+            [NSAttributedString.Key.font: customFont!],
+            for: .normal
+        )
+        self.tabBar.items?[2].setTitleTextAttributes(
             [NSAttributedString.Key.font: customFont!],
             for: .normal
         )

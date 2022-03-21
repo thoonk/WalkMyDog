@@ -93,6 +93,8 @@
 		08F6DA5C260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */; };
 		08F911C225F1E7FB0043438D /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C125F1E7FB0043438D /* CheckButton.swift */; };
 		08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C625F1EEF30043438D /* EditRecordViewController.swift */; };
+		6A21FD5C27E86E650051EDB1 /* PuppyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */; };
+		6A21FD5E27E86F670051EDB1 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5D27E86F670051EDB1 /* UIColor+.swift */; };
 		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
 		7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */; };
 		955C34807328BE1002E4D8BC /* Pods_WalkMyDogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */; };
@@ -214,6 +216,8 @@
 		2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; sourceTree = "<group>"; };
 		393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.release.xcconfig"; sourceTree = "<group>"; };
 		5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyInfoView.swift; sourceTree = "<group>"; };
+		6A21FD5D27E86F670051EDB1 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2FB2480B3856C7A5CFDD554 /* Pods-WalkMyDog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.debug.xcconfig"; sourceTree = "<group>"; };
@@ -393,15 +397,16 @@
 			path = Weather;
 			sourceTree = "<group>";
 		};
-		08BB9D2C25C9649400B56F9F /* Home */ = {
+		08BB9D2C25C9649400B56F9F /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				08264A8425E2424E002073E6 /* FetchAllPuppyViewModel.swift */,
 				08E5C55925DBB75D000896D2 /* CurrentViewModel.swift */,
 				0871388825CD0F560089EA42 /* HomeViewController.swift */,
+				6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */,
 				0893704525E8BD0300C83D35 /* PuppyProfileTableViewCell.swift */,
 			);
-			path = Home;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		08E5C4EC25DBB34C000896D2 /* App */ = {
@@ -488,6 +493,7 @@
 				0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */,
 				0873F26927DE13A800F27D3C /* MKMapView+.swift */,
 				0873F26E27DE1AA500F27D3C /* UIViewController+.swift */,
+				6A21FD5D27E86F670051EDB1 /* UIColor+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -501,7 +507,7 @@
 				080D021425FCFCE00092633D /* Setting */,
 				08F6C15125E6418E004DD3F6 /* Puppy */,
 				08E5C60225DBC26F000896D2 /* Login */,
-				08BB9D2C25C9649400B56F9F /* Home */,
+				08BB9D2C25C9649400B56F9F /* Main */,
 				08E5C60125DBC259000896D2 /* Record */,
 				08BB9D2825C9647F00B56F9F /* Weather */,
 			);
@@ -937,11 +943,13 @@
 				089EAA7A2608B07F000AA141 /* AlertManager.swift in Sources */,
 				08264A8525E2424E002073E6 /* FetchAllPuppyViewModel.swift in Sources */,
 				08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */,
+				6A21FD5E27E86F670051EDB1 /* UIColor+.swift in Sources */,
 				082866862604E6860084F2FF /* SelectSpeciesDelegate.swift in Sources */,
 				08E5C50525DBB5A9000896D2 /* PMData.swift in Sources */,
 				086657F82619FBF500A9B5E6 /* SlideView.swift in Sources */,
 				08EFBA2927D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift in Sources */,
 				08E5C55525DBB73B000896D2 /* CurrentAPIManager.swift in Sources */,
+				6A21FD5C27E86E650051EDB1 /* PuppyInfoView.swift in Sources */,
 				08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */,
 				08E5C51F25DBB635000896D2 /* LocationManager.swift in Sources */,
 			);
