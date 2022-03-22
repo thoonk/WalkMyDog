@@ -15,35 +15,30 @@ final class MainViewController: UIViewController {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.image = UIImage(named: "profileImage-150")
+        imageView.image = UIImage(named: "launchImage")
         
         return imageView
     }()
     
-    lazy var infoContainerView: UIView = {
-        let view = UIView()
-        
+    lazy var puppyInfoView: PuppyInfoView = {
+        let view = PuppyInfoView()
         return view
     }()
-    
-
-    
-//    @IBOutlet weak var weatherView: UIView!
-//    @IBOutlet weak var weatherImageView: UIImageView!
-//    @IBOutlet weak var locationLabel: UILabel!
-//    @IBOutlet weak var tempLabel: UILabel!
-//    @IBOutlet weak var pm10ImageView: UIImageView!
-//    @IBOutlet weak var pm25ImageView: UIImageView!
-//    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-//    @IBOutlet weak var puppyProfileTableView: UITableView!
-//    @IBOutlet weak var recordView: UIView!
-//    @IBOutlet weak var rcmdLabel: UILabel!
-//    @IBOutlet weak var addRecordBtn: UIButton!
     
     // MARK: - Properties
     var currentViewModel: CurrentViewModel?
     var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
     var bag = DisposeBag()
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        setupLayout()
+        self.navigationController?.navigationBar.backgroundColor = .clear
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - LifeCycle
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +75,49 @@ final class MainViewController: UIViewController {
     @IBAction func unwindToHome(_ sender: UIStoryboardSegue) {}
     
     // MARK: - Methods
+    func setupLayout() {
+        let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.roundCorners([.topLeft, .topRight], radius: 22.0)
+        
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = UIColor(hex: "#C4C4C4")
+        
+        [
+            puppyInfoView,
+            separatorLine
+        ]
+            .forEach { containerView.addSubview($0) }
+        
+        puppyInfoView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview().inset(10.0)
+            $0.height.equalTo(150.0)
+        }
+        
+        separatorLine.snp.makeConstraints {
+            $0.top.equalTo(puppyInfoView.snp.bottom).offset(10.0)
+            $0.leading.trailing.equalToSuperview().inset(20.0)
+            $0.height.equalTo(1.0)
+        }
+        
+        [
+            profileImageView,
+            containerView
+        ]
+            .forEach { view.addSubview($0) }
+        
+        profileImageView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(250.0)
+        }
+        
+        containerView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(220.0)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
 //    func setUI() {
 //        puppyProfileTableView.separatorStyle = .none
 //        locationLabel.adjustsFontSizeToFitWidth = true

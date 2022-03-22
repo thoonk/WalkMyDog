@@ -12,11 +12,19 @@ final class PuppyInfoView: UIView {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.sizeToFit()
         label.text = "앙꼬"
         
         return label
+    }()
+    
+    lazy var birthImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "cake")
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
     }()
     
     lazy var birthDateLabel: UILabel = {
@@ -79,11 +87,18 @@ final class PuppyInfoView: UIView {
         return label
     }()
     
+    lazy var pageControl: CustomPageControl = {
+        let pageControl = CustomPageControl()
+        return pageControl
+    }()
+    
     lazy var detailButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = UIColor(named: "customTintColor")
-        button.titleLabel?.textColor = .white
-        button.setTitle("더 보기", for: .normal)
+        button.backgroundColor = UIColor(named: "customTintColor")
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitle("더보기", for: .normal)
+        button.tintColor = .white
+        button.roundCorners(.allCorners, radius: 15.0)
         
         return button
     }()
@@ -99,6 +114,74 @@ final class PuppyInfoView: UIView {
     }
     
     func setupLayout() {
+        let birthStackView = UIStackView(arrangedSubviews: [birthImageView, birthDateLabel])
+        birthStackView.spacing = 5.0
+        birthStackView.alignment = .leading
+        birthStackView.distribution = .fillProportionally
         
+        birthImageView.snp.makeConstraints {
+            $0.width.height.equalTo(20)
+        }
+        
+        let puppyAgeStackView = UIStackView(arrangedSubviews: [puppyAgeFormLabel, puppyAgeLabel])
+        puppyAgeStackView.spacing = 5.0
+        puppyAgeStackView.alignment = .leading
+        puppyAgeStackView.distribution = .equalSpacing
+        
+        let personAgeStackView = UIStackView(arrangedSubviews: [personAgeFormLabel, personAgeLabel])
+        personAgeStackView.spacing = 5.0
+        personAgeStackView.alignment = .leading
+        personAgeStackView.distribution = .equalSpacing
+        
+        let ageStackView = UIStackView(arrangedSubviews: [puppyAgeStackView, personAgeStackView])
+        ageStackView.axis = .vertical
+        ageStackView.alignment = .fill
+        ageStackView.distribution = .fillEqually
+        
+        [
+            nameLabel,
+            birthStackView,
+            sexAndWeightLabel,
+            ageStackView,
+            pageControl,
+            detailButton
+        ]
+            .forEach { self.addSubview($0) }
+        
+        nameLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(10.0)
+            $0.leading.equalToSuperview().inset(10.0)
+        }
+        
+        pageControl.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(15.0)
+            $0.trailing.equalToSuperview().inset(10.0)
+            $0.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(10.0)
+        }
+        
+        birthStackView.snp.makeConstraints {
+            $0.top.equalTo(nameLabel.snp.bottom).offset(10)
+            $0.leading.equalTo(nameLabel.snp.leading)
+        }
+        
+        sexAndWeightLabel.snp.makeConstraints {
+            $0.top.equalTo(pageControl.snp.bottom).offset(15.0)
+            $0.trailing.equalTo(pageControl.snp.trailing)
+            $0.leading.greaterThanOrEqualTo(birthStackView.snp.trailing).offset(10.0)
+        }
+        
+        ageStackView.snp.makeConstraints {
+            $0.top.equalTo(birthStackView.snp.bottom).offset(10.0)
+            $0.leading.equalTo(birthStackView)
+            $0.bottom.equalToSuperview().inset(10.0)
+        }
+        
+        detailButton.snp.makeConstraints {
+            $0.top.equalTo(sexAndWeightLabel.snp.bottom).offset(10.0)
+            $0.trailing.equalTo(sexAndWeightLabel)
+            $0.bottom.equalToSuperview().inset(10.0)
+            $0.width.equalTo(70.0)
+            $0.height.equalTo(45.0)
+        }
     }
 }
