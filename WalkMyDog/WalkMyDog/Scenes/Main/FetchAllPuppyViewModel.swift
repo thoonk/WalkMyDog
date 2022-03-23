@@ -55,7 +55,7 @@ final class FetchAllPuppyViewModel: ViewModelType {
             .flatMapLatest { _ in
                 return Observable.create() { emitter in
                     emitter.onNext([
-                        Puppy(name: "앙꼬", age: "2016년 12월 11일", gender: false, weight: 10.5, species: "퍼그")
+                        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
                     ])
                     
                     return Disposables.create()

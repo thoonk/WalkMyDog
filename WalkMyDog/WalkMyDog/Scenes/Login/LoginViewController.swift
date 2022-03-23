@@ -22,34 +22,34 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     // Unhashed nonce.
     fileprivate var currentNonce: String?
-    private var slides: [SlideView] {
-        let slide1: SlideView = Bundle.main.loadNibNamed(
-            "SlideView",
-            owner: self,
-            options: nil
-        )?.first as! SlideView
-        slide1.imageView.image = UIImage(named: "slideImage1.jpeg")
-        slide1.textLabel.text = C.Slide.text1
-        
-        let slide2: SlideView = Bundle.main.loadNibNamed(
-            "SlideView",
-            owner: self,
-            options: nil
-        )?.first as! SlideView
-        slide2.imageView.image = UIImage(named: "slideImage2.jpeg")
-        slide2.textLabel.text = C.Slide.text2
-
-        
-        let slide3: SlideView = Bundle.main.loadNibNamed(
-            "SlideView",
-            owner: self,
-            options: nil
-        )?.first as! SlideView
-        slide3.imageView.image = UIImage(named: "slideImage3.jpg")
-        slide3.textLabel.text = C.Slide.text3
-        
-        return [slide1, slide2, slide3]
-    }
+//    private var slides: [SlideView] {
+//        let slide1: SlideView = Bundle.main.loadNibNamed(
+//            "SlideView",
+//            owner: self,
+//            options: nil
+//        )?.first as! SlideView
+//        slide1.imageView.image = UIImage(named: "slideImage1.jpeg")
+//        slide1.textLabel.text = C.Slide.text1
+//
+//        let slide2: SlideView = Bundle.main.loadNibNamed(
+//            "SlideView",
+//            owner: self,
+//            options: nil
+//        )?.first as! SlideView
+//        slide2.imageView.image = UIImage(named: "slideImage2.jpeg")
+//        slide2.textLabel.text = C.Slide.text2
+//
+//
+//        let slide3: SlideView = Bundle.main.loadNibNamed(
+//            "SlideView",
+//            owner: self,
+//            options: nil
+//        )?.first as! SlideView
+//        slide3.imageView.image = UIImage(named: "slideImage3.jpg")
+//        slide3.textLabel.text = C.Slide.text3
+//
+//        return [slide1, slide2, slide3]
+//    }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {

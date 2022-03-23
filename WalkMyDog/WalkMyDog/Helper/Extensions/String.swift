@@ -5,7 +5,7 @@
 //  Created by 김태훈 on 2021/03/09.
 //
 
-import Foundation
+import UIKit
 
 extension String {
     /// String 값을 원하는 형식의 Date로 변경하는 함수
@@ -27,4 +27,26 @@ extension String {
         let dateString = "\(year)-\(month)-\(day)"
         return formatter.date(from: dateString)!
     }
+    
+    func height(constrainedBy width: CGFloat, with font: UIFont) -> CGFloat {
+           let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+           let boundingBox = self.boundingRect(
+               with: constraintRect,
+               options: .usesLineFragmentOrigin,
+               attributes: [NSAttributedString.Key.font: font],
+               context: nil
+           )
+           return boundingBox.height
+       }
+       
+       func width(constrainedBy height: CGFloat, with font: UIFont) -> CGFloat {
+           let constrainedRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+           let boundingBox = self.boundingRect(
+               with: constrainedRect,
+               options: .usesLineFragmentOrigin,
+               attributes: [NSAttributedString.Key.font: font],
+               context: nil
+           )
+           return boundingBox.width
+       }
 }

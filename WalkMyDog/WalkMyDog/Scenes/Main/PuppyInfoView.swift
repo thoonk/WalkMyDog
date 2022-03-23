@@ -89,6 +89,8 @@ final class PuppyInfoView: UIView {
     
     lazy var pageControl: CustomPageControl = {
         let pageControl = CustomPageControl()
+        pageControl.currentPage = 0
+        
         return pageControl
     }()
     
@@ -113,6 +115,15 @@ final class PuppyInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateUI(with puppy: Puppy) {
+        birthDateLabel.text = puppy.age
+        sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
+        puppyAgeLabel.text = Date().computeAge(with: puppy.age)
+        personAgeLabel.text = Date().computePersonAge(with: puppy.age)
+    }
+}
+
+private extension PuppyInfoView {
     func setupLayout() {
         let birthStackView = UIStackView(arrangedSubviews: [birthImageView, birthDateLabel])
         birthStackView.spacing = 5.0
@@ -126,12 +137,12 @@ final class PuppyInfoView: UIView {
         let puppyAgeStackView = UIStackView(arrangedSubviews: [puppyAgeFormLabel, puppyAgeLabel])
         puppyAgeStackView.spacing = 5.0
         puppyAgeStackView.alignment = .leading
-        puppyAgeStackView.distribution = .equalSpacing
+        puppyAgeStackView.distribution = .fillEqually 
         
         let personAgeStackView = UIStackView(arrangedSubviews: [personAgeFormLabel, personAgeLabel])
         personAgeStackView.spacing = 5.0
         personAgeStackView.alignment = .leading
-        personAgeStackView.distribution = .equalSpacing
+        personAgeStackView.distribution = .fillEqually
         
         let ageStackView = UIStackView(arrangedSubviews: [puppyAgeStackView, personAgeStackView])
         ageStackView.axis = .vertical
@@ -162,12 +173,13 @@ final class PuppyInfoView: UIView {
         birthStackView.snp.makeConstraints {
             $0.top.equalTo(nameLabel.snp.bottom).offset(10)
             $0.leading.equalTo(nameLabel.snp.leading)
+            $0.width.greaterThanOrEqualTo(100.0)
+            $0.height.greaterThanOrEqualTo(20.0)
         }
         
         sexAndWeightLabel.snp.makeConstraints {
             $0.top.equalTo(pageControl.snp.bottom).offset(15.0)
-            $0.trailing.equalTo(pageControl.snp.trailing)
-            $0.leading.greaterThanOrEqualTo(birthStackView.snp.trailing).offset(10.0)
+            $0.trailing.equalToSuperview().inset(10.0)
         }
         
         ageStackView.snp.makeConstraints {

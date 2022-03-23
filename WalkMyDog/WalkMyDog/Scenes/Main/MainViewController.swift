@@ -12,6 +12,16 @@ import PanModal
 
 final class MainViewController: UIViewController {
     // MARK: - InterfaceBuilder
+    lazy var imageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isPagingEnabled = true
+        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 250)
+        scrollView.contentSize = CGSize(width: CGFloat(slides.count) * view.frame.width, height: 400)
+        scrollView.delegate = self
+        
+        return scrollView
+    }()
+    
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
@@ -24,6 +34,17 @@ final class MainViewController: UIViewController {
         let view = PuppyInfoView()
         return view
     }()
+    
+    lazy var settingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "setting-30"), for: .normal)
+        button.tintColor = .white
+        
+        return button
+    }()
+    
+    private var puppies = [Puppy]()
+    var slides = [SlideView]()
     
     // MARK: - Properties
     var currentViewModel: CurrentViewModel?
@@ -44,7 +65,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        setCurrentBinding()
-//        setFetchAllPuppyBinding()
+        setFetchAllPuppyBinding()
 //        setUI()
     }
     
@@ -91,7 +112,7 @@ final class MainViewController: UIViewController {
         
         puppyInfoView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview().inset(10.0)
-            $0.height.equalTo(150.0)
+            $0.height.equalTo(120.0)
         }
         
         separatorLine.snp.makeConstraints {
@@ -102,6 +123,7 @@ final class MainViewController: UIViewController {
         
         [
             profileImageView,
+            settingButton,
             containerView
         ]
             .forEach { view.addSubview($0) }
@@ -109,13 +131,28 @@ final class MainViewController: UIViewController {
         profileImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(250.0)
+            $0.height.equalTo(280.0)
+        }
+        
+        settingButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(50)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.width.height.equalTo(50.0)
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(220.0)
+            $0.top.equalToSuperview().inset(250.0)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+    }
+    
+    func setupScrollView() {
+        for index in 0..<slides.count {
+            slides[index].frame = CGRect(x: CGFloat(index) * view.frame.width, y: 0, width: view.frame.width, height: 250)
+            imageScrollView.addSubview(slides[index])
+        }
+        
+        puppyInfoView.pageControl.numberOfPages = slides.count
     }
     
 //    func setUI() {
@@ -185,19 +222,19 @@ final class MainViewController: UIViewController {
 //            .disposed(by: bag)
 //    }
 //
-//    func setFetchAllPuppyBinding() {
-//        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
-//        let input = fetchAllPuppyViewModel!.input
-//        let output = fetchAllPuppyViewModel!.output
-//
-//        // INPUT
-//        rx.viewDidAppear
-//            .take(1)
-//            .map { _ in () }
-//            .bind(to: input.fetchData)
-//            .disposed(by: bag)
-//
-//        // OUTPUT
+    func setFetchAllPuppyBinding() {
+        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
+        let input = fetchAllPuppyViewModel!.input
+        let output = fetchAllPuppyViewModel!.output
+
+        // INPUT
+        rx.viewDidAppear
+            .take(1)
+            .map { _ in () }
+            .bind(to: input.fetchData)
+            .disposed(by: bag)
+
+        // OUTPUT
 //        output.puppyData
 //            .bind(to: puppyProfileTableView.rx.items(
 //                    cellIdentifier: C.Cell.profile,
@@ -213,18 +250,32 @@ final class MainViewController: UIViewController {
 //                    sender: puppy
 //                )
 //            }).disposed(by: bag)
-//
-//        output.errorMessage
-//            .subscribe(onNext: { [weak self] msg in
-//                let alertVC = AlertManager.shared.showAlert(
-//                    title: "모든 반려견 정보 로딩 실패",
-//                    subTitle: msg,
-//                    actionBtnTitle: "확인"
-//                )
-//                self?.present(alertVC, animated: true, completion: {
-//                    input.fetchData.onNext(())
-//                })
-//            })
-//            .disposed(by: bag)
-//    }
+        output.puppyData
+            .subscribe(onNext: { [weak self] puppy in
+                self?.puppies = puppy
+                self?.puppyInfoView.updateUI(with: puppy[0])
+            })
+            .disposed(by: bag)
+
+        output.errorMessage
+            .subscribe(onNext: { [weak self] msg in
+                let alertVC = AlertManager.shared.showAlert(
+                    title: "모든 반려견 정보 로딩 실패",
+                    subTitle: msg,
+                    actionBtnTitle: "확인"
+                )
+                self?.present(alertVC, animated: true, completion: {
+                    input.fetchData.onNext(())
+                })
+            })
+            .disposed(by: bag)
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
+        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
+        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
+    }
 }

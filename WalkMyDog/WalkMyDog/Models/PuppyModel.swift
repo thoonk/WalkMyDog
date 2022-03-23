@@ -21,6 +21,10 @@ struct Puppy: Codable, Identifiable {
     var species: String
     var imageUrl: String?
     
+    var genderText: String {
+        return gender ? "남아" : "여아"
+    }
+    
     init(
         name: String,
         age: String,
