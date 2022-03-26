@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import PanModal
+import RxDataSources
 
 final class MainViewController: UIViewController {
     // MARK: - InterfaceBuilder
@@ -30,11 +30,6 @@ final class MainViewController: UIViewController {
         return imageView
     }()
     
-    lazy var puppyInfoView: PuppyInfoView = {
-        let view = PuppyInfoView()
-        return view
-    }()
-    
     lazy var settingButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "setting-30"), for: .normal)
@@ -43,12 +38,24 @@ final class MainViewController: UIViewController {
         return button
     }()
     
+    lazy var containerTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .white
+        tableView.separatorStyle = .singleLine
+        tableView.roundCorners([.topLeft, .topRight], radius: 22.0)
+        
+        tableView.register(PuppyInfoViewCell.self, forCellReuseIdentifier: PuppyInfoViewCell.identifier)
+        tableView.register(PuppyCalendarViewCell.self, forCellReuseIdentifier: PuppyCalendarViewCell.identifier)
+        
+        return tableView
+    }()
+    
     private var puppies = [Puppy]()
     var slides = [SlideView]()
     
     // MARK: - Properties
     var currentViewModel: CurrentViewModel?
-    var fetchAllPuppyViewModel: FetchAllPuppyViewModel?
+    var mainViewModel: MainViewModel?
     var bag = DisposeBag()
     
     init() {
@@ -57,6 +64,7 @@ final class MainViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -97,34 +105,10 @@ final class MainViewController: UIViewController {
     
     // MARK: - Methods
     func setupLayout() {
-        let containerView = UIView()
-        containerView.backgroundColor = .white
-        containerView.roundCorners([.topLeft, .topRight], radius: 22.0)
-        
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = UIColor(hex: "#C4C4C4")
-        
-        [
-            puppyInfoView,
-            separatorLine
-        ]
-            .forEach { containerView.addSubview($0) }
-        
-        puppyInfoView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(10.0)
-            $0.height.equalTo(120.0)
-        }
-        
-        separatorLine.snp.makeConstraints {
-            $0.top.equalTo(puppyInfoView.snp.bottom).offset(10.0)
-            $0.leading.trailing.equalToSuperview().inset(20.0)
-            $0.height.equalTo(1.0)
-        }
-        
         [
             profileImageView,
             settingButton,
-            containerView
+            containerTableView
         ]
             .forEach { view.addSubview($0) }
         
@@ -140,7 +124,7 @@ final class MainViewController: UIViewController {
             $0.width.height.equalTo(50.0)
         }
         
-        containerView.snp.makeConstraints {
+        containerTableView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(250.0)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -152,7 +136,7 @@ final class MainViewController: UIViewController {
             imageScrollView.addSubview(slides[index])
         }
         
-        puppyInfoView.pageControl.numberOfPages = slides.count
+//        puppyInfoView.pageControl.numberOfPages = slides.count
     }
     
 //    func setUI() {
@@ -223,9 +207,9 @@ final class MainViewController: UIViewController {
 //    }
 //
     func setFetchAllPuppyBinding() {
-        fetchAllPuppyViewModel = FetchAllPuppyViewModel()
-        let input = fetchAllPuppyViewModel!.input
-        let output = fetchAllPuppyViewModel!.output
+        mainViewModel = MainViewModel()
+        let input = mainViewModel!.input
+        let output = mainViewModel!.output
 
         // INPUT
         rx.viewDidAppear
@@ -251,11 +235,30 @@ final class MainViewController: UIViewController {
 //                )
 //            }).disposed(by: bag)
         output.puppyData
-            .subscribe(onNext: { [weak self] puppy in
-                self?.puppies = puppy
-                self?.puppyInfoView.updateUI(with: puppy[0])
-            })
+            .bind(to: containerTableView.rx.items) { tableView, row, item -> UITableViewCell in
+                
+                if row == 0 {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyInfoViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyInfoViewCell else { return UITableViewCell() }
+                    cell.configure(with: item)
+                    
+                    return cell
+                } else {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyCalendarViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyCalendarViewCell else { return UITableViewCell() }
+                    
+                    cell.configure()
+                    
+                    return cell
+                }
+            }
             .disposed(by: bag)
+        
+        
+//        output.puppyData
+//            .subscribe(onNext: { [weak self] puppy in
+//                self?.puppies = puppy
+//                self?.puppyInfoView.updateUI(with: puppy[0])
+//            })
+//            .disposed(by: bag)
 
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
@@ -275,7 +278,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
-        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
+//        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
+//        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
     }
 }

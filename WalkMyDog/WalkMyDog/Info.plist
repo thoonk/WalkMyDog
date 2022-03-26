@@ -6,6 +6,8 @@
 	<string>ko_KR</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>NanumSquareRoundR</string>
+		<string>NanumSquareRoundB</string>
 		<string>NanumGothic</string>
 		<string>NanumGothicBold</string>
 	</array>

@@ -18,7 +18,7 @@
 		08248C112612F5B8007E02DF /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08248C102612F5B8007E02DF /* NanumGothic.ttf */; };
 		08248C162612F5BF007E02DF /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08248C152612F5BF007E02DF /* NanumGothicBold.ttf */; };
 		0825A1AC266F831800BB8A64 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E5C61125DBEA4F000896D2 /* RecordViewController.swift */; };
-		08264A8525E2424E002073E6 /* FetchAllPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08264A8425E2424E002073E6 /* FetchAllPuppyViewModel.swift */; };
+		08264A8525E2424E002073E6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08264A8425E2424E002073E6 /* MainViewModel.swift */; };
 		08264A9325E254B6002073E6 /* PuppyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08264A9225E254B6002073E6 /* PuppyTableViewCell.swift */; };
 		08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08286677260485160084F2FF /* SearchSpeciesViewController.swift */; };
 		082866812604D3060084F2FF /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082866802604D3060084F2FF /* CustomTextField.swift */; };
@@ -56,6 +56,10 @@
 		08A0789C25DD463B00991E40 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A0789B25DD463B00991E40 /* Encodable.swift */; };
 		08A9876B25F1037100F60DB6 /* SelectPuppyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9876A25F1037100F60DB6 /* SelectPuppyViewController.swift */; };
 		08A9877325F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9877225F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift */; };
+		08B5440127EF31C60037E361 /* PuppyCalendarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5440027EF31C60037E361 /* PuppyCalendarViewCell.swift */; };
+		08B5440527EF3E140037E361 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08B5440427EF3E140037E361 /* NanumSquareRoundR.ttf */; };
+		08B5440727EF3E1B0037E361 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08B5440627EF3E1B0037E361 /* NanumSquareRoundB.ttf */; };
+		08B5440927EF416F0037E361 /* WalkInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5440827EF416F0037E361 /* WalkInfoView.swift */; };
 		08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1C25C916B100B56F9F /* AppDelegate.swift */; };
 		08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */; };
 		08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08BB9C2225C916B100B56F9F /* Main.storyboard */; };
@@ -93,7 +97,7 @@
 		08F6DA5C260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */; };
 		08F911C225F1E7FB0043438D /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C125F1E7FB0043438D /* CheckButton.swift */; };
 		08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C625F1EEF30043438D /* EditRecordViewController.swift */; };
-		6A21FD5C27E86E650051EDB1 /* PuppyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */; };
+		6A21FD5C27E86E650051EDB1 /* PuppyInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5B27E86E650051EDB1 /* PuppyInfoViewCell.swift */; };
 		6A21FD5E27E86F670051EDB1 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5D27E86F670051EDB1 /* UIColor+.swift */; };
 		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
 		7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */; };
@@ -130,7 +134,7 @@
 		0823AEC4261EEAD100670CA1 /* SearchSpeciesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpeciesViewModel.swift; sourceTree = "<group>"; };
 		08248C102612F5B8007E02DF /* NanumGothic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothic.ttf; sourceTree = "<group>"; };
 		08248C152612F5BF007E02DF /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
-		08264A8425E2424E002073E6 /* FetchAllPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllPuppyViewModel.swift; sourceTree = "<group>"; };
+		08264A8425E2424E002073E6 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		08264A9225E254B6002073E6 /* PuppyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyTableViewCell.swift; sourceTree = "<group>"; };
 		08286677260485160084F2FF /* SearchSpeciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpeciesViewController.swift; sourceTree = "<group>"; };
 		082866802604D3060084F2FF /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -170,6 +174,10 @@
 		08A0789B25DD463B00991E40 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
 		08A9876A25F1037100F60DB6 /* SelectPuppyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPuppyViewController.swift; sourceTree = "<group>"; };
 		08A9877225F1052F00F60DB6 /* SelectPuppyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPuppyCollectionViewCell.swift; sourceTree = "<group>"; };
+		08B5440027EF31C60037E361 /* PuppyCalendarViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyCalendarViewCell.swift; sourceTree = "<group>"; };
+		08B5440427EF3E140037E361 /* NanumSquareRoundR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundR.ttf; sourceTree = "<group>"; };
+		08B5440627EF3E1B0037E361 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
+		08B5440827EF416F0037E361 /* WalkInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkInfoView.swift; sourceTree = "<group>"; };
 		08BB9C1925C916B100B56F9F /* WalkMyDog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkMyDog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08BB9C1C25C916B100B56F9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08BB9C1E25C916B100B56F9F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -216,7 +224,7 @@
 		2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; sourceTree = "<group>"; };
 		393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.release.xcconfig"; sourceTree = "<group>"; };
 		5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyInfoView.swift; sourceTree = "<group>"; };
+		6A21FD5B27E86E650051EDB1 /* PuppyInfoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyInfoViewCell.swift; sourceTree = "<group>"; };
 		6A21FD5D27E86F670051EDB1 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +290,8 @@
 			children = (
 				08248C102612F5B8007E02DF /* NanumGothic.ttf */,
 				08248C152612F5BF007E02DF /* NanumGothicBold.ttf */,
+				08B5440427EF3E140037E361 /* NanumSquareRoundR.ttf */,
+				08B5440627EF3E1B0037E361 /* NanumSquareRoundB.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -401,10 +411,12 @@
 		08BB9D2C25C9649400B56F9F /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				08264A8425E2424E002073E6 /* FetchAllPuppyViewModel.swift */,
+				08264A8425E2424E002073E6 /* MainViewModel.swift */,
 				08E5C55925DBB75D000896D2 /* CurrentViewModel.swift */,
 				0871388825CD0F560089EA42 /* MainViewController.swift */,
-				6A21FD5B27E86E650051EDB1 /* PuppyInfoView.swift */,
+				6A21FD5B27E86E650051EDB1 /* PuppyInfoViewCell.swift */,
+				08B5440027EF31C60037E361 /* PuppyCalendarViewCell.swift */,
+				08B5440827EF416F0037E361 /* WalkInfoView.swift */,
 				0893704525E8BD0300C83D35 /* PuppyProfileTableViewCell.swift */,
 			);
 			path = Main;
@@ -701,11 +713,13 @@
 				08BB9C2925C916B200B56F9F /* LaunchScreen.storyboard in Resources */,
 				089EAAB42608B18A000AA141 /* AlertStoryboard.storyboard in Resources */,
 				08248C162612F5BF007E02DF /* NanumGothicBold.ttf in Resources */,
+				08B5440527EF3E140037E361 /* NanumSquareRoundR.ttf in Resources */,
 				08BB9C2625C916B200B56F9F /* Assets.xcassets in Resources */,
 				08665831261AE79F00A9B5E6 /* RecordHeaderTableViewCell.xib in Resources */,
 				08BB9C2425C916B100B56F9F /* Main.storyboard in Resources */,
 				087554CA2618B47800746F40 /* PuppyHeaderTableViewCell.xib in Resources */,
 				087554D12618BC7700746F40 /* SettingHeaderTableViewCell.xib in Resources */,
+				08B5440727EF3E1B0037E361 /* NanumSquareRoundB.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -891,6 +905,7 @@
 				085DFC6625F7889E002F7819 /* UIImage.swift in Sources */,
 				08A0789C25DD463B00991E40 /* Encodable.swift in Sources */,
 				08E5C60425DBD716000896D2 /* WeatherTableViewCell.swift in Sources */,
+				08B5440927EF416F0037E361 /* WalkInfoView.swift in Sources */,
 				0871388925CD0F560089EA42 /* MainViewController.swift in Sources */,
 				089EAABC2608B61D000AA141 /* AlertViewController.swift in Sources */,
 				08E5C50E25DBB5C0000896D2 /* PMModel.swift in Sources */,
@@ -940,7 +955,7 @@
 				08E5C4F525DBB537000896D2 /* WeatherData.swift in Sources */,
 				08A9876B25F1037100F60DB6 /* SelectPuppyViewController.swift in Sources */,
 				089EAA7A2608B07F000AA141 /* AlertManager.swift in Sources */,
-				08264A8525E2424E002073E6 /* FetchAllPuppyViewModel.swift in Sources */,
+				08264A8525E2424E002073E6 /* MainViewModel.swift in Sources */,
 				08F17B2827EB0FE600413C74 /* SlideView.swift in Sources */,
 				08286678260485160084F2FF /* SearchSpeciesViewController.swift in Sources */,
 				6A21FD5E27E86F670051EDB1 /* UIColor+.swift in Sources */,
@@ -948,8 +963,9 @@
 				08E5C50525DBB5A9000896D2 /* PMData.swift in Sources */,
 				08EFBA2927D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift in Sources */,
 				08E5C55525DBB73B000896D2 /* CurrentAPIManager.swift in Sources */,
-				6A21FD5C27E86E650051EDB1 /* PuppyInfoView.swift in Sources */,
+				6A21FD5C27E86E650051EDB1 /* PuppyInfoViewCell.swift in Sources */,
 				08BB9C1F25C916B100B56F9F /* SceneDelegate.swift in Sources */,
+				08B5440127EF31C60037E361 /* PuppyCalendarViewCell.swift in Sources */,
 				08E5C51F25DBB635000896D2 /* LocationManager.swift in Sources */,
 				0812067D27E8C373009E4E57 /* CustomPageControl.swift in Sources */,
 			);
