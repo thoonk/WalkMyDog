@@ -40,23 +40,37 @@ struct Puppy: Codable, Identifiable {
     }
 }
 
+typealias Coordinate = (latitude: Double, longitude: Double)
+
 /// 반려견의 산책 기록 모델
-struct Record: Codable, Identifiable {
+struct Record {
     var id: String? = nil
-    let timeStamp: String
-    let walkInterval: String
-    let walkDistance: String
-    let walkCalories: Double
+    let timeStamp: Date
+    let interval: Int
+    let distance: Double
+    let calories: Double
+    var startLocation: Coordinate
+    var endLocation: Coordinate
+    var fecesLocation: [Coordinate]?
+    var peeLocation: [Coordinate]?
     
     init(
-        timeStamp: String,
-        walkInterval: String,
-        walkDistance: String,
-        walkCalories: Double
+        timeStamp: Date,
+        interval: Int,
+        distance: Double,
+        calories: Double,
+        startLocation: Coordinate,
+        endLocation: Coordinate,
+        fecesLocation: [Coordinate]? = nil,
+        peeLocation: [Coordinate]? = nil
     ) {
         self.timeStamp = timeStamp
-        self.walkInterval = walkInterval
-        self.walkDistance = walkDistance
-        self.walkCalories = walkCalories
+        self.interval = interval
+        self.distance = distance
+        self.calories = calories
+        self.startLocation = startLocation
+        self.endLocation = endLocation
+        self.fecesLocation = fecesLocation
+        self.peeLocation = peeLocation
     }
 }

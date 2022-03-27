@@ -610,7 +610,6 @@
 				08BB9C1625C916B100B56F9F /* Frameworks */,
 				08BB9C1725C916B100B56F9F /* Resources */,
 				CBDDA10D181CA40B33D38F2A /* [CP] Embed Pods Frameworks */,
-				F9BB2C749A572A2A8972128D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -650,7 +649,6 @@
 				08BB9C3725C916B200B56F9F /* Frameworks */,
 				08BB9C3825C916B200B56F9F /* Resources */,
 				94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */,
-				5E5894EBB7A5662D83D059A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -762,23 +760,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5E5894EBB7A5662D83D059A6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		94F73ED625FB64908D834012 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -872,23 +853,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDogTests/Pods-WalkMyDogTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F9BB2C749A572A2A8972128D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -21,7 +21,7 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         setupTabBar()
-//        setupAttributes()
+        setupAttributes()
     }
     
     func setupTabBar() {
@@ -43,23 +43,28 @@ class TabBarViewController: UITabBarController {
     
     func setupAttributes() {
         self.selectedIndex = 0
-        let customFont = UIFont(name: "NanumGothic", size: 13)
+        let customFont = UIFont(name: "NanumSquareRoundR", size: 15.0) ?? UIFont.systemFont(ofSize: 15.0)
         self.tabBar.items?[0].title = "홈"
-        self.tabBar.items?[1].title = "산책"
-        self.tabBar.items?[2].title = "체크리스트"
+//        self.tabBar.items?[1].title = "산책"
+//        self.tabBar.items?[2].title = "체크리스트"
         
         self.tabBar.items?[0].setTitleTextAttributes(
-            [NSAttributedString.Key.font: customFont!],
+            [NSAttributedString.Key.font: customFont],
             for: .normal
         )
-        self.tabBar.items?[1].setTitleTextAttributes(
-            [NSAttributedString.Key.font: customFont!],
-            for: .normal
-        )
-        self.tabBar.items?[2].setTitleTextAttributes(
-            [NSAttributedString.Key.font: customFont!],
-            for: .normal
-        )
+//        self.tabBar.items?[1].setTitleTextAttributes(
+//            [NSAttributedString.Key.font: customFont!],
+//            for: .normal
+//        )
+//        self.tabBar.items?[2].setTitleTextAttributes(
+//            [NSAttributedString.Key.font: customFont!],
+//            for: .normal
+//        )
+        
+        tabBar.isTranslucent = false
+        tabBar.barTintColor = .white
+        tabBar.layer.borderWidth = 0.5
+        tabBar.layer.borderColor = UIColor(hex: "979797").cgColor
 
         self.tabBar.tintColor = UIColor(named: "customTintColor")
         LocationManager.shared.requestAuthroization()

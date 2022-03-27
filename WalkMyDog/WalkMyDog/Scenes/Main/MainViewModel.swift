@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 enum MainModel {
-    case puppyInfo(Puppy)
-    case puppyCalendar(Puppy)
+    case puppyInfo([Puppy])
+    case puppyCalendar(Puppy, [Record])
 }
 
 final class MainViewModel: ViewModelType {
@@ -25,8 +25,9 @@ final class MainViewModel: ViewModelType {
     
     struct Output {
         let isLoading: BehaviorSubject<Bool>
-        var puppyData: PublishRelay<[Puppy]>
-        var errorMessage: PublishRelay<String>
+        let puppyData: PublishRelay<[Puppy]>
+        let cellData: PublishRelay<[MainModel]>
+        let errorMessage: PublishRelay<String>
     }
     
     init(){
@@ -34,12 +35,11 @@ final class MainViewModel: ViewModelType {
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
         let puppyData = PublishRelay<[Puppy]>()
+        let cellData = PublishRelay<[MainModel]>()
         let error = PublishRelay<String>()
         
         input = Input(fetchData: fetchData)
         
-        
-
 //        fetching
 //            .do(onNext: { _ in isLoading.onNext(true) })
 //            .flatMapLatest { _ in
@@ -53,28 +53,48 @@ final class MainViewModel: ViewModelType {
 //            })
 //            .disposed(by: bag)
         
+        let puppies = [
+        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
+        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
+        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
+        ]
+        
+        let records = [
+            Record(
+                timeStamp: Date(),
+                interval: 1800,
+                distance: 1.5,
+                calories: 254,
+                startLocation: Coordinate(32.923, 234.2323),
+                endLocation: Coordinate(32.923, 234.2323))
+        ]
+        
         // 임시 데이터
         fetching
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { _ in
-                return Observable.create() { emitter in
+                
+                return Observable<[MainModel]>.create() { emitter in
                     emitter.onNext([
-                        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
+                        .puppyInfo(puppies),
+                        .puppyCalendar(puppies[0], records)
                     ])
-                    
+
                     return Disposables.create()
                 }
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
-                puppyData.accept(data)
+                cellData.accept(data)
             })
             .disposed(by: bag)
                 
         output = Output(
             isLoading: isLoading,
             puppyData: puppyData,
+            cellData: cellData,
             errorMessage: error
         )
     }
 }
+

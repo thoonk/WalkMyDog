@@ -10,7 +10,7 @@ target 'WalkMyDog' do
   #pod 'Firebase/Firestore'
   #pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
-  pod 'GoogleMaps', '6.0.1'
+  #pod 'GoogleMaps', '6.0.1'
   
   #pod 'GoogleSignIn'
   #pod 'FBSDKLoginKit'
@@ -20,6 +20,7 @@ target 'WalkMyDog' do
   pod 'Kingfisher', '~> 6.0'
   pod 'JVFloatLabeledTextField'
   pod 'SnapKit'
+  pod 'RealmSwift'
 
   pod 'RxSwift'
   pod 'RxCocoa'

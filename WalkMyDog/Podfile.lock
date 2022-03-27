@@ -65,11 +65,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (6.0.1):
-    - GoogleMaps/Maps (= 6.0.1)
-  - GoogleMaps/Base (6.0.1)
-  - GoogleMaps/Maps (6.0.1):
-    - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (7.6.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -99,6 +94,11 @@ PODS:
   - Nimble (9.0.0)
   - PanModal (1.2.7)
   - PromisesObjC (2.0.0)
+  - Realm (10.24.0):
+    - Realm/Headers (= 10.24.0)
+  - Realm/Headers (10.24.0)
+  - RealmSwift (10.24.0):
+    - Realm (= 10.24.0)
   - RxBlocking (6.0.0):
     - RxSwift (= 6.0.0)
   - RxCocoa (6.0.0):
@@ -127,11 +127,11 @@ DEPENDENCIES:
   - Alamofire
   - Firebase/Analytics
   - FSCalendar
-  - GoogleMaps (= 6.0.1)
   - JVFloatLabeledTextField
   - Kingfisher (~> 6.0)
   - Nimble
   - PanModal
+  - RealmSwift
   - RxBlocking
   - RxCocoa
   - RxCoreLocation
@@ -153,7 +153,6 @@ SPEC REPOS:
     - FSCalendar
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleMaps
     - GoogleUtilities
     - JVFloatLabeledTextField
     - Kingfisher
@@ -161,6 +160,8 @@ SPEC REPOS:
     - Nimble
     - PanModal
     - PromisesObjC
+    - Realm
+    - RealmSwift
     - RxBlocking
     - RxCocoa
     - RxCoreLocation
@@ -182,7 +183,6 @@ SPEC CHECKSUMS:
   FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
   GoogleAppMeasurement: a3311dbcf3ea651e5a070fe8559b57c174ada081
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleMaps: c213fc2334b7374144cede914da779b99be0ab74
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   JVFloatLabeledTextField: df48598472ee015701d509f43e59492a0d4ca208
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
@@ -190,6 +190,8 @@ SPEC CHECKSUMS:
   Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  Realm: 5d6f84e3f65d4efa204d46b461e5bbbbbbf84c6c
+  RealmSwift: 9022754b93fad23e1ffc950c93574c5b7899bd51
   RxBlocking: c025b8c6fe08c5b18c039b5b11d41ec413f8a59e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
   RxCoreLocation: a78f4cbf32a4c6c47ecccbe22d41ff93b7e8c099
@@ -200,6 +202,6 @@ SPEC CHECKSUMS:
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 4b40624253d664004f8e5e08506d9438bc371fde
+PODFILE CHECKSUM: eebc61c787f22b48c25ac2ab3e0ee05d2857d4c3
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

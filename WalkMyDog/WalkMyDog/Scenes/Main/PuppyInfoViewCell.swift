@@ -123,6 +123,7 @@ final class PuppyInfoViewCell: UITableViewCell {
         sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
         puppyAgeLabel.text = Date().computeAge(with: puppy.age)
         personAgeLabel.text = Date().computePersonAge(with: puppy.age)
+        pageControl.updateDots()
     }
 }
 
@@ -165,14 +166,14 @@ private extension PuppyInfoViewCell {
             .forEach { self.addSubview($0) }
         
         nameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(10.0)
-            $0.leading.equalToSuperview().inset(10.0)
+            $0.top.equalToSuperview().inset(20.0)
+            $0.leading.equalToSuperview().inset(20.0)
         }
         
         pageControl.snp.makeConstraints {
             $0.top.equalToSuperview().inset(15.0)
             $0.trailing.equalToSuperview().inset(10.0)
-            $0.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(10.0)
+            $0.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(20.0)
         }
         
         birthStackView.snp.makeConstraints {
@@ -184,7 +185,7 @@ private extension PuppyInfoViewCell {
         
         sexAndWeightLabel.snp.makeConstraints {
             $0.top.equalTo(pageControl.snp.bottom).offset(15.0)
-            $0.trailing.equalToSuperview().inset(10.0)
+            $0.trailing.equalToSuperview().inset(20.0)
         }
         
         ageStackView.snp.makeConstraints {

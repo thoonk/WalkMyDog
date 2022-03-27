@@ -9,7 +9,6 @@ import Foundation
 import RxSwift
 import CoreLocation
 import RxRelay
-import GoogleMaps
 
 final class WalkViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()

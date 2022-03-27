@@ -38,24 +38,24 @@ final class EditRecordViewModel: ViewModelType {
             .bind(to: output.enableSaveBtn)
             .disposed(by: bag)
         
-        input.saveBtnTapped.withLatestFrom(
-            Observable.combineLatest(
-                input.timeStamp,
-                input.walkedInterval,
-                input.walkedDistance
-            ))
-            .bind { [weak self] timeStamp, interval, distance in
-                for puppy in selectedPuppies {
-                    let calories = self?.computeCalories(
-                        weight: puppy.weight,
-                        interval: Int(interval)!
-                    )
-                    let record = Record(
-                        timeStamp: timeStamp,
-                        walkInterval: interval,
-                        walkDistance: distance,
-                        walkCalories: calories!
-                    )
+//        input.saveBtnTapped.withLatestFrom(
+//            Observable.combineLatest(
+//                input.timeStamp,
+//                input.walkedInterval,
+//                input.walkedDistance
+//            ))
+//            .bind { [weak self] timeStamp, interval, distance in
+//                for puppy in selectedPuppies {
+//                    let calories = self?.computeCalories(
+//                        weight: puppy.weight,
+//                        interval: Int(interval)!
+//                    )
+//                    let record = Record(
+//                        timeStamp: timeStamp,
+//                        walkInterval: interval,
+//                        walkDistance: distance,
+//                        walkCalories: calories!
+//                    )
 
 //                    FIRStoreManager.shared.createRecordInfo(
 //                        for: record,
@@ -67,9 +67,9 @@ final class EditRecordViewModel: ViewModelType {
 //                            self?.output.errorMessage.accept(err!.localizedDescription)
 //                        }
 //                    }
-                }
-            }
-            .disposed(by: bag)
+//                }
+//            }∫
+//            .disposed(by: bag)
     }
     /// 반려견의 MET가 따로 없어 실제로 반려견을 데리고 측정한 평균 결과를 이용하여 계산하는 함수
     /// - Oxygen(ml) = MET * (3.5ml * kg * min)

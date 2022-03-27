@@ -14,6 +14,8 @@ final class WalkInfoView: UIStackView {
         label.font = UIFont(name: "NanumSquareRoundR", size: 15.0)
         label.textColor = UIColor(hex: "666666")
         label.text = "앙꼬와\n내가 달린 거리"
+        label.textAlignment = .center
+        label.numberOfLines = 2
         return label
     }()
     
@@ -21,6 +23,8 @@ final class WalkInfoView: UIStackView {
         let label = UILabel()
         label.font = UIFont(name: "NanumSquareRoundB", size: 15.0)
         label.text = "총 10km\n평균 2.5km"
+        label.textAlignment = .center
+        label.numberOfLines = 2
         return label
     }()
     

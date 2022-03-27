@@ -169,7 +169,7 @@ final class RecordViewController: UIViewController, UIGestureRecognizerDelegate 
                     cellIdentifier: C.Cell.record,
                     cellType: RecordTableViewCell.self)
             ) { [weak self] index, item, cell in
-                cell.bindData(data: item)
+//                cell.bindData(data: item)
                 cell.deleteRecordBtn.addTarget(
                     self,
                     action: #selector(self?.deleteBtnTapped),

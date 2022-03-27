@@ -77,8 +77,10 @@ final class PuppyCalendarViewCell: UITableViewCell {
         label.backgroundColor = UIColor(hex: "F2F2F2")
         label.font = UIFont(name: "NanumSquareRoundR", size: 15.0)
         label.textColor = UIColor(hex: "666666")
+        label.textAlignment = .center
         label.roundCorners(.allCorners, radius: 15.0)
         label.text = "2022년 3월 26일 토요일 21:13\n30분 / 1.5km / 10.5kcal"
+        label.numberOfLines = 2
         return label
     }()
     
@@ -103,8 +105,13 @@ final class PuppyCalendarViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
-        
+    func configure(with puppy: Puppy, records: [Record]) {
+        /*
+         1. 캘린더 산책 표시
+         2. 캘린더 현재 날짜 표시
+         3. 거리 및 시간 총합, 평균 계산 로직 추가
+         4. 오늘 산책 데이터 설정
+         */
     }
 }
 
@@ -122,11 +129,11 @@ private extension PuppyCalendarViewCell {
         calendarHeaderStackView.distribution = .equalSpacing
         
         prevMonthButton.snp.makeConstraints {
-            $0.width.equalTo(25.0)
+            $0.width.equalTo(50.0)
         }
         
         nextMonthButton.snp.makeConstraints {
-            $0.width.equalTo(25.0)
+            $0.width.equalTo(50.0)
         }
         
         let walkStackView = UIStackView(arrangedSubviews: [
@@ -156,7 +163,8 @@ private extension PuppyCalendarViewCell {
         
         startWalkingButton.snp.makeConstraints {
             $0.top.equalTo(calendarHeaderStackView.snp.bottom).offset(10.0)
-            $0.leading.trailing.equalToSuperview().inset(15.0)
+            $0.leading.trailing.equalToSuperview().inset(20.0)
+            $0.height.equalTo(50.0)
         }
         
         walkStackView.snp.makeConstraints {
@@ -167,13 +175,14 @@ private extension PuppyCalendarViewCell {
         calendarView.snp.makeConstraints {
             $0.top.equalTo(walkStackView.snp.bottom).offset(10.0)
             $0.leading.trailing.equalToSuperview().inset(10.0)
-            $0.height.greaterThanOrEqualTo(100.0)
+            $0.height.greaterThanOrEqualTo(200.0)
         }
         
         summaryLabel.snp.makeConstraints {
             $0.top.equalTo(calendarView.snp.bottom).offset(10.0)
             $0.leading.trailing.equalToSuperview().inset(15.0)
             $0.bottom.equalToSuperview()
+            $0.height.equalTo(50.0)
         }
     }
 }

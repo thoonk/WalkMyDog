@@ -43,6 +43,9 @@ final class MainViewController: UIViewController {
         tableView.backgroundColor = .white
         tableView.separatorStyle = .singleLine
         tableView.roundCorners([.topLeft, .topRight], radius: 22.0)
+        tableView.allowsSelection = false
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 500
         
         tableView.register(PuppyInfoViewCell.self, forCellReuseIdentifier: PuppyInfoViewCell.identifier)
         tableView.register(PuppyCalendarViewCell.self, forCellReuseIdentifier: PuppyCalendarViewCell.identifier)
@@ -234,31 +237,33 @@ final class MainViewController: UIViewController {
 //                    sender: puppy
 //                )
 //            }).disposed(by: bag)
-        output.puppyData
+        output.cellData
             .bind(to: containerTableView.rx.items) { tableView, row, item -> UITableViewCell in
                 
-                if row == 0 {
+                switch item {
+                case .puppyInfo(let puppies):
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyInfoViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyInfoViewCell else { return UITableViewCell() }
-                    cell.configure(with: item)
+                    
+                    cell.pageControl.numberOfPages = puppies.count
+                    cell.configure(with: puppies[0])
                     
                     return cell
-                } else {
+                case .puppyCalendar(let puppy, let records):
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyCalendarViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyCalendarViewCell else { return UITableViewCell() }
                     
-                    cell.configure()
+                    cell.configure(with: puppy, records: records)
                     
                     return cell
                 }
             }
             .disposed(by: bag)
-        
-        
-//        output.puppyData
-//            .subscribe(onNext: { [weak self] puppy in
-//                self?.puppies = puppy
+                
+        output.puppyData
+            .subscribe(onNext: { [weak self] puppy in
+                self?.puppies = puppy
 //                self?.puppyInfoView.updateUI(with: puppy[0])
-//            })
-//            .disposed(by: bag)
+            })
+            .disposed(by: bag)
 
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
@@ -278,6 +283,9 @@ final class MainViewController: UIViewController {
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
+        guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
+        cell.pageControl.currentPage = Int(pageIndex)
+        
 //        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
 //        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
     }

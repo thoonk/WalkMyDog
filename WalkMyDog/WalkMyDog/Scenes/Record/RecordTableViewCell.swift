@@ -27,9 +27,9 @@ final class RecordTableViewCell: UITableViewCell {
         bag = DisposeBag()
     }
     
-    func bindData(data: Record) {
-        self.timeStampLabel.text = data.timeStamp
-        self.detailLabel.text =
-            "\(data.walkInterval)분, \(data.walkDistance)m, \(data.walkCalories)kcal"
-    }
+//    func bindData(data: Record) {
+//        self.timeStampLabel.text = data.timeStamp
+//        self.detailLabel.text =
+//            "\(data.walkInterval)분, \(data.walkDistance)m, \(data.walkCalories)kcal"
+//    }
 }
