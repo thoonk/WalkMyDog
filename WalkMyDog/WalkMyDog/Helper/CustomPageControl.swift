@@ -8,9 +8,20 @@
 import UIKit
 
 final class CustomPageControl: UIPageControl {
+    let activeImage = UIImage(named: "activePageControl")!
+    let inactiveImage = UIImage(named: "inactivePageControl")!
     
-    let activeImage: UIImage = UIImage(named: "activePageControl")!
-    let inactiveImage: UIImage = UIImage(named: "inactivePageControl")!
+    override var numberOfPages: Int {
+        didSet {
+            updateDots()
+        }
+    }
+    
+    override var currentPage: Int {
+        didSet {
+            updateDots()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -89,9 +89,12 @@ final class PuppyInfoViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var pageControl: CustomPageControl = {
-        let pageControl = CustomPageControl()
+    lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
         pageControl.currentPage = 0
+        pageControl.preferredIndicatorImage = UIImage(named: "Image")
+        pageControl.backgroundStyle = .minimal
+        pageControl.currentPageIndicatorTintColor = UIColor(hex: "666666")
         
         return pageControl
     }()
@@ -123,7 +126,6 @@ final class PuppyInfoViewCell: UITableViewCell {
         sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
         puppyAgeLabel.text = Date().computeAge(with: puppy.age)
         personAgeLabel.text = Date().computePersonAge(with: puppy.age)
-        pageControl.updateDots()
     }
 }
 
@@ -163,7 +165,7 @@ private extension PuppyInfoViewCell {
             pageControl,
             detailButton
         ]
-            .forEach { self.addSubview($0) }
+            .forEach { contentView.addSubview($0) }
         
         nameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20.0)

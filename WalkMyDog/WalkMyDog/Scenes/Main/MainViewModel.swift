@@ -61,7 +61,14 @@ final class MainViewModel: ViewModelType {
         
         let records = [
             Record(
-                timeStamp: Date(),
+                timeStamp: Calendar.current.date(byAdding: .day, value: -2, to: Date())!,
+                interval: 1800,
+                distance: 1.5,
+                calories: 254,
+                startLocation: Coordinate(32.923, 234.2323),
+                endLocation: Coordinate(32.923, 234.2323)),
+            Record(
+                timeStamp: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
                 interval: 1800,
                 distance: 1.5,
                 calories: 254,

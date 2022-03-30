@@ -10,6 +10,11 @@ import UIKit
 import FSCalendar
 import SnapKit
 
+enum HeaderButton: Int {
+    case prev = 301
+    case next = 302
+}
+
 final class PuppyCalendarViewCell: UITableViewCell {
     static let identifier = "PuppyCalendarViewCell"
     
@@ -21,6 +26,8 @@ final class PuppyCalendarViewCell: UITableViewCell {
         calendarView.appearance.weekdayTextColor = .lightGray
         calendarView.appearance.todayColor = UIColor(named: "customTintColor")
         calendarView.placeholderType = .none
+        calendarView.delegate = self
+        calendarView.dataSource = self
         
         return calendarView
     }()
@@ -32,8 +39,15 @@ final class PuppyCalendarViewCell: UITableViewCell {
         return df
     }()
     
+    private lazy var calendarDateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        return df
+    }()
+    
     lazy var calendarHeaderLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .black
         label.text = self.headerDateFormatter.string(from: calendarView.currentPage)
         label.font = UIFont(name: "NanumSquareRoundB", size: 17.0)
         label.textAlignment = .center
@@ -46,6 +60,8 @@ final class PuppyCalendarViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "chevron-left"), for: .normal)
         button.tintColor = .black
+        button.tag = HeaderButton.prev.rawValue
+        button.addTarget(self, action: #selector(handleCalendarHeaderButton(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -54,6 +70,8 @@ final class PuppyCalendarViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "chevron-right"), for: .normal)
         button.tintColor = .black
+        button.tag = HeaderButton.next.rawValue
+        button.addTarget(self, action: #selector(handleCalendarHeaderButton(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -94,6 +112,19 @@ final class PuppyCalendarViewCell: UITableViewCell {
         return view
     }()
     
+    private var currentPage: Date?
+    private lazy var today: Date = {
+        return Date()
+    }()
+    
+    private var dateInfo = [String]() {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.calendarView.reloadData()
+            }
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -106,12 +137,21 @@ final class PuppyCalendarViewCell: UITableViewCell {
     }
     
     func configure(with puppy: Puppy, records: [Record]) {
+        
         /*
          1. 캘린더 산책 표시
-         2. 캘린더 현재 날짜 표시
-         3. 거리 및 시간 총합, 평균 계산 로직 추가
-         4. 오늘 산책 데이터 설정
+         2. 거리 및 시간 총합, 평균 계산 로직 추가
+         3. 오늘 산책 데이터 설정
          */
+        
+        for record in records {
+            let dateString = calendarDateFormatter.string(from: record.timeStamp)
+            self.dateInfo.append(dateString)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.calendarView.reloadData()
+        }
     }
 }
 
@@ -152,8 +192,7 @@ private extension PuppyCalendarViewCell {
             calendarView,
             summaryLabel
         ]
-            .forEach { self.addSubview($0) }
-        
+            .forEach { contentView.addSubview($0) }
         
         calendarHeaderStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -185,4 +224,55 @@ private extension PuppyCalendarViewCell {
             $0.height.equalTo(50.0)
         }
     }
+    
+    @objc
+    func handleCalendarHeaderButton(_ sender: UIButton) {
+        if let type = HeaderButton(rawValue: sender.tag) {
+            switch type {
+            case .prev:
+                scrollCurrentPage(isPrev: true)
+            case .next:
+                scrollCurrentPage(isPrev: false)
+            }
+        }
+    }
+    
+   func scrollCurrentPage(isPrev: Bool) {
+        let cal = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = isPrev ? -1 : 1
+        
+        self.currentPage = cal.date(
+            byAdding: dateComponents,
+            to: self.currentPage ?? self.today
+        )
+        self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+}
+
+extension PuppyCalendarViewCell: FSCalendarDelegate, FSCalendarDataSource {
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.calendarHeaderLabel.text = self.headerDateFormatter.string(from: self.calendarView.currentPage)
+    }
+    
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        let dateString = self.calendarDateFormatter.string(from: date)
+        
+        if self.dateInfo.contains(dateString) {
+            return 1
+        } else {
+            return 0
+        }
+    }
+    
+//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+//        let dateString = self.calendarDateFormatter.string(from: date)
+//
+//        if self.dateInfo.contains(dateString) {
+//            return UIImage(named: "dog-paw-48")?
+//                .resized(to: CGSize(width: 10, height: 10))
+//        } else {
+//            return nil
+//        }
+//    }
 }
