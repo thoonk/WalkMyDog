@@ -144,10 +144,24 @@ final class PuppyCalendarViewCell: UITableViewCell {
          3. 오늘 산책 데이터 설정
          */
         
+        var totalDistance: Double = 0.0
+        var totalTime: Int = 0
+        
         for record in records {
             let dateString = calendarDateFormatter.string(from: record.timeStamp)
             self.dateInfo.append(dateString)
+            
+            totalDistance += record.distance
+            totalTime += record.interval
         }
+        
+        let count = records.count
+        let averageDistance = totalDistance / Double(count)
+        let averageTime = totalTime / count
+        
+        distanceStackView.walkResultLabel.text = "총 \(String(format: "%.1fkm", totalDistance * 0.001))\n평균 \(String(format: "%.1fkm", averageDistance * 0.001))"
+        
+        timeStackView.walkResultLabel.text = "총 \(formatTime(with: totalTime))\n평균 \(formatTime(with: averageTime))"
         
         DispatchQueue.main.async { [weak self] in
             self?.calendarView.reloadData()
@@ -183,7 +197,7 @@ private extension PuppyCalendarViewCell {
         
         walkStackView.alignment = .fill
         walkStackView.distribution = .fillEqually
-        walkStackView.spacing = 5.0
+        walkStackView.spacing = 15.0
         
         [
             calendarHeaderStackView,
@@ -208,7 +222,7 @@ private extension PuppyCalendarViewCell {
         
         walkStackView.snp.makeConstraints {
             $0.top.equalTo(startWalkingButton.snp.bottom).offset(10.0)
-            $0.leading.trailing.equalToSuperview().inset(15.0)
+            $0.leading.trailing.equalToSuperview().inset(20.0)
         }
         
         calendarView.snp.makeConstraints {
@@ -247,6 +261,25 @@ private extension PuppyCalendarViewCell {
             to: self.currentPage ?? self.today
         )
         self.calendarView.setCurrentPage(self.currentPage!, animated: true)
+    }
+    
+    func formatTime(with time: Int) -> String {
+        let hours = time / 3600
+        let minutes = (time / 60) % 60
+        
+        if hours > 0 {
+            if minutes > 0 {
+                return "\(hours)시간 \(minutes)분"
+            } else {
+                return "\(hours)시간"
+            }
+        } else {
+            if minutes > 0 {
+                return "\(minutes)분"
+            } else {
+                return "1분 이하"
+            }
+        }
     }
 }
 

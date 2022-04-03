@@ -122,9 +122,9 @@ final class MainViewController: UIViewController {
         }
         
         settingButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(50)
+            $0.top.equalToSuperview().inset(60)
             $0.trailing.equalToSuperview().inset(20)
-            $0.width.height.equalTo(50.0)
+            $0.width.height.equalTo(45.0)
         }
         
         containerTableView.snp.makeConstraints {
@@ -220,7 +220,6 @@ final class MainViewController: UIViewController {
             .map { _ in () }
             .bind(to: input.fetchData)
             .disposed(by: bag)
-
         // OUTPUT
 //        output.puppyData
 //            .bind(to: puppyProfileTableView.rx.items(

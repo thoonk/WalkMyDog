@@ -63,24 +63,25 @@ final class MainViewModel: ViewModelType {
             Record(
                 timeStamp: Calendar.current.date(byAdding: .day, value: -2, to: Date())!,
                 interval: 1800,
-                distance: 1.5,
+                distance: 1500,
                 calories: 254,
                 startLocation: Coordinate(32.923, 234.2323),
                 endLocation: Coordinate(32.923, 234.2323)),
             Record(
                 timeStamp: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
                 interval: 1800,
-                distance: 1.5,
+                distance: 1500,
                 calories: 254,
                 startLocation: Coordinate(32.923, 234.2323),
                 endLocation: Coordinate(32.923, 234.2323))
         ]
         
         // 임시 데이터
+        // 현재 캘린더 월에 해당하는 산책 데이터
         fetching
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { _ in
-                
+                // Date 이용해서 산책 데이터 가져오기
                 return Observable<[MainModel]>.create() { emitter in
                     emitter.onNext([
                         .puppyInfo(puppies),
@@ -93,8 +94,7 @@ final class MainViewModel: ViewModelType {
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
                 cellData.accept(data)
-            })
-            .disposed(by: bag)
+            }).disposed(by: bag)
                 
         output = Output(
             isLoading: isLoading,

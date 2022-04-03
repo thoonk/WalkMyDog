@@ -36,6 +36,8 @@
 		08665831261AE79F00A9B5E6 /* RecordHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0866582F261AE79F00A9B5E6 /* RecordHeaderTableViewCell.xib */; };
 		0871388925CD0F560089EA42 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0871388825CD0F560089EA42 /* MainViewController.swift */; };
 		0871388E25CD62D00089EA42 /* PuppyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0871388D25CD62D00089EA42 /* PuppyModel.swift */; };
+		0871E1C027F9D676006644E0 /* WalkReadyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0871E1BF27F9D676006644E0 /* WalkReadyViewController.swift */; };
+		0871E1C227F9DAEC006644E0 /* WalkReadyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0871E1C127F9DAEC006644E0 /* WalkReadyViewModel.swift */; };
 		087396EA26131E5900622DAC /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087396E926131E5900622DAC /* UIView.swift */; };
 		0873F26527DE08B600F27D3C /* CLLocationCoordinate2D+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */; };
 		0873F26727DE093300F27D3C /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0873F26627DE093300F27D3C /* TimerService.swift */; };
@@ -152,6 +154,8 @@
 		0866582F261AE79F00A9B5E6 /* RecordHeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordHeaderTableViewCell.xib; sourceTree = "<group>"; };
 		0871388825CD0F560089EA42 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0871388D25CD62D00089EA42 /* PuppyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyModel.swift; sourceTree = "<group>"; };
+		0871E1BF27F9D676006644E0 /* WalkReadyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkReadyViewController.swift; sourceTree = "<group>"; };
+		0871E1C127F9DAEC006644E0 /* WalkReadyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkReadyViewModel.swift; sourceTree = "<group>"; };
 		087396E926131E5900622DAC /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		0873F26427DE08B600F27D3C /* CLLocationCoordinate2D+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+.swift"; sourceTree = "<group>"; };
 		0873F26627DE093300F27D3C /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
@@ -317,6 +321,8 @@
 		0893C33027D0F59A0061632D /* Walk */ = {
 			isa = PBXGroup;
 			children = (
+				0871E1BF27F9D676006644E0 /* WalkReadyViewController.swift */,
+				0871E1C127F9DAEC006644E0 /* WalkReadyViewModel.swift */,
 				081E4AE727CCC5EB00ADF7DE /* WalkViewController.swift */,
 				081E4AE927CCE52000ADF7DE /* WalkViewModel.swift */,
 				08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */,
@@ -875,6 +881,7 @@
 				08E5C50E25DBB5C0000896D2 /* PMModel.swift in Sources */,
 				087554D02618BC7700746F40 /* SettingHeaderTableViewCell.swift in Sources */,
 				084CEC7B25E3C73700EFA0DE /* EditPuppyViewController.swift in Sources */,
+				0871E1C027F9D676006644E0 /* WalkReadyViewController.swift in Sources */,
 				08D7E7DD2615AE660051DE1D /* SettingTableViewCell.swift in Sources */,
 				0823AEC5261EEAD100670CA1 /* SearchSpeciesViewModel.swift in Sources */,
 				08465C1625E4FD3300371D20 /* EditPuppyViewModel.swift in Sources */,
@@ -912,6 +919,7 @@
 				0873F26D27DE191D00F27D3C /* ImagePicker.swift in Sources */,
 				08E5C58225DBB9BF000896D2 /* FcstViewModel.swift in Sources */,
 				08E5C56F25DBB799000896D2 /* ViewModelType.swift in Sources */,
+				0871E1C227F9DAEC006644E0 /* WalkReadyViewModel.swift in Sources */,
 				0896849025D109E1005C56F7 /* SettingViewController.swift in Sources */,
 				084CEC8025E3C92E00EFA0DE /* RadioButton.swift in Sources */,
 				084CEC9F25E3DAD000EFA0DE /* FetchPuppyViewModel.swift in Sources */,
@@ -1143,7 +1151,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WalkMyDog/WalkMyDog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U59PP2KXJ5;
 				INFOPLIST_FILE = WalkMyDog/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
