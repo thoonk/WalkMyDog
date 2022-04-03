@@ -27,9 +27,12 @@ class TabBarViewController: UITabBarController {
     func setupTabBar() {
         let mainViewController = UINavigationController(rootViewController: MainViewController())
         
+        let walkReadyViewController = WalkReadyViewController()
+        
         setViewControllers(
             [
-                mainViewController
+                mainViewController,
+                walkReadyViewController
             ],
             animated: false
         )
@@ -39,23 +42,24 @@ class TabBarViewController: UITabBarController {
         let checkList = UITabBarItem(title: "체크리스트", image: nil, tag: 2)
         
         mainViewController.tabBarItem = main
+        walkReadyViewController.tabBarItem = walk
     }
     
     func setupAttributes() {
         self.selectedIndex = 0
         let customFont = UIFont(name: "NanumSquareRoundR", size: 15.0) ?? UIFont.systemFont(ofSize: 15.0)
         self.tabBar.items?[0].title = "홈"
-//        self.tabBar.items?[1].title = "산책"
+        self.tabBar.items?[1].title = "산책"
 //        self.tabBar.items?[2].title = "체크리스트"
         
         self.tabBar.items?[0].setTitleTextAttributes(
             [NSAttributedString.Key.font: customFont],
             for: .normal
         )
-//        self.tabBar.items?[1].setTitleTextAttributes(
-//            [NSAttributedString.Key.font: customFont!],
-//            for: .normal
-//        )
+        self.tabBar.items?[1].setTitleTextAttributes(
+            [NSAttributedString.Key.font: customFont],
+            for: .normal
+        )
 //        self.tabBar.items?[2].setTitleTextAttributes(
 //            [NSAttributedString.Key.font: customFont!],
 //            for: .normal

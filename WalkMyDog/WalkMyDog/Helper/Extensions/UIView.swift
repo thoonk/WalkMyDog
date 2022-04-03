@@ -10,12 +10,12 @@ import UIKit
 extension UIView {
     /// 커스텀 뷰 설정하는 함수
     func setShadowLayer() {
-        self.layer.cornerRadius = 12
+//        self.layer.cornerRadius = 12
         self.clipsToBounds = true
         self.layer.masksToBounds = false
-        self.layer.shadowRadius = 7
+        self.layer.shadowRadius = 6
         self.layer.shadowOpacity = 0.6
-        self.layer.shadowOffset = CGSize(width: 4, height: 4)
+        self.layer.shadowOffset = CGSize(width: 3, height: 3)
         self.layer.shadowColor = UIColor.black.cgColor
     }
     

@@ -159,6 +159,7 @@ private extension WalkViewController {
         let topMaskView = UIView()
         topMaskView.roundCorners([.bottomLeft, .bottomRight], radius: 25.0)
         topMaskView.backgroundColor = .white
+        topMaskView.setShadowLayer()
         
         topMaskView.addSubview(statusLabel)
         statusLabel.snp.makeConstraints {
