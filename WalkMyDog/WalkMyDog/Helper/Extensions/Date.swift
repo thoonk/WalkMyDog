@@ -71,8 +71,8 @@ extension Date {
     /// 산책 기록 정보의 합계, 평균을 구하기 위해 현재 달에 해당하는 날짜를 선별하는 함수
     func isEqual(to date: Date) -> Bool {
         let calendar = Calendar.current
-        let component1 = calendar.dateComponents([.year, .month], from: self)
-        let component2 = calendar.dateComponents([.year, .month], from: date)
+        let component1 = calendar.dateComponents([.year, .month, .day], from: self)
+        let component2 = calendar.dateComponents([.year, .month, .day], from: date)
         
         return component1 == component2 ? true : false
     }

@@ -15,6 +15,12 @@ enum HeaderButton: Int {
     case next = 302
 }
 
+enum DateFormat: String {
+    case header = "yyyy년 M월"
+    case calendar = "yyyy-MM-dd"
+    case summary = "yyyy년 M월 d일 EEEE hh:mm"
+}
+
 final class PuppyCalendarViewCell: UITableViewCell {
     static let identifier = "PuppyCalendarViewCell"
     
@@ -32,23 +38,17 @@ final class PuppyCalendarViewCell: UITableViewCell {
         return calendarView
     }()
     
-    private lazy var headerDateFormatter: DateFormatter = {
+    private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ko_KR")
-        df.dateFormat = "yyyy년 M월"
-        return df
-    }()
-    
-    private lazy var calendarDateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd"
         return df
     }()
     
     lazy var calendarHeaderLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.text = self.headerDateFormatter.string(from: calendarView.currentPage)
+        setupDateFormatter(with: .calendar)
+        label.text = self.dateFormatter.string(from: calendarView.currentPage)
         label.font = UIFont(name: "NanumSquareRoundB", size: 17.0)
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
@@ -97,7 +97,7 @@ final class PuppyCalendarViewCell: UITableViewCell {
         label.textColor = UIColor(hex: "666666")
         label.textAlignment = .center
         label.roundCorners(.allCorners, radius: 15.0)
-        label.text = "2022년 3월 26일 토요일 21:13\n30분 / 1.5km / 10.5kcal"
+        label.text = "현재 선택하신 날짜의 산책 기록이 없습니다."
         label.numberOfLines = 2
         return label
     }()
@@ -116,6 +116,9 @@ final class PuppyCalendarViewCell: UITableViewCell {
     private lazy var today: Date = {
         return Date()
     }()
+    
+    private var puppyInfo: Puppy?
+    private var records = [Record]()
     
     private var dateInfo = [String]() {
         didSet {
@@ -137,18 +140,14 @@ final class PuppyCalendarViewCell: UITableViewCell {
     }
     
     func configure(with puppy: Puppy, records: [Record]) {
-        
-        /*
-         1. 캘린더 산책 표시
-         2. 거리 및 시간 총합, 평균 계산 로직 추가
-         3. 오늘 산책 데이터 설정
-         */
-        
+        self.puppyInfo = puppy
+        self.records = records
         var totalDistance: Double = 0.0
         var totalTime: Int = 0
+        setupDateFormatter(with: .calendar)
         
         for record in records {
-            let dateString = calendarDateFormatter.string(from: record.timeStamp)
+            let dateString = dateFormatter.string(from: record.timeStamp)
             self.dateInfo.append(dateString)
             
             totalDistance += record.distance
@@ -281,20 +280,49 @@ private extension PuppyCalendarViewCell {
             }
         }
     }
+    
+    func setupDateFormatter(with type: DateFormat) {
+        self.dateFormatter.dateFormat = type.rawValue
+    }
+    
+    private func computeCalories(weight: Double, interval: Int) -> Double {
+        let calories = ((2.5 * (3.5 * weight * Double(interval))) / 1000) * 5
+        return round(calories * 100) / 100
+    }
 }
 
 extension PuppyCalendarViewCell: FSCalendarDelegate, FSCalendarDataSource {
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        self.calendarHeaderLabel.text = self.headerDateFormatter.string(from: self.calendarView.currentPage)
+        setupDateFormatter(with: .header)
+        self.calendarHeaderLabel.text = self.dateFormatter.string(from: self.calendarView.currentPage)
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let dateString = self.calendarDateFormatter.string(from: date)
+        setupDateFormatter(with: .calendar)
+        let dateString = self.dateFormatter.string(from: date)
         
         if self.dateInfo.contains(dateString) {
             return 1
         } else {
             return 0
+        }
+    }
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        guard let puppyInfo = self.puppyInfo else { return }
+        
+        let newDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
+        
+        setupDateFormatter(with: .summary)
+        
+        for record in records {
+            if record.timeStamp.isEqual(to: newDate) {
+                let dateString = self.dateFormatter.string(from: record.timeStamp)
+                let distance = String(format: "%.1fkm", record.distance * 0.001)
+                let calories = computeCalories(weight: puppyInfo.weight, interval: record.interval)
+                
+                self.summaryLabel.text = "\(dateString)\n\(formatTime(with: record.interval)) / \(distance) / \(calories)kcal"
+            }
         }
     }
     
