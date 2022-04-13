@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import CoreLocation
 
 enum MainModel {
     case puppyInfo([Puppy])
@@ -65,15 +66,15 @@ final class MainViewModel: ViewModelType {
                 interval: 1800,
                 distance: 1500,
                 calories: 254,
-                startLocation: Coordinate(32.923, 234.2323),
-                endLocation: Coordinate(32.923, 234.2323)),
+                startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)),
+                endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323))),
             Record(
                 timeStamp: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
                 interval: 1800,
                 distance: 1500,
                 calories: 254,
-                startLocation: Coordinate(32.923, 234.2323),
-                endLocation: Coordinate(32.923, 234.2323))
+                startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)),
+                endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)))
         ]
         
         // 임시 데이터

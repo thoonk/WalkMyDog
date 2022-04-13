@@ -28,8 +28,8 @@ final class PuppyProfileTableViewCell: UITableViewCell {
     }
     
     func bindData(with data: Puppy) {
-        if data.imageUrl != nil {
-            puppyImageView.setImageCache(with: data.imageUrl!)
+        if data.imageURL != nil {
+            puppyImageView.setImageCache(with: data.imageURL!)
         } else {
             puppyImageView.image = UIImage(named: "profileImage-100")
         }

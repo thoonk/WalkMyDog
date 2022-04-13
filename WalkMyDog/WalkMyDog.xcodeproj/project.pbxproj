@@ -99,6 +99,7 @@
 		08F6DA5C260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */; };
 		08F911C225F1E7FB0043438D /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C125F1E7FB0043438D /* CheckButton.swift */; };
 		08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C625F1EEF30043438D /* EditRecordViewController.swift */; };
+		6A1953B12806C57900E74784 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1953B02806C57900E74784 /* RealmService.swift */; };
 		6A21FD5C27E86E650051EDB1 /* PuppyInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5B27E86E650051EDB1 /* PuppyInfoViewCell.swift */; };
 		6A21FD5E27E86F670051EDB1 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A21FD5D27E86F670051EDB1 /* UIColor+.swift */; };
 		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
@@ -228,6 +229,7 @@
 		2D869BA44E1A05C60E8CDA05 /* Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.release.xcconfig"; sourceTree = "<group>"; };
 		393F40DF326238D184E6818C /* Pods-WalkMyDog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.release.xcconfig"; sourceTree = "<group>"; };
 		5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A1953B02806C57900E74784 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		6A21FD5B27E86E650051EDB1 /* PuppyInfoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyInfoViewCell.swift; sourceTree = "<group>"; };
 		6A21FD5D27E86F670051EDB1 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		08BB9C1B25C916B100B56F9F /* WalkMyDog */ = {
 			isa = PBXGroup;
 			children = (
+				6A1953AF2806C56900E74784 /* Services */,
 				08E5C4EC25DBB34C000896D2 /* App */,
 				08BB9C2A25C916B200B56F9F /* Info.plist */,
 				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
@@ -579,6 +582,14 @@
 				08F17B2727EB0FE600413C74 /* SlideView.swift */,
 			);
 			path = CustomView;
+			sourceTree = "<group>";
+		};
+		6A1953AF2806C56900E74784 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6A1953B02806C57900E74784 /* RealmService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		78F7F2E6DA38814BB4286B6D /* Frameworks */ = {
@@ -914,6 +925,7 @@
 				082866812604D3060084F2FF /* CustomTextField.swift in Sources */,
 				08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */,
 				0825A1AC266F831800BB8A64 /* RecordViewController.swift in Sources */,
+				6A1953B12806C57900E74784 /* RealmService.swift in Sources */,
 				0873F26727DE093300F27D3C /* TimerService.swift in Sources */,
 				0873F26A27DE13A800F27D3C /* MKMapView+.swift in Sources */,
 				0873F26D27DE191D00F27D3C /* ImagePicker.swift in Sources */,

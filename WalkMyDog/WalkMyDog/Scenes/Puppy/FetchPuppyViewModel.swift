@@ -34,7 +34,7 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyWeight = puppyInfo.map { "\($0.weight)" }
         let puppyBirth = puppyInfo.map { $0.age }
         let puppyGender = puppyInfo.map { $0.gender }
-        let puppyImageUrl = puppyInfo.map { $0.imageUrl }
+        let puppyImageUrl = puppyInfo.map { $0.imageURL }
         
         self.output = Output(
             profileImageUrl: puppyImageUrl,
