@@ -59,6 +59,7 @@ final class Record: Object {
     dynamic var peeLocation: [Location]?
     
     init(
+        id: Int = 0,
         timeStamp: Date,
         interval: Int,
         distance: Double,
@@ -68,6 +69,7 @@ final class Record: Object {
         fecesLocation: [Location]? = [],
         peeLocation: [Location]? = []
     ) {
+        self.id = id
         self.timeStamp = timeStamp
         self.interval = interval
         self.distance = distance
