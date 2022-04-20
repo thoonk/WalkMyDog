@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import CoreLocation
 
 final class MainViewController: UIViewController {
     // MARK: - InterfaceBuilder
@@ -60,11 +61,25 @@ final class MainViewController: UIViewController {
     var currentViewModel: CurrentViewModel?
     var mainViewModel: MainViewModel?
     var bag = DisposeBag()
+    var puppyRealmService: PuppyRealmServiceProtocol
+    var recordRealmService: RecordRealmServiceProtocol
     
     init() {
+        puppyRealmService = PuppyRealmService()
+        recordRealmService = RecordRealmService()
         super.init(nibName: nil, bundle: nil)
         setupLayout()
         self.navigationController?.navigationBar.backgroundColor = .clear
+        
+        print(puppyRealmService.insert(
+            name: "앙꼬",
+            age: "2016.12.11",
+            gender: false,
+            weight: 10.5,
+            species: "퍼그",
+            imageURL: nil
+        ))
+//        print(recordRealmService.insert(timeStamp: Date(), interval: 1800, distance: 1500, calories: 251, startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), fecesLocation: nil, peeLocation: nil))
     }
     
     @available(*, unavailable)
@@ -78,6 +93,9 @@ final class MainViewController: UIViewController {
 //        setCurrentBinding()
         setFetchAllPuppyBinding()
 //        setUI()
+        let puppies = puppyRealmService.fetchPuppies()
+        print(puppies)
+        print(puppies?.first?.records)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

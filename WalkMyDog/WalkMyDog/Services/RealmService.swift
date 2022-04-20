@@ -29,7 +29,7 @@ protocol RealmServiceProtocol {
 }
 
 class RealmService<T>: RealmServiceProtocol {
-    private func getRealm() -> Realm? {
+    func getRealm() -> Realm? {
         return try? Realm()
     }
     

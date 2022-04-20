@@ -9,11 +9,11 @@ import Foundation
 
 // 미세먼지 모델
 struct PMData: Codable {
-    var list: [List]
+    var list: [pmList]
 }
 
 // 미세먼지 리스트
-struct List: Codable {
+struct pmList: Codable {
     var dt: TimeInterval // UTC
     var components: Components
 }

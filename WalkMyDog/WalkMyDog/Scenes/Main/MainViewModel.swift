@@ -55,13 +55,14 @@ final class MainViewModel: ViewModelType {
 //            .disposed(by: bag)
         
         let puppies = [
-        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
-        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
-        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
+            Puppy(id: 0, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
+            Puppy(id: 1, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
+            Puppy(id: 2, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
         ]
         
         let records = [
             Record(
+//                id: 0,
                 timeStamp: Calendar.current.date(byAdding: .day, value: -2, to: Date())!,
                 interval: 1800,
                 distance: 1500,
@@ -69,6 +70,7 @@ final class MainViewModel: ViewModelType {
                 startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)),
                 endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323))),
             Record(
+//                id: 1,
                 timeStamp: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
                 interval: 1800,
                 distance: 1500,

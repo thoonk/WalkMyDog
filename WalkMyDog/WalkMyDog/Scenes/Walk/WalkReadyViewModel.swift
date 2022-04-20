@@ -27,7 +27,7 @@ final class WalkReadyViewModel: ViewModelType {
     var output = Output()
     
     var selectedPuppies: [Puppy] = [
-        Puppy(name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
+        Puppy(id: 0, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
     ]
     
     init() {

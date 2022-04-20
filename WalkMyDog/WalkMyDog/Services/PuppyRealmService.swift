@@ -28,6 +28,7 @@ protocol PuppyRealmServiceProtocol {
 }
 
 final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
+    @discardableResult
     func insert(
         name: String,
         age: String,

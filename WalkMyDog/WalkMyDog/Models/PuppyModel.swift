@@ -15,20 +15,21 @@ protocol Identifiable {
 
 /// 반려견의 정보 모델
 final class Puppy: Object {
-    dynamic var id: Int
-    dynamic var name: String
-    dynamic var age: String // 2016.12.11
-    dynamic var weight: Double
-    dynamic var gender: Bool
-    dynamic var species: String
-    dynamic var imageURL: String?
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = ""
+    @objc dynamic var age: String = Date().toLocalized(with: "KST", by: "short") // 2016.12.11
+    @objc dynamic var weight: Double = 0.0
+    @objc dynamic var gender: Bool = false
+    @objc dynamic var species: String = ""
+    @objc dynamic var imageURL: String?
+    let records = List<Record>()
     
     var genderText: String {
         return gender ? "남아" : "여아"
     }
     
-    init(
-        id: Int = 0,
+    convenience init(
+        id: Int,
         name: String,
         age: String,
         gender: Bool,
@@ -36,6 +37,7 @@ final class Puppy: Object {
         species: String,
         imageURL: String? = nil
     ) {
+        self.init()
         self.id = id
         self.name = name
         self.age = age
@@ -44,52 +46,63 @@ final class Puppy: Object {
         self.species = species
         self.imageURL = imageURL
     }
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }
 
 /// 반려견의 산책 기록 모델
 final class Record: Object {
-    dynamic var id: Int = 0
-    dynamic var timeStamp: Date = Date()
-    dynamic var distance: Double = 0.0
-    dynamic var interval: Int = 0
-    dynamic var calories: Double = 0.0
-    dynamic var startLocation: Location?
-    dynamic var endLocation: Location?
-    dynamic var fecesLocation: [Location]?
-    dynamic var peeLocation: [Location]?
+//    @objc dynamic var id: Int = 0
+    @objc dynamic var timeStamp: Date = Date()
+    @objc dynamic var distance: Double = 0.0
+    @objc dynamic var interval: Int = 0
+    @objc dynamic var calories: Double = 0.0
+    @objc dynamic var startLocation: Location?
+    @objc dynamic var endLocation: Location?
+    dynamic var fecesLocation = List<Location>()
+    dynamic var peeLocation = List<Location>()
+    let puppy = LinkingObjects(fromType: Puppy.self, property: "id")
     
-    init(
-        id: Int = 0,
+    convenience init(
+//        id: Int,
         timeStamp: Date,
         interval: Int,
         distance: Double,
         calories: Double,
         startLocation: Location,
         endLocation: Location,
-        fecesLocation: [Location]? = [],
-        peeLocation: [Location]? = []
+        fecesLocation: [Location]? = nil,
+        peeLocation: [Location]? = nil
     ) {
-        self.id = id
+        self.init()
+//        self.id = id
         self.timeStamp = timeStamp
         self.interval = interval
         self.distance = distance
         self.calories = calories
         self.startLocation = startLocation
         self.endLocation = endLocation
-        self.fecesLocation = fecesLocation
-        self.peeLocation = peeLocation
+        self.fecesLocation.append(objectsIn: fecesLocation ?? [])
+        self.peeLocation.append(objectsIn: peeLocation ?? [])
     }
+    
+//    override class func primaryKey() -> String? {
+//        return "id"
+//    }
 }
 
 final class Location: Object {
-    dynamic var latitude: Double = 0.0
-    dynamic var longitude: Double = 0.0
-    
+    @objc dynamic var latitude: Double = 0.0
+    @objc dynamic var longitude: Double = 0.0
+
     var clLocation: CLLocation {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
     
-    init(clLocation: CLLocation) {
+    convenience init(clLocation: CLLocation) {
+        self.init()
         self.latitude = clLocation.coordinate.latitude
         self.longitude = clLocation.coordinate.longitude
     }
