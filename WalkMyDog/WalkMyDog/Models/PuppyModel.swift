@@ -15,14 +15,18 @@ protocol Identifiable {
 
 /// 반려견의 정보 모델
 final class Puppy: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var name: String = ""
-    @objc dynamic var age: String = Date().toLocalized(with: "KST", by: "short") // 2016.12.11
-    @objc dynamic var weight: Double = 0.0
-    @objc dynamic var gender: Bool = false
-    @objc dynamic var species: String = ""
-    @objc dynamic var imageURL: String?
-    let records = List<Record>()
+    @Persisted(primaryKey: true) var id: Int
+//    @objc dynamic var id: Int = 0
+    @Persisted var name: String = ""
+//    @objc dynamic var name: String = ""
+    @Persisted var age: String = Date().toLocalized(with: "KST", by: "short")
+//    @objc dynamic var age: String = Date().toLocalized(with: "KST", by: "short") // 2016.12.11
+    
+    @Persisted var weight: Double = 0.0
+    @Persisted var gender: Bool = false
+    @Persisted var species: String = ""
+    @Persisted var imageURL: String?
+    @Persisted var records = List<Record>()
     
     var genderText: String {
         return gender ? "남아" : "여아"
@@ -47,23 +51,23 @@ final class Puppy: Object {
         self.imageURL = imageURL
     }
     
-    override class func primaryKey() -> String? {
-        return "id"
-    }
+//    override class func primaryKey() -> String? {
+//        return "id"
+//    }
 }
 
 /// 반려견의 산책 기록 모델
 final class Record: Object {
 //    @objc dynamic var id: Int = 0
-    @objc dynamic var timeStamp: Date = Date()
-    @objc dynamic var distance: Double = 0.0
-    @objc dynamic var interval: Int = 0
-    @objc dynamic var calories: Double = 0.0
-    @objc dynamic var startLocation: Location?
-    @objc dynamic var endLocation: Location?
-    dynamic var fecesLocation = List<Location>()
-    dynamic var peeLocation = List<Location>()
-    let puppy = LinkingObjects(fromType: Puppy.self, property: "id")
+    @Persisted var timeStamp: Date = Date()
+    @Persisted var distance: Double = 0.0
+    @Persisted var interval: Int = 0
+    @Persisted var calories: Double = 0.0
+    @Persisted var startLocation: Location?
+    @Persisted var endLocation: Location?
+    @Persisted var fecesLocation = List<Location>()
+    @Persisted var peeLocation = List<Location>()
+    @Persisted var puppy = LinkingObjects(fromType: Puppy.self, property: "id")
     
     convenience init(
 //        id: Int,

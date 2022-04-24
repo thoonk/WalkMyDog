@@ -75,6 +75,10 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
     ) -> Bool {
         do {
             if var puppy = prev {
+                var newImageURL = imageURL
+                if imageURL == nil {
+                    newImageURL = prev?.imageURL
+                }
                 puppy = Puppy(
                     id: puppy.id,
                     name: name,
@@ -82,7 +86,7 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
                     gender: gender,
                     weight: weight,
                     species: species,
-                    imageURL: imageURL
+                    imageURL: newImageURL
                 )
                 
                 try updateObject(puppy)

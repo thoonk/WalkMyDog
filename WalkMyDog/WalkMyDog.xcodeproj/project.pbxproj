@@ -306,14 +306,6 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		0873F26827DE093800F27D3C /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				0873F26627DE093300F27D3C /* TimerService.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		0873F26B27DE191400F27D3C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +365,6 @@
 		08BB9C1B25C916B100B56F9F /* WalkMyDog */ = {
 			isa = PBXGroup;
 			children = (
-				6A1953AF2806C56900E74784 /* Services */,
 				08E5C4EC25DBB34C000896D2 /* App */,
 				08BB9C2A25C916B200B56F9F /* Info.plist */,
 				08BB9C7A25C91EB400B56F9F /* WalkMyDog.entitlements */,
@@ -384,7 +375,7 @@
 				08F911C025F1E7DF0043438D /* CustomView */,
 				0896849425D10AEB005C56F7 /* Models */,
 				08E5C57C25DBB94C000896D2 /* Constants.swift */,
-				0873F26827DE093800F27D3C /* Service */,
+				6A1953AF2806C56900E74784 /* Services */,
 			);
 			path = WalkMyDog;
 			sourceTree = "<group>";
@@ -591,6 +582,7 @@
 		6A1953AF2806C56900E74784 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0873F26627DE093300F27D3C /* TimerService.swift */,
 				6A1953B02806C57900E74784 /* RealmService.swift */,
 				6A653E422808020900F3B3D6 /* RecordRealmService.swift */,
 				6A653E402807F07300F3B3D6 /* PuppyRealmService.swift */,
