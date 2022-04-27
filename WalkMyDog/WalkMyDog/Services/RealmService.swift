@@ -6,6 +6,7 @@
 //
 
 import RealmSwift
+import UIKit
 
 enum RealmError: Error {
     case InstanceError
@@ -167,14 +168,8 @@ class RealmService<T>: RealmServiceProtocol {
         }
 
         do {
-            let response = realm.object(ofType: T.self, forPrimaryKey: object.value(forKeyPath: T.primaryKey()!) as AnyObject)
-            
-            if let object = response {
-                try realm.write {
-                    realm.add(object, update: .modified)
-                }
-            } else {
-                throw RealmError.MatchingError
+            try realm.write {
+                realm.add(object, update: .modified)
             }
         } catch {
             throw RealmError.UpdatingError

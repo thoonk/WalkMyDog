@@ -16,12 +16,8 @@ protocol Identifiable {
 /// 반려견의 정보 모델
 final class Puppy: Object {
     @Persisted(primaryKey: true) var id: Int
-//    @objc dynamic var id: Int = 0
     @Persisted var name: String = ""
-//    @objc dynamic var name: String = ""
     @Persisted var age: String = Date().toLocalized(with: "KST", by: "short")
-//    @objc dynamic var age: String = Date().toLocalized(with: "KST", by: "short") // 2016.12.11
-    
     @Persisted var weight: Double = 0.0
     @Persisted var gender: Bool = false
     @Persisted var species: String = ""
@@ -50,15 +46,11 @@ final class Puppy: Object {
         self.species = species
         self.imageURL = imageURL
     }
-    
-//    override class func primaryKey() -> String? {
-//        return "id"
-//    }
 }
 
 /// 반려견의 산책 기록 모델
 final class Record: Object {
-//    @objc dynamic var id: Int = 0
+    @Persisted(primaryKey: true) var id: Int
     @Persisted var timeStamp: Date = Date()
     @Persisted var distance: Double = 0.0
     @Persisted var interval: Int = 0
@@ -67,10 +59,11 @@ final class Record: Object {
     @Persisted var endLocation: Location?
     @Persisted var fecesLocation = List<Location>()
     @Persisted var peeLocation = List<Location>()
-    @Persisted var puppy = LinkingObjects(fromType: Puppy.self, property: "id")
+    @Persisted var puppy: Puppy?
     
     convenience init(
-//        id: Int,
+        id: Int,
+        puppy: Puppy,
         timeStamp: Date,
         interval: Int,
         distance: Double,
@@ -81,7 +74,8 @@ final class Record: Object {
         peeLocation: [Location]? = nil
     ) {
         self.init()
-//        self.id = id
+        self.id = id
+        self.puppy = puppy
         self.timeStamp = timeStamp
         self.interval = interval
         self.distance = distance
@@ -91,10 +85,6 @@ final class Record: Object {
         self.fecesLocation.append(objectsIn: fecesLocation ?? [])
         self.peeLocation.append(objectsIn: peeLocation ?? [])
     }
-    
-//    override class func primaryKey() -> String? {
-//        return "id"
-//    }
 }
 
 final class Location: Object {

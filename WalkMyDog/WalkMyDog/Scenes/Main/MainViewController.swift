@@ -71,15 +71,35 @@ final class MainViewController: UIViewController {
         setupLayout()
         self.navigationController?.navigationBar.backgroundColor = .clear
         
-        print(puppyRealmService.insert(
-            name: "앙꼬",
-            age: "2016.12.11",
-            gender: false,
-            weight: 10.5,
-            species: "퍼그",
-            imageURL: nil
-        ))
-//        print(recordRealmService.insert(timeStamp: Date(), interval: 1800, distance: 1500, calories: 251, startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), fecesLocation: nil, peeLocation: nil))
+//        print(puppyRealmService.insert(
+//            name: "앙꼬",
+//            age: "2016.12.11",
+//            gender: false,
+//            weight: 10.5,
+//            species: "퍼그",
+//            imageURL: nil
+//        ))
+        let puppies = puppyRealmService.fetchPuppies()
+//        if let puppy = puppies?.first {
+//            print(puppyRealmService.update(
+//                with: puppy,
+//                name: "꼬꼬",
+//                age: "2016.12.11",
+//                gender: true,
+//                weight: 8.5,
+//                species: "퍼그",
+//                imageURL: nil
+//            ))
+//            puppyRealmService.remove(with: puppy)
+//        }
+        
+        if let puppy = puppies?.first
+//           let record = puppy.records.first
+        {
+//            print(recordRealmService.insert(selectedPuppy: puppy, timeStamp: Date(), interval: 1800, distance: 1500, calories: 251, startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), fecesLocation: nil, peeLocation: nil))
+//            print(recordRealmService.remove(with: record))
+//            print(recordRealmService.fetchRecords(selectedPuppy: puppy))
+        }
     }
     
     @available(*, unavailable)

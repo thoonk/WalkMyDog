@@ -36,27 +36,28 @@ final class RecordRealmService: RealmService<Record>, RecordRealmServiceProtocol
         peeLocation: [Location]?
     ) -> Bool {
         do {
-//            if let id = try increamentID(Record.self) {
             guard let realm = getRealm() else { return false }
-            try realm.write {
-                let record = Record(
-//                    id: id,
-                    timeStamp: timeStamp,
-                    interval: interval,
-                    distance: distance,
-                    calories: calories,
-                    startLocation: startLocation,
-                    endLocation: endLocation,
-                    fecesLocation: fecesLocation,
-                    peeLocation: peeLocation
-                )
-                selectedPuppy.records.append(record)
-            }
 
-//                try saveObject(record)
+            if let id = try increamentID(Record.self) {
+                try realm.write {
+                    let record = Record(
+                        id: id,
+                        puppy: selectedPuppy,
+                        timeStamp: timeStamp,
+                        interval: interval,
+                        distance: distance,
+                        calories: calories,
+                        startLocation: startLocation,
+                        endLocation: endLocation,
+                        fecesLocation: fecesLocation,
+                        peeLocation: peeLocation
+                    )
+                    selectedPuppy.records.append(record)
+                }
                 return true
-//            }
-//            return false
+            } else {
+                return false
+            }
         } catch {
             return false
         }
