@@ -5,6 +5,8 @@
 //  Created by thoonk on 2022/04/14.
 //
 
+import RxSwift
+
 protocol PuppyRealmServiceProtocol {
     func insert(
         name: String,
@@ -14,7 +16,7 @@ protocol PuppyRealmServiceProtocol {
         species: String,
         imageURL: String?
     ) -> Bool
-    func fetchPuppies() -> [Puppy]?
+    func fetchAllPuppies() -> Observable<[Puppy]>
     func update(
         with prev: Puppy?,
         name: String,
@@ -28,6 +30,7 @@ protocol PuppyRealmServiceProtocol {
 }
 
 final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
+    
     @discardableResult
     func insert(
         name: String,
@@ -57,11 +60,19 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
         }
     }
     
-    func fetchPuppies() -> [Puppy]? {
-        guard let puppies = fetchObjects(Puppy.self) as? [Puppy] else {
-            return nil
+    func fetchAllPuppies() -> Observable<[Puppy]> {
+        return Observable.create() { [weak self] emitter in
+            if let puppies = self?.fetchObjects(Puppy.self) as? [Puppy] {
+                emitter.onNext(puppies)
+            } else {
+                emitter.onNext([])
+            }
+            return Disposables.create()
         }
-        return puppies
+//        guard let puppies = fetchObjects(Puppy.self) as? [Puppy] else {
+//            return nil
+//        }
+//        return puppies
     }
     
     func update(

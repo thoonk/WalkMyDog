@@ -79,7 +79,7 @@ final class MainViewController: UIViewController {
 //            species: "퍼그",
 //            imageURL: nil
 //        ))
-        let puppies = puppyRealmService.fetchPuppies()
+//        let puppies = puppyRealmService.fetchPuppies()
 //        if let puppy = puppies?.first {
 //            print(puppyRealmService.update(
 //                with: puppy,
@@ -93,13 +93,13 @@ final class MainViewController: UIViewController {
 //            puppyRealmService.remove(with: puppy)
 //        }
         
-        if let puppy = puppies?.first
+//        if let puppy = puppies?.first
 //           let record = puppy.records.first
-        {
+//        {
 //            print(recordRealmService.insert(selectedPuppy: puppy, timeStamp: Date(), interval: 1800, distance: 1500, calories: 251, startLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), endLocation: Location(clLocation: CLLocation(latitude: 32.923, longitude: 234.2323)), fecesLocation: nil, peeLocation: nil))
 //            print(recordRealmService.remove(with: record))
 //            print(recordRealmService.fetchRecords(selectedPuppy: puppy))
-        }
+//        }
     }
     
     @available(*, unavailable)
@@ -113,9 +113,9 @@ final class MainViewController: UIViewController {
 //        setCurrentBinding()
         setFetchAllPuppyBinding()
 //        setUI()
-        let puppies = puppyRealmService.fetchPuppies()
-        print(puppies)
-        print(puppies?.first?.records)
+//        let puppies = puppyRealmService.fetchPuppies()
+//        print(puppies)
+//        print(puppies?.first?.records)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -258,6 +258,13 @@ final class MainViewController: UIViewController {
             .map { _ in () }
             .bind(to: input.fetchData)
             .disposed(by: bag)
+        
+        imageScrollView.rx.currentPage
+            .skip(1)
+            .distinctUntilChanged()
+            .bind(to: input.currentIndex)
+            .disposed(by: bag)
+        
         // OUTPUT
 //        output.puppyData
 //            .bind(to: puppyProfileTableView.rx.items(
@@ -274,6 +281,7 @@ final class MainViewController: UIViewController {
 //                    sender: puppy
 //                )
 //            }).disposed(by: bag)
+        
         output.cellData
             .bind(to: containerTableView.rx.items) { tableView, row, item -> UITableViewCell in
                 
@@ -285,10 +293,12 @@ final class MainViewController: UIViewController {
                     cell.configure(with: puppies[0])
                     
                     return cell
-                case .puppyCalendar(let puppy, let records):
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyCalendarViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyCalendarViewCell else { return UITableViewCell() }
+                case .puppyCalendar(let puppy):
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyCalendarViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyCalendarViewCell,
+                          let puppy = puppy
+                    else { return UITableViewCell() }
                     
-                    cell.configure(with: puppy, records: records)
+                    cell.configure(with: puppy)
                     
                     return cell
                 }
@@ -322,8 +332,17 @@ extension MainViewController: UIScrollViewDelegate {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
         guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
         cell.pageControl.currentPage = Int(pageIndex)
-        
 //        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
 //        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
+    }
+}
+
+extension Reactive where Base: UIScrollView {
+    var currentPage: Observable<Int> {
+        return didEndDecelerating.map({
+            let pageWidth = self.base.frame.width
+            let page = floor((self.base.contentOffset.x - pageWidth / 2) / pageWidth) + 1
+            return Int(page)
+        })
     }
 }

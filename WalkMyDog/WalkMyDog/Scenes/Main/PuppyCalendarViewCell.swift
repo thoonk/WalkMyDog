@@ -139,9 +139,9 @@ final class PuppyCalendarViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with puppy: Puppy, records: [Record]) {
+    func configure(with puppy: Puppy) {
         self.puppyInfo = puppy
-        self.records = records
+        self.records = Array(puppy.records)
         var totalDistance: Double = 0.0
         var totalTime: Int = 0
         setupDateFormatter(with: .calendar)
