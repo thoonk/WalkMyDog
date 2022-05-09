@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import CoreLocation
+import Kingfisher
 
 final class MainViewController: UIViewController {
     // MARK: - InterfaceBuilder
@@ -17,7 +18,7 @@ final class MainViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 250)
-        scrollView.contentSize = CGSize(width: CGFloat(slides.count) * view.frame.width, height: 400)
+        scrollView.contentSize = CGSize(width: CGFloat(slides.count) * view.frame.width, height: 250)
         scrollView.delegate = self
         
         return scrollView
@@ -72,11 +73,11 @@ final class MainViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         
 //        print(puppyRealmService.insert(
-//            name: "앙꼬",
-//            age: "2016.12.11",
+//            name: "꿍이",
+//            age: "2013.05.02",
 //            gender: false,
-//            weight: 10.5,
-//            species: "퍼그",
+//            weight: 7.5,
+//            species: "말티즈",
 //            imageURL: nil
 //        ))
 //        let puppies = puppyRealmService.fetchPuppies()
@@ -147,16 +148,16 @@ final class MainViewController: UIViewController {
     // MARK: - Methods
     func setupLayout() {
         [
-            profileImageView,
+            imageScrollView,
             settingButton,
             containerTableView
         ]
             .forEach { view.addSubview($0) }
         
-        profileImageView.snp.makeConstraints {
+        imageScrollView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(280.0)
+            $0.height.equalTo(250.0)
         }
         
         settingButton.snp.makeConstraints {
@@ -166,16 +167,30 @@ final class MainViewController: UIViewController {
         }
         
         containerTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(250.0)
+            $0.top.equalToSuperview().inset(230.0)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    func setupScrollView() {
+    func setupScrollView(with puppies: [Puppy]) {
+        self.slides = [SlideView]()
+        for puppy in puppies {
+            let slide = SlideView()
+            if let urlString = puppy.imageURL,
+               let url = URL(string: urlString) {
+                slide.profileImageView.kf.setImage(with: url)
+            } else {
+                slide.profileImageView.image = UIImage(named: "launchImage")
+            }
+            self.slides.append(slide)
+        }
+         
         for index in 0..<slides.count {
             slides[index].frame = CGRect(x: CGFloat(index) * view.frame.width, y: 0, width: view.frame.width, height: 250)
             imageScrollView.addSubview(slides[index])
         }
+        
+        imageScrollView.contentSize = CGSize(width: CGFloat(slides.count) * view.frame.width, height: 250)
         
 //        puppyInfoView.pageControl.numberOfPages = slides.count
     }
@@ -282,15 +297,25 @@ final class MainViewController: UIViewController {
 //                )
 //            }).disposed(by: bag)
         
+        imageScrollView.rx.currentPage
+            .subscribe(onNext: { [weak self] page in
+                self?.setPageControlPage(index: page)
+            })
+            .disposed(by: bag)
+        
         output.cellData
-            .bind(to: containerTableView.rx.items) { tableView, row, item -> UITableViewCell in
+            .bind(to: containerTableView.rx.items) { [weak self] tableView, row, item -> UITableViewCell in
                 
                 switch item {
                 case .puppyInfo(let puppies):
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyInfoViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyInfoViewCell else { return UITableViewCell() }
                     
+                    self?.setupScrollView(with: puppies)
                     cell.pageControl.numberOfPages = puppies.count
-                    cell.configure(with: puppies[0])
+                    
+                    if let index = self?.imageScrollView.currentPage {
+                        cell.configure(with: puppies[index])
+                    }
                     
                     return cell
                 case .puppyCalendar(let puppy):
@@ -304,14 +329,7 @@ final class MainViewController: UIViewController {
                 }
             }
             .disposed(by: bag)
-                
-        output.puppyData
-            .subscribe(onNext: { [weak self] puppy in
-                self?.puppies = puppy
-//                self?.puppyInfoView.updateUI(with: puppy[0])
-            })
-            .disposed(by: bag)
-
+        
         output.errorMessage
             .subscribe(onNext: { [weak self] msg in
                 let alertVC = AlertManager.shared.showAlert(
@@ -325,15 +343,18 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: bag)
     }
+    
+    func setPageControlPage(index: Int) {
+        guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
+        cell.pageControl.currentPage = index
+    }
 }
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-        guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
-        cell.pageControl.currentPage = Int(pageIndex)
-//        self.puppyInfoView.pageControl.currentPage = Int(pageIndex)
-//        self.puppyInfoView.updateUI(with: self.puppies[Int(pageIndex)])
+        let pageIndex = (scrollView.contentOffset.x + (0.5 * scrollView.frame.size.width)) / scrollView.frame.size.width + 1
+        
+        self.setPageControlPage(index: Int(pageIndex))
     }
 }
 
@@ -344,5 +365,13 @@ extension Reactive where Base: UIScrollView {
             let page = floor((self.base.contentOffset.x - pageWidth / 2) / pageWidth) + 1
             return Int(page)
         })
+    }
+}
+
+extension UIScrollView {
+    var currentPage: Int {
+        let pageWidth = self.frame.width
+        let page = floor((self.contentOffset.x - pageWidth / 2) / pageWidth) + 1
+        return Int(page)
     }
 }

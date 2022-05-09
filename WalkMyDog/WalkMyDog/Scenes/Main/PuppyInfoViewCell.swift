@@ -122,6 +122,7 @@ final class PuppyInfoViewCell: UITableViewCell {
     }
     
     func configure(with puppy: Puppy) {
+        nameLabel.text = puppy.name
         birthDateLabel.text = puppy.age
         sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
         puppyAgeLabel.text = Date().computeAge(with: puppy.age)

@@ -69,6 +69,7 @@ final class MainViewModel: ViewModelType {
             .flatMapLatest { _ in
                 puppyRealmService.fetchAllPuppies()
             }
+            .debug()
             .flatMap { puppies -> Observable<[MainModel]> in
                 puppiesInfo = puppies
                 return Observable<[MainModel]>.create() { emitter in

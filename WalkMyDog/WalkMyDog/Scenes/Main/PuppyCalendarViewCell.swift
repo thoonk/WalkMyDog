@@ -47,7 +47,7 @@ final class PuppyCalendarViewCell: UITableViewCell {
     lazy var calendarHeaderLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        setupDateFormatter(with: .calendar)
+        setupDateFormatter(with: .header)
         label.text = self.dateFormatter.string(from: calendarView.currentPage)
         label.font = UIFont(name: "NanumSquareRoundB", size: 17.0)
         label.textAlignment = .center
@@ -156,7 +156,7 @@ final class PuppyCalendarViewCell: UITableViewCell {
         
         let count = records.count
         let averageDistance = totalDistance / Double(count)
-        let averageTime = totalTime / count
+        let averageTime = count == 0 ? 0 : totalTime / count
         
         distanceStackView.walkResultLabel.text = "총 \(String(format: "%.1fkm", totalDistance * 0.001))\n평균 \(String(format: "%.1fkm", averageDistance * 0.001))"
         
