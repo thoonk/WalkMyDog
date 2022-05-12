@@ -24,6 +24,7 @@ class SettingViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()
     var input: Input
     var output: Output
+    var puppyRealmService: PuppyRealmServiceProtocol
     
     struct Input {
         var fetchData: AnyObserver<Void>
@@ -36,17 +37,40 @@ class SettingViewModel: ViewModelType {
         var errorMessage: PublishRelay<String>
     }
     
-    init(){
+    init(puppyRealmService: PuppyRealmServiceProtocol = PuppyRealmService()){
+        self.puppyRealmService = puppyRealmService
+        
         let fetching = PublishSubject<Void>()
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
         let puppyData = PublishRelay<[Puppy]>()
         let error = PublishRelay<String>()
         let cellData = PublishRelay<[SettingSectionModel]>()
-        
+
         input = Input(fetchData: fetchData)
         
         var sectionData = [SettingSectionModel]()
+        
+        fetching
+            .do(onNext: { _ in isLoading.onNext(true) })
+            .flatMapLatest { _ in
+                puppyRealmService.fetchAllPuppies()
+            }
+            .debug()
+            .do(onNext: { _ in isLoading.onNext(false) })
+            .subscribe(onNext: { data in
+                let settingItem: [SectionItem] = [.SettingItem(title: "산책 추천도", subTitle: "좋음")]
+                sectionData.append(.SettingSection(title: "설정", items: settingItem))
+                
+                var puppyItem = [SectionItem]()
+                data.forEach {
+                    puppyItem.append(.PuppyItem(puppy: $0))
+                }
+                sectionData.append(.PuppySection(title: "반려견", items: puppyItem))
+                
+                cellData.accept(sectionData)
+            })
+            .disposed(by: bag)
         
 //        fetching
 //            .debug()

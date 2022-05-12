@@ -204,7 +204,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
-        setCustomBackBtn()
+        setupCustomBackButton(isRoot: false)
         
         let customFont = UIFont(name: "NanumGothic", size: 17)
         navigationController?.navigationBar.titleTextAttributes = [

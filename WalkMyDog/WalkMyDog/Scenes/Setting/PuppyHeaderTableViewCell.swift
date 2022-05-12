@@ -8,7 +8,8 @@
 import UIKit
 
 class PuppyHeaderTableViewCell: UITableViewCell {
-
+    static let identifier = "PuppyHeaderTableViewCell"
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var createButton: UIButton!
     

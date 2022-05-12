@@ -25,6 +25,7 @@ final class MainViewModel: ViewModelType {
     struct Input {
         var fetchData: AnyObserver<Void>
         var currentIndex = PublishSubject<Int>()
+        var settingButtonTapped = PublishSubject<Void>()
     }
     
     struct Output {
@@ -32,6 +33,7 @@ final class MainViewModel: ViewModelType {
         let puppyData: PublishRelay<[Puppy]>
         let cellData: PublishRelay<[MainModel]>
         let errorMessage: PublishRelay<String>
+        let presentToSetting: PublishRelay<Void>
     }
     
     init(puppyRealmService: PuppyRealmServiceProtocol = PuppyRealmService()) {
@@ -44,6 +46,7 @@ final class MainViewModel: ViewModelType {
         let cellData = PublishRelay<[MainModel]>()
         let error = PublishRelay<String>()
         var puppiesInfo = [Puppy]()
+        let presentToSetting = PublishRelay<Void>()
 
         input = Input(fetchData: fetchData)
         
@@ -105,6 +108,11 @@ final class MainViewModel: ViewModelType {
             })
             .disposed(by: bag)
 
+        input.settingButtonTapped
+            .subscribe(onNext: {
+                presentToSetting.accept(())
+            })
+            .disposed(by: bag)
                     
 //        let puppies = [
 //            Puppy(id: 0, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그"),
@@ -157,7 +165,8 @@ final class MainViewModel: ViewModelType {
             isLoading: isLoading,
             puppyData: puppyData,
             cellData: cellData,
-            errorMessage: error
+            errorMessage: error,
+            presentToSetting: presentToSetting
         )
     }
 }

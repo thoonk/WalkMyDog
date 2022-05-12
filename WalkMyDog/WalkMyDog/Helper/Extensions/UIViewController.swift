@@ -27,15 +27,27 @@ extension UIViewController {
     }
     
     /// 페이지의 뒤로가는 버튼을 커스텀하는 함수
-    func setCustomBackBtn() {
+    func setupCustomBackButton(isRoot: Bool) {
         let backImg = UIImage(systemName: "chevron.backward")?
             .resized(to: CGSize(width: 20, height: 20))
-        let leftItem = UIBarButtonItem(
-            image: backImg,
-            style: .plain,
-            target: self,
-            action: #selector(goBack)
-        )
+        var leftItem: UIBarButtonItem
+        
+        if isRoot {
+            leftItem =  UIBarButtonItem(
+                image: backImg,
+                style: .plain,
+                target: self,
+                action: #selector(dismissRoot)
+            )
+        } else {
+            leftItem = UIBarButtonItem(
+               image: backImg,
+               style: .plain,
+               target: self,
+               action: #selector(goBack)
+           )
+        }
+        
         leftItem.tintColor = UIColor(named: "customTintColor")
         self.navigationItem.leftBarButtonItem = leftItem        
     }
@@ -43,5 +55,10 @@ extension UIViewController {
     @objc
     private func goBack() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func dismissRoot() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

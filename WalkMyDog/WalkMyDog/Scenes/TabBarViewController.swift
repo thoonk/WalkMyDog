@@ -26,7 +26,6 @@ class TabBarViewController: UITabBarController {
     
     func setupTabBar() {
         let mainViewController = MainViewController()
-        //UINavigationController(rootViewController: MainViewController())
         
         let walkReadyViewController = WalkReadyViewController()
         

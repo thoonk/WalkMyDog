@@ -62,16 +62,12 @@ final class MainViewController: UIViewController {
     var currentViewModel: CurrentViewModel?
     var mainViewModel: MainViewModel?
     var bag = DisposeBag()
-    var puppyRealmService: PuppyRealmServiceProtocol
-    var recordRealmService: RecordRealmServiceProtocol
     
     init() {
-        puppyRealmService = PuppyRealmService()
-        recordRealmService = RecordRealmService()
         super.init(nibName: nil, bundle: nil)
         setupLayout()
-        self.navigationController?.navigationBar.backgroundColor = .clear
-        
+        setNavigationBarClear()
+
 //        print(puppyRealmService.insert(
 //            name: "꿍이",
 //            age: "2013.05.02",
@@ -114,9 +110,6 @@ final class MainViewController: UIViewController {
 //        setCurrentBinding()
         setFetchAllPuppyBinding()
 //        setUI()
-//        let puppies = puppyRealmService.fetchPuppies()
-//        print(puppies)
-//        print(puppies?.first?.records)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -280,6 +273,10 @@ final class MainViewController: UIViewController {
             .bind(to: input.currentIndex)
             .disposed(by: bag)
         
+        settingButton.rx.tap
+            .bind(to: input.settingButtonTapped)
+            .disposed(by: bag)
+        
         // OUTPUT
 //        output.puppyData
 //            .bind(to: puppyProfileTableView.rx.items(
@@ -342,11 +339,38 @@ final class MainViewController: UIViewController {
                 })
             })
             .disposed(by: bag)
+        
+        output.presentToSetting
+            .subscribe(onNext: { [weak self] in
+                let settingViewController = UINavigationController(rootViewController: SettingViewController())
+                settingViewController.modalPresentationStyle = .fullScreen
+                
+                self?.present(settingViewController, animated: true)
+            })
+            .disposed(by: bag)
     }
     
     func setPageControlPage(index: Int) {
         guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
         cell.pageControl.currentPage = index
+    }
+    
+    func setNavigationBarClear() {
+//        navigationController?.view.backgroundColor = .clear
+//        if #available(iOS 15.0, *) {
+//            let navigationAppearance = UINavigationBarAppearance()
+//            navigationAppearance.configureWithDefaultBackground()
+//            navigationAppearance.backgroundColor = .clear
+//            navigationAppearance.shadowColor = .clear
+//
+//            UINavigationBar.appearance().standardAppearance = navigationAppearance
+//            UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
+//            UINavigationBar.appearance().isTranslucent = true
+//        } else {
+//            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//            self.navigationController?.navigationBar.shadowImage = UIImage()
+//            self.navigationController?.navigationBar.backgroundColor = .clear
+//        }
     }
 }
 
@@ -358,20 +382,3 @@ extension MainViewController: UIScrollViewDelegate {
     }
 }
 
-extension Reactive where Base: UIScrollView {
-    var currentPage: Observable<Int> {
-        return didEndDecelerating.map({
-            let pageWidth = self.base.frame.width
-            let page = floor((self.base.contentOffset.x - pageWidth / 2) / pageWidth) + 1
-            return Int(page)
-        })
-    }
-}
-
-extension UIScrollView {
-    var currentPage: Int {
-        let pageWidth = self.frame.width
-        let page = floor((self.contentOffset.x - pageWidth / 2) / pageWidth) + 1
-        return Int(page)
-    }
-}

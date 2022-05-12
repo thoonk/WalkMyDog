@@ -104,7 +104,7 @@ final class RecordViewController: UIViewController, UIGestureRecognizerDelegate 
     private func setUI() {
         setTableView()
         setCalendar()
-        setCustomBackBtn()
+        setupCustomBackButton(isRoot: false)
         setNavigationBar()
         sumAvgRecordView.layer.cornerRadius = 10
     }

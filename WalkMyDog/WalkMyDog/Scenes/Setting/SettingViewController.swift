@@ -12,8 +12,47 @@ import RxDataSources
 
 class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Interface Builder
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+//    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .white
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
+        tableView.rx.setDelegate(self)
+            .disposed(by: bag)
+        
+        tableView.register(
+            PuppyTableViewCell.self,
+            forCellReuseIdentifier: PuppyTableViewCell.identifier
+        )
+        
+        tableView.register(
+            SettingTableViewCell.self,
+            forCellReuseIdentifier: SettingTableViewCell.identifier
+        )
+        
+        tableView.register(
+            UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil),
+            forCellReuseIdentifier: PuppyHeaderTableViewCell.identifier
+        )
+        
+        tableView.register(
+            UINib(nibName: "SettingHeaderTableViewCell", bundle: nil),
+            forCellReuseIdentifier: SettingHeaderTableViewCell.identifier
+        )
+        
+        return tableView
+    }()
+    
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let aiv = UIActivityIndicatorView()
+        aiv.startAnimating()
+        
+        return aiv
+    }()
     
     // MARK: - Properties
     private var settingViewModel: SettingViewModel?
@@ -27,23 +66,38 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         ) in
         switch item {
         case .PuppyItem(let puppy):
-            let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
-                withIdentifier: C.Cell.puppy,
+            guard let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: PuppyTableViewCell.identifier,
                 for: indexPath
-            ) as! PuppyTableViewCell
+            ) as? PuppyTableViewCell
+            else { return UITableViewCell() }
             cell.bindData(with: puppy)
+            
             return cell
         case .SettingItem(let title, let subTitle):
-            let cell: SettingTableViewCell = tableView.dequeueReusableCell(
-                withIdentifier: C.Cell.setting,
+            guard let cell: SettingTableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: SettingTableViewCell.identifier,
                 for: indexPath
-            ) as! SettingTableViewCell
+            ) as? SettingTableViewCell
+            else { return UITableViewCell() }
             cell.bindData(title: title, subTitle: subTitle)
+            
             return cell
         }
     })
     
     // MARK: - LifeCycle
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        setupLayout()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -53,7 +107,6 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         
         setSettingViewModelBinding()
-        setUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,9 +130,20 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Methods
-    private func setUI() {
-        setTableView()
-        setCustomBackBtn()
+    func setupLayout() {
+        [tableView, activityIndicatorView]
+            .forEach { view.addSubview($0) }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+        
+        setupCustomBackButton(isRoot: true)
     }
     
     private func setSettingViewModelBinding() {
@@ -134,22 +198,6 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             .disposed(by: bag)
-    }
-    
-    /// 테이블뷰 설정
-    private func setTableView() {
-        tableView.rx.setDelegate(self)
-            .disposed(by: bag)
-        tableView.separatorStyle = .none
-        tableView.rowHeight = 50
-        tableView.register(
-            UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil),
-            forCellReuseIdentifier: C.Cell.puppyHeader
-        )
-        tableView.register(
-            UINib(nibName: "SettingHeaderTableViewCell", bundle: nil),
-            forCellReuseIdentifier: C.Cell.settingHeader
-        )
     }
     
     private func setRecommandCriteria(){
@@ -211,7 +259,7 @@ extension SettingViewController: UITableViewDelegate {
         // Setting Section Header View
         if section == 0 {
             let settingHeaderCell = tableView.dequeueReusableCell(
-                withIdentifier: C.Cell.settingHeader
+                withIdentifier: SettingHeaderTableViewCell.identifier
             ) as! SettingHeaderTableViewCell
             settingHeaderCell.bindData(with: "설정")
             return settingHeaderCell
@@ -219,7 +267,7 @@ extension SettingViewController: UITableViewDelegate {
         // Puppy Section Header View
         else if section == 1 {
             let puppyHeaderCell = tableView.dequeueReusableCell(
-                withIdentifier: C.Cell.puppyHeader
+                withIdentifier: PuppyHeaderTableViewCell.identifier
             ) as! PuppyHeaderTableViewCell
             puppyHeaderCell.titleLabel.text = "반려견"
             puppyHeaderCell.createButton.addTarget(

@@ -24,7 +24,7 @@ class SearchSpeciesViewController: UIViewController {
         super.viewDidLoad()
         
         setUpSearchController()
-        setCustomBackBtn()
+        setupCustomBackButton(isRoot: false)
         setSearchSpeciesViewModel()
     }
     
