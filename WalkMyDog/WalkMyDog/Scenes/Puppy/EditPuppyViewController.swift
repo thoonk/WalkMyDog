@@ -15,15 +15,94 @@ import JVFloatLabeledTextField
 
 class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Interface Builder
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
-    @IBOutlet weak var speciesTextField: CustomTextField!
-    @IBOutlet weak var weightTextField: JVFloatLabeledTextField!
-    @IBOutlet weak var birthTextField: JVFloatLabeledTextField!
-    @IBOutlet weak var boyButton: RadioButton!
-    @IBOutlet weak var girlButton: RadioButton!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var deleteButton: UIButton!
+    lazy var profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "profileImage-150")
+        imageView.layer.cornerRadius = profileImageView.bounds.height / 2
+        
+        return imageView
+    }()
+    
+    lazy var nameTextField: JVFloatLabeledTextField = {
+       let textField = JVFloatLabeledTextField()
+        textField.placeholder = "이름"
+        textField.font = UIFont(name: "NanumGothicCoding", size: 17)
+        textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+
+        return textField
+    }()
+    
+    lazy var speciesTextField: CustomTextField = {
+       let textField = CustomTextField()
+        textField.placeholder = "견종"
+        textField.font = UIFont(name: "NanumGothicCoding", size: 17)
+        textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+
+        return textField
+    }()
+    
+    lazy var weightTextField: JVFloatLabeledTextField = {
+       let textField = JVFloatLabeledTextField()
+        textField.placeholder = "체중"
+        textField.font = UIFont(name: "NanumGothicCoding", size: 17)
+        textField.rightView = setUnitLabel(inTxtField: " kg")
+        textField.rightViewMode = .always
+        
+        weightTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        
+        return textField
+    }()
+    
+    lazy var birthTextField: JVFloatLabeledTextField = {
+       let textField = JVFloatLabeledTextField()
+        textField.placeholder = "생년월일"
+        textField.font = UIFont(name: "NanumGothicCoding", size: 17)
+        textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+
+        return textField
+    }()
+    
+    lazy var boyButton: RadioButton = {
+        let button = RadioButton()
+        button.setImage(UIImage(named: "male-50"), for: .normal)
+        
+        return button
+    }()
+    
+    lazy var girlButton: RadioButton = {
+        let button = RadioButton()
+        button.setImage(UIImage(named: "female-50"), for: .normal)
+        
+        return button
+    }()
+    
+    lazy var saveButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        
+        return button
+    }()
+    
+    lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 12
+        button.layer.masksToBounds = true
+        button.backgroundColor = .systemGray5
+        
+        return button
+    }()
+    
+    
+    
+//    @IBOutlet weak var profileImageView: UIImageView!
+//    @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
+//    @IBOutlet weak var speciesTextField: CustomTextField!
+//    @IBOutlet weak var weightTextField: JVFloatLabeledTextField!
+//    @IBOutlet weak var birthTextField: JVFloatLabeledTextField!
+//    @IBOutlet weak var boyButton: RadioButton!
+//    @IBOutlet weak var girlButton: RadioButton!
+//    @IBOutlet weak var saveButton: UIBarButtonItem!
+//    @IBOutlet weak var deleteButton: UIButton!
     
     // MARK: - Properties
     var puppyInfo: Puppy?
@@ -52,6 +131,17 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - LifeCycle
+    init(puppyInfo: Puppy?) {
+        self.puppyInfo = puppyInfo
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -142,27 +232,107 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         present(alertVC, animated: true)
     }
-    
-    // MARK: - Methods
-    private func setUI() {
-        deleteButton.layer.cornerRadius = 12
-        deleteButton.layer.masksToBounds = true
-        deleteButton.backgroundColor = .systemGray5
-        
-        profileImageView.layer.cornerRadius = profileImageView.bounds.height/2
-        profileImageView.image = UIImage(named: "profileImage-150")
-                
-        weightTextField.rightView = setUnitLabel(inTxtField: " kg")
-        weightTextField.rightViewMode = .always
-        weightTextField.placeholder = "체중"
-        nameTextField.placeholder = "이름"
-        speciesTextField.placeholder = "견종"
-        birthTextField.placeholder = "생년월일"
-        nameTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
-        speciesTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
-        weightTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
-        birthTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+}
 
+// MARK: - Private Methods
+private extension EditPuppyViewController {
+    func setupLayout() {
+        let sexStackView = UIStackView(arrangedSubviews: [boyButton, girlButton])
+        sexStackView.alignment = .fill
+        sexStackView.distribution = .fillEqually
+        sexStackView.spacing = 15.0
+        
+        let nameLineView = UIView()
+        nameLineView.backgroundColor = .black
+        
+        let speciesLineView = UIView()
+        speciesLineView.backgroundColor = .black
+        
+        let weightLineView = UIView()
+        weightLineView.backgroundColor = .black
+        
+        let birthLineView = UIView()
+        birthLineView.backgroundColor = .black
+        
+        [
+            profileImageView,
+            nameTextField,
+            nameLineView,
+            speciesTextField,
+            speciesLineView,
+            weightTextField,
+            weightLineView,
+            birthTextField,
+            birthLineView,
+            sexStackView,
+            deleteButton
+        ].forEach { view.addSubview($0) }
+        
+        profileImageView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40.0)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(100.0)
+        }
+        
+        nameTextField.snp.makeConstraints {
+            $0.top.equalTo(profileImageView.snp.bottom).offset(50.0)
+            $0.leading.trailing.equalToSuperview().inset(30.0)
+        }
+        
+        nameLineView.snp.makeConstraints {
+            $0.top.equalTo(nameTextField.snp.bottom).offset(8.0)
+            $0.leading.trailing.equalTo(nameTextField)
+            $0.height.equalTo(1.0)
+        }
+        
+        speciesTextField.snp.makeConstraints {
+            $0.top.equalTo(nameLineView.snp.bottom).offset(15.0)
+            $0.leading.trailing.equalTo(nameTextField)
+        }
+        
+        speciesLineView.snp.makeConstraints {
+            $0.top.equalTo(speciesTextField.snp.bottom).offset(8.0)
+            $0.leading.trailing.equalTo(nameTextField)
+            $0.height.equalTo(1.0)
+        }
+        
+        weightTextField.snp.makeConstraints {
+            $0.top.equalTo(speciesLineView.snp.bottom).offset(15.0)
+            $0.leading.equalToSuperview().inset(30.0)
+        }
+        
+        weightLineView.snp.makeConstraints {
+            $0.top.equalTo(weightTextField.snp.bottom).offset(8.0)
+            $0.leading.equalTo(weightTextField)
+            $0.height.equalTo(1.0)
+        }
+        
+        birthTextField.snp.makeConstraints {
+            $0.top.equalTo(weightTextField)
+            $0.leading.equalTo(weightTextField.snp.trailing).offset(40.0)
+            $0.trailing.equalToSuperview().inset(30.0)
+        }
+        
+        birthLineView.snp.makeConstraints {
+            $0.top.equalTo(birthTextField.snp.bottom).offset(8.0)
+            $0.leading.trailing.equalTo(birthTextField)
+            $0.height.equalTo(1.0)
+        }
+        
+        sexStackView.snp.makeConstraints {
+            $0.top.equalTo(weightLineView.snp.bottom).offset(40.0)
+            $0.leading.trailing.equalToSuperview().inset(40.0)
+            $0.height.equalTo(100.0)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.top.equalTo(sexStackView.snp.bottom).offset(50.0)
+            $0.leading.trailing.equalToSuperview().inset(50.0)
+            $0.bottom.greaterThanOrEqualToSuperview().inset(20.0)
+        }
+    }
+    
+    func setUI() {
         if puppyInfo != nil {
             deleteButton.isHidden = false
             setFetchViewModelBindings()
@@ -368,3 +538,4 @@ extension EditPuppyViewController: SelectSpeciesDelegate {
         self.selectedSpecies = species
     }
 }
+

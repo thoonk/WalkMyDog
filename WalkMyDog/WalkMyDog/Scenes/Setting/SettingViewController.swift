@@ -126,7 +126,9 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Actions
     @objc
     private func goToEdit() {
-        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
+        let editPuppyViewController = EditPuppyViewController(puppyInfo: nil)
+        self.present(editPuppyViewController, animated: true)
+//        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
     }
     
     // MARK: - Methods
@@ -189,10 +191,12 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
                 self?.tableView.deselectRow(at: indexPath, animated: true)
                 switch item {
                 case .PuppyItem(let puppy):
-                    self?.performSegue(
-                        withIdentifier: C.Segue.settingToEdit,
-                        sender: puppy
-                    )
+                    let editpuppyViewController = EditPuppyViewController(puppyInfo: puppy)
+                    self?.present(editpuppyViewController, animated: true)
+//                    self?.performSegue(
+//                        withIdentifier: C.Segue.settingToEdit,
+//                        sender: puppy
+//                    )
                 case .SettingItem(_, _):
                     self?.setRecommandCriteria()
                 }
