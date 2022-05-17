@@ -15,6 +15,7 @@ class EditPuppyViewModel: ViewModelType {
     
     var input = Input()
     var output = Output()
+    var puppyRealmService: PuppyRealmServiceProtocol
     
     struct Input {
         let profileImage = PublishSubject<UIImage?>()
@@ -34,7 +35,12 @@ class EditPuppyViewModel: ViewModelType {
         let goToSetting = PublishRelay<Void>()
     }
     
-    init(with selectedItem: Puppy? = nil) {
+    init(
+        with selectedItem: Puppy? = nil,
+        puppyRealmService: PuppyRealmServiceProtocol = PuppyRealmService()
+    ) {
+        self.puppyRealmService = puppyRealmService
+        
         let gender = BehaviorSubject<Bool>(value: true)
         
         Observable.combineLatest(
@@ -54,10 +60,67 @@ class EditPuppyViewModel: ViewModelType {
             .disposed(by: bag)
         
         input.girlBtnTapped
-            .debug()
             .subscribe(onNext: {
                 gender.onNext(false)
             })
+            .disposed(by: bag)
+        
+        input.saveBtnTapped
+            .withLatestFrom(Observable.combineLatest(
+                input.profileImage,
+                input.name,
+                input.weight,
+                input.age,
+                input.species,
+                gender
+            ))
+            .bind { [weak self] (
+                image,
+                name,
+                weight,
+                age,
+                species,
+                gender
+            ) in
+                if selectedItem == nil {
+                    self?.puppyRealmService.insert(
+                        name: name,
+                        age: age,
+                        gender: gender,
+                        weight: Double(weight) ?? 0,
+                        species: species,
+                        imageURL: nil
+                    )
+                } else {
+                    self?.puppyRealmService.update(
+                        with: selectedItem!,
+                        name: name,
+                        age: age,
+                        gender: gender,
+                        weight: Double(weight) ?? 0,
+                        species: species,
+                        imageURL: nil
+                    )
+                }
+            }
+            .disposed(by: bag)
+        
+        input.deleteBtnTapped
+            .withLatestFrom(input.profileImage)
+            .bind { [weak self] image in
+                if let item = selectedItem {
+                    if self?.puppyRealmService.remove(with: item) == true {
+                        if image != nil {
+                            // item.imageURL
+                            // 로컬 이미지 삭제
+                        }
+                        self?.output.goToSetting.accept(())
+                    } else {
+                        self?.output.errorMessage.accept("반려견 데이터 삭제를 실패했습니다. 다시 시도해주시기 바랍니다.")
+                    }
+
+                }
+            }
             .disposed(by: bag)
         
 //        input.saveBtnTapped
@@ -191,5 +254,29 @@ class EditPuppyViewModel: ViewModelType {
 //                }
 //            }
 //            .disposed(by: bag)
+    }
+}
+
+private extension EditPuppyViewModel {
+    func saveImage(with image: UIImage, fileName: String) -> URL? {
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let fileURL = documentsURL.appendingPathComponent(fileName)
+        if let imageData = image.jpegData(compressionQuality: 0.8) {
+            try? imageData.write(to: fileURL, options: .atomic)
+            return fileURL
+        }
+        return nil
+    }
+    
+    func loadImage(with fileUrlString: String) -> UIImage? {
+        guard let url = URL(string: fileUrlString) else { return nil }
+        do {
+            let imageData = try Data(contentsOf: url)
+            return UIImage(data: imageData)
+        } catch {
+            print("Load Image Error: \(error.localizedDescription)")
+        }
+        
+        return nil
     }
 }

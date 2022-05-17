@@ -8,6 +8,7 @@
 import RxSwift
 
 protocol PuppyRealmServiceProtocol {
+    @discardableResult
     func insert(
         name: String,
         age: String,
@@ -17,6 +18,7 @@ protocol PuppyRealmServiceProtocol {
         imageURL: String?
     ) -> Bool
     func fetchAllPuppies() -> Observable<[Puppy]>
+    @discardableResult
     func update(
         with prev: Puppy?,
         name: String,
@@ -26,6 +28,7 @@ protocol PuppyRealmServiceProtocol {
         species: String,
         imageURL: String?
     ) -> Bool
+    @discardableResult
     func remove(with puppy: Puppy) -> Bool
 }
 
@@ -75,6 +78,7 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
 //        return puppies
     }
     
+    @discardableResult
     func update(
         with prev: Puppy?,
         name: String,
@@ -109,6 +113,7 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
         }
     }
     
+    @discardableResult
     func remove(with puppy: Puppy) -> Bool {
         do {
             try removeObject(puppy)
