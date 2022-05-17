@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
 import Photos
 import Kingfisher
 import Foundation
@@ -18,8 +19,8 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "profileImage-150")
-        imageView.layer.cornerRadius = profileImageView.bounds.height / 2
+//        imageView.image = UIImage(named: "profileImage-150")
+
         
         return imageView
     }()
@@ -38,6 +39,12 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         textField.placeholder = "견종"
         textField.font = UIFont(name: "NanumGothicCoding", size: 17)
         textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        
+        textField.addTarget(
+            self,
+            action: #selector(selectSpecies),
+            for: .touchDown
+        )
 
         return textField
     }()
@@ -49,7 +56,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         textField.rightView = setUnitLabel(inTxtField: " kg")
         textField.rightViewMode = .always
         
-        weightTextField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
+        textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
         
         return textField
     }()
@@ -79,6 +86,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     lazy var saveButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
+        button.title = "저장"
         
         return button
     }()
@@ -88,11 +96,18 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
         button.backgroundColor = .systemGray5
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("반려견 정보 삭제", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NanumGothicCoding", size: 17)
+        
+        button.addTarget(
+            self,
+            action: #selector(deleteBtnTapped),
+            for: .touchUpInside
+        )
         
         return button
     }()
-    
-    
     
 //    @IBOutlet weak var profileImageView: UIImageView!
 //    @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
@@ -144,31 +159,17 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setupLayout()
         boyButton.alternateBtn = [girlButton]
         girlButton.alternateBtn = [boyButton]
         
-        let tapGestureImageView = UITapGestureRecognizer(
-            target: self,
-            action: #selector(tapSelectImage)
-        )
-        profileImageView.addGestureRecognizer(tapGestureImageView)
-        speciesTextField.addTarget(
-            self,
-            action: #selector(selectSpecies),
-            for: .touchDown
-        )
-        deleteButton.addTarget(
-            self,
-            action: #selector(deleteBtnTapped),
-            for: .touchUpInside
-        )
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setUI()
+        setupUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -190,8 +191,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Actions
-    @objc
-    private func tapSelectImage(_ sender: Any){
+    private func tapSelectImage(){
         self.present(self.imagePicker, animated: true, completion: nil)
     }
     
@@ -217,7 +217,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc
     private func selectSpecies() {
-        self.performSegue(withIdentifier: C.Segue.editToSearch, sender: nil)
+//        self.performSegue(withIdentifier: C.Segue.editToSearch, sender: nil)
     }
     
     @objc
@@ -254,6 +254,8 @@ private extension EditPuppyViewController {
         let birthLineView = UIView()
         birthLineView.backgroundColor = .black
         
+        let textFieldHeight = 40.0
+        
         [
             profileImageView,
             nameTextField,
@@ -270,13 +272,14 @@ private extension EditPuppyViewController {
         
         profileImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40.0)
-            $0.centerY.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.width.height.equalTo(100.0)
         }
         
         nameTextField.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom).offset(50.0)
             $0.leading.trailing.equalToSuperview().inset(30.0)
+            $0.height.equalTo(textFieldHeight)
         }
         
         nameLineView.snp.makeConstraints {
@@ -288,6 +291,7 @@ private extension EditPuppyViewController {
         speciesTextField.snp.makeConstraints {
             $0.top.equalTo(nameLineView.snp.bottom).offset(15.0)
             $0.leading.trailing.equalTo(nameTextField)
+            $0.height.equalTo(textFieldHeight)
         }
         
         speciesLineView.snp.makeConstraints {
@@ -299,18 +303,22 @@ private extension EditPuppyViewController {
         weightTextField.snp.makeConstraints {
             $0.top.equalTo(speciesLineView.snp.bottom).offset(15.0)
             $0.leading.equalToSuperview().inset(30.0)
+            $0.height.equalTo(textFieldHeight)
+            $0.width.equalTo(60.0)
         }
         
         weightLineView.snp.makeConstraints {
             $0.top.equalTo(weightTextField.snp.bottom).offset(8.0)
-            $0.leading.equalTo(weightTextField)
+            $0.leading.equalToSuperview().inset(30.0)
             $0.height.equalTo(1.0)
+            $0.width.equalTo(weightTextField)
         }
         
         birthTextField.snp.makeConstraints {
             $0.top.equalTo(weightTextField)
-            $0.leading.equalTo(weightTextField.snp.trailing).offset(40.0)
+            $0.leading.equalTo(weightTextField.snp.trailing).offset(100.0)
             $0.trailing.equalToSuperview().inset(30.0)
+            $0.height.equalTo(textFieldHeight)
         }
         
         birthLineView.snp.makeConstraints {
@@ -322,17 +330,18 @@ private extension EditPuppyViewController {
         sexStackView.snp.makeConstraints {
             $0.top.equalTo(weightLineView.snp.bottom).offset(40.0)
             $0.leading.trailing.equalToSuperview().inset(40.0)
-            $0.height.equalTo(100.0)
+            $0.height.equalTo(50.0)
         }
         
         deleteButton.snp.makeConstraints {
-            $0.top.equalTo(sexStackView.snp.bottom).offset(50.0)
+            $0.top.greaterThanOrEqualTo(sexStackView.snp.bottom).offset(50.0)
             $0.leading.trailing.equalToSuperview().inset(50.0)
-            $0.bottom.greaterThanOrEqualToSuperview().inset(20.0)
+            $0.bottom.equalToSuperview().inset(50.0)
+            $0.height.equalTo(50.0)
         }
     }
     
-    func setUI() {
+    func setupUI() {
         if puppyInfo != nil {
             deleteButton.isHidden = false
             setFetchViewModelBindings()
@@ -342,6 +351,8 @@ private extension EditPuppyViewController {
         setEditViewModelBindings()
 
         self.datePicker = UIDatePicker()
+        
+        self.profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
         
         let textFieldBar = setKeyboardDoneBtn(for: #selector(doneBtnTapped(sender:)))
         nameTextField.inputAccessoryView = textFieldBar
@@ -376,18 +387,29 @@ private extension EditPuppyViewController {
         
         setupCustomBackButton(isRoot: false)
         
-        let customFont = UIFont(name: "NanumGothic", size: 17)
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: customFont!
-        ]
+        if let customFont = UIFont(name: "NanumGothic", size: 17) {
+            navigationController?.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.font: customFont
+            ]
+            
+            saveButton.setTitleTextAttributes(
+                [NSAttributedString.Key.font: customFont],
+                for: .normal
+            )
+        }
         
-        saveButton.setTitleTextAttributes(
-            [NSAttributedString.Key.font: customFont!],
-            for: .normal
-        )
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
     }
     
-    private func goToSetting() {
+    func setupTapGesture() {
+//        let tapGestureImageView = UITapGestureRecognizer(
+//            target: self,
+//            action: #selector(tapSelectImage)
+//        )
+//        profileImageView.addGestureRecognizer(tapGestureImageView)
+    }
+    
+    func goToSetting() {
         navigationController?.popViewController(animated: true)
     }
     
@@ -445,6 +467,14 @@ private extension EditPuppyViewController {
         
         saveButton.rx.tap
             .bind(to: viewModel.input.saveBtnTapped)
+            .disposed(by: bag)
+        
+        profileImageView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.tapSelectImage()
+            })
             .disposed(by: bag)
         
         // OUTPUT

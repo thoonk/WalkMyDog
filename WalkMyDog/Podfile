@@ -27,6 +27,7 @@ target 'WalkMyDog' do
   pod 'RxCoreLocation'
   pod 'RxViewController'
   pod 'RxDataSources'
+  pod 'RxGesture'
 
   target 'WalkMyDogTests' do
     inherit! :search_paths

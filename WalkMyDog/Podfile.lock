@@ -113,6 +113,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.0.0):
     - RxSwift (= 6.0.0)
   - RxSwift (6.0.0)
@@ -136,6 +139,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxCoreLocation
   - RxDataSources
+  - RxGesture
   - RxSwift
   - RxTest
   - RxViewController
@@ -166,6 +170,7 @@ SPEC REPOS:
     - RxCocoa
     - RxCoreLocation
     - RxDataSources
+    - RxGesture
     - RxRelay
     - RxSwift
     - RxTest
@@ -196,12 +201,13 @@ SPEC CHECKSUMS:
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
   RxCoreLocation: a78f4cbf32a4c6c47ecccbe22d41ff93b7e8c099
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxTest: ddef4052e63cb116f5b73510488c3113c37c62e5
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: eebc61c787f22b48c25ac2ab3e0ee05d2857d4c3
+PODFILE CHECKSUM: 132b5f17d4fbf3c8b4728cb4f2c3b137c01355e6
 
 COCOAPODS: 1.11.3

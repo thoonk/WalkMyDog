@@ -192,7 +192,8 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
                 switch item {
                 case .PuppyItem(let puppy):
                     let editpuppyViewController = EditPuppyViewController(puppyInfo: puppy)
-                    self?.present(editpuppyViewController, animated: true)
+                    editpuppyViewController.modalPresentationStyle = .fullScreen
+                    self?.navigationController?.pushViewController(editpuppyViewController, animated: true)
 //                    self?.performSegue(
 //                        withIdentifier: C.Segue.settingToEdit,
 //                        sender: puppy
