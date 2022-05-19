@@ -305,7 +305,9 @@ final class MainViewController: UIViewController {
                 
                 switch item {
                 case .puppyInfo(let puppies):
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyInfoViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyInfoViewCell else { return UITableViewCell() }
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: PuppyInfoViewCell.identifier, for: IndexPath(row: row, section: 0)) as? PuppyInfoViewCell,
+                          !puppies.isEmpty
+                    else { return UITableViewCell() }
                     
                     self?.setupScrollView(with: puppies)
                     cell.pageControl.numberOfPages = puppies.count

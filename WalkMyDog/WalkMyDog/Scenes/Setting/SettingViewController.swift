@@ -21,8 +21,6 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.rx.setDelegate(self)
-            .disposed(by: bag)
         
         tableView.register(
             PuppyTableViewCell.self,
@@ -35,12 +33,12 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         )
         
         tableView.register(
-            UINib(nibName: "PuppyHeaderTableViewCell", bundle: nil),
+            UINib(nibName: PuppyHeaderTableViewCell.identifier, bundle: nil),
             forCellReuseIdentifier: PuppyHeaderTableViewCell.identifier
         )
         
         tableView.register(
-            UINib(nibName: "SettingHeaderTableViewCell", bundle: nil),
+            UINib(nibName: SettingHeaderTableViewCell.identifier, bundle: nil),
             forCellReuseIdentifier: SettingHeaderTableViewCell.identifier
         )
         
@@ -127,7 +125,8 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc
     private func goToEdit() {
         let editPuppyViewController = EditPuppyViewController(puppyInfo: nil)
-        self.present(editPuppyViewController, animated: true)
+        editPuppyViewController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(editPuppyViewController, animated: true)
 //        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
     }
     
@@ -149,6 +148,8 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func setSettingViewModelBinding() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: bag)
         settingViewModel = SettingViewModel()
         let input = settingViewModel!.input
         let output = settingViewModel!.output
@@ -167,6 +168,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
             .disposed(by: bag)
 
         output.cellData
+            .debug()
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
@@ -187,8 +189,9 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
                 tableView.rx.itemSelected,
                 tableView.rx.modelSelected(SectionItem.self)
             )
+            .debug()
             .bind { [weak self] indexPath, item in
-                self?.tableView.deselectRow(at: indexPath, animated: true)
+//                self?.tableView.deselectRow(at: indexPath, animated: false)
                 switch item {
                 case .PuppyItem(let puppy):
                     let editpuppyViewController = EditPuppyViewController(puppyInfo: puppy)

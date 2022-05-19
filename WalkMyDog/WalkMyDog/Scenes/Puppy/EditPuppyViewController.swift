@@ -19,8 +19,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-//        imageView.image = UIImage(named: "profileImage-150")
-
+        imageView.image = UIImage(named: "profileImage-150")
         
         return imageView
     }()
@@ -180,15 +179,11 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-    override func awakeFromNib() {
-        self.view.layoutIfNeeded()
-        
-        if puppyInfo == nil {
-            boyButton.isSelected = true
-            girlButton.isSelected = false
-        }
-    }
+//
+//    override func awakeFromNib() {
+//        self.view.layoutIfNeeded()
+//
+//    }
     
     // MARK: - Actions
     private func tapSelectImage(){
@@ -237,10 +232,13 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
 // MARK: - Private Methods
 private extension EditPuppyViewController {
     func setupLayout() {
+        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        
         let sexStackView = UIStackView(arrangedSubviews: [boyButton, girlButton])
         sexStackView.alignment = .fill
         sexStackView.distribution = .fillEqually
-        sexStackView.spacing = 15.0
+        sexStackView.spacing = 25.0
         
         let nameLineView = UIView()
         nameLineView.backgroundColor = .black
@@ -329,8 +327,8 @@ private extension EditPuppyViewController {
         
         sexStackView.snp.makeConstraints {
             $0.top.equalTo(weightLineView.snp.bottom).offset(40.0)
-            $0.leading.trailing.equalToSuperview().inset(40.0)
-            $0.height.equalTo(50.0)
+            $0.leading.trailing.equalToSuperview().inset(60.0)
+            $0.height.equalTo(100.0)
         }
         
         deleteButton.snp.makeConstraints {
@@ -347,6 +345,8 @@ private extension EditPuppyViewController {
             setFetchViewModelBindings()
         } else {
             deleteButton.isHidden = true
+            boyButton.isSelected = true
+            girlButton.isSelected = false
         }
         setEditViewModelBindings()
 
@@ -397,8 +397,6 @@ private extension EditPuppyViewController {
                 for: .normal
             )
         }
-        
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = saveButton
     }
     
     func setupTapGesture() {
@@ -422,7 +420,6 @@ private extension EditPuppyViewController {
         
         // INPUT
         profileImage
-            .debug()
             .subscribe(onNext: { image in
                 if self.profileImageView.image != UIImage(named: "profileImage-150") {
                     viewModel

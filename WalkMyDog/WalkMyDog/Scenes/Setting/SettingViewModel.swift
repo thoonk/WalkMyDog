@@ -56,7 +56,6 @@ class SettingViewModel: ViewModelType {
             .flatMapLatest { _ in
                 puppyRealmService.fetchAllPuppies()
             }
-            .debug()
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
                 let settingItem: [SectionItem] = [.SettingItem(title: "산책 추천도", subTitle: "좋음")]

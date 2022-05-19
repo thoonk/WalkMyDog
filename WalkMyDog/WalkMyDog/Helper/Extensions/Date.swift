@@ -55,7 +55,7 @@ extension Date {
     /// Date를 원하는 String 타입으로 변경하는 함수
     func setDate() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.dateFormat = "yyyy.MM.dd"
         let dateString = formatter.string(from: self)
         return dateString
     }
