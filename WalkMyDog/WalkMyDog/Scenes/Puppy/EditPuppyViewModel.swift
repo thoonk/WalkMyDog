@@ -102,6 +102,7 @@ class EditPuppyViewModel: ViewModelType {
                         imageURL: nil
                     )
                 }
+                self?.output.goToSetting.accept(())
             }
             .disposed(by: bag)
         
@@ -118,7 +119,6 @@ class EditPuppyViewModel: ViewModelType {
                     } else {
                         self?.output.errorMessage.accept("반려견 데이터 삭제를 실패했습니다. 다시 시도해주시기 바랍니다.")
                     }
-
                 }
             }
             .disposed(by: bag)

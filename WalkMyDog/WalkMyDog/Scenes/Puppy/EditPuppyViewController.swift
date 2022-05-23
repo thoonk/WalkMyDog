@@ -54,6 +54,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         textField.font = UIFont(name: "NanumGothicCoding", size: 17)
         textField.rightView = setUnitLabel(inTxtField: " kg")
         textField.rightViewMode = .always
+        textField.keyboardType = .decimalPad
         
         textField.floatingLabelActiveTextColor = UIColor(named: "customTintColor")
         
@@ -232,6 +233,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
 // MARK: - Private Methods
 private extension EditPuppyViewController {
     func setupLayout() {
+        view.backgroundColor = .white
         navigationItem.rightBarButtonItem = saveButton
         navigationItem.rightBarButtonItem?.tintColor = .black
         

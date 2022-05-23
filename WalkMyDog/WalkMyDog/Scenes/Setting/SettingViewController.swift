@@ -55,34 +55,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Properties
     private var settingViewModel: SettingViewModel?
     private var bag = DisposeBag()
-    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(
-        configureCell: {(
-            dataSource,
-            tableView,
-            indexPath,
-            item
-        ) in
-        switch item {
-        case .PuppyItem(let puppy):
-            guard let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
-                withIdentifier: PuppyTableViewCell.identifier,
-                for: indexPath
-            ) as? PuppyTableViewCell
-            else { return UITableViewCell() }
-            cell.bindData(with: puppy)
-            
-            return cell
-        case .SettingItem(let title, let subTitle):
-            guard let cell: SettingTableViewCell = tableView.dequeueReusableCell(
-                withIdentifier: SettingTableViewCell.identifier,
-                for: indexPath
-            ) as? SettingTableViewCell
-            else { return UITableViewCell() }
-            cell.bindData(title: title, subTitle: subTitle)
-            
-            return cell
-        }
-    })
+    private var dataSource: RxTableViewSectionedReloadDataSource<SettingSectionModel>!
     
     // MARK: - LifeCycle
     init() {
@@ -104,6 +77,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        initDataSource()
         setSettingViewModelBinding()
     }
     
@@ -113,15 +87,19 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == C.Segue.settingToEdit,
-           let selectedItem = sender as? Puppy,
-           let editPuppyVC = segue.destination as? EditPuppyViewController {
-            editPuppyVC.puppyInfo = selectedItem
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == C.Segue.settingToEdit,
+//           let selectedItem = sender as? Puppy,
+//           let editPuppyVC = segue.destination as? EditPuppyViewController {
+//            editPuppyVC.puppyInfo = selectedItem
+//        }
+//    }
     
-    // MARK: - Actions
+
+}
+
+// MARK: - Private Methods
+private extension SettingViewController {
     @objc
     private func goToEdit() {
         let editPuppyViewController = EditPuppyViewController(puppyInfo: nil)
@@ -132,6 +110,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Methods
     func setupLayout() {
+        view.backgroundColor = .white
         [tableView, activityIndicatorView]
             .forEach { view.addSubview($0) }
         
@@ -147,7 +126,34 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
         setupCustomBackButton(isRoot: true)
     }
     
-    private func setSettingViewModelBinding() {
+    func initDataSource() {
+        self.dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(
+            configureCell: { dataSource, tableView, indexPath, item in
+                switch item {
+                case .PuppyItem(let puppy):
+                    guard let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
+                        withIdentifier: PuppyTableViewCell.identifier,
+                        for: indexPath
+                    ) as? PuppyTableViewCell
+                    else { return UITableViewCell() }
+                    cell.bindData(with: puppy)
+                    
+                    return cell
+                case .SettingItem(let title, let subTitle):
+                    guard let cell: SettingTableViewCell = tableView.dequeueReusableCell(
+                        withIdentifier: SettingTableViewCell.identifier,
+                        for: indexPath
+                    ) as? SettingTableViewCell
+                    else { return UITableViewCell() }
+                    cell.bindData(title: title, subTitle: subTitle)
+                    
+                    return cell
+                }
+            }
+        )
+    }
+    
+    func setSettingViewModelBinding() {
         tableView.rx.setDelegate(self)
             .disposed(by: bag)
         settingViewModel = SettingViewModel()
@@ -208,7 +214,7 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
             .disposed(by: bag)
     }
     
-    private func setRecommandCriteria(){
+    func setRecommandCriteria(){
         let titleFont = [
             NSAttributedString.Key.font: UIFont(name: "NanumGothic", size: 20)
         ]
