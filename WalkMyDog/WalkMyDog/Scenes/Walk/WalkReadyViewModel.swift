@@ -9,12 +9,24 @@ import Foundation
 import RxSwift
 import CoreLocation
 import RxRelay
+import RxDataSources
+
+enum WalkReadyItem {
+    case weatherItem(condition: String, temperature: String, pm10: String, pm25: String)
+    case puppyItem(puppies: [Puppy])
+}
+
+enum WalkReadySectionModel {
+    case weatherSection(items: [WalkReadyItem])
+    case puppySection(items: [WalkReadyItem])
+}
 
 final class WalkReadyViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()
     
     struct Input {
         let location: ReplaySubject<CLLocation?>
+        var fetchData: AnyObserver<Void>
         let startWalkingButtonTapped: PublishSubject<Void>
     }
     
@@ -25,16 +37,26 @@ final class WalkReadyViewModel: ViewModelType {
     
     var input: Input
     var output = Output()
+    var puppyRealmService: PuppyRealmServiceProtocol
     
     var selectedPuppies: [Puppy] = [
         Puppy(id: 0, name: "앙꼬", age: "2016.12.11", gender: false, weight: 10.5, species: "퍼그")
     ]
     
-    init() {
+    init(puppyRealmService: PuppyRealmServiceProtocol = PuppyRealmService()) {
+        self.puppyRealmService = puppyRealmService
+        
+        let locationManager = LocationManager.shared
+        let fetching = PublishSubject<Void>()
+        let fetchData: AnyObserver<Void> = fetching.asObserver()
+        let isLoading = BehaviorSubject<Bool>(value: false)
+        let cellData = PublishRelay<[WalkReadySectionModel]>()
+        let error = PublishRelay<String>()
         let startWalkingButtonTapped = PublishSubject<Void>()
         
         input = Input(
-            location: LocationManager.shared.location,
+            location: locationManager.location,
+            fetchData: fetchData,
             startWalkingButtonTapped: startWalkingButtonTapped
          )
         
@@ -47,6 +69,18 @@ final class WalkReadyViewModel: ViewModelType {
             }
             .disposed(by: bag)
         
+        fetching
+            .do(onNext: { _ in isLoading.onNext(true) })
+            .flatMapLatest { _ in
+                puppyRealmService.fetchAllPuppies()
+            }
+            
+            .do(onNext: { _ in isLoading.onNext(false) })
+            .bind { data in
+                
+            }
+            .disposed(by: bag)
+        
         input.startWalkingButtonTapped
             .subscribe(onNext: { [weak self] in
                 if let puppies = self?.selectedPuppies {
@@ -56,5 +90,28 @@ final class WalkReadyViewModel: ViewModelType {
                 }
             })
             .disposed(by: bag)
+        
+    }
+}
+
+extension WalkReadySectionModel: SectionModelType {
+    typealias Item = WalkReadyItem
+    
+    var items: [Item] {
+        switch self {
+        case .weatherSection(items: let items):
+            return items.map { $0 }
+        case .puppySection(items: let items):
+            return items.map { $0 }
+        }
+    }
+    
+    init(original: WalkReadySectionModel, items: [Item]) {
+        switch original {
+        case .weatherSection(let items):
+            self = .weatherSection(items: items )
+        case .puppySection(let items):
+            self = .puppySection(items: items)
+        }
     }
 }

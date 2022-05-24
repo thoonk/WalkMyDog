@@ -130,7 +130,7 @@ private extension SettingViewController {
         self.dataSource = RxTableViewSectionedReloadDataSource<SettingSectionModel>(
             configureCell: { dataSource, tableView, indexPath, item in
                 switch item {
-                case .PuppyItem(let puppy):
+                case .puppyItem(let puppy):
                     guard let cell: PuppyTableViewCell = tableView.dequeueReusableCell(
                         withIdentifier: PuppyTableViewCell.identifier,
                         for: indexPath
@@ -139,7 +139,7 @@ private extension SettingViewController {
                     cell.bindData(with: puppy)
                     
                     return cell
-                case .SettingItem(let title, let subTitle):
+                case .settingItem(let title, let subTitle):
                     guard let cell: SettingTableViewCell = tableView.dequeueReusableCell(
                         withIdentifier: SettingTableViewCell.identifier,
                         for: indexPath
@@ -199,7 +199,7 @@ private extension SettingViewController {
             .bind { [weak self] indexPath, item in
 //                self?.tableView.deselectRow(at: indexPath, animated: false)
                 switch item {
-                case .PuppyItem(let puppy):
+                case .puppyItem(let puppy):
                     let editpuppyViewController = EditPuppyViewController(puppyInfo: puppy)
                     editpuppyViewController.modalPresentationStyle = .fullScreen
                     self?.navigationController?.pushViewController(editpuppyViewController, animated: true)
@@ -207,7 +207,7 @@ private extension SettingViewController {
 //                        withIdentifier: C.Segue.settingToEdit,
 //                        sender: puppy
 //                    )
-                case .SettingItem(_, _):
+                case .settingItem(_, _):
                     self?.setRecommandCriteria()
                 }
             }

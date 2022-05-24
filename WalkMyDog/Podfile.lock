@@ -1,5 +1,9 @@
 PODS:
   - Alamofire (5.4.1)
+  - Charts (4.0.2):
+    - Charts/Core (= 4.0.2)
+  - Charts/Core (4.0.2):
+    - SwiftAlgorithms (~> 1.0)
   - Differentiator (5.0.0)
   - Firebase/Analytics (8.10.0):
     - Firebase/Core
@@ -125,9 +129,11 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
   - SnapKit (5.0.1)
+  - SwiftAlgorithms (1.0.0)
 
 DEPENDENCIES:
   - Alamofire
+  - Charts
   - Firebase/Analytics
   - FSCalendar
   - JVFloatLabeledTextField
@@ -148,6 +154,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Charts
     - Differentiator
     - Firebase
     - FirebaseAnalytics
@@ -176,9 +183,11 @@ SPEC REPOS:
     - RxTest
     - RxViewController
     - SnapKit
+    - SwiftAlgorithms
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Charts: cfa4e911e6dc289582c2fe011a0e87c03d96727f
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -207,7 +216,8 @@ SPEC CHECKSUMS:
   RxTest: ddef4052e63cb116f5b73510488c3113c37c62e5
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
 
-PODFILE CHECKSUM: 132b5f17d4fbf3c8b4728cb4f2c3b137c01355e6
+PODFILE CHECKSUM: 6b8be96655ebe477be84e8f99a92da6655444e9d
 
 COCOAPODS: 1.11.3

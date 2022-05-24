@@ -21,6 +21,7 @@ target 'WalkMyDog' do
   pod 'JVFloatLabeledTextField'
   pod 'SnapKit'
   pod 'RealmSwift'
+  pod 'Charts'
 
   pod 'RxSwift'
   pod 'RxCocoa'

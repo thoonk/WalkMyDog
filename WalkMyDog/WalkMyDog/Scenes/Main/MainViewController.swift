@@ -108,7 +108,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        setCurrentBinding()
-        setFetchAllPuppyBinding()
+        setMainViewModelBinding()
 //        setUI()
     }
     
@@ -131,7 +131,7 @@ final class MainViewController: UIViewController {
     }
     
     @IBAction func addRecordBtnTapped(_ sender: UIButton) {
-        let selectPuppyVC = SelectPuppyViewController()
+//        let selectPuppyVC = SelectPuppyViewController()
 //        selectPuppyVC.modalPresentationStyle = .fullScreen
 //        self.present(selectPuppyVC, animated: true)
     }
@@ -255,7 +255,7 @@ final class MainViewController: UIViewController {
 //            .disposed(by: bag)
 //    }
 //
-    func setFetchAllPuppyBinding() {
+    func setMainViewModelBinding() {
         mainViewModel = MainViewModel()
         let input = mainViewModel!.input
         let output = mainViewModel!.output

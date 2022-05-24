@@ -10,13 +10,13 @@ import RxCocoa
 import RxDataSources
 
 enum SectionItem {
-    case SettingItem(title: String, subTitle: String)
-    case PuppyItem(puppy: Puppy)
+    case settingItem(title: String, subTitle: String)
+    case puppyItem(puppy: Puppy)
 }
 
 enum SettingSectionModel {
-    case SettingSection(title: String, items: [SectionItem])
-    case PuppySection(title: String, items: [SectionItem])
+    case settingSection(title: String, items: [SectionItem])
+    case puppySection(title: String, items: [SectionItem])
 }
 
 class SettingViewModel: ViewModelType {
@@ -58,14 +58,14 @@ class SettingViewModel: ViewModelType {
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
-                let settingItem: [SectionItem] = [.SettingItem(title: "산책 추천도", subTitle: "좋음")]
-                sectionData.append(.SettingSection(title: "설정", items: settingItem))
+                let settingItem: [SectionItem] = [.settingItem(title: "산책 추천도", subTitle: "좋음")]
+                sectionData.append(.settingSection(title: "설정", items: settingItem))
                 
                 var puppyItem = [SectionItem]()
                 data.forEach {
-                    puppyItem.append(.PuppyItem(puppy: $0))
+                    puppyItem.append(.puppyItem(puppy: $0))
                 }
-                sectionData.append(.PuppySection(title: "반려견", items: puppyItem))
+                sectionData.append(.puppySection(title: "반려견", items: puppyItem))
                 
                 cellData.accept(sectionData)
             })
@@ -111,28 +111,28 @@ extension SettingSectionModel: SectionModelType {
     
     var title: String {
         switch self {
-        case .SettingSection(title: let title, items: _):
+        case .settingSection(title: let title, items: _):
             return title
-        case .PuppySection(title: let title, items: _):
+        case .puppySection(title: let title, items: _):
             return title
         }
     }
     
     var items: [SectionItem] {
         switch self {
-        case .SettingSection(title: _, items: let items):
+        case .settingSection(title: _, items: let items):
             return items.map { $0 }
-        case .PuppySection(title: _, items: let items):
+        case .puppySection(title: _, items: let items):
             return items.map { $0 }
         }
     }
     
     init(original: SettingSectionModel, items: [Item]) {
         switch original {
-        case .SettingSection(let title, _):
-            self = .SettingSection(title: title, items: items)
-        case .PuppySection(let title, _):
-            self = .PuppySection(title: title, items: items)
+        case .settingSection(let title, _):
+            self = .settingSection(title: title, items: items)
+        case .puppySection(let title, _):
+            self = .puppySection(title: title, items: items)
         }
     }
 }
