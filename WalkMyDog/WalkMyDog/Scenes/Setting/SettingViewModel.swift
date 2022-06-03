@@ -48,9 +48,7 @@ class SettingViewModel: ViewModelType {
         let cellData = PublishRelay<[SettingSectionModel]>()
 
         input = Input(fetchData: fetchData)
-        
-        var sectionData = [SettingSectionModel]()
-        
+                
         fetching
             .do(onNext: { _ in isLoading.onNext(true) })
             .flatMapLatest { _ in
@@ -58,14 +56,17 @@ class SettingViewModel: ViewModelType {
             }
             .do(onNext: { _ in isLoading.onNext(false) })
             .subscribe(onNext: { data in
-                let settingItem: [SectionItem] = [.settingItem(title: "산책 추천도", subTitle: "좋음")]
-                sectionData.append(.settingSection(title: "설정", items: settingItem))
+                let settingItem: [SectionItem] = [.settingItem(title: "산책 추천도", subTitle: "좋음"),]
                 
                 var puppyItem = [SectionItem]()
                 data.forEach {
                     puppyItem.append(.puppyItem(puppy: $0))
                 }
-                sectionData.append(.puppySection(title: "반려견", items: puppyItem))
+                
+                let sectionData: [SettingSectionModel] = [
+                    .settingSection(title: "설정", items: settingItem),
+                    .puppySection(title: "반려견", items: puppyItem)
+                ]
                 
                 cellData.accept(sectionData)
             })

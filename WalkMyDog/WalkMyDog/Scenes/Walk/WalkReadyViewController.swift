@@ -13,6 +13,75 @@ import MapKit
 
 final class WalkReadyViewController: UIViewController {
     // MARK: - UI Components
+    lazy var weatherImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "sun.max")
+        
+        return imageView
+    }()
+    
+    lazy var temperatureLabel: UILabel = {
+       let label = UILabel()
+        label.font = UIFont(name: "NanumSquareRoundR", size: 17.0) ?? UIFont.systemFont(ofSize: 17.0)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.sizeToFit()
+        label.text = "20°C"
+
+        return label
+    }()
+    
+    lazy var pm25Label: UILabel = {
+       let label = UILabel()
+        label.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        label.text = "매우 좋음"
+        label.textColor = .black
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    lazy var pm10Label: UILabel = {
+       let label = UILabel()
+        label.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        label.text = "매우 나쁨"
+        label.textColor = .black
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    lazy var puppyCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 5.0
+        
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        
+//        collectionView.dataSource = self
+//        collectionView.delegate = self
+//        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.allowsMultipleSelection = true
+
+        return collectionView
+    }()
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50 )
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = false
+        activityIndicator.style = .large
+        
+        return activityIndicator
+    }()
+    
     lazy var mapView: MKMapView = {
         let map = MKMapView()
         
@@ -62,6 +131,64 @@ private extension WalkReadyViewController {
         topMaskView.roundCorners([.bottomLeft, .bottomRight], radius: 25.0)
         topMaskView.backgroundColor = .white
         topMaskView.setShadowLayer()
+        
+        let pm10FormLabel = UILabel()
+        pm10FormLabel.text = "미세먼지"
+        pm10FormLabel.textColor = .black
+        pm10FormLabel.textAlignment = .center
+        pm10FormLabel.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        
+        let pm10StackView = UIStackView(arrangedSubviews: [pm10FormLabel, pm10Label])
+        pm10StackView.alignment = .fill
+        pm10StackView.distribution = .fillEqually
+        pm10StackView.spacing = 10.0
+        
+        let pm25FormLabel = UILabel()
+        pm25FormLabel.text = "초미세먼지"
+        pm25FormLabel.textColor = .black
+        pm25FormLabel.textAlignment = .center
+        pm25FormLabel.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        
+        let pm25StackView = UIStackView(arrangedSubviews: [pm25FormLabel, pm25Label])
+        pm25StackView.alignment = .fill
+        pm25StackView.distribution = .fillEqually
+        pm25StackView.spacing = 10.0
+        
+        [
+            weatherImageView,
+            temperatureLabel,
+            pm10StackView,
+            pm25StackView,
+            puppyCollectionView
+        ]
+            .forEach { topMaskView.addSubview($0) }
+        
+        weatherImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20.0)
+            $0.leading.equalToSuperview().inset(20.0)
+        }
+        
+        temperatureLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20.0)
+            $0.leading.equalTo(weatherImageView.snp.trailing).offset(10.0)
+        }
+        
+        pm10StackView.snp.makeConstraints {
+            $0.top.equalTo(weatherImageView)
+            $0.leading.equalTo(temperatureLabel.snp.trailing).offset(10.0)
+            
+        }
+        
+        pm25StackView.snp.makeConstraints {
+            $0.top.equalTo(weatherImageView)
+            $0.leading.equalTo(pm10StackView.snp.trailing).offset(10.0)
+        }
+        
+        puppyCollectionView.snp.makeConstraints {
+            $0.top.equalTo(weatherImageView.snp.bottom).offset(10.0)
+            $0.leading.trailing.equalToSuperview().inset(20.0)
+            $0.bottom.equalToSuperview().inset(20.0)
+        }
         
         [
             topMaskView,

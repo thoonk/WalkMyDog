@@ -47,10 +47,13 @@ final class WalkReadyViewModel: ViewModelType {
         self.puppyRealmService = puppyRealmService
         
         let locationManager = LocationManager.shared
+        let weatherSubject = PublishSubject<WeatherCurrent>()
+        let pmSubject = PublishSubject<PMModel>()
+        let puppySubject = PublishSubject<[Puppy]>()
         let fetching = PublishSubject<Void>()
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
-        let cellData = PublishRelay<[WalkReadySectionModel]>()
+//        let cellData = PublishRelay<[WalkReadySectionModel]>()
         let error = PublishRelay<String>()
         let startWalkingButtonTapped = PublishSubject<Void>()
         
@@ -69,17 +72,59 @@ final class WalkReadyViewModel: ViewModelType {
             }
             .disposed(by: bag)
         
-        fetching
+        input.location
             .do(onNext: { _ in isLoading.onNext(true) })
+            .compactMap { $0 }
+            .flatMapLatest { location -> Observable<WeatherCurrent> in
+                CurrentAPIManger.shared.fetchWeatherData(
+                    lat: "\(location.coordinate.latitude)",
+                    lon: "\(location.coordinate.longitude)"
+                )
+            }
+            .subscribe(onNext: { data in
+                weatherSubject.onNext(data)
+            })
+            .disposed(by: bag)
+        
+        input.location
+            .compactMap { $0 }
+            .flatMapLatest { location -> Observable<PMModel> in
+                CurrentAPIManger.shared.fetchPMData(
+                    lat: "\(location.coordinate.latitude)",
+                    lon: "\(location.coordinate.longitude)"
+                )
+            }
+            .subscribe(onNext: { data in
+                pmSubject.onNext(data)
+            })
+            .disposed(by: bag)
+        
+        fetching
             .flatMapLatest { _ in
                 puppyRealmService.fetchAllPuppies()
             }
-            
             .do(onNext: { _ in isLoading.onNext(false) })
             .bind { data in
-                
+                puppySubject.onNext(data)
             }
             .disposed(by: bag)
+        
+//        Observable.combineLatest(weatherSubject, pmSubject, puppySubject)
+//            .bind { weather, pm, puppies in
+//                let weatherItem: [WalkReadyItem] = [.weatherItem(
+//                    condition: weather.conditionName, temperature: weather.temperatureString, pm10: pm.pm10Image, pm25: pm.pm25Image)]
+//
+//                let puppyItem: [WalkReadyItem] = [.puppyItem(puppies: puppies)]
+//
+//                let sectionData: [WalkReadySectionModel] =
+//                [
+//                    .weatherSection(items: weatherItem),
+//                    .puppySection(items: puppyItem)
+//                ]
+//
+//                cellData.accept(sectionData)
+//            }
+//            .disposed(by: bag)
         
         input.startWalkingButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -90,7 +135,6 @@ final class WalkReadyViewModel: ViewModelType {
                 }
             })
             .disposed(by: bag)
-        
     }
 }
 
