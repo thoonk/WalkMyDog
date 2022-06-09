@@ -10,6 +10,8 @@ import RxSwift
 import SnapKit
 
 final class SelectPuppyCollectionViewCell: UICollectionViewCell {
+    static let identifier = "SelectPuppyCollectionViewCell"
+
     lazy var puppyNameLabel: UILabel = {
         let label = UILabel()
         label.text = "앙꼬"
@@ -25,9 +27,10 @@ final class SelectPuppyCollectionViewCell: UICollectionViewCell {
     
     var bag = DisposeBag()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
+        setupLayout()
     }
     
     override func prepareForReuse() {
@@ -36,14 +39,28 @@ final class SelectPuppyCollectionViewCell: UICollectionViewCell {
     
     func bindData(with data: Puppy) {
         self.puppyNameLabel.text = data.name
+        if let urlString = data.imageURL,
+           let url = URL(string: urlString) {
+            self.puppyImageView.kf.setImage(with: url)
+        } else {
+            self.puppyImageView.image = UIImage(named: "dog-48")
+        }
     }
 }
 
 private extension SelectPuppyCollectionViewCell {
     func setupLayout() {
-        [puppyNameLabel, puppyImageView]
-            .forEach { self.addSubview($0) }
+        let stackView = UIStackView(arrangedSubviews: [puppyImageView, puppyNameLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+        stackView.spacing = 5.0
         
+        self.addSubview(stackView)
         
+        stackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(5.0)
+            $0.centerX.centerY.equalToSuperview()
+        }
     }
 }

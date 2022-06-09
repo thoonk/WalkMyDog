@@ -33,6 +33,9 @@ final class WalkReadyViewModel: ViewModelType {
     struct Output {
         let location = PublishRelay<CLLocationCoordinate2D>()
         let presentToWalk = PublishRelay<[Puppy]>()
+        let weatherInfo = PublishRelay<WeatherCurrent>()
+        let pmInfo = PublishRelay<PMModel>()
+        let puppyInfo = PublishRelay<[Puppy]>()
     }
     
     var input: Input
@@ -47,9 +50,6 @@ final class WalkReadyViewModel: ViewModelType {
         self.puppyRealmService = puppyRealmService
         
         let locationManager = LocationManager.shared
-        let weatherSubject = PublishSubject<WeatherCurrent>()
-        let pmSubject = PublishSubject<PMModel>()
-        let puppySubject = PublishSubject<[Puppy]>()
         let fetching = PublishSubject<Void>()
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
@@ -81,8 +81,8 @@ final class WalkReadyViewModel: ViewModelType {
                     lon: "\(location.coordinate.longitude)"
                 )
             }
-            .subscribe(onNext: { data in
-                weatherSubject.onNext(data)
+            .subscribe(onNext: { [weak self] data in
+                self?.output.weatherInfo.accept(data)
             })
             .disposed(by: bag)
         
@@ -94,8 +94,8 @@ final class WalkReadyViewModel: ViewModelType {
                     lon: "\(location.coordinate.longitude)"
                 )
             }
-            .subscribe(onNext: { data in
-                pmSubject.onNext(data)
+            .subscribe(onNext: { [weak self] data in
+                self?.output.pmInfo.accept(data)
             })
             .disposed(by: bag)
         
@@ -104,8 +104,8 @@ final class WalkReadyViewModel: ViewModelType {
                 puppyRealmService.fetchAllPuppies()
             }
             .do(onNext: { _ in isLoading.onNext(false) })
-            .bind { data in
-                puppySubject.onNext(data)
+            .bind { [weak self] data in
+                self?.output.puppyInfo.accept(data)
             }
             .disposed(by: bag)
         

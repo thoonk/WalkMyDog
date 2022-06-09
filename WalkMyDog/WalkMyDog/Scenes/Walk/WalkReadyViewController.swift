@@ -68,6 +68,8 @@ final class WalkReadyViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = true
+        
+        collectionView.register(SelectPuppyCollectionViewCell.self, forCellWithReuseIdentifier: SelectPuppyCollectionViewCell.identifier)
 
         return collectionView
     }()
@@ -242,6 +244,44 @@ private extension WalkReadyViewController {
                 self?.present(walkViewController, animated: true)
             })
             .disposed(by: bag)
+        
+        output.weatherInfo
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] weather in
+                self?.weatherImageView.image = UIImage(systemName: weather.conditionName)
+                self?.temperatureLabel.text = weather.temperatureString + "°C"
+            })
+            .disposed(by: bag)
+        
+        output.pmInfo
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] pm in
+                self?.pm25Label.text = pm.pm25String
+                self?.pm10Label.text = pm.pm10String
+            })
+            .disposed(by: bag)
+        
+        output.puppyInfo
+            .bind(to: puppyCollectionView.rx.items(
+                cellIdentifier: SelectPuppyCollectionViewCell.identifier,
+                cellType: SelectPuppyCollectionViewCell.self)) {
+                    index, item, cell in
+                    cell.bindData(with: item)
+                }
+                .disposed(by: bag)
+        
+        puppyCollectionView.rx
+            .modelAndIndexSelected(Puppy.self)
+            .subscribe(onNext: { [weak self] puppy, index in
+                if let cell = self?.puppyCollectionView.dequeueReusableCell(withReuseIdentifier: SelectPuppyCollectionViewCell.identifier, for: index) as? SelectPuppyCollectionViewCell {
+                    
+                    if cell.isSelected == true {
+                        
+                    } else {
+                        
+                    }
+                }
+            })
     }
 }
 

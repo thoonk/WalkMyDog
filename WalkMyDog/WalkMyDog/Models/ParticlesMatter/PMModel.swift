@@ -109,6 +109,21 @@ struct PMModel {
         }
     }
     
+    var pm10String: String {
+        switch pm10Status {
+        case .love:
+            return "매우 좋음"
+        case .happy:
+            return "좋음"
+        case .bad:
+            return "나쁨"
+        case .worst:
+            return "매우 나쁨"
+        case .none:
+            return "알 수 없음"
+        }
+    }
+    
     var pm25Image: String {
         switch pm25 {
         case 0...15.99:
@@ -121,6 +136,21 @@ struct PMModel {
             return "angry-48"
         default:
             return "puzzled-48"
+        }
+    }
+    
+    var pm25String: String {
+        switch pm25Status {
+        case .love:
+            return "매우 좋음"
+        case .happy:
+            return "좋음"
+        case .bad:
+            return "나쁨"
+        case .worst:
+            return "매우 나쁨"
+        case .none:
+            return "알 수 없음"
         }
     }
 }
