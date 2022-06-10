@@ -27,7 +27,7 @@ final class WalkReadyViewModel: ViewModelType {
     struct Input {
         let location: ReplaySubject<CLLocation?>
         var fetchData: AnyObserver<Void>
-        let startWalkingButtonTapped: PublishSubject<Void>
+        let startWalkingButtonTapped: PublishSubject<[Puppy]>
     }
     
     struct Output {
@@ -36,6 +36,7 @@ final class WalkReadyViewModel: ViewModelType {
         let weatherInfo = PublishRelay<WeatherCurrent>()
         let pmInfo = PublishRelay<PMModel>()
         let puppyInfo = PublishRelay<[Puppy]>()
+        let errorMessage = PublishRelay<String>()
     }
     
     var input: Input
@@ -54,8 +55,7 @@ final class WalkReadyViewModel: ViewModelType {
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
 //        let cellData = PublishRelay<[WalkReadySectionModel]>()
-        let error = PublishRelay<String>()
-        let startWalkingButtonTapped = PublishSubject<Void>()
+        let startWalkingButtonTapped = PublishSubject<[Puppy]>()
         
         input = Input(
             location: locationManager.location,
@@ -127,11 +127,12 @@ final class WalkReadyViewModel: ViewModelType {
 //            .disposed(by: bag)
         
         input.startWalkingButtonTapped
-            .subscribe(onNext: { [weak self] in
-                if let puppies = self?.selectedPuppies {
+            .subscribe(onNext: { [weak self] puppies in
+                if puppies.isEmpty == false {
                     self?.output.presentToWalk.accept(puppies)
                 } else {
                     // 에러 메시지
+                    self?.output.errorMessage.accept("반려견을 한 마리 이상 선택해주세요!")
                 }
             })
             .disposed(by: bag)

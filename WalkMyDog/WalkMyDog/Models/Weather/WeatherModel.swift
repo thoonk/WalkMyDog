@@ -50,7 +50,7 @@ struct WeatherCurrent {
     let temperature: Double
     
     var temperatureString: String {
-        return String(format: "%.1f", temperature) + "°"
+        return String(format: "%.1f", temperature) + "°C"
     }
     
     var conditionName: String {

@@ -63,7 +63,7 @@ final class WalkReadyViewController: UIViewController {
         )
         
 //        collectionView.dataSource = self
-//        collectionView.delegate = self
+        collectionView.delegate = self
 //        collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
@@ -109,12 +109,12 @@ final class WalkReadyViewController: UIViewController {
     
     var viewModel: WalkReadyViewModel?
     var bag = DisposeBag()
+    private var selectedPuppies = [Puppy]()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
         setupLayout()
-        setupBinding()
     }
     
     @available(*, unavailable)
@@ -122,7 +122,15 @@ final class WalkReadyViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupBinding()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         bag = DisposeBag()
     }
 }
@@ -166,28 +174,28 @@ private extension WalkReadyViewController {
             .forEach { topMaskView.addSubview($0) }
         
         weatherImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20.0)
+            $0.top.equalToSuperview().inset(50.0)
             $0.leading.equalToSuperview().inset(20.0)
         }
         
         temperatureLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20.0)
+            $0.top.equalTo(weatherImageView)
             $0.leading.equalTo(weatherImageView.snp.trailing).offset(10.0)
         }
         
         pm10StackView.snp.makeConstraints {
-            $0.top.equalTo(weatherImageView)
+            $0.top.equalToSuperview().inset(60.0)
             $0.leading.equalTo(temperatureLabel.snp.trailing).offset(10.0)
             
         }
         
         pm25StackView.snp.makeConstraints {
-            $0.top.equalTo(weatherImageView)
+            $0.top.equalTo(pm10StackView)
             $0.leading.equalTo(pm10StackView.snp.trailing).offset(10.0)
         }
         
         puppyCollectionView.snp.makeConstraints {
-            $0.top.equalTo(weatherImageView.snp.bottom).offset(10.0)
+            $0.top.equalTo(weatherImageView.snp.bottom).offset(20.0)
             $0.leading.trailing.equalToSuperview().inset(20.0)
             $0.bottom.equalToSuperview().inset(20.0)
         }
@@ -201,7 +209,7 @@ private extension WalkReadyViewController {
         topMaskView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(100.0)
+            $0.height.equalTo(180.0)
         }
         
         mapView.snp.makeConstraints {
@@ -223,12 +231,21 @@ private extension WalkReadyViewController {
         let input = viewModel!.input
         let output = viewModel!.output
         
+        rx.viewDidAppear
+            .take(1)
+            .map { _ in () }
+            .bind(to: input.fetchData)
+            .disposed(by: bag)
+        
         mapView.rx
             .setDelegate(self)
             .disposed(by: bag)
         
         startWalkingButton.rx.tap
-            .bind(to: input.startWalkingButtonTapped)
+            .subscribe(onNext: { [weak self] in
+                input.startWalkingButtonTapped.onNext(self?.selectedPuppies ?? [Puppy]())
+            })
+//            .bind(to: input.startWalkingButtonTapped)
             .disposed(by: bag)
         
         output.location
@@ -249,7 +266,7 @@ private extension WalkReadyViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] weather in
                 self?.weatherImageView.image = UIImage(systemName: weather.conditionName)
-                self?.temperatureLabel.text = weather.temperatureString + "°C"
+                self?.temperatureLabel.text = weather.temperatureString
             })
             .disposed(by: bag)
         
@@ -276,12 +293,24 @@ private extension WalkReadyViewController {
                 if let cell = self?.puppyCollectionView.dequeueReusableCell(withReuseIdentifier: SelectPuppyCollectionViewCell.identifier, for: index) as? SelectPuppyCollectionViewCell {
                     
                     if cell.isSelected == true {
-                        
+                        self?.selectedPuppies.append(puppy)
                     } else {
+                        let arrayIndex =
+                        self?.selectedPuppies.firstIndex { $0.id == puppy.id } ?? 0
                         
-                    }
+                        if self?.selectedPuppies.isEmpty == false {
+                            self?.selectedPuppies.remove(at: arrayIndex)
+                        }
+                    }                    
                 }
             })
+            .disposed(by: bag)
+        
+        output.errorMessage
+            .subscribe(onNext: { [weak self] message in
+                self?.setupAlertView(with: message, handler: nil)
+            })
+            .disposed(by: bag)
     }
 }
 
@@ -303,5 +332,14 @@ extension WalkReadyViewController: MKMapViewDelegate {
         } else {
             return nil
         }
+    }
+}
+
+extension WalkReadyViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = collectionView.bounds.height
+        print(size)
+        
+        return CGSize(width: size, height: size)
     }
 }
