@@ -74,6 +74,18 @@ final class WalkReadyViewController: UIViewController {
         return collectionView
     }()
     
+    lazy var registerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor.clear
+        button.tintColor = UIColor(hex: "666666")
+        button.setImage(systemName: "plus", size: 40.0)
+        button.layer.borderColor = UIColor(hex: "666666").cgColor
+        button.layer.borderWidth = 2.0
+        button.clipsToBounds = true
+        
+        return button
+    }()
+    
     lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50 )
@@ -122,15 +134,24 @@ final class WalkReadyViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupBinding()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupBinding()
+        setupAttributes()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+    }
+    
+    deinit {
         bag = DisposeBag()
     }
 }
@@ -169,7 +190,8 @@ private extension WalkReadyViewController {
             temperatureLabel,
             pm10StackView,
             pm25StackView,
-            puppyCollectionView
+            puppyCollectionView,
+            registerButton
         ]
             .forEach { topMaskView.addSubview($0) }
         
@@ -196,8 +218,16 @@ private extension WalkReadyViewController {
         
         puppyCollectionView.snp.makeConstraints {
             $0.top.equalTo(weatherImageView.snp.bottom).offset(20.0)
-            $0.leading.trailing.equalToSuperview().inset(20.0)
+            $0.leading.equalToSuperview().inset(20.0)
             $0.bottom.equalToSuperview().inset(20.0)
+        }
+        
+        registerButton.snp.makeConstraints {
+            $0.top.equalTo(puppyCollectionView)
+            $0.bottom.equalToSuperview().inset(40.0)
+            $0.leading.equalTo(puppyCollectionView.snp.trailing).offset(10.0)
+            $0.trailing.greaterThanOrEqualToSuperview().inset(10.0)
+            $0.width.height.equalTo(50.0)
         }
         
         [
@@ -231,8 +261,9 @@ private extension WalkReadyViewController {
         let input = viewModel!.input
         let output = viewModel!.output
         
-        rx.viewDidAppear
-            .take(1)
+        rx.viewWillAppear
+//            .take(1)
+            .debug()
             .map { _ in () }
             .bind(to: input.fetchData)
             .disposed(by: bag)
@@ -242,6 +273,7 @@ private extension WalkReadyViewController {
             .disposed(by: bag)
         
         startWalkingButton.rx.tap
+            .debug()
             .subscribe(onNext: { [weak self] in
                 input.startWalkingButtonTapped.onNext(self?.selectedPuppies ?? [Puppy]())
             })
@@ -294,23 +326,39 @@ private extension WalkReadyViewController {
                     
                     if cell.isSelected == true {
                         self?.selectedPuppies.append(puppy)
-                    } else {
+                    }
+                }
+            })
+            .disposed(by: bag)
+        
+        Observable.zip(puppyCollectionView.rx.itemSelected, puppyCollectionView.rx.modelDeselected(Puppy.self))
+            .subscribe(onNext: { [weak self] index, puppy in
+                if let cell = self?.puppyCollectionView.dequeueReusableCell(withReuseIdentifier: SelectPuppyCollectionViewCell.identifier, for: index) as? SelectPuppyCollectionViewCell {
+                
+                    if cell.isSelected == false {
                         let arrayIndex =
                         self?.selectedPuppies.firstIndex { $0.id == puppy.id } ?? 0
                         
                         if self?.selectedPuppies.isEmpty == false {
                             self?.selectedPuppies.remove(at: arrayIndex)
                         }
-                    }                    
+                    }
                 }
             })
             .disposed(by: bag)
         
         output.errorMessage
+            .debug()
             .subscribe(onNext: { [weak self] message in
                 self?.setupAlertView(with: message, handler: nil)
             })
             .disposed(by: bag)
+    }
+    
+    func setupAttributes() {
+        registerButton.layer.cornerRadius = 0.5 * registerButton.bounds.size.height
+        
+//        registerButton.roundCorners(.allCorners, radius: registerButton.bounds.height * 0.5)
     }
 }
 

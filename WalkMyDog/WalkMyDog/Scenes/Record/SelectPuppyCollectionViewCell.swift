@@ -68,8 +68,6 @@ final class SelectPuppyCollectionViewCell: UICollectionViewCell {
             self.puppyImageView.image = UIImage(named: "dog-48")
         }
     }
-    
-
 }
 
 private extension SelectPuppyCollectionViewCell {
@@ -79,8 +77,9 @@ private extension SelectPuppyCollectionViewCell {
         
         puppyImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(10.0)
-            $0.width.height.equalTo(50.0)
+//            $0.leading.trailing.equalToSuperview()//.inset(10.0)
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(self.contentView.bounds.size.height * 0.7)
         }
         
         puppyNameLabel.snp.makeConstraints {
