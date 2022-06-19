@@ -31,7 +31,7 @@ final class PuppyInfoViewCell: UITableViewCell {
     
     lazy var birthDateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#C4C4C4")
+        label.textColor = UIColor(hex: "C4C4C4")
         label.font = UIFont.systemFont(ofSize: 12)
         label.sizeToFit()
         label.text = "2016.12.11"
@@ -41,7 +41,7 @@ final class PuppyInfoViewCell: UITableViewCell {
     
     lazy var sexAndWeightLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#D45F97")
+        label.textColor = UIColor(hex: "D45F97")
         label.font = UIFont.systemFont(ofSize: 12)
         label.sizeToFit()
         label.text = "여아 / 10.2kg"

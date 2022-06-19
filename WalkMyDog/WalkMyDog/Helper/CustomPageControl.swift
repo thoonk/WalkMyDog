@@ -8,8 +8,8 @@
 import UIKit
 
 final class CustomPageControl: UIPageControl {
-    let activeImage = UIImage(named: "activePageControl")!
-    let inactiveImage = UIImage(named: "inactivePageControl")!
+    let activeImage = UIImage(named: "activePageControl")!.withRenderingMode(.alwaysOriginal)
+    let inactiveImage = UIImage(named: "inactivePageControl")!.withRenderingMode(.alwaysOriginal)
     
     override var numberOfPages: Int {
         didSet {

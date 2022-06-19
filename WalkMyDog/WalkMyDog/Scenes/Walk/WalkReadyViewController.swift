@@ -15,7 +15,7 @@ final class WalkReadyViewController: UIViewController {
     // MARK: - UI Components
     lazy var weatherImageView: UIImageView = {
        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(systemName: "sun.max")
         
         return imageView
@@ -23,7 +23,7 @@ final class WalkReadyViewController: UIViewController {
     
     lazy var temperatureLabel: UILabel = {
        let label = UILabel()
-        label.font = UIFont(name: "NanumSquareRoundR", size: 17.0) ?? UIFont.systemFont(ofSize: 17.0)
+        label.font = UIFont(name: "NanumSquareRoundB", size: 20.0) ?? UIFont.systemFont(ofSize: 20.0)
         label.textAlignment = .center
         label.textColor = .black
         label.sizeToFit()
@@ -76,11 +76,9 @@ final class WalkReadyViewController: UIViewController {
     
     lazy var registerButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor.clear
-        button.tintColor = UIColor(hex: "666666")
-        button.setImage(systemName: "plus", size: 40.0)
-        button.layer.borderColor = UIColor(hex: "666666").cgColor
-        button.layer.borderWidth = 2.0
+        button.tintColor = .clear
+        button.setImage(UIImage(named: "registerButtonImage")?.withRenderingMode(.alwaysOriginal), for: .normal)
+
         button.clipsToBounds = true
         
         return button
@@ -140,17 +138,6 @@ final class WalkReadyViewController: UIViewController {
         setupBinding()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setupAttributes()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-    }
-    
     deinit {
         bag = DisposeBag()
     }
@@ -172,7 +159,7 @@ private extension WalkReadyViewController {
         let pm10StackView = UIStackView(arrangedSubviews: [pm10FormLabel, pm10Label])
         pm10StackView.alignment = .fill
         pm10StackView.distribution = .fillEqually
-        pm10StackView.spacing = 10.0
+        pm10StackView.spacing = 7.0
         
         let pm25FormLabel = UILabel()
         pm25FormLabel.text = "초미세먼지"
@@ -183,7 +170,7 @@ private extension WalkReadyViewController {
         let pm25StackView = UIStackView(arrangedSubviews: [pm25FormLabel, pm25Label])
         pm25StackView.alignment = .fill
         pm25StackView.distribution = .fillEqually
-        pm25StackView.spacing = 10.0
+        pm25StackView.spacing = 7.0
         
         [
             weatherImageView,
@@ -214,12 +201,17 @@ private extension WalkReadyViewController {
         pm25StackView.snp.makeConstraints {
             $0.top.equalTo(pm10StackView)
             $0.leading.equalTo(pm10StackView.snp.trailing).offset(10.0)
+            $0.trailing.greaterThanOrEqualToSuperview().inset(10.0)
         }
+        
+//        puppyCollectionView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        puppyCollectionView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         puppyCollectionView.snp.makeConstraints {
             $0.top.equalTo(weatherImageView.snp.bottom).offset(20.0)
             $0.leading.equalToSuperview().inset(20.0)
             $0.bottom.equalToSuperview().inset(20.0)
+//            $0.width.equalToSuperview().multipliedBy(0.6)
         }
         
         registerButton.snp.makeConstraints {
@@ -263,7 +255,6 @@ private extension WalkReadyViewController {
         
         rx.viewWillAppear
 //            .take(1)
-            .debug()
             .map { _ in () }
             .bind(to: input.fetchData)
             .disposed(by: bag)
@@ -277,7 +268,6 @@ private extension WalkReadyViewController {
             .subscribe(onNext: { [weak self] in
                 input.startWalkingButtonTapped.onNext(self?.selectedPuppies ?? [Puppy]())
             })
-//            .bind(to: input.startWalkingButtonTapped)
             .disposed(by: bag)
         
         output.location
@@ -307,6 +297,9 @@ private extension WalkReadyViewController {
             .subscribe(onNext: { [weak self] pm in
                 self?.pm25Label.text = pm.pm25String
                 self?.pm10Label.text = pm.pm10String
+                
+                self?.pm25Label.textColor = self?.setupTextColor(with: pm.pm25Status)
+                self?.pm10Label.textColor = self?.setupTextColor(with: pm.pm10Status)
             })
             .disposed(by: bag)
         
@@ -354,11 +347,18 @@ private extension WalkReadyViewController {
             })
             .disposed(by: bag)
     }
-    
-    func setupAttributes() {
-        registerButton.layer.cornerRadius = 0.5 * registerButton.bounds.size.height
-        
-//        registerButton.roundCorners(.allCorners, radius: registerButton.bounds.height * 0.5)
+}
+
+private extension WalkReadyViewController {
+    func setupTextColor(with data: RCMDCriteria) -> UIColor {
+        switch data {
+        case .love, .happy:
+            return UIColor(hex: "046241")
+        case .bad, .worst:
+            return UIColor(hex: "D45F97")
+        default:
+            return UIColor.black
+        }
     }
 }
 
