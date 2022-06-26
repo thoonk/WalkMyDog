@@ -19,7 +19,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "profileImage-150")
+//        imageView.image = UIImage(named: "profileImage-150")
         
         return imageView
     }()
@@ -516,12 +516,13 @@ private extension EditPuppyViewController {
             return
         }
         // OUTPUT
-        viewModel.output.profileImageUrl
-            .subscribe(onNext: { urlString in
-                if urlString != nil {
-                    self.profileImageView.setImageCache(with: urlString!)
+        viewModel.output.profileImage
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] image in
+                if image != nil {
+                    self?.profileImageView.image = image?.withRenderingMode(.alwaysOriginal)
                 } else {
-                    self.profileImageView.image = UIImage(named: "profileImage-150")
+                    self?.profileImageView.image = UIImage(named: "profileImage-150")
                 }
             }).disposed(by: bag)
         

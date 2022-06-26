@@ -7,16 +7,18 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 class FetchPuppyViewModel: ViewModelType {
     
     var bag: DisposeBag = DisposeBag()
+    let imageService: ImageServiceProtocol
     
     struct Input {}
     
     struct Output {
         // 반려견 정보
-        let profileImageUrl: Observable<String?>
+        let profileImage: PublishRelay<UIImage?>
         let puppyNameText: Observable<String>
         let puppySpeciesText: Observable<String>
         let puppyWeightText: Observable<String>
@@ -26,7 +28,12 @@ class FetchPuppyViewModel: ViewModelType {
     
     let output: Output
     
-    init(with selectedItem: Puppy) {
+    init(
+        with selectedItem: Puppy,
+        imageService: ImageServiceProtocol = ImageService()
+    ) {
+        self.imageService = imageService
+        
         let puppyInfo = Observable.just(selectedItem)
         
         let puppyName = puppyInfo.map { $0.name }
@@ -36,8 +43,22 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyGender = puppyInfo.map { $0.gender }
         let puppyImageUrl = puppyInfo.map { $0.imageURL }
         
+        let puppyImage = PublishRelay<UIImage?>()
+
+        puppyImageUrl
+            .subscribe(onNext: { url in
+                if let url = url,
+                   let image =  imageService.loadImage(with: url) {
+                    puppyImage.accept(image)
+                    
+                } else {
+                    puppyImage.accept(nil)
+                }
+            })
+            .disposed(by: bag)
+        
         self.output = Output(
-            profileImageUrl: puppyImageUrl,
+            profileImage: puppyImage,
             puppyNameText: puppyName,
             puppySpeciesText: puppySpecies,
             puppyWeightText: puppyWeight,

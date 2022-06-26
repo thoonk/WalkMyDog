@@ -30,6 +30,7 @@
 		084CEC9F25E3DAD000EFA0DE /* FetchPuppyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084CEC9E25E3DAD000EFA0DE /* FetchPuppyViewModel.swift */; };
 		0850CC10260DBD20000F945D /* FetchPuppyViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0850CC0F260DBD20000F945D /* FetchPuppyViewModelTests.swift */; };
 		08585CCC260DA1280059EB97 /* FetchAllPuppyViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08585CCB260DA1280059EB97 /* FetchAllPuppyViewModelTests.swift */; };
+		085B42502868690500DF8FA0 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085B424F2868690400DF8FA0 /* ImageService.swift */; };
 		085DFC5F25F76501002F7819 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085DFC5E25F76501002F7819 /* String.swift */; };
 		085DFC6625F7889E002F7819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085DFC6525F7889E002F7819 /* UIImage.swift */; };
 		08665830261AE79F00A9B5E6 /* RecordHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0866582E261AE79F00A9B5E6 /* RecordHeaderTableViewCell.swift */; };
@@ -152,6 +153,7 @@
 		084CEC9E25E3DAD000EFA0DE /* FetchPuppyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPuppyViewModel.swift; sourceTree = "<group>"; };
 		0850CC0F260DBD20000F945D /* FetchPuppyViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPuppyViewModelTests.swift; sourceTree = "<group>"; };
 		08585CCB260DA1280059EB97 /* FetchAllPuppyViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllPuppyViewModelTests.swift; sourceTree = "<group>"; };
+		085B424F2868690400DF8FA0 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		085DFC5E25F76501002F7819 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		085DFC6525F7889E002F7819 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		0866582E261AE79F00A9B5E6 /* RecordHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -585,6 +587,7 @@
 		6A1953AF2806C56900E74784 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				085B424F2868690400DF8FA0 /* ImageService.swift */,
 				0873F26627DE093300F27D3C /* TimerService.swift */,
 				6A1953B02806C57900E74784 /* RealmService.swift */,
 				6A653E422808020900F3B3D6 /* RecordRealmService.swift */,
@@ -921,6 +924,7 @@
 				6A653E432808020900F3B3D6 /* RecordRealmService.swift in Sources */,
 				08264A9325E254B6002073E6 /* PuppyTableViewCell.swift in Sources */,
 				0893704625E8BD0300C83D35 /* PuppyProfileTableViewCell.swift in Sources */,
+				085B42502868690500DF8FA0 /* ImageService.swift in Sources */,
 				08167AC325EE562800C45E2D /* RecordTableViewCell.swift in Sources */,
 				08E5C61725DC0D75000896D2 /* UIViewController.swift in Sources */,
 				087396EA26131E5900622DAC /* UIView.swift in Sources */,

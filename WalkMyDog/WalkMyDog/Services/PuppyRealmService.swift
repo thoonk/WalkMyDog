@@ -16,7 +16,7 @@ protocol PuppyRealmServiceProtocol {
         weight: Double,
         species: String,
         imageURL: String?
-    ) -> Bool
+    ) -> Puppy?
     func fetchAllPuppies() -> Observable<[Puppy]>
     @discardableResult
     func update(
@@ -42,7 +42,7 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
         weight: Double,
         species: String,
         imageURL: String? = nil
-    ) -> Bool {
+    ) -> Puppy? {
         do {
             if let id = try increamentID(Puppy.self) {
                 let puppy = Puppy(
@@ -55,11 +55,11 @@ final class PuppyRealmService: RealmService<Puppy>, PuppyRealmServiceProtocol {
                     imageURL: imageURL
                 )
                 try saveObject(puppy)
-                return true
+                return puppy
             }
-            return false
+            return nil
         } catch {
-            return false
+            return nil
         }
     }
     
