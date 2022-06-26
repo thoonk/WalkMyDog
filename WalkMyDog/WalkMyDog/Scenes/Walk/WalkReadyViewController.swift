@@ -34,7 +34,7 @@ final class WalkReadyViewController: UIViewController {
     
     lazy var pm25Label: UILabel = {
        let label = UILabel()
-        label.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        label.font = UIFont(name: "NanumSquareRoundB", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
         label.text = "매우 좋음"
         label.textColor = .black
         label.textAlignment = .center
@@ -44,7 +44,7 @@ final class WalkReadyViewController: UIViewController {
     
     lazy var pm10Label: UILabel = {
        let label = UILabel()
-        label.font = UIFont(name: "NanumSquareRoundR", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
+        label.font = UIFont(name: "NanumSquareRoundB", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
         label.text = "매우 나쁨"
         label.textColor = .black
         label.textAlignment = .center
@@ -55,7 +55,7 @@ final class WalkReadyViewController: UIViewController {
     lazy var puppyCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 5.0
+        layout.minimumInteritemSpacing = 0.0
         
         let collectionView = UICollectionView(
             frame: .zero,
@@ -159,7 +159,7 @@ private extension WalkReadyViewController {
         let pm10StackView = UIStackView(arrangedSubviews: [pm10FormLabel, pm10Label])
         pm10StackView.alignment = .fill
         pm10StackView.distribution = .fillEqually
-        pm10StackView.spacing = 7.0
+        pm10StackView.spacing = 0.0
         
         let pm25FormLabel = UILabel()
         pm25FormLabel.text = "초미세먼지"
@@ -170,7 +170,7 @@ private extension WalkReadyViewController {
         let pm25StackView = UIStackView(arrangedSubviews: [pm25FormLabel, pm25Label])
         pm25StackView.alignment = .fill
         pm25StackView.distribution = .fillEqually
-        pm25StackView.spacing = 7.0
+        pm25StackView.spacing = 0.0
         
         [
             weatherImageView,
@@ -184,7 +184,7 @@ private extension WalkReadyViewController {
         
         weatherImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(50.0)
-            $0.leading.equalToSuperview().inset(20.0)
+            $0.leading.equalToSuperview().inset(25.0)
         }
         
         temperatureLabel.snp.makeConstraints {
@@ -201,7 +201,7 @@ private extension WalkReadyViewController {
         pm25StackView.snp.makeConstraints {
             $0.top.equalTo(pm10StackView)
             $0.leading.equalTo(pm10StackView.snp.trailing).offset(10.0)
-            $0.trailing.greaterThanOrEqualToSuperview().inset(10.0)
+            $0.trailing.greaterThanOrEqualToSuperview().inset(20.0)
         }
         
 //        puppyCollectionView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -211,14 +211,13 @@ private extension WalkReadyViewController {
             $0.top.equalTo(weatherImageView.snp.bottom).offset(20.0)
             $0.leading.equalToSuperview().inset(20.0)
             $0.bottom.equalToSuperview().inset(20.0)
-//            $0.width.equalToSuperview().multipliedBy(0.6)
         }
         
         registerButton.snp.makeConstraints {
             $0.top.equalTo(puppyCollectionView)
             $0.bottom.equalToSuperview().inset(40.0)
             $0.leading.equalTo(puppyCollectionView.snp.trailing).offset(10.0)
-            $0.trailing.greaterThanOrEqualToSuperview().inset(10.0)
+            $0.trailing.equalToSuperview().inset(20.0)
             $0.width.height.equalTo(50.0)
         }
         
@@ -263,6 +262,11 @@ private extension WalkReadyViewController {
             .setDelegate(self)
             .disposed(by: bag)
         
+        registerButton.rx.tap
+            .debug()
+            .bind(to: input.registerButtonTapped)
+            .disposed(by: bag)
+        
         startWalkingButton.rx.tap
             .debug()
             .subscribe(onNext: { [weak self] in
@@ -282,6 +286,17 @@ private extension WalkReadyViewController {
                 walkViewController.modalPresentationStyle = .fullScreen
                 self?.present(walkViewController, animated: true)
             })
+            .disposed(by: bag)
+        
+        output.presentToEdit
+            .bind { [weak self] _ in
+                let editPuppyViewController = UINavigationController(rootViewController:  EditPuppyViewController(
+                    puppyInfo: nil,
+                    isFromNavigation: false
+                ))
+                editPuppyViewController.modalPresentationStyle = .fullScreen
+                self?.present(editPuppyViewController, animated: true)
+            }
             .disposed(by: bag)
         
         output.weatherInfo
@@ -386,7 +401,6 @@ extension WalkReadyViewController: MKMapViewDelegate {
 extension WalkReadyViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = collectionView.bounds.height
-        print(size)
         
         return CGSize(width: size, height: size)
     }

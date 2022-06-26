@@ -102,7 +102,10 @@ class SettingViewController: UIViewController, UIGestureRecognizerDelegate {
 private extension SettingViewController {
     @objc
     private func goToEdit() {
-        let editPuppyViewController = EditPuppyViewController(puppyInfo: nil)
+        let editPuppyViewController = EditPuppyViewController(
+            puppyInfo: nil,
+            isFromNavigation: true
+        )
         editPuppyViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(editPuppyViewController, animated: true)
 //        self.performSegue(withIdentifier: C.Segue.settingToEdit, sender: nil)
@@ -200,7 +203,10 @@ private extension SettingViewController {
 //                self?.tableView.deselectRow(at: indexPath, animated: false)
                 switch item {
                 case .puppyItem(let puppy):
-                    let editpuppyViewController = EditPuppyViewController(puppyInfo: puppy)
+                    let editpuppyViewController = EditPuppyViewController(
+                        puppyInfo: puppy,
+                        isFromNavigation: true
+                    )
                     editpuppyViewController.modalPresentationStyle = .fullScreen
                     self?.navigationController?.pushViewController(editpuppyViewController, animated: true)
 //                    self?.performSegue(

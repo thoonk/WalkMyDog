@@ -27,6 +27,7 @@ final class WalkReadyViewModel: ViewModelType {
     struct Input {
         let location: ReplaySubject<CLLocation?>
         var fetchData: AnyObserver<Void>
+        let registerButtonTapped: PublishSubject<Void>
         let startWalkingButtonTapped: PublishSubject<[Puppy]>
     }
     
@@ -37,6 +38,7 @@ final class WalkReadyViewModel: ViewModelType {
         let pmInfo = PublishRelay<PMModel>()
         let puppyInfo = PublishRelay<[Puppy]>()
         let errorMessage = PublishRelay<String>()
+        let presentToEdit = PublishRelay<Void>()
     }
     
     var input: Input
@@ -55,11 +57,13 @@ final class WalkReadyViewModel: ViewModelType {
         let fetchData: AnyObserver<Void> = fetching.asObserver()
         let isLoading = BehaviorSubject<Bool>(value: false)
 //        let cellData = PublishRelay<[WalkReadySectionModel]>()
+        let registerButtonTapped = PublishSubject<Void>()
         let startWalkingButtonTapped = PublishSubject<[Puppy]>()
         
         input = Input(
             location: locationManager.location,
             fetchData: fetchData,
+            registerButtonTapped: registerButtonTapped,
             startWalkingButtonTapped: startWalkingButtonTapped
          )
         
@@ -125,6 +129,12 @@ final class WalkReadyViewModel: ViewModelType {
 //                cellData.accept(sectionData)
 //            }
 //            .disposed(by: bag)
+        
+        input.registerButtonTapped
+            .bind { [weak self] in
+                self?.output.presentToEdit.accept(())
+            }
+            .disposed(by: bag)
         
         input.startWalkingButtonTapped
             .subscribe(onNext: { [weak self] puppies in

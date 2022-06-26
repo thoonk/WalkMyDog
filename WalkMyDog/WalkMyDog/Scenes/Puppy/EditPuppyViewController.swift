@@ -121,6 +121,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     var puppyInfo: Puppy?
+    var isFromNavigation: Bool
     private var fetchPuppyViewModel: FetchPuppyViewModel?
     private var editPuppyViewModel: EditPuppyViewModel?
     private var selectedSpecies: String?
@@ -146,8 +147,12 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: - LifeCycle
-    init(puppyInfo: Puppy?) {
+    init(
+        puppyInfo: Puppy?,
+        isFromNavigation: Bool
+    ) {
         self.puppyInfo = puppyInfo
+        self.isFromNavigation = isFromNavigation
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -387,7 +392,7 @@ private extension EditPuppyViewController {
             }
         }
         
-        setupCustomBackButton(isRoot: false)
+        setupCustomBackButton(isRoot: !self.isFromNavigation)
         
         if let customFont = UIFont(name: "NanumGothic", size: 17) {
             navigationController?.navigationBar.titleTextAttributes = [
@@ -410,7 +415,11 @@ private extension EditPuppyViewController {
     }
     
     func goToSetting() {
-        navigationController?.popViewController(animated: true)
+        if self.isFromNavigation {
+            navigationController?.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     // MARK: - ViewModel Binding
@@ -495,7 +504,9 @@ private extension EditPuppyViewController {
         
         viewModel.output.goToSetting
             .observe(on: MainScheduler.instance)
-            .bind(onNext: goToSetting)
+            .bind(onNext: { [weak self] _ in
+                self?.goToSetting()
+            })
             .disposed(by: bag)
     }
     

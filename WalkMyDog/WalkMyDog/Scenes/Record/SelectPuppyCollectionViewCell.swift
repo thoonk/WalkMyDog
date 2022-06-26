@@ -28,7 +28,7 @@ final class SelectPuppyCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = UIColor.clear.cgColor
-        imageView.layer.borderWidth = 2.0
+        imageView.layer.borderWidth = 3.5
         imageView.clipsToBounds = true
         
         return imageView
