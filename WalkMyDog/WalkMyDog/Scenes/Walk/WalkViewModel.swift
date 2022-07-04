@@ -37,9 +37,15 @@ final class WalkViewModel: ViewModelType {
         let annotationLocation = PublishRelay<CLLocationCoordinate2D>()
         let distanceRelay = BehaviorRelay<Double>(value: 0.0)
         let dismissRelay = PublishRelay<Void>()
+        let puppyInfo = PublishRelay<[Puppy]>()
     }
     
-    init(viewController: WalkViewController, timerService: TimerService = TimerService()) {
+    init(
+        viewController: WalkViewController,
+        puppies: [Puppy],
+        timerService: TimerService = TimerService()
+    ) {
+        
         input = Input(
             location: LocationManager.shared.location
         )
@@ -54,6 +60,7 @@ final class WalkViewModel: ViewModelType {
                    loc.coordinate.isDefaultCoordinate == false
                 {
                     self?.output.location.accept(loc.coordinate)
+                    self?.output.puppyInfo.accept(puppies)
                     
                     if let previous = self?.previousLocation,
                        state == .play,

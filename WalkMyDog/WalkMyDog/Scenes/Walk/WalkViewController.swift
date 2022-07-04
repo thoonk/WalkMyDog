@@ -119,6 +119,26 @@ final class WalkViewController: UIViewController {
         return label
     }()
     
+    lazy var puppyCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0.0
+                
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        
+        collectionView.delegate = self
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.allowsSelection = false
+        
+        collectionView.register(WalkPuppyCollectionViewCell.self, forCellWithReuseIdentifier: WalkPuppyCollectionViewCell.identifier)
+
+        return collectionView
+    }()
+    
     required init(
         selectedPuppies: [Puppy]
     ) {
@@ -127,12 +147,17 @@ final class WalkViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         setupLayout()
-        setupBinding()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupBinding()
     }
     
 //    override func viewWillDisappear(_ animated: Bool) {
@@ -161,12 +186,25 @@ private extension WalkViewController {
         topMaskView.backgroundColor = .white
         topMaskView.setShadowLayer()
         
-        topMaskView.addSubview(statusLabel)
+        [statusLabel, puppyCollectionView]
+            .forEach { topMaskView.addSubview($0) }
+        
         statusLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(15.0)
         }
         
+        let widthConstraint = (self.view.bounds.size.width - statusLabel.bounds.size.width - 35.0) / CGFloat(self.selectedPuppies.count)
+        
+        puppyCollectionView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(20.0)
+            $0.leading.greaterThanOrEqualTo(statusLabel.snp.trailing).offset(20.0)
+            $0.trailing.equalToSuperview().inset(10.0)
+            $0.width.equalTo(widthConstraint)
+        }
+        
+        // CollectionView right align 설정해야 함.
+ 
         let bottomMaskView = UIView()
         bottomMaskView.backgroundColor = .white
         bottomMaskView.roundCorners(.allCorners, radius: 25.0)
@@ -241,7 +279,7 @@ private extension WalkViewController {
     }
     
     func setupBinding() {
-        self.walkViewModel = WalkViewModel(viewController: self)
+        self.walkViewModel = WalkViewModel(viewController: self, puppies: self.selectedPuppies)
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
@@ -282,6 +320,15 @@ private extension WalkViewController {
                     self?.pausePlayButton.setImage(UIImage(named: "pause-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
                 }
             })
+            .disposed(by: bag)
+        
+        output.puppyInfo
+            .bind(to: puppyCollectionView.rx.items(
+                cellIdentifier: WalkPuppyCollectionViewCell.identifier,
+                cellType: WalkPuppyCollectionViewCell.self
+            )) { index, item, cell in
+                cell.bind(data: item)
+            }
             .disposed(by: bag)
         
         output.location
@@ -432,5 +479,13 @@ extension WalkViewController: ImagePickerDelegate {
         if err != nil {
             self.setupAlertView(with: "기기 이미지 저장 오류가 발생했습니다.")
         }
+    }
+}
+
+extension WalkViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = collectionView.bounds.height
+        
+        return CGSize(width: size, height: size)
     }
 }

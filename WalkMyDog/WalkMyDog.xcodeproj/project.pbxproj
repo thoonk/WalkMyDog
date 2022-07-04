@@ -106,6 +106,7 @@
 		6A234495282CF823004B7E2E /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A234494282CF823004B7E2E /* UIScrollView+.swift */; };
 		6A653E412807F07300F3B3D6 /* PuppyRealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A653E402807F07300F3B3D6 /* PuppyRealmService.swift */; };
 		6A653E432808020900F3B3D6 /* RecordRealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A653E422808020900F3B3D6 /* RecordRealmService.swift */; };
+		6A9162A2286D417D005859C4 /* WalkPuppyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9162A1286D417D005859C4 /* WalkPuppyCollectionViewCell.swift */; };
 		6DCE6B7586F629DE07D2B629 /* Pods_WalkMyDog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */; };
 		7DCBDD36D7C0710E9A9158BB /* Pods_WalkMyDog_WalkMyDogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE19ABA40368AC60688A164 /* Pods_WalkMyDog_WalkMyDogUITests.framework */; };
 		955C34807328BE1002E4D8BC /* Pods_WalkMyDogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D71B3F7ACB3F446E34B88B4 /* Pods_WalkMyDogTests.framework */; };
@@ -240,6 +241,7 @@
 		6A234494282CF823004B7E2E /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		6A653E402807F07300F3B3D6 /* PuppyRealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppyRealmService.swift; sourceTree = "<group>"; };
 		6A653E422808020900F3B3D6 /* RecordRealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRealmService.swift; sourceTree = "<group>"; };
+		6A9162A1286D417D005859C4 /* WalkPuppyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkPuppyCollectionViewCell.swift; sourceTree = "<group>"; };
 		7F3AC7967AEE9B3813178986 /* Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog-WalkMyDogUITests/Pods-WalkMyDog-WalkMyDogUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		89E3CD43FA2F587E26EE961E /* Pods_WalkMyDog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalkMyDog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2FB2480B3856C7A5CFDD554 /* Pods-WalkMyDog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDog.debug.xcconfig"; path = "Target Support Files/Pods-WalkMyDog/Pods-WalkMyDog.debug.xcconfig"; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		0893C33027D0F59A0061632D /* Walk */ = {
 			isa = PBXGroup;
 			children = (
+				6A9162A1286D417D005859C4 /* WalkPuppyCollectionViewCell.swift */,
 				0871E1BF27F9D676006644E0 /* WalkReadyViewController.swift */,
 				0871E1C127F9DAEC006644E0 /* WalkReadyViewModel.swift */,
 				081E4AE727CCC5EB00ADF7DE /* WalkViewController.swift */,
@@ -928,6 +931,7 @@
 				08167AC325EE562800C45E2D /* RecordTableViewCell.swift in Sources */,
 				08E5C61725DC0D75000896D2 /* UIViewController.swift in Sources */,
 				087396EA26131E5900622DAC /* UIView.swift in Sources */,
+				6A9162A2286D417D005859C4 /* WalkPuppyCollectionViewCell.swift in Sources */,
 				08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */,
 				082866812604D3060084F2FF /* CustomTextField.swift in Sources */,
 				08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */,
