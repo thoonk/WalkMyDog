@@ -194,17 +194,19 @@ private extension WalkViewController {
             $0.leading.equalToSuperview().inset(15.0)
         }
         
-        let widthConstraint = (self.view.bounds.size.width - statusLabel.bounds.size.width - 35.0) / CGFloat(self.selectedPuppies.count)
+        var leadingConstraint = (self.view.bounds.size.width - statusLabel.bounds.size.width - 25.0) - CGFloat(60 * self.selectedPuppies.count)
+                
+        if leadingConstraint <= 10 {
+            leadingConstraint = 10
+        }
         
         puppyCollectionView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(20.0)
-            $0.leading.greaterThanOrEqualTo(statusLabel.snp.trailing).offset(20.0)
+            $0.leading.equalTo(statusLabel.snp.trailing)
+                .offset(leadingConstraint)
             $0.trailing.equalToSuperview().inset(10.0)
-            $0.width.equalTo(widthConstraint)
         }
-        
-        // CollectionView right align 설정해야 함.
- 
+         
         let bottomMaskView = UIView()
         bottomMaskView.backgroundColor = .white
         bottomMaskView.roundCorners(.allCorners, radius: 25.0)

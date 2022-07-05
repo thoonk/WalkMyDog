@@ -284,7 +284,9 @@ private extension WalkReadyViewController {
             .subscribe(onNext: { [weak self] puppies in
                 let walkViewController = WalkViewController(selectedPuppies: puppies)
                 walkViewController.modalPresentationStyle = .fullScreen
-                self?.present(walkViewController, animated: true)
+                self?.present(walkViewController, animated: true, completion: { [weak self] in
+                    self?.selectedPuppies = [Puppy]()
+                })
             })
             .disposed(by: bag)
         
