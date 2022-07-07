@@ -280,11 +280,12 @@ private extension WalkReadyViewController {
             })
             .disposed(by: bag)
         
-        output.presentToWalk
+        output.presentToWalkStartCount
             .subscribe(onNext: { [weak self] puppies in
-                let walkViewController = WalkViewController(selectedPuppies: puppies)
-                walkViewController.modalPresentationStyle = .fullScreen
-                self?.present(walkViewController, animated: true, completion: { [weak self] in
+                let walkStartCountViewController = WalkStartCountViewController(selectedPuppies: puppies)
+                walkStartCountViewController.modalPresentationStyle = .fullScreen
+                
+                self?.present(walkStartCountViewController, animated: true, completion: { [weak self] in
                     self?.selectedPuppies = [Puppy]()
                 })
             })

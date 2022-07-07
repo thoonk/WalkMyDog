@@ -85,6 +85,7 @@ class EditPuppyViewModel: ViewModelType {
                 species,
                 gender
             ) in
+                // 신규 반려견 정보 저장
                 if selectedItem == nil {
                     if let puppy = self?.puppyRealmService.insert(
                         name: name,
@@ -115,7 +116,10 @@ class EditPuppyViewModel: ViewModelType {
                             }
                         }
                     }
-                } else {
+                }
+                
+                // 기존 반려견 정보 수정
+                else {
                     var imageName: String? = nil
                     
                     if image != UIImage(named: "profileImage-150") {

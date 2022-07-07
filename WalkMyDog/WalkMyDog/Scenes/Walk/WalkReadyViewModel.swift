@@ -33,7 +33,7 @@ final class WalkReadyViewModel: ViewModelType {
     
     struct Output {
         let location = PublishRelay<CLLocationCoordinate2D>()
-        let presentToWalk = PublishRelay<[Puppy]>()
+        let presentToWalkStartCount = PublishRelay<[Puppy]>()
         let weatherInfo = PublishRelay<WeatherCurrent>()
         let pmInfo = PublishRelay<PMModel>()
         let puppyInfo = PublishRelay<[Puppy]>()
@@ -139,7 +139,7 @@ final class WalkReadyViewModel: ViewModelType {
         input.startWalkingButtonTapped
             .subscribe(onNext: { [weak self] puppies in
                 if puppies.isEmpty == false {
-                    self?.output.presentToWalk.accept(puppies)
+                    self?.output.presentToWalkStartCount.accept(puppies)
                 } else {
                     // 에러 메시지
                     self?.output.errorMessage.accept("반려견을 한 마리 이상 선택해주세요!")
