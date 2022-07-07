@@ -10,6 +10,7 @@ import SnapKit
 
 final class WalkPuppyCollectionViewCell: UICollectionViewCell {
     static let identifier = "WalkPuppyCollectionViewCell"
+    private var imageService: ImageServiceProtocol = ImageService()
     
     lazy var puppyImageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,8 +29,8 @@ final class WalkPuppyCollectionViewCell: UICollectionViewCell {
     
     func bind(data: Puppy) {
         if let urlString = data.imageURL,
-           let url = URL(string: urlString) {
-            self.puppyImageView.kf.setImage(with: url)
+           let image = imageService.loadImage(with: urlString) {
+            puppyImageView.image = image
         } else {
             self.puppyImageView.image = UIImage(named: "dog-48")
         }
@@ -41,7 +42,7 @@ private extension WalkPuppyCollectionViewCell {
         self.addSubview(puppyImageView)
         
         puppyImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10.0)
+            $0.edges.equalToSuperview().inset(5.0)
         }
     }
     

@@ -62,6 +62,7 @@ final class MainViewController: UIViewController {
     var currentViewModel: CurrentViewModel?
     var mainViewModel: MainViewModel?
     var bag = DisposeBag()
+    var imageService: ImageServiceProtocol = ImageService()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -170,8 +171,8 @@ final class MainViewController: UIViewController {
         for puppy in puppies {
             let slide = SlideView()
             if let urlString = puppy.imageURL,
-               let url = URL(string: urlString) {
-                slide.profileImageView.kf.setImage(with: url)
+               let image = imageService.loadImage(with: urlString) {
+                slide.profileImageView.image = image
             } else {
                 slide.profileImageView.image = UIImage(named: "launchImage")
             }

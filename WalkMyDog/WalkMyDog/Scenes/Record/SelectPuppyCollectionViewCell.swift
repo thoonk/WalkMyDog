@@ -11,6 +11,7 @@ import SnapKit
 
 final class SelectPuppyCollectionViewCell: UICollectionViewCell {
     static let identifier = "SelectPuppyCollectionViewCell"
+    private var imageService: ImageServiceProtocol = ImageService()
 
     lazy var puppyNameLabel: UILabel = {
         let label = UILabel()
@@ -57,13 +58,14 @@ final class SelectPuppyCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         bag = DisposeBag()
-    }
+    } 
     
     func bindData(with data: Puppy) {
         self.puppyNameLabel.text = data.name
+        
         if let urlString = data.imageURL,
-           let url = URL(string: urlString) {
-            self.puppyImageView.kf.setImage(with: url)
+           let image = imageService.loadImage(with: urlString) {
+            self.puppyImageView.image = image
         } else {
             self.puppyImageView.image = UIImage(named: "dog-48")
         }
