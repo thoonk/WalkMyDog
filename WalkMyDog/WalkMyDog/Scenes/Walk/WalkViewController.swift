@@ -361,14 +361,7 @@ private extension WalkViewController {
         output.dismissRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: true, completion: { [weak self] in
-                    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as? SceneDelegate
-                    
-                    if let walkStartCountViewController = self?.topViewController(base: sceneDelegate?.window!.rootViewController) as? WalkStartCountViewController {
-                        
-                        walkStartCountViewController.dismiss(animated: false, completion: nil)
-                    }
-                })
+                self?.dismiss(animated: true)
             })
             .disposed(by: bag)
     }
@@ -425,22 +418,6 @@ private extension WalkViewController {
             }
         }
     }
-    
-    func topViewController(base: UIViewController?) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController {
-            if let selected = tab.selectedViewController {
-                return topViewController(base: selected)
-            }
-        }
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        return base
-    }
-    
 }
 
 extension WalkViewController: MKMapViewDelegate {

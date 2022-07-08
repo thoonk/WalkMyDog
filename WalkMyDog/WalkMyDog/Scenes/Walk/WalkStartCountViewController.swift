@@ -122,16 +122,34 @@ private extension WalkStartCountViewController {
         
         output.presentToWalk
             .subscribe(onNext: { [weak self] _ in
-                let walkViewController = WalkViewController(selectedPuppies:  self?.selectedPuppies ?? []) 
-                walkViewController.modalPresentationStyle = .fullScreen
-                self?.present(walkViewController, animated: true)
+                self?.dismiss(animated: true, completion: {
+                    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as? SceneDelegate
+                    
+                    if let walkReadyViewController = self?.topViewController(base: sceneDelegate?.window!.rootViewController) as? WalkReadyViewController {
+                        
+                        let walkViewController = WalkViewController(selectedPuppies:  self?.selectedPuppies ?? [])
+                        walkViewController.modalPresentationStyle = .fullScreen
+                        
+                        walkReadyViewController.present(walkViewController, animated: true)
+                    }
+                })
             })
             .disposed(by: bag)
-        
-        /*
-         TODO:
-         - StartWalkCountViewController dismiss
-         */
+    }
+    
+    func topViewController(base: UIViewController?) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }
 
