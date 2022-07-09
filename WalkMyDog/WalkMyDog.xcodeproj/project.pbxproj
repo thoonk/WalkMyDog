@@ -97,6 +97,8 @@
 		08EFBA2927D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */; };
 		08EFBA2B27D4D1A500D96AB9 /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */; };
 		08F17B2827EB0FE600413C74 /* SlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F17B2727EB0FE600413C74 /* SlideView.swift */; };
+		08F5199D287990F800E4AE8F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F5199C287990F800E4AE8F /* Defaults.swift */; };
+		08F5199F2879B50A00E4AE8F /* NotificationCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F5199E2879B50A00E4AE8F /* NotificationCenterProtocol.swift */; };
 		08F6DA5C260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */; };
 		08F911C225F1E7FB0043438D /* CheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C125F1E7FB0043438D /* CheckButton.swift */; };
 		08F911C725F1EEF30043438D /* EditRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F911C625F1EEF30043438D /* EditRecordViewController.swift */; };
@@ -230,6 +232,8 @@
 		08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxMKMapViewDelegateProxy.swift; sourceTree = "<group>"; };
 		08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
 		08F17B2727EB0FE600413C74 /* SlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideView.swift; sourceTree = "<group>"; };
+		08F5199C287990F800E4AE8F /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		08F5199E2879B50A00E4AE8F /* NotificationCenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterProtocol.swift; sourceTree = "<group>"; };
 		08F6DA5B260DD7CC00EB3F0E /* EditPuppyViewModelCreateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPuppyViewModelCreateTests.swift; sourceTree = "<group>"; };
 		08F911C125F1E7FB0043438D /* CheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckButton.swift; sourceTree = "<group>"; };
 		08F911C625F1EEF30043438D /* EditRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecordViewController.swift; sourceTree = "<group>"; };
@@ -320,8 +324,9 @@
 			isa = PBXGroup;
 			children = (
 				08E5C57325DBB7C3000896D2 /* Extensions */,
-				0873F26C27DE191D00F27D3C /* ImagePicker.swift */,
 				0812067C27E8C373009E4E57 /* CustomPageControl.swift */,
+				08F5199C287990F800E4AE8F /* Defaults.swift */,
+				0873F26C27DE191D00F27D3C /* ImagePicker.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 			children = (
 				08E5C56E25DBB799000896D2 /* ViewModelType.swift */,
 				082866852604E6860084F2FF /* SelectSpeciesDelegate.swift */,
+				08F5199E2879B50A00E4AE8F /* NotificationCenterProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -944,8 +950,10 @@
 				08BB9C1D25C916B100B56F9F /* AppDelegate.swift in Sources */,
 				0825A1AC266F831800BB8A64 /* RecordViewController.swift in Sources */,
 				6A1953B12806C57900E74784 /* RealmService.swift in Sources */,
+				08F5199F2879B50A00E4AE8F /* NotificationCenterProtocol.swift in Sources */,
 				0873F26727DE093300F27D3C /* TimerService.swift in Sources */,
 				0873F26A27DE13A800F27D3C /* MKMapView+.swift in Sources */,
+				08F5199D287990F800E4AE8F /* Defaults.swift in Sources */,
 				0873F26D27DE191D00F27D3C /* ImagePicker.swift in Sources */,
 				08E5C58225DBB9BF000896D2 /* FcstViewModel.swift in Sources */,
 				08E5C56F25DBB799000896D2 /* ViewModelType.swift in Sources */,

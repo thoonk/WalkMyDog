@@ -194,7 +194,7 @@ private extension WalkViewController {
             $0.leading.equalToSuperview().inset(15.0)
         }
         
-        var leadingConstraint = (self.view.bounds.size.width - statusLabel.bounds.size.width - 25.0) - CGFloat(60 * self.selectedPuppies.count)
+        var leadingConstraint = (self.view.bounds.size.width - statusLabel.bounds.size.width - 40.0) - CGFloat(60 * self.selectedPuppies.count)
                 
         if leadingConstraint <= 10 {
             leadingConstraint = 10
@@ -204,7 +204,7 @@ private extension WalkViewController {
             $0.top.bottom.equalToSuperview().inset(20.0)
             $0.leading.equalTo(statusLabel.snp.trailing)
                 .offset(leadingConstraint)
-            $0.trailing.equalToSuperview().inset(10.0)
+            $0.trailing.equalToSuperview().inset(15.0)
         }
          
         let bottomMaskView = UIView()
@@ -286,11 +286,13 @@ private extension WalkViewController {
         let output = walkViewModel!.output
         
         pausePlayButton.rx.tap
-            .scan(ButtonState.pause) { lastState, _ in
+            .scan(ButtonState.play) { [weak self] lastState, _ in
                 switch lastState {
                 case .play:
+                    self?.pausePlayButton.setImage(UIImage(named: "play-30"), for: .normal)
                     return .pause
                 case .pause:
+                    self?.pausePlayButton.setImage(UIImage(named: "pause-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     return .play
                 }
             }
@@ -313,15 +315,12 @@ private extension WalkViewController {
             .setDelegate(self)
             .disposed(by: bag)
         
-        input.pausePlayButtonTapped
-            .subscribe(onNext: { [weak self] state in
-                switch state {
-                case .pause:
-                    self?.pausePlayButton.setImage(UIImage(named: "play-30"), for: .normal)
-                case .play:
-                    self?.pausePlayButton.setImage(UIImage(named: "pause-30")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        ApplicationNotificationCenter.willEnterForeground
+            .addObserver().bind { object in
+                if let timeInterval = object as? Int {
+                    input.enterForegroundAction.onNext(timeInterval)
                 }
-            })
+            }
             .disposed(by: bag)
         
         output.puppyInfo

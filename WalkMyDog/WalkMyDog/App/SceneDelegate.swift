@@ -45,5 +45,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = rootViewController
         }
     }
+    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        let backgroundTime = Defaults.shared.getBackgroundTime() ?? Date()
+        
+        let timeInterval = abs(Int(Date().timeIntervalSince(backgroundTime)))
+        
+        let timerStatus = Defaults.shared.getTimerStatus()
+        
+        if timerStatus == .run {
+            ApplicationNotificationCenter.willEnterForeground.post(object: timeInterval)
+        }
+    }
+    
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        let timerStatus = Defaults.shared.getTimerStatus()
+        
+        if timerStatus == .run {
+            Defaults.shared.set(backgroundTime: Date())
+        }
+    }
 }
 
