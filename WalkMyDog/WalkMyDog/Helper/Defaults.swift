@@ -26,6 +26,10 @@ class Defaults {
         defaults.object(forKey: DefaultKeys.backgroundTime.rawValue) as? Date
     }
     
+    func removeBackgroundTime() {
+        defaults.removeObject(forKey: DefaultKeys.backgroundTime.rawValue)
+    }
+    
     func set(timerStatus: TimerStatus) {
         defaults.set(timerStatus.rawValue, forKey: DefaultKeys.timerStatus.rawValue)
     }

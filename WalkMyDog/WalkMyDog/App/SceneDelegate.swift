@@ -63,6 +63,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if timerStatus == .run {
             Defaults.shared.set(backgroundTime: Date())
+            
+            ApplicationNotificationCenter.didEnterBackground.post()
         }
     }
 }

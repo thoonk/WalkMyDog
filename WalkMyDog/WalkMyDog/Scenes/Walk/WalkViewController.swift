@@ -139,6 +139,8 @@ final class WalkViewController: UIViewController {
         return collectionView
     }()
     
+    private var isDismissFromImagePicker: Bool = false
+    
     required init(
         selectedPuppies: [Puppy]
     ) {
@@ -160,20 +162,15 @@ final class WalkViewController: UIViewController {
         setupBinding()
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
 //
-//        bag = DisposeBag()
+//        walkViewModel?.timerService.pauseTimer()
 //    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        walkViewModel?.timerService.pauseTimer()
-    }
     
     deinit {
         print("Deinit WalkViewController")
+        Defaults.shared.removeBackgroundTime()
         bag = DisposeBag()
     }
 }
@@ -285,6 +282,30 @@ private extension WalkViewController {
         let input = walkViewModel!.input
         let output = walkViewModel!.output
         
+        let timerStatus = Defaults.shared.getTimerStatus()
+        
+        rx.viewWillAppear
+            .bind { [weak self] _ in
+                if timerStatus == .run,
+                   self?.isDismissFromImagePicker == true,
+                   let backgroundTime = Defaults.shared.getBackgroundTime() {
+                    self?.isDismissFromImagePicker = false
+                    
+                    let timeInterval = abs(Int(Date().timeIntervalSince(backgroundTime)))
+                    input.enterForegroundAction.onNext(timeInterval)
+                }
+            }
+            .disposed(by: bag)
+        
+        rx.viewWillDisappear
+            .bind { _ in
+                if timerStatus == .run {
+                    Defaults.shared.set(backgroundTime: Date())
+                    input.enterBackgroundAction.onNext(())
+                }
+            }
+            .disposed(by: bag)
+        
         pausePlayButton.rx.tap
             .scan(ButtonState.play) { [weak self] lastState, _ in
                 switch lastState {
@@ -320,6 +341,13 @@ private extension WalkViewController {
                 if let timeInterval = object as? Int {
                     input.enterForegroundAction.onNext(timeInterval)
                 }
+            }
+            .disposed(by: bag)
+        
+        ApplicationNotificationCenter
+            .didEnterBackground
+            .addObserver().bind { _ in
+                input.enterBackgroundAction.onNext(())
             }
             .disposed(by: bag)
         
@@ -460,6 +488,8 @@ extension WalkViewController: TimerServiceDelegate {
 
 extension WalkViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
+        isDismissFromImagePicker = true
+        
         guard let image = image else { return }
         
         // 로컬 저장

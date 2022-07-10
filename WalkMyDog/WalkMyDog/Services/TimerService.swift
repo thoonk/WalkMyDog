@@ -66,5 +66,6 @@ final class TimerService {
     func resetTimer(with backgroundTime: Int) {
         let elapsedTime = Double(backgroundTime)
         self.currentTime += elapsedTime
+        self.startTimer(with: backgroundTime)
     }
 }

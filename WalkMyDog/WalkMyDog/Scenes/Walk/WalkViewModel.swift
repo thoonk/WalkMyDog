@@ -30,6 +30,7 @@ final class WalkViewModel: ViewModelType {
         let cameraButtonTapped = PublishSubject<(Void)>()
         let fecesButtonTapped = PublishSubject<(Void)>()
         let enterForegroundAction = PublishSubject<(Int)>()
+        let enterBackgroundAction = PublishSubject<(Void)>()
     }
     
     struct Output {
@@ -82,8 +83,10 @@ final class WalkViewModel: ViewModelType {
                 switch state {
                 case .play:
                     self?.timerService.startTimer()
+                    Defaults.shared.set(timerStatus: .run)
                 case .pause:
                     self?.timerService.pauseTimer()
+                    Defaults.shared.set(timerStatus: .pause)
                 }
             }
             .disposed(by: bag)
@@ -107,7 +110,7 @@ final class WalkViewModel: ViewModelType {
         
         input.stopButtonTapped
             .bind { [weak self] in
-                self?.timerService.pauseTimer()
+                self?.timerService.stopTimer()
                 self?.output.dismissRelay.accept(())
             }
             .disposed(by: bag)
@@ -115,6 +118,12 @@ final class WalkViewModel: ViewModelType {
         input.enterForegroundAction
             .bind { [weak self] timeInterval in
                 self?.timerService.resetTimer(with: timeInterval)
+            }
+            .disposed(by: bag)
+        
+        input.enterBackgroundAction
+            .bind { [weak self] _ in
+                self?.timerService.stopTimer()
             }
             .disposed(by: bag)
     }
