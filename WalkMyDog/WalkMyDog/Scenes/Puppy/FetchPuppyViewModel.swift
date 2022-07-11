@@ -48,9 +48,8 @@ class FetchPuppyViewModel: ViewModelType {
         puppyImageUrl
             .subscribe(onNext: { url in
                 if let url = url,
-                   let image =  imageService.loadImage(with: url) {
+                   let image = imageService.loadImage(with: url) {
                     puppyImage.accept(image)
-                    
                 } else {
                     puppyImage.accept(nil)
                 }

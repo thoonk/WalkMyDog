@@ -19,7 +19,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-//        imageView.image = UIImage(named: "profileImage-150")
+        imageView.image = UIImage(named: "puppyProfileImage")
         
         return imageView
     }()
@@ -432,11 +432,11 @@ private extension EditPuppyViewController {
         // INPUT
         profileImage
             .subscribe(onNext: { image in
-                if self.profileImageView.image != UIImage(named: "profileImage-150") {
+                if self.profileImageView.image != UIImage(named: "puppyProfileImage") {
                     viewModel
                         .input
                         .profileImage
-                        .onNext(image ?? UIImage(named: "profileImage-150"))
+                        .onNext(image ?? UIImage(named: "puppyProfileImage"))
                 } else {
                     viewModel
                         .input
@@ -519,11 +519,12 @@ private extension EditPuppyViewController {
         viewModel.output.profileImage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] image in
-                if image != nil {
-                    self?.profileImageView.image = image?.withRenderingMode(.alwaysOriginal)
-                } else {
-                    self?.profileImageView.image = UIImage(named: "profileImage-150")
-                }
+                self?.profileImageView.image = image
+//                if image != nil {
+//                    self?.profileImageView.image = image // ?.withRenderingMode(.alwaysOriginal)
+//                } else {
+//                    self?.profileImageView.image = UIImage(named: "puppyProfileImage")
+//                }
             }).disposed(by: bag)
         
         viewModel.output.puppyNameText

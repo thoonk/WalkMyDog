@@ -97,7 +97,7 @@ class EditPuppyViewModel: ViewModelType {
                     ) {
                         var imageName: String? = nil
                         
-                        if image != UIImage(named: "profileImage-150") {
+                        if image != UIImage(named: "puppyProfileImage") {
                             imageName = name + "\(puppy.id)"
                             if imageService.save(image: image!, name: imageName!) {
                                 self?.puppyRealmService.update(
@@ -122,7 +122,7 @@ class EditPuppyViewModel: ViewModelType {
                 else {
                     var imageName: String? = nil
                     
-                    if image != UIImage(named: "profileImage-150") {
+                    if image != UIImage(named: "puppyProfileImage") {
                         
                         imageName = name + "\(selectedItem!.id)"
                         if imageService.save(image: image!, name: imageName!) {

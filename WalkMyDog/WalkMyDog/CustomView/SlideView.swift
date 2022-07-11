@@ -13,7 +13,7 @@ final class SlideView: UIView {
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "launchImage")
+        imageView.image = UIImage(named: "puppyMainImage")
         
         return imageView
     }()

@@ -174,7 +174,7 @@ final class MainViewController: UIViewController {
                let image = imageService.loadImage(with: urlString) {
                 slide.profileImageView.image = image
             } else {
-                slide.profileImageView.image = UIImage(named: "launchImage")
+                slide.profileImageView.image = UIImage(named: "puppyMainImage")
             }
             self.slides.append(slide)
         }

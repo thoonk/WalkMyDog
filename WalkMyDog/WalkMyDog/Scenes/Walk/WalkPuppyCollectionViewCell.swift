@@ -30,9 +30,13 @@ final class WalkPuppyCollectionViewCell: UICollectionViewCell {
     func bind(data: Puppy) {
         if let urlString = data.imageURL,
            let image = imageService.loadImage(with: urlString) {
-            puppyImageView.image = image
+            self.puppyImageView.image = image
+            self.puppyImageView.backgroundColor = .clear
         } else {
-            self.puppyImageView.image = UIImage(named: "dog-48")
+
+            self.puppyImageView.image = UIImage(named: "puppyProfileImage")
+            self.puppyImageView.backgroundColor = UIColor(hex: "CCD5BF")
+
         }
     }
 }

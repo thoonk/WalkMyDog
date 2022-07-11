@@ -8,7 +8,7 @@
 import Foundation
 
 struct C {
-    static let apiKey = "APIKey"
+    static let apiKey = "26cf93f773212c3ce8d54372b19c4000"
     static let baseUrl = "https://api.openweathermap.org/data/2.5"
     
     struct Cell {
