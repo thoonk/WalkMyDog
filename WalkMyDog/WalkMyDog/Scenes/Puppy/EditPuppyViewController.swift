@@ -20,6 +20,7 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "puppyProfileImage")
+        imageView.clipsToBounds = true
         
         return imageView
     }()
@@ -109,16 +110,6 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         return button
     }()
     
-//    @IBOutlet weak var profileImageView: UIImageView!
-//    @IBOutlet weak var nameTextField: JVFloatLabeledTextField!
-//    @IBOutlet weak var speciesTextField: CustomTextField!
-//    @IBOutlet weak var weightTextField: JVFloatLabeledTextField!
-//    @IBOutlet weak var birthTextField: JVFloatLabeledTextField!
-//    @IBOutlet weak var boyButton: RadioButton!
-//    @IBOutlet weak var girlButton: RadioButton!
-//    @IBOutlet weak var saveButton: UIBarButtonItem!
-//    @IBOutlet weak var deleteButton: UIButton!
-    
     // MARK: - Properties
     var puppyInfo: Puppy?
     var isFromNavigation: Bool
@@ -155,6 +146,8 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
         self.isFromNavigation = isFromNavigation
         
         super.init(nibName: nil, bundle: nil)
+        
+        setupLayout()
     }
     
     @available(*, unavailable)
@@ -165,15 +158,11 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupLayout()
         boyButton.alternateBtn = [girlButton]
         girlButton.alternateBtn = [boyButton]
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         setupUI()
     }
     
@@ -185,11 +174,6 @@ class EditPuppyViewController: UIViewController, UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-//
-//    override func awakeFromNib() {
-//        self.view.layoutIfNeeded()
-//
-//    }
     
     // MARK: - Actions
     private func tapSelectImage(){
@@ -359,7 +343,7 @@ private extension EditPuppyViewController {
 
         self.datePicker = UIDatePicker()
         
-        self.profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
+        self.profileImageView.layer.cornerRadius = 50
         
         let textFieldBar = setKeyboardDoneBtn(for: #selector(doneBtnTapped(sender:)))
         nameTextField.inputAccessoryView = textFieldBar
@@ -406,14 +390,6 @@ private extension EditPuppyViewController {
         }
     }
     
-    func setupTapGesture() {
-//        let tapGestureImageView = UITapGestureRecognizer(
-//            target: self,
-//            action: #selector(tapSelectImage)
-//        )
-//        profileImageView.addGestureRecognizer(tapGestureImageView)
-    }
-    
     func goToSetting() {
         if self.isFromNavigation {
             navigationController?.popViewController(animated: true)
@@ -429,17 +405,18 @@ private extension EditPuppyViewController {
             return
         }
         
+        let input = viewModel.input
+        let output = viewModel.output
+        
         // INPUT
         profileImage
             .subscribe(onNext: { image in
                 if self.profileImageView.image != UIImage(named: "puppyProfileImage") {
-                    viewModel
-                        .input
+                    input
                         .profileImage
                         .onNext(image ?? UIImage(named: "puppyProfileImage"))
                 } else {
-                    viewModel
-                        .input
+                    input
                         .profileImage
                         .onNext(nil)
                 }
@@ -447,34 +424,34 @@ private extension EditPuppyViewController {
         
         nameTextField.rx.text.orEmpty
             .distinctUntilChanged()
-            .bind(to: viewModel.input.name)
+            .bind(to: input.name)
             .disposed(by: bag)
         
         speciesTextField.rx.text.orEmpty
             .distinctUntilChanged()
-            .bind(to: viewModel.input.species)
+            .bind(to: input.species)
             .disposed(by: bag)
         
         birthTextField.rx.text.orEmpty
             .distinctUntilChanged()
-            .bind(to: viewModel.input.age)
+            .bind(to: input.age)
             .disposed(by: bag)
         
         weightTextField.rx.text.orEmpty
             .distinctUntilChanged()
-            .bind(to: viewModel.input.weight)
+            .bind(to: input.weight)
             .disposed(by: bag)
         
         boyButton.rx.tap
-            .bind(to: viewModel.input.boyBtnTapped)
+            .bind(to: input.boyBtnTapped)
             .disposed(by: bag)
         
         girlButton.rx.tap
-            .bind(to: viewModel.input.girlBtnTapped)
+            .bind(to: input.girlBtnTapped)
             .disposed(by: bag)
         
         saveButton.rx.tap
-            .bind(to: viewModel.input.saveBtnTapped)
+            .bind(to: input.saveBtnTapped)
             .disposed(by: bag)
         
         profileImageView.rx
@@ -486,12 +463,12 @@ private extension EditPuppyViewController {
             .disposed(by: bag)
         
         // OUTPUT
-        viewModel.output.enableSaveBtn
+        output.enableSaveBtn
             .observe(on: MainScheduler.instance)
             .bind(to: saveButton.rx.isEnabled)
             .disposed(by: bag)
         
-        viewModel.output.errorMessage
+        output.errorMessage
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] msg in
                 let alertVC = AlertManager.shared.showAlert(
@@ -502,7 +479,7 @@ private extension EditPuppyViewController {
                 self?.present(alertVC, animated: true)
             }).disposed(by: bag)
         
-        viewModel.output.goToSetting
+        output.goToSetting
             .observe(on: MainScheduler.instance)
             .bind(onNext: { [weak self] _ in
                 self?.goToSetting()
@@ -515,39 +492,52 @@ private extension EditPuppyViewController {
         guard let viewModel = fetchPuppyViewModel else {
             return
         }
+        
+        let input = viewModel.input
+        let output = viewModel.output
+        
+        rx.viewWillAppear
+            .take(1)
+            .map { _ in () }
+            .bind(to: input.fetchData)
+            .disposed(by: bag)
+        
         // OUTPUT
-        viewModel.output.profileImage
-            .observe(on: MainScheduler.instance)
+        output.profileImage
             .subscribe(onNext: { [weak self] image in
-                self?.profileImageView.image = image
-//                if image != nil {
-//                    self?.profileImageView.image = image // ?.withRenderingMode(.alwaysOriginal)
-//                } else {
-//                    self?.profileImageView.image = UIImage(named: "puppyProfileImage")
-//                }
+                if image != nil {
+                    self?.profileImageView.image = image
+                } else {
+                    self?.profileImageView.image = UIImage(named: "puppyProfileImage")
+                }
             }).disposed(by: bag)
         
-        viewModel.output.puppyNameText
+//        output.profileImage
+//            .observe(on: MainScheduler.instance)
+//            .bind(to: profileImageView.rx.image)
+//            .disposed(by: bag)
+        
+        output.puppyNameText
             .bind(to: nameTextField.rx.text)
             .disposed(by: bag)
             
-        viewModel.output.puppySpeciesText
+        output.puppySpeciesText
             .bind(to: speciesTextField.rx.text)
             .disposed(by: bag)
         
-        viewModel.output.puppyWeightText
+        output.puppyWeightText
             .bind(to: weightTextField.rx.text)
             .disposed(by: bag)
         
-        viewModel.output.puppyBirthText
+        output.puppyBirthText
             .bind(to: birthTextField.rx.text)
             .disposed(by: bag)
         
-        viewModel.output.puppyGender
+        output.puppyGender
             .bind(to: boyButton.rx.isSelected)
             .disposed(by: bag)
         
-        viewModel.output.puppyGender
+        output.puppyGender
             .map { !$0 }
             .bind(to: girlButton.rx.isSelected)
             .disposed(by: bag)

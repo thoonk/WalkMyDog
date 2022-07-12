@@ -14,7 +14,9 @@ class FetchPuppyViewModel: ViewModelType {
     var bag: DisposeBag = DisposeBag()
     let imageService: ImageServiceProtocol
     
-    struct Input {}
+    struct Input {
+        var fetchData: AnyObserver<Void>
+    }
     
     struct Output {
         // 반려견 정보
@@ -26,6 +28,7 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyGender: Observable<Bool>
     }
     
+    let input: Input
     let output: Output
     
     init(
@@ -44,17 +47,42 @@ class FetchPuppyViewModel: ViewModelType {
         let puppyImageUrl = puppyInfo.map { $0.imageURL }
         
         let puppyImage = PublishRelay<UIImage?>()
-
-        puppyImageUrl
-            .subscribe(onNext: { url in
+        
+        let fetching = PublishSubject<Void>()
+        let fetchData: AnyObserver<Void> = fetching.asObserver()
+        
+        input = Input(fetchData: fetchData)
+        
+        fetching
+            .withLatestFrom(puppyImageUrl)
+//            .flatMap { _ -> Observable<Puppy> in
+//                return Observable<Puppy>.create() {
+//                    emitter in
+//                    emitter.onNext(selectedItem)
+//
+//                    return Disposables.create()
+//                }
+//            }
+            .bind { url in
                 if let url = url,
                    let image = imageService.loadImage(with: url) {
                     puppyImage.accept(image)
                 } else {
                     puppyImage.accept(nil)
                 }
-            })
+            }
             .disposed(by: bag)
+
+//        puppyImageUrl
+//            .subscribe(onNext: { url in
+//                if let url = url,
+//                   let image = imageService.loadImage(with: url) {
+//                    puppyImage.accept(image)
+//                } else {
+//                    puppyImage.accept(nil)
+//                }
+//            })
+//            .disposed(by: bag)
         
         self.output = Output(
             profileImage: puppyImage,
