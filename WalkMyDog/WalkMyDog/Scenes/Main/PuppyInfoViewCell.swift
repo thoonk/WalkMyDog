@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
  
 final class PuppyInfoViewCell: UITableViewCell {
     static let identifier = "PuppyInfoViewCell"
@@ -92,8 +93,8 @@ final class PuppyInfoViewCell: UITableViewCell {
     lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.currentPage = 0
-        pageControl.preferredIndicatorImage = UIImage(named: "Image")
-        pageControl.backgroundStyle = .minimal
+        pageControl.preferredIndicatorImage = UIImage(named: "inactivePageControl")
+        pageControl.backgroundStyle = .automatic
         pageControl.currentPageIndicatorTintColor = UIColor(hex: "666666")
         
         return pageControl
@@ -127,6 +128,20 @@ final class PuppyInfoViewCell: UITableViewCell {
         sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
         puppyAgeLabel.text = Date().computeAge(with: puppy.age)
         personAgeLabel.text = Date().computePersonAge(with: puppy.age)
+        
+//        pageControl.rx.controlEvent(.valueChanged)
+//            .subscribe(onNext: { [weak self] in
+//                guard let
+//            })
+    }
+    
+    func updatePageControlUI(currentPageIndex: Int) {
+        (0..<pageControl.numberOfPages).forEach { index in
+            let activePageImage = UIImage(named: "activePageControl")
+            let inactivePageImage = UIImage(named: "inactivePageControl")
+            let pageImage = index == currentPageIndex ? activePageImage : inactivePageImage
+            pageControl.setIndicatorImage(pageImage, forPage: index)
+        }
     }
 }
 

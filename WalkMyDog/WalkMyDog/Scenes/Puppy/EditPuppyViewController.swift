@@ -504,18 +504,8 @@ private extension EditPuppyViewController {
         
         // OUTPUT
         output.profileImage
-            .subscribe(onNext: { [weak self] image in
-                if image != nil {
-                    self?.profileImageView.image = image
-                } else {
-                    self?.profileImageView.image = UIImage(named: "puppyProfileImage")
-                }
-            }).disposed(by: bag)
-        
-//        output.profileImage
-//            .observe(on: MainScheduler.instance)
-//            .bind(to: profileImageView.rx.image)
-//            .disposed(by: bag)
+            .bind(to: profileImageView.rx.image)
+            .disposed(by: bag)
         
         output.puppyNameText
             .bind(to: nameTextField.rx.text)

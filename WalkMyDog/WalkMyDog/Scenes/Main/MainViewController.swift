@@ -12,14 +12,13 @@ import RxDataSources
 import CoreLocation
 import Kingfisher
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - InterfaceBuilder
     lazy var imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 250)
         scrollView.contentSize = CGSize(width: CGFloat(slides.count) * view.frame.width, height: 250)
-        scrollView.delegate = self
         
         return scrollView
     }()
@@ -202,60 +201,6 @@ final class MainViewController: UIViewController {
 //    }
     
     // MARK: - ViewModel Binding
-    /// 현재 날씨 정보 바인딩
-//    func setCurrentBinding() {
-//
-//        currentViewModel = CurrentViewModel()
-//        let output = currentViewModel!.output
-//
-//        // OUTPUT
-//        output.errorMessage
-//            .subscribe(onNext: { [weak self] msg in
-//                let alertVC = AlertManager.shared.showAlert(
-//                    title: "현재 날씨 정보 로딩 실패",
-//                    subTitle: msg,
-//                    actionBtnTitle: "확인"
-//                )
-//                self?.present(alertVC, animated: true)
-//            }).disposed(by: bag)
-//
-//        output.isLoading
-//            .map { !$0 }
-//            .bind(to: activityIndicatorView.rx.isHidden)
-//            .disposed(by: bag)
-//
-//        output.locationName
-//            .bind(to: locationLabel.rx.text)
-//            .disposed(by: bag)
-//
-//        output.conditionName
-//            .map {
-//                UIImage(systemName: $0)
-//            }
-//            .observe(on: MainScheduler.instance)
-//            .bind(to: weatherImageView.rx.image)
-//            .disposed(by: bag)
-//
-//        output.temperature
-//            .bind(to: tempLabel.rx.text)
-//            .disposed(by: bag)
-//
-//        output.pm10Image
-//            .map { UIImage(named: $0) }
-//            .observe(on: MainScheduler.instance)
-//            .bind(to: pm10ImageView.rx.image)
-//            .disposed(by: bag)
-//
-//        output.pm25Image
-//            .map { UIImage(named: $0) }
-//            .bind(to: pm25ImageView.rx.image)
-//            .disposed(by: bag)
-//
-//        output.rcmdStatus
-//            .bind(to: rcmdLabel.rx.text)
-//            .disposed(by: bag)
-//    }
-//
     func setMainViewModelBinding() {
         mainViewModel = MainViewModel()
         let input = mainViewModel!.input
@@ -268,37 +213,20 @@ final class MainViewController: UIViewController {
             .bind(to: input.fetchData)
             .disposed(by: bag)
         
+        imageScrollView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
+        
         imageScrollView.rx.currentPage
-            .skip(1)
             .distinctUntilChanged()
-            .bind(to: input.currentIndex)
+            .bind { [weak self] currentIndex in
+                input.currentIndex.onNext(currentIndex)
+                self?.setPageControlPage(index: currentIndex)
+            }
             .disposed(by: bag)
         
         settingButton.rx.tap
             .bind(to: input.settingButtonTapped)
-            .disposed(by: bag)
-        
-        // OUTPUT
-//        output.puppyData
-//            .bind(to: puppyProfileTableView.rx.items(
-//                    cellIdentifier: C.Cell.profile,
-//                    cellType: PuppyProfileTableViewCell.self
-//            )) { index, item, cell in
-//                cell.bindData(with: item)
-//            }.disposed(by: bag)
-//
-//        puppyProfileTableView.rx.modelSelected(Puppy.self)
-//            .subscribe(onNext: { [weak self] puppy in
-//                self?.performSegue(
-//                    withIdentifier: C.Segue.homeToRecord,
-//                    sender: puppy
-//                )
-//            }).disposed(by: bag)
-        
-        imageScrollView.rx.currentPage
-            .subscribe(onNext: { [weak self] page in
-                self?.setPageControlPage(index: page)
-            })
             .disposed(by: bag)
         
         output.cellData
@@ -356,6 +284,7 @@ final class MainViewController: UIViewController {
     func setPageControlPage(index: Int) {
         guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
         cell.pageControl.currentPage = index
+        cell.updatePageControlUI(currentPageIndex: index)
     }
     
     func setNavigationBarClear() {
@@ -376,12 +305,3 @@ final class MainViewController: UIViewController {
 //        }
     }
 }
-
-extension MainViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = (scrollView.contentOffset.x + (0.5 * scrollView.frame.size.width)) / scrollView.frame.size.width + 1
-        
-        self.setPageControlPage(index: Int(pageIndex))
-    }
-}
-

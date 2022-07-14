@@ -55,34 +55,15 @@ class FetchPuppyViewModel: ViewModelType {
         
         fetching
             .withLatestFrom(puppyImageUrl)
-//            .flatMap { _ -> Observable<Puppy> in
-//                return Observable<Puppy>.create() {
-//                    emitter in
-//                    emitter.onNext(selectedItem)
-//
-//                    return Disposables.create()
-//                }
-//            }
             .bind { url in
                 if let url = url,
                    let image = imageService.loadImage(with: url) {
                     puppyImage.accept(image)
                 } else {
-                    puppyImage.accept(nil)
+                    puppyImage.accept(UIImage(named: "puppyProfileImage"))
                 }
             }
             .disposed(by: bag)
-
-//        puppyImageUrl
-//            .subscribe(onNext: { url in
-//                if let url = url,
-//                   let image = imageService.loadImage(with: url) {
-//                    puppyImage.accept(image)
-//                } else {
-//                    puppyImage.accept(nil)
-//                }
-//            })
-//            .disposed(by: bag)
         
         self.output = Output(
             profileImage: puppyImage,
