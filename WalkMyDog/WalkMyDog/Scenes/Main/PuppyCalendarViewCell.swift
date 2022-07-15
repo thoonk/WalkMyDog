@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import FSCalendar
 import SnapKit
+import RxSwift
 
 enum HeaderButton: Int {
     case prev = 301
@@ -21,8 +22,18 @@ enum DateFormat: String {
     case summary = "yyyy년 M월 d일 EEEE hh:mm"
 }
 
+typealias CalendarData = (
+    count: Int,
+    totalDistance: Double,
+    averageDistance: Double,
+    totalTime: Int,
+    averageTime: Int
+)
+
 final class PuppyCalendarViewCell: UITableViewCell {
     static let identifier = "PuppyCalendarViewCell"
+    
+    private var bag = DisposeBag()
     
     lazy var calendarView: FSCalendar = {
         let calendarView = FSCalendar()
@@ -139,32 +150,28 @@ final class PuppyCalendarViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with puppy: Puppy) {
+    override func prepareForReuse() {
+        bag = DisposeBag()
+    }
+    
+    func configure(with puppy: Puppy, walkButtonTapObserver: PublishSubject<Void>) {
         self.puppyInfo = puppy
         self.records = Array(puppy.records)
-        var totalDistance: Double = 0.0
-        var totalTime: Int = 0
-        setupDateFormatter(with: .calendar)
         
-        for record in records {
-            let dateString = dateFormatter.string(from: record.timeStamp)
-            self.dateInfo.append(dateString)
-            
-            totalDistance += record.distance
-            totalTime += record.interval
-        }
+        let calendarData = computeCalendarData()
         
-        let count = records.count
-        let averageDistance = totalDistance / Double(count)
-        let averageTime = count == 0 ? 0 : totalTime / count
+        distanceStackView.walkResultLabel.text = "총 \(String(format: "%.1fkm", calendarData.totalDistance * 0.001))\n평균 \(String(format: "%.1fkm", calendarData.averageDistance * 0.001))"
         
-        distanceStackView.walkResultLabel.text = "총 \(String(format: "%.1fkm", totalDistance * 0.001))\n평균 \(String(format: "%.1fkm", averageDistance * 0.001))"
-        
-        timeStackView.walkResultLabel.text = "총 \(formatTime(with: totalTime))\n평균 \(formatTime(with: averageTime))"
+        timeStackView.walkResultLabel.text = "총 \(formatTime(with: calendarData.totalTime))\n평균 \(formatTime(with: calendarData.averageTime))"
         
         DispatchQueue.main.async { [weak self] in
             self?.calendarView.reloadData()
         }
+        
+        startWalkingButton.rx.tap
+            .debug()
+            .bind(to: walkButtonTapObserver)
+            .disposed(by: bag)
     }
 }
 
@@ -285,7 +292,27 @@ private extension PuppyCalendarViewCell {
         self.dateFormatter.dateFormat = type.rawValue
     }
     
-    private func computeCalories(weight: Double, interval: Int) -> Double {
+    func computeCalendarData() -> CalendarData {
+        var totalDistance: Double = 0.0
+        var totalTime: Int = 0
+        setupDateFormatter(with: .calendar)
+        
+        for record in records {
+            let dateString = dateFormatter.string(from: record.timeStamp)
+            self.dateInfo.append(dateString)
+            
+            totalDistance += record.distance
+            totalTime += record.interval
+        }
+        
+        let count = records.count
+        let averageDistance = totalDistance / Double(count)
+        let averageTime = count == 0 ? 0 : totalTime / count
+        
+        return CalendarData(count, totalDistance, averageDistance, totalTime, averageTime)
+    }
+    
+    func computeCalories(weight: Double, interval: Int) -> Double {
         let calories = ((2.5 * (3.5 * weight * Double(interval))) / 1000) * 5
         return round(calories * 100) / 100
     }

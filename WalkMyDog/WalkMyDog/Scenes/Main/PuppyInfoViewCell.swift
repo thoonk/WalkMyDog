@@ -11,7 +11,7 @@ import RxSwift
  
 final class PuppyInfoViewCell: UITableViewCell {
     static let identifier = "PuppyInfoViewCell"
-    
+        
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -90,11 +90,12 @@ final class PuppyInfoViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
+    lazy var pageControl: CustomPageControl = {
+        let pageControl = CustomPageControl()
         pageControl.currentPage = 0
         pageControl.preferredIndicatorImage = UIImage(named: "inactivePageControl")
-        pageControl.backgroundStyle = .automatic
+        pageControl.backgroundStyle = .minimal
+        pageControl.isUserInteractionEnabled = false
         pageControl.currentPageIndicatorTintColor = UIColor(hex: "666666")
         
         return pageControl
@@ -121,27 +122,13 @@ final class PuppyInfoViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     func configure(with puppy: Puppy) {
         nameLabel.text = puppy.name
         birthDateLabel.text = puppy.age
         sexAndWeightLabel.text = "\(puppy.genderText) / \(puppy.weight)kg"
         puppyAgeLabel.text = Date().computeAge(with: puppy.age)
         personAgeLabel.text = Date().computePersonAge(with: puppy.age)
-        
-//        pageControl.rx.controlEvent(.valueChanged)
-//            .subscribe(onNext: { [weak self] in
-//                guard let
-//            })
-    }
-    
-    func updatePageControlUI(currentPageIndex: Int) {
-        (0..<pageControl.numberOfPages).forEach { index in
-            let activePageImage = UIImage(named: "activePageControl")
-            let inactivePageImage = UIImage(named: "inactivePageControl")
-            let pageImage = index == currentPageIndex ? activePageImage : inactivePageImage
-            pageControl.setIndicatorImage(pageImage, forPage: index)
-        }
     }
 }
 
