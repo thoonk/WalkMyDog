@@ -251,7 +251,7 @@ final class MainViewController: UIViewController, UIScrollViewDelegate {
                           let puppy = puppy
                     else { return UITableViewCell() }
                     
-                    cell.configure(with: puppy)
+                    cell.configure(with: puppy, walkButtonTapObserver: input.walkButtonTapped)
                     
                     return cell
                 }
@@ -279,12 +279,20 @@ final class MainViewController: UIViewController, UIScrollViewDelegate {
                 self?.present(settingViewController, animated: true)
             })
             .disposed(by: bag)
+        
+        output.presentToWalk
+            .bind {
+                let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as? SceneDelegate
+                if let tabBarViewController = sceneDelegate?.window?.rootViewController as? TabBarViewController {
+                    tabBarViewController.selectedIndex = 1
+                }
+            }
+            .disposed(by: bag)
     }
     
     func setPageControlPage(index: Int) {
         guard let cell = self.containerTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? PuppyInfoViewCell else { return }
         cell.pageControl.currentPage = index
-        cell.updatePageControlUI(currentPageIndex: index)
     }
     
     func setNavigationBarClear() {
