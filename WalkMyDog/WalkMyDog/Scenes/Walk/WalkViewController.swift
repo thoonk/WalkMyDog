@@ -17,12 +17,12 @@ enum ButtonState {
     case pause
 }
 
+enum AnnotationType {
+    case feces
+    case pee
+}
+
 final class WalkViewController: UIViewController {
-    enum AnnotationType {
-        case feces
-        case pee
-    }
-    
     // MARK: - Properties
     let selectedPuppies: [Puppy]
     var walkViewModel: WalkViewModel?
@@ -321,6 +321,7 @@ private extension WalkViewController {
             .disposed(by: bag)
         
         stopButton.rx.tap
+            .throttle(.seconds(2), scheduler: MainScheduler.instance)
             .bind(to: input.stopButtonTapped)
             .disposed(by: bag)
         
@@ -329,7 +330,12 @@ private extension WalkViewController {
             .disposed(by: bag)
         
         fecesButton.rx.tap
-            .bind(to: input.fecesButtonTapped)
+            .subscribe(onNext: { [weak self] in
+                self?.setupAnnotationActionSheet(completion: { type in
+                    input.annotationType.onNext(type)
+                    input.fecesButtonTapped.onNext(())
+                })
+            })
             .disposed(by: bag)
         
         mapView.rx
@@ -366,9 +372,9 @@ private extension WalkViewController {
             })
             .disposed(by: bag)
         
-        output.annotationLocation
-            .subscribe(onNext: { [weak self] loc in
-                self?.setupAnnotationActionSheet(with: loc)
+        output.annotationInfo
+            .subscribe(onNext: { [weak self] info in
+                self?.setupAnnotation(with: info.location, type: info.type)
             })
             .disposed(by: bag)
         
@@ -398,14 +404,15 @@ private extension WalkViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func setupAnnotationActionSheet(with coordinate: CLLocationCoordinate2D) {
+    func setupAnnotationActionSheet(completion: @escaping (AnnotationType) -> Void) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let fecesAction = UIAlertAction(title: "대변", style: .default) { [weak self] _ in
-            self?.setupAnnotation(with: coordinate, type: .feces)
+        let fecesAction = UIAlertAction(title: "대변", style: .default) { _ in
+            completion(.feces)
         }
-        let peeAction = UIAlertAction(title: "소변", style: .default) { [weak self] _ in
-            self?.setupAnnotation(with: coordinate, type: .pee)
+        let peeAction = UIAlertAction(title: "소변", style: .default) { _ in
+            completion(.pee)
         }
+                
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
         [fecesAction, peeAction, cancelAction]
@@ -414,9 +421,9 @@ private extension WalkViewController {
         self.present(actionSheet, animated: true)
     }
     
-    func setupAnnotation(with coordinate: CLLocationCoordinate2D, type: AnnotationType) {
+    func setupAnnotation(with location: CLLocation, type: AnnotationType) {
         let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
+        annotation.coordinate = location.coordinate
         switch type {
         case .feces:
             annotation.title = "Feces"
