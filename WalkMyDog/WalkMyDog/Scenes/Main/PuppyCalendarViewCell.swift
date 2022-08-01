@@ -160,8 +160,10 @@ final class PuppyCalendarViewCell: UITableViewCell {
         
         let calendarData = computeCalendarData()
         
+        distanceStackView.walkFormLabel.text = "\(puppy.name)와\n내가 달린 거리"
         distanceStackView.walkResultLabel.text = "총 \(String(format: "%.1fkm", calendarData.totalDistance * 0.001))\n평균 \(String(format: "%.1fkm", calendarData.averageDistance * 0.001))"
         
+        timeStackView.walkFormLabel.text = "\(puppy.name)와\n내가 달린 시간"
         timeStackView.walkResultLabel.text = "총 \(formatTime(with: calendarData.totalTime))\n평균 \(formatTime(with: calendarData.averageTime))"
         
         DispatchQueue.main.async { [weak self] in
@@ -169,7 +171,6 @@ final class PuppyCalendarViewCell: UITableViewCell {
         }
         
         startWalkingButton.rx.tap
-            .debug()
             .bind(to: walkButtonTapObserver)
             .disposed(by: bag)
     }
@@ -306,15 +307,14 @@ private extension PuppyCalendarViewCell {
         }
         
         let count = records.count
-        let averageDistance = totalDistance / Double(count)
+        var averageDistance = totalDistance / Double(count)
         let averageTime = count == 0 ? 0 : totalTime / count
         
+        if averageDistance.isNaN == true {
+            averageDistance = 0.0
+        }
+        
         return CalendarData(count, totalDistance, averageDistance, totalTime, averageTime)
-    }
-    
-    func computeCalories(weight: Double, interval: Int) -> Double {
-        let calories = ((2.5 * (3.5 * weight * Double(interval))) / 1000) * 5
-        return round(calories * 100) / 100
     }
 }
 
@@ -336,8 +336,6 @@ extension PuppyCalendarViewCell: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        guard let puppyInfo = self.puppyInfo else { return }
-        
         let newDate = date.addingTimeInterval(TimeInterval(NSTimeZone.local.secondsFromGMT()))
         
         setupDateFormatter(with: .summary)
@@ -346,9 +344,8 @@ extension PuppyCalendarViewCell: FSCalendarDelegate, FSCalendarDataSource {
             if record.timeStamp.isEqual(to: newDate) {
                 let dateString = self.dateFormatter.string(from: record.timeStamp)
                 let distance = String(format: "%.1fkm", record.distance * 0.001)
-                let calories = computeCalories(weight: puppyInfo.weight, interval: record.interval)
                 
-                self.summaryLabel.text = "\(dateString)\n\(formatTime(with: record.interval)) / \(distance) / \(calories)kcal"
+                self.summaryLabel.text = "\(dateString)\n\(formatTime(with: record.interval)) / \(distance) / \(record.calories)kcal"
             }
         }
     }
