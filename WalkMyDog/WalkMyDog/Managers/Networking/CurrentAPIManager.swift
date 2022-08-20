@@ -108,13 +108,17 @@ final class CurrentAPIManger {
         do {
             let pmData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             let result = try JSONDecoder().decode(PMData.self, from: pmData)
+            
+            guard let jsonData = result.list.first else {
+                return nil
+            }
 
-            let pmDate = Date(timeIntervalSince1970: result.list[0].dt)
+            let pmDate = Date(timeIntervalSince1970: jsonData.dt)
                 .toLocalized(with: "KST", by: "day")
             let pm = PMModel(
                 dateTime: pmDate,
-                pm10: result.list[0].components.pm10,
-                pm25: result.list[0].components.pm25
+                pm10: jsonData.components.pm10,
+                pm25: jsonData.components.pm25
             )
             return pm
         } catch {
