@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0808FA9528B113BB0033BFA7 /* WalkCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0808FA9428B113BB0033BFA7 /* WalkCompleteViewController.swift */; };
+		0808FA9A28B1321A0033BFA7 /* VerticalLabelStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0808FA9928B1321A0033BFA7 /* VerticalLabelStackView.swift */; };
 		080D021025FCDAAC0092633D /* UIImageVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080D020F25FCDAAC0092633D /* UIImageVIew.swift */; };
 		0812067D27E8C373009E4E57 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0812067C27E8C373009E4E57 /* CustomPageControl.swift */; };
 		081536F125EF4C7C000D13D3 /* EditRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081536F025EF4C7C000D13D3 /* EditRecordViewModel.swift */; };
@@ -135,6 +137,8 @@
 
 /* Begin PBXFileReference section */
 		0293F19AFD3FFF3DC2C50323 /* Pods-WalkMyDogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalkMyDogTests.release.xcconfig"; path = "Target Support Files/Pods-WalkMyDogTests/Pods-WalkMyDogTests.release.xcconfig"; sourceTree = "<group>"; };
+		0808FA9428B113BB0033BFA7 /* WalkCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkCompleteViewController.swift; sourceTree = "<group>"; };
+		0808FA9928B1321A0033BFA7 /* VerticalLabelStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabelStackView.swift; sourceTree = "<group>"; };
 		080D020F25FCDAAC0092633D /* UIImageVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageVIew.swift; sourceTree = "<group>"; };
 		0812067C27E8C373009E4E57 /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		081536F025EF4C7C000D13D3 /* EditRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecordViewModel.swift; sourceTree = "<group>"; };
@@ -343,6 +347,7 @@
 				081E4AE927CCE52000ADF7DE /* WalkViewModel.swift */,
 				08EFBA2827D4D0AB00D96AB9 /* RxMKMapViewDelegateProxy.swift */,
 				08EFBA2A27D4D1A500D96AB9 /* MKMapView+Rx.swift */,
+				0808FA9428B113BB0033BFA7 /* WalkCompleteViewController.swift */,
 			);
 			path = Walk;
 			sourceTree = "<group>";
@@ -591,10 +596,11 @@
 		08F911C025F1E7DF0043438D /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */,
 				08F911C125F1E7FB0043438D /* CheckButton.swift */,
 				082866802604D3060084F2FF /* CustomTextField.swift */,
+				084CEC7F25E3C92E00EFA0DE /* RadioButton.swift */,
 				08F17B2727EB0FE600413C74 /* SlideView.swift */,
+				0808FA9928B1321A0033BFA7 /* VerticalLabelStackView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -914,9 +920,11 @@
 				0871E1C027F9D676006644E0 /* WalkReadyViewController.swift in Sources */,
 				08D7E7DD2615AE660051DE1D /* SettingTableViewCell.swift in Sources */,
 				0823AEC5261EEAD100670CA1 /* SearchSpeciesViewModel.swift in Sources */,
+				0808FA9A28B1321A0033BFA7 /* VerticalLabelStackView.swift in Sources */,
 				08465C1625E4FD3300371D20 /* EditPuppyViewModel.swift in Sources */,
 				081E4AE827CCC5EB00ADF7DE /* WalkViewController.swift in Sources */,
 				08E5C58725DBB9F2000896D2 /* WeatherViewController.swift in Sources */,
+				0808FA9528B113BB0033BFA7 /* WalkCompleteViewController.swift in Sources */,
 				08BB9CA025C9348F00B56F9F /* TabBarViewController.swift in Sources */,
 				081E4AEA27CCE52000ADF7DE /* WalkViewModel.swift in Sources */,
 				08E5C51525DBB5E6000896D2 /* FcstModel.swift in Sources */,

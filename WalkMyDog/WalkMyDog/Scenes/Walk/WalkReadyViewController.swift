@@ -27,7 +27,7 @@ final class WalkReadyViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .black
         label.sizeToFit()
-        label.text = "20°C"
+        label.text = "-°C"
 
         return label
     }()
@@ -35,7 +35,7 @@ final class WalkReadyViewController: UIViewController {
     lazy var pm25Label: UILabel = {
        let label = UILabel()
         label.font = UIFont(name: "NanumSquareRoundB", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
-        label.text = "매우 좋음"
+        label.text = "-"
         label.textColor = .black
         label.textAlignment = .center
         
@@ -45,7 +45,7 @@ final class WalkReadyViewController: UIViewController {
     lazy var pm10Label: UILabel = {
        let label = UILabel()
         label.font = UIFont(name: "NanumSquareRoundB", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
-        label.text = "매우 나쁨"
+        label.text = "-"
         label.textColor = .black
         label.textAlignment = .center
         

@@ -394,7 +394,14 @@ private extension WalkViewController {
         output.dismissRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: true)
+                let presentingViewController = self?.presentingViewController
+
+                self?.dismiss(animated: true, completion: {
+                    let walkCompleteViewController = WalkCompleteViewController(selectedPuppies: self?.selectedPuppies ?? [])
+                    walkCompleteViewController.modalPresentationStyle = .fullScreen
+                    
+                    presentingViewController?.present(walkCompleteViewController, animated: true)
+                })
             })
             .disposed(by: bag)
     }
